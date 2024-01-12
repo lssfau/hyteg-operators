@@ -14,6 +14,16 @@ if(HYTEG_BUILD_WITH_AVX)
       noarch/P1ElementwiseDiffusion_toMatrix_macro_2D.cpp
       noarch/P1ElementwiseDiffusion_toMatrix_macro_3D.cpp
    )
+
+   set_source_files_properties(
+
+      avx/P1ElementwiseDiffusion_apply_macro_2D.cpp
+      avx/P1ElementwiseDiffusion_apply_macro_3D.cpp
+      avx/P1ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      avx/P1ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_3D.cpp
+
+      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
+   )
 else()
    target_sources(opgen-diffusion PRIVATE
 

@@ -97,6 +97,17 @@ def generate_cmake(
                 print(f"      noarch/{source_file}", file=f)
 
         print(f"   )", file=f)
+        print(f"", file=f)
+
+        print(f"   set_source_files_properties(", file=f)
+        print(f"", file=f)
+
+        for source_file in kernel_implementations["avx"]:
+            print(f"      avx/{source_file}", file=f)
+        print(f"", file=f)
+        print("      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}", file=f)
+
+        print(f"   )", file=f)
         print(f"else()", file=f)
         print(f"   target_sources({lib_name} PRIVATE", file=f)
         print(f"", file=f)

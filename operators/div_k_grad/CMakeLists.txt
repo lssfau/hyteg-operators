@@ -22,6 +22,20 @@ if(HYTEG_BUILD_WITH_AVX)
       noarch/P2ElementwiseDivKGrad_toMatrix_macro_2D.cpp
       noarch/P2ElementwiseDivKGrad_toMatrix_macro_3D.cpp
    )
+
+   set_source_files_properties(
+
+      avx/P1ElementwiseDivKGrad_apply_macro_2D.cpp
+      avx/P1ElementwiseDivKGrad_apply_macro_3D.cpp
+      avx/P1ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      avx/P1ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P2ElementwiseDivKGrad_apply_macro_2D.cpp
+      avx/P2ElementwiseDivKGrad_apply_macro_3D.cpp
+      avx/P2ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      avx/P2ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_3D.cpp
+
+      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
+   )
 else()
    target_sources(opgen-div_k_grad PRIVATE
 

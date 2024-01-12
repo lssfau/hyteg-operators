@@ -11,6 +11,14 @@ if(HYTEG_BUILD_WITH_AVX)
       avx/N1E1ElementwiseCurlCurl_computeInverseDiagonalOperatorValues_macro_3D.cpp
       noarch/N1E1ElementwiseCurlCurl_toMatrix_macro_3D.cpp
    )
+
+   set_source_files_properties(
+
+      avx/N1E1ElementwiseCurlCurl_apply_macro_3D.cpp
+      avx/N1E1ElementwiseCurlCurl_computeInverseDiagonalOperatorValues_macro_3D.cpp
+
+      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
+   )
 else()
    target_sources(opgen-curl_curl PRIVATE
 
