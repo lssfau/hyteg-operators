@@ -26,21 +26,21 @@
 
 #pragma once
 
+#include "hyteg/communication/Syncing.hpp"
+
 #include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
+
+#include "hyteg/operators/Operator.hpp"
+
+#include "hyteg/p1functionspace/P1Function.hpp"
+
+#include "hyteg/solvers/Smoothables.hpp"
 
 #include "hyteg/primitivestorage/PrimitiveStorage.hpp"
 
 #include "core/DataTypes.h"
 
 #include "hyteg/LikwidWrapper.hpp"
-
-#include "hyteg/p1functionspace/P1Function.hpp"
-
-#include "hyteg/solvers/Smoothables.hpp"
-
-#include "hyteg/communication/Syncing.hpp"
-
-#include "hyteg/operators/Operator.hpp"
 
 #include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
 
@@ -114,8 +114,8 @@ private:
   /// ------  ------  ------  ------  -----  -------------  ----------------
   /// -------------
   ///     85     112      12       0      1              0                 0 3
-  void toMatrix_macro_2D(int64_t *RESTRICT _data_dst, double *RESTRICT _data_k,
-                         int64_t *RESTRICT _data_src,
+  void toMatrix_macro_2D(idx_t *RESTRICT _data_dst, double *RESTRICT _data_k,
+                         idx_t *RESTRICT _data_src,
                          double macro_vertex_coord_id_0comp0,
                          double macro_vertex_coord_id_0comp1,
                          double macro_vertex_coord_id_1comp0,
@@ -134,8 +134,8 @@ private:
   /// -------------
   ///    302     420      30       0      1              0                 0 3
   void toMatrix_macro_3D(
-      int64_t *RESTRICT _data_dst, double *RESTRICT _data_k,
-      int64_t *RESTRICT _data_src, double macro_vertex_coord_id_0comp0,
+      idx_t *RESTRICT _data_dst, double *RESTRICT _data_k,
+      idx_t *RESTRICT _data_src, double macro_vertex_coord_id_0comp0,
       double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_0comp2,
       double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1,
       double macro_vertex_coord_id_1comp2, double macro_vertex_coord_id_2comp0,
@@ -152,7 +152,7 @@ private:
   ///   unknown_ops
   /// ------  ------  ------  ------  -----  -------------  ----------------
   /// -------------
-  ///     88     112      12       0      1              0                 0 0
+  ///     70      85      12       0      1              0                 0 0
   void computeInverseDiagonalOperatorValues_macro_2D(
       double *RESTRICT _data_invDiag_, double *RESTRICT _data_k,
       double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1,
@@ -167,7 +167,7 @@ private:
   ///   unknown_ops
   /// ------  ------  ------  ------  -----  -------------  ----------------
   /// -------------
-  ///    306     420      30       0      1              0                 0 0
+  ///    234     324      30       0      1              0                 0 0
   void computeInverseDiagonalOperatorValues_macro_3D(
       double *RESTRICT _data_invDiag_, double *RESTRICT _data_k,
       double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1,

@@ -54,14 +54,14 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-void P1ElementwiseDivKGrad::toMatrix_macro_2D( int64_t * RESTRICT  _data_dst, double * RESTRICT  _data_k, int64_t * RESTRICT  _data_src, double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1, std::shared_ptr< SparseMatrixProxy > mat, int64_t micro_edges_per_macro_edge, double micro_edges_per_macro_edge_float ) const
+void P1ElementwiseDivKGrad::toMatrix_macro_2D( idx_t * RESTRICT  _data_dst, double * RESTRICT  _data_k, idx_t * RESTRICT  _data_src, double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1, std::shared_ptr< SparseMatrixProxy > mat, int64_t micro_edges_per_macro_edge, double micro_edges_per_macro_edge_float ) const
 {
     {
-       const double _data_q_w [] = {0.16666666666666674, 0.16666666666666674, 0.16666666666666674};
+       const double _data_q_w [] = {0.166666666666667, 0.166666666666667, 0.166666666666667};
    
-       const double _data_q_p_0 [] = {0.16666666666666674, 0.66666666666666674, 0.16666666666666663};
+       const double _data_q_p_0 [] = {0.166666666666667, 0.666666666666667, 0.166666666666667};
    
-       const double _data_q_p_1 [] = {0.16666666666666663, 0.16666666666666663, 0.66666666666666685};
+       const double _data_q_p_1 [] = {0.166666666666667, 0.166666666666667, 0.666666666666667};
    
        const double p_affine_0_0 = macro_vertex_coord_id_0comp0;
        const double p_affine_0_1 = macro_vertex_coord_id_0comp1;
@@ -101,9 +101,9 @@ void P1ElementwiseDivKGrad::toMatrix_macro_2D( int64_t * RESTRICT  _data_dst, do
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge; ctr_0 += 1)
           {
-             const double k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
              const double k_dof_1 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
              const double k_dof_0 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
+             const double k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
              double q_acc_0_0 = 0.0;
              double q_acc_0_1 = 0.0;
              double q_acc_0_2 = 0.0;
@@ -146,7 +146,7 @@ void P1ElementwiseDivKGrad::toMatrix_macro_2D( int64_t * RESTRICT  _data_dst, do
          
              std::vector< uint_t > _data_rowIdx( 3 );
              std::vector< uint_t > _data_colIdx( 3 );
-             std::vector< double > _data_mat( 9 );
+             std::vector< real_t > _data_mat( 9 );
          
              _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))]));
              _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1]));
@@ -159,15 +159,15 @@ void P1ElementwiseDivKGrad::toMatrix_macro_2D( int64_t * RESTRICT  _data_dst, do
          
          
          
-             _data_mat[0] = elMat_0_0;
-             _data_mat[1] = elMat_0_1;
-             _data_mat[2] = elMat_0_2;
-             _data_mat[3] = elMat_1_0;
-             _data_mat[4] = elMat_1_1;
-             _data_mat[5] = elMat_1_2;
-             _data_mat[6] = elMat_2_0;
-             _data_mat[7] = elMat_2_1;
-             _data_mat[8] = elMat_2_2;
+             _data_mat[0] = ((real_t)(elMat_0_0));
+             _data_mat[1] = ((real_t)(elMat_0_1));
+             _data_mat[2] = ((real_t)(elMat_0_2));
+             _data_mat[3] = ((real_t)(elMat_1_0));
+             _data_mat[4] = ((real_t)(elMat_1_1));
+             _data_mat[5] = ((real_t)(elMat_1_2));
+             _data_mat[6] = ((real_t)(elMat_2_0));
+             _data_mat[7] = ((real_t)(elMat_2_1));
+             _data_mat[8] = ((real_t)(elMat_2_2));
          
          
              mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -175,9 +175,9 @@ void P1ElementwiseDivKGrad::toMatrix_macro_2D( int64_t * RESTRICT  _data_dst, do
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
           {
-             const double k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
              const double k_dof_1 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
              const double k_dof_0 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+             const double k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
              double q_acc_0_0 = 0.0;
              double q_acc_0_1 = 0.0;
              double q_acc_0_2 = 0.0;
@@ -220,7 +220,7 @@ void P1ElementwiseDivKGrad::toMatrix_macro_2D( int64_t * RESTRICT  _data_dst, do
          
              std::vector< uint_t > _data_rowIdx( 3 );
              std::vector< uint_t > _data_colIdx( 3 );
-             std::vector< double > _data_mat( 9 );
+             std::vector< real_t > _data_mat( 9 );
          
              _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1]));
              _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))]));
@@ -233,15 +233,15 @@ void P1ElementwiseDivKGrad::toMatrix_macro_2D( int64_t * RESTRICT  _data_dst, do
          
          
          
-             _data_mat[0] = elMat_0_0;
-             _data_mat[1] = elMat_0_1;
-             _data_mat[2] = elMat_0_2;
-             _data_mat[3] = elMat_1_0;
-             _data_mat[4] = elMat_1_1;
-             _data_mat[5] = elMat_1_2;
-             _data_mat[6] = elMat_2_0;
-             _data_mat[7] = elMat_2_1;
-             _data_mat[8] = elMat_2_2;
+             _data_mat[0] = ((real_t)(elMat_0_0));
+             _data_mat[1] = ((real_t)(elMat_0_1));
+             _data_mat[2] = ((real_t)(elMat_0_2));
+             _data_mat[3] = ((real_t)(elMat_1_0));
+             _data_mat[4] = ((real_t)(elMat_1_1));
+             _data_mat[5] = ((real_t)(elMat_1_2));
+             _data_mat[6] = ((real_t)(elMat_2_0));
+             _data_mat[7] = ((real_t)(elMat_2_1));
+             _data_mat[8] = ((real_t)(elMat_2_2));
          
          
              mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );

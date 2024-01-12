@@ -26,21 +26,21 @@
 
 #pragma once
 
+#include "hyteg/communication/Syncing.hpp"
+
 #include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
+
+#include "hyteg/p2functionspace/P2Function.hpp"
+
+#include "hyteg/operators/Operator.hpp"
+
+#include "hyteg/solvers/Smoothables.hpp"
 
 #include "hyteg/primitivestorage/PrimitiveStorage.hpp"
 
 #include "core/DataTypes.h"
 
-#include "hyteg/communication/Syncing.hpp"
-
 #include "hyteg/LikwidWrapper.hpp"
-
-#include "hyteg/solvers/Smoothables.hpp"
-
-#include "hyteg/p2functionspace/P2Function.hpp"
-
-#include "hyteg/operators/Operator.hpp"
 
 #include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
 
@@ -89,8 +89,7 @@ private:
       double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1,
       double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1,
       int64_t micro_edges_per_macro_edge,
-      double micro_edges_per_macro_edge_float,
-      int64_t micro_edges_per_macro_face) const;
+      double micro_edges_per_macro_edge_float) const;
   /// Kernel type: apply
   /// - quadrature rule: Xiao-Gimbutas | points: 4, degree: 2
   /// - operations per element:
@@ -120,16 +119,15 @@ private:
   /// -------------
   ///    271     397      12       0      1              0                 0 3
   void toMatrix_macro_2D(
-      int64_t *RESTRICT _data_dstEdge, int64_t *RESTRICT _data_dstVertex,
+      idx_t *RESTRICT _data_dstEdge, idx_t *RESTRICT _data_dstVertex,
       double *RESTRICT _data_kEdge, double *RESTRICT _data_kVertex,
-      int64_t *RESTRICT _data_srcEdge, int64_t *RESTRICT _data_srcVertex,
+      idx_t *RESTRICT _data_srcEdge, idx_t *RESTRICT _data_srcVertex,
       double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1,
       double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1,
       double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1,
       std::shared_ptr<SparseMatrixProxy> mat,
       int64_t micro_edges_per_macro_edge,
-      double micro_edges_per_macro_edge_float,
-      int64_t micro_edges_per_macro_face) const;
+      double micro_edges_per_macro_edge_float) const;
   /// Kernel type: toMatrix
   /// - quadrature rule: Xiao-Gimbutas | points: 4, degree: 2
   /// - operations per element:
@@ -139,9 +137,9 @@ private:
   /// -------------
   ///   1214    1636      30       0      1              0                 0 3
   void toMatrix_macro_3D(
-      int64_t *RESTRICT _data_dstEdge, int64_t *RESTRICT _data_dstVertex,
+      idx_t *RESTRICT _data_dstEdge, idx_t *RESTRICT _data_dstVertex,
       double *RESTRICT _data_kEdge, double *RESTRICT _data_kVertex,
-      int64_t *RESTRICT _data_srcEdge, int64_t *RESTRICT _data_srcVertex,
+      idx_t *RESTRICT _data_srcEdge, idx_t *RESTRICT _data_srcVertex,
       double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1,
       double macro_vertex_coord_id_0comp2, double macro_vertex_coord_id_1comp0,
       double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_1comp2,
@@ -158,7 +156,7 @@ private:
   ///   unknown_ops
   /// ------  ------  ------  ------  -----  -------------  ----------------
   /// -------------
-  ///    277     397      12       0      1              0                 0 0
+  ///    187     238      12       0      1              0                 0 0
   void computeInverseDiagonalOperatorValues_macro_2D(
       double *RESTRICT _data_invDiag_Edge,
       double *RESTRICT _data_invDiag_Vertex, double *RESTRICT _data_kEdge,
@@ -166,8 +164,7 @@ private:
       double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_1comp0,
       double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_2comp0,
       double macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge,
-      double micro_edges_per_macro_edge_float,
-      int64_t micro_edges_per_macro_face) const;
+      double micro_edges_per_macro_edge_float) const;
   /// Kernel type: computeInverseDiagonalOperatorValues
   /// - quadrature rule: Xiao-Gimbutas | points: 4, degree: 2
   /// - operations per element:
@@ -175,7 +172,7 @@ private:
   ///   unknown_ops
   /// ------  ------  ------  ------  -----  -------------  ----------------
   /// -------------
-  ///   1224    1636      30       0      1              0                 0 0
+  ///    672     844      30       0      1              0                 0 0
   void computeInverseDiagonalOperatorValues_macro_3D(
       double *RESTRICT _data_invDiag_Edge,
       double *RESTRICT _data_invDiag_Vertex, double *RESTRICT _data_kEdge,

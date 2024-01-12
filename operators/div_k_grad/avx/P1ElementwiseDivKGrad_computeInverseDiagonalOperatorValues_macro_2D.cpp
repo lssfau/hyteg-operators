@@ -57,11 +57,11 @@ namespace operatorgeneration {
 void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_2D( double * RESTRICT  _data_invDiag_, double * RESTRICT  _data_k, double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge, double micro_edges_per_macro_edge_float ) const
 {
     {
-       const double _data_q_w [] = {0.16666666666666674, 0.16666666666666674, 0.16666666666666674};
+       const double _data_q_w [] = {0.166666666666667, 0.166666666666667, 0.166666666666667};
    
-       const double _data_q_p_0 [] = {0.16666666666666674, 0.66666666666666674, 0.16666666666666663};
+       const double _data_q_p_0 [] = {0.166666666666667, 0.666666666666667, 0.166666666666667};
    
-       const double _data_q_p_1 [] = {0.16666666666666663, 0.16666666666666663, 0.66666666666666685};
+       const double _data_q_p_1 [] = {0.166666666666667, 0.166666666666667, 0.666666666666667};
    
        const double p_affine_0_0 = macro_vertex_coord_id_0comp0;
        const double p_affine_0_1 = macro_vertex_coord_id_0comp1;
@@ -78,8 +78,6 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_2D( doubl
        const double jac_affine_inv_1_0 = -jac_affine_1_0*1.0 / (jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0);
        const double jac_affine_inv_1_1 = jac_affine_0_0*1.0 / (jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0);
        const double abs_det_jac_affine = fabs(jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0);
-       const double tmp_q_0 = -jac_affine_inv_0_0 - jac_affine_inv_1_0;
-       const double tmp_q_4 = -jac_affine_inv_0_1 - jac_affine_inv_1_1;
        const double Dummy_3697 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0;
        const double Dummy_3698 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0;
        const double Dummy_3699 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
@@ -95,46 +93,28 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_2D( doubl
        const double Dummy_3709 = -Dummy_3705*1.0 / (Dummy_3703*Dummy_3706 - Dummy_3704*Dummy_3705);
        const double Dummy_3710 = Dummy_3703*1.0 / (Dummy_3703*Dummy_3706 - Dummy_3704*Dummy_3705);
        const double Dummy_3711 = fabs(Dummy_3703*Dummy_3706 - Dummy_3704*Dummy_3705);
-       const double Dummy_3712 = -Dummy_3707 - Dummy_3709;
-       const double Dummy_3713 = -Dummy_3708 - Dummy_3710;
        {
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
           {
              for (int64_t ctr_0 = 0; ctr_0 < (int64_t)((-ctr_1 + micro_edges_per_macro_edge) / (4)) * (4); ctr_0 += 4)
              {
-                const __m256d k_dof_2 = _mm256_loadu_pd(& _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))]);
                 const __m256d k_dof_1 = _mm256_loadu_pd(& _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1]);
                 const __m256d k_dof_0 = _mm256_loadu_pd(& _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))]);
+                const __m256d k_dof_2 = _mm256_loadu_pd(& _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))]);
                 __m256d q_acc_0_0 = _mm256_set_pd(0.0,0.0,0.0,0.0);
-                __m256d q_acc_0_1 = _mm256_set_pd(0.0,0.0,0.0,0.0);
-                __m256d q_acc_0_2 = _mm256_set_pd(0.0,0.0,0.0,0.0);
                 __m256d q_acc_1_1 = _mm256_set_pd(0.0,0.0,0.0,0.0);
-                __m256d q_acc_1_2 = _mm256_set_pd(0.0,0.0,0.0,0.0);
                 __m256d q_acc_2_2 = _mm256_set_pd(0.0,0.0,0.0,0.0);
                 for (int64_t q = 0; q < 3; q += 1)
                 {
-                   const __m256d tmp_q_1 = _mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(k_dof_0,_mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q])),_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q]))),_mm256_set_pd(1.0,1.0,1.0,1.0))),_mm256_mul_pd(k_dof_1,_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q]))),_mm256_mul_pd(k_dof_2,_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q])));
-                   const __m256d tmp_q_2 = _mm256_mul_pd(tmp_q_1,_mm256_set_pd(jac_affine_inv_0_0,jac_affine_inv_0_0,jac_affine_inv_0_0,jac_affine_inv_0_0));
-                   const __m256d tmp_q_3 = _mm256_mul_pd(tmp_q_1,_mm256_set_pd(jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0));
-                   const __m256d tmp_q_5 = _mm256_mul_pd(tmp_q_1,_mm256_set_pd(jac_affine_inv_0_1,jac_affine_inv_0_1,jac_affine_inv_0_1,jac_affine_inv_0_1));
-                   const __m256d tmp_q_6 = _mm256_mul_pd(tmp_q_1,_mm256_set_pd(jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1));
-                   const double tmp_q_7 = abs_det_jac_affine*_data_q_w[q];
-                   const __m256d res_tmp_0_0 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_2,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0)),_mm256_mul_pd(tmp_q_3,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0))),_mm256_set_pd(tmp_q_0,tmp_q_0,tmp_q_0,tmp_q_0)),_mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_5,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0)),_mm256_mul_pd(tmp_q_6,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0))),_mm256_set_pd(tmp_q_4,tmp_q_4,tmp_q_4,tmp_q_4))),_mm256_set_pd(tmp_q_7,tmp_q_7,tmp_q_7,tmp_q_7));
-                   const __m256d res_tmp_0_1 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_2,_mm256_set_pd(tmp_q_0,tmp_q_0,tmp_q_0,tmp_q_0)),_mm256_mul_pd(tmp_q_5,_mm256_set_pd(tmp_q_4,tmp_q_4,tmp_q_4,tmp_q_4))),_mm256_set_pd(tmp_q_7,tmp_q_7,tmp_q_7,tmp_q_7));
-                   const __m256d res_tmp_0_2 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_3,_mm256_set_pd(tmp_q_0,tmp_q_0,tmp_q_0,tmp_q_0)),_mm256_mul_pd(tmp_q_6,_mm256_set_pd(tmp_q_4,tmp_q_4,tmp_q_4,tmp_q_4))),_mm256_set_pd(tmp_q_7,tmp_q_7,tmp_q_7,tmp_q_7));
-                   const __m256d res_tmp_1_1 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_1,_mm256_mul_pd(_mm256_set_pd(jac_affine_inv_0_0,jac_affine_inv_0_0,jac_affine_inv_0_0,jac_affine_inv_0_0),_mm256_set_pd(jac_affine_inv_0_0,jac_affine_inv_0_0,jac_affine_inv_0_0,jac_affine_inv_0_0))),_mm256_mul_pd(tmp_q_1,_mm256_mul_pd(_mm256_set_pd(jac_affine_inv_0_1,jac_affine_inv_0_1,jac_affine_inv_0_1,jac_affine_inv_0_1),_mm256_set_pd(jac_affine_inv_0_1,jac_affine_inv_0_1,jac_affine_inv_0_1,jac_affine_inv_0_1)))),_mm256_set_pd(tmp_q_7,tmp_q_7,tmp_q_7,tmp_q_7));
-                   const __m256d res_tmp_1_2 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_2,_mm256_set_pd(jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0)),_mm256_mul_pd(tmp_q_5,_mm256_set_pd(jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1))),_mm256_set_pd(tmp_q_7,tmp_q_7,tmp_q_7,tmp_q_7));
-                   const __m256d res_tmp_2_2 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_1,_mm256_mul_pd(_mm256_set_pd(jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0),_mm256_set_pd(jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0))),_mm256_mul_pd(tmp_q_1,_mm256_mul_pd(_mm256_set_pd(jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1),_mm256_set_pd(jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1)))),_mm256_set_pd(tmp_q_7,tmp_q_7,tmp_q_7,tmp_q_7));
+                   const __m256d tmp_q_0 = _mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(k_dof_0,_mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q])),_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q]))),_mm256_set_pd(1.0,1.0,1.0,1.0))),_mm256_mul_pd(k_dof_1,_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q]))),_mm256_mul_pd(k_dof_2,_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q])));
+                   const double tmp_q_1 = abs_det_jac_affine*_data_q_w[q];
+                   const __m256d res_tmp_0_0 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(jac_affine_inv_0_0,jac_affine_inv_0_0,jac_affine_inv_0_0,jac_affine_inv_0_0)),_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0))),_mm256_add_pd(_mm256_mul_pd(_mm256_mul_pd(tmp_q_0,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0)),_mm256_set_pd(jac_affine_inv_0_0,jac_affine_inv_0_0,jac_affine_inv_0_0,jac_affine_inv_0_0)),_mm256_mul_pd(_mm256_mul_pd(tmp_q_0,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0)),_mm256_set_pd(jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0)))),_mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(jac_affine_inv_0_1,jac_affine_inv_0_1,jac_affine_inv_0_1,jac_affine_inv_0_1)),_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1))),_mm256_add_pd(_mm256_mul_pd(_mm256_mul_pd(tmp_q_0,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0)),_mm256_set_pd(jac_affine_inv_0_1,jac_affine_inv_0_1,jac_affine_inv_0_1,jac_affine_inv_0_1)),_mm256_mul_pd(_mm256_mul_pd(tmp_q_0,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0)),_mm256_set_pd(jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1))))),_mm256_set_pd(tmp_q_1,tmp_q_1,tmp_q_1,tmp_q_1));
+                   const __m256d res_tmp_1_1 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_0,_mm256_mul_pd(_mm256_set_pd(jac_affine_inv_0_0,jac_affine_inv_0_0,jac_affine_inv_0_0,jac_affine_inv_0_0),_mm256_set_pd(jac_affine_inv_0_0,jac_affine_inv_0_0,jac_affine_inv_0_0,jac_affine_inv_0_0))),_mm256_mul_pd(tmp_q_0,_mm256_mul_pd(_mm256_set_pd(jac_affine_inv_0_1,jac_affine_inv_0_1,jac_affine_inv_0_1,jac_affine_inv_0_1),_mm256_set_pd(jac_affine_inv_0_1,jac_affine_inv_0_1,jac_affine_inv_0_1,jac_affine_inv_0_1)))),_mm256_set_pd(tmp_q_1,tmp_q_1,tmp_q_1,tmp_q_1));
+                   const __m256d res_tmp_2_2 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_0,_mm256_mul_pd(_mm256_set_pd(jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0),_mm256_set_pd(jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0,jac_affine_inv_1_0))),_mm256_mul_pd(tmp_q_0,_mm256_mul_pd(_mm256_set_pd(jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1),_mm256_set_pd(jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1,jac_affine_inv_1_1)))),_mm256_set_pd(tmp_q_1,tmp_q_1,tmp_q_1,tmp_q_1));
                    q_acc_0_0 = _mm256_add_pd(q_acc_0_0,res_tmp_0_0);
-                   q_acc_0_1 = _mm256_add_pd(q_acc_0_1,res_tmp_0_1);
-                   q_acc_0_2 = _mm256_add_pd(q_acc_0_2,res_tmp_0_2);
                    q_acc_1_1 = _mm256_add_pd(q_acc_1_1,res_tmp_1_1);
-                   q_acc_1_2 = _mm256_add_pd(q_acc_1_2,res_tmp_1_2);
                    q_acc_2_2 = _mm256_add_pd(q_acc_2_2,res_tmp_2_2);
                 }
-                __m256d q_acc_1_0 = q_acc_0_1;
-                __m256d q_acc_2_0 = q_acc_0_2;
-                __m256d q_acc_2_1 = q_acc_1_2;
                 const __m256d elMatDiag_0 = q_acc_0_0;
                 const __m256d elMatDiag_1 = q_acc_1_1;
                 const __m256d elMatDiag_2 = q_acc_2_2;
@@ -144,39 +124,23 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_2D( doubl
              }
              for (int64_t ctr_0 = (int64_t)((-ctr_1 + micro_edges_per_macro_edge) / (4)) * (4); ctr_0 < -ctr_1 + micro_edges_per_macro_edge; ctr_0 += 1)
              {
-                const double k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
                 const double k_dof_1 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
                 const double k_dof_0 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
+                const double k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
                 double q_acc_0_0 = 0.0;
-                double q_acc_0_1 = 0.0;
-                double q_acc_0_2 = 0.0;
                 double q_acc_1_1 = 0.0;
-                double q_acc_1_2 = 0.0;
                 double q_acc_2_2 = 0.0;
                 for (int64_t q = 0; q < 3; q += 1)
                 {
-                   const double tmp_q_1 = k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q];
-                   const double tmp_q_2 = jac_affine_inv_0_0*tmp_q_1;
-                   const double tmp_q_3 = jac_affine_inv_1_0*tmp_q_1;
-                   const double tmp_q_5 = jac_affine_inv_0_1*tmp_q_1;
-                   const double tmp_q_6 = jac_affine_inv_1_1*tmp_q_1;
-                   const double tmp_q_7 = abs_det_jac_affine*_data_q_w[q];
-                   const double res_tmp_0_0 = tmp_q_7*(tmp_q_0*(-tmp_q_2 - tmp_q_3) + tmp_q_4*(-tmp_q_5 - tmp_q_6));
-                   const double res_tmp_0_1 = tmp_q_7*(tmp_q_0*tmp_q_2 + tmp_q_4*tmp_q_5);
-                   const double res_tmp_0_2 = tmp_q_7*(tmp_q_0*tmp_q_3 + tmp_q_4*tmp_q_6);
-                   const double res_tmp_1_1 = tmp_q_7*((jac_affine_inv_0_0*jac_affine_inv_0_0)*tmp_q_1 + (jac_affine_inv_0_1*jac_affine_inv_0_1)*tmp_q_1);
-                   const double res_tmp_1_2 = tmp_q_7*(jac_affine_inv_1_0*tmp_q_2 + jac_affine_inv_1_1*tmp_q_5);
-                   const double res_tmp_2_2 = tmp_q_7*((jac_affine_inv_1_0*jac_affine_inv_1_0)*tmp_q_1 + (jac_affine_inv_1_1*jac_affine_inv_1_1)*tmp_q_1);
+                   const double tmp_q_0 = k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q];
+                   const double tmp_q_1 = abs_det_jac_affine*_data_q_w[q];
+                   const double res_tmp_0_0 = tmp_q_1*((-jac_affine_inv_0_0 - jac_affine_inv_1_0)*(-jac_affine_inv_0_0*tmp_q_0 - jac_affine_inv_1_0*tmp_q_0) + (-jac_affine_inv_0_1 - jac_affine_inv_1_1)*(-jac_affine_inv_0_1*tmp_q_0 - jac_affine_inv_1_1*tmp_q_0));
+                   const double res_tmp_1_1 = tmp_q_1*((jac_affine_inv_0_0*jac_affine_inv_0_0)*tmp_q_0 + (jac_affine_inv_0_1*jac_affine_inv_0_1)*tmp_q_0);
+                   const double res_tmp_2_2 = tmp_q_1*((jac_affine_inv_1_0*jac_affine_inv_1_0)*tmp_q_0 + (jac_affine_inv_1_1*jac_affine_inv_1_1)*tmp_q_0);
                    q_acc_0_0 = q_acc_0_0 + res_tmp_0_0;
-                   q_acc_0_1 = q_acc_0_1 + res_tmp_0_1;
-                   q_acc_0_2 = q_acc_0_2 + res_tmp_0_2;
                    q_acc_1_1 = q_acc_1_1 + res_tmp_1_1;
-                   q_acc_1_2 = q_acc_1_2 + res_tmp_1_2;
                    q_acc_2_2 = q_acc_2_2 + res_tmp_2_2;
                 }
-                double q_acc_1_0 = q_acc_0_1;
-                double q_acc_2_0 = q_acc_0_2;
-                double q_acc_2_1 = q_acc_1_2;
                 const double elMatDiag_0 = q_acc_0_0;
                 const double elMatDiag_1 = q_acc_1_1;
                 const double elMatDiag_2 = q_acc_2_2;
@@ -189,39 +153,23 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_2D( doubl
           {
              for (int64_t ctr_0 = 0; ctr_0 < (int64_t)((-ctr_1 + micro_edges_per_macro_edge - 1) / (4)) * (4); ctr_0 += 4)
              {
-                const __m256d k_dof_2 = _mm256_loadu_pd(& _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1]);
                 const __m256d k_dof_1 = _mm256_loadu_pd(& _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))]);
                 const __m256d k_dof_0 = _mm256_loadu_pd(& _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1]);
+                const __m256d k_dof_2 = _mm256_loadu_pd(& _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1]);
                 __m256d q_acc_0_0 = _mm256_set_pd(0.0,0.0,0.0,0.0);
-                __m256d q_acc_0_1 = _mm256_set_pd(0.0,0.0,0.0,0.0);
-                __m256d q_acc_0_2 = _mm256_set_pd(0.0,0.0,0.0,0.0);
                 __m256d q_acc_1_1 = _mm256_set_pd(0.0,0.0,0.0,0.0);
-                __m256d q_acc_1_2 = _mm256_set_pd(0.0,0.0,0.0,0.0);
                 __m256d q_acc_2_2 = _mm256_set_pd(0.0,0.0,0.0,0.0);
                 for (int64_t q = 0; q < 3; q += 1)
                 {
-                   const __m256d tmp_q_1 = _mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(k_dof_0,_mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q])),_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q]))),_mm256_set_pd(1.0,1.0,1.0,1.0))),_mm256_mul_pd(k_dof_1,_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q]))),_mm256_mul_pd(k_dof_2,_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q])));
-                   const __m256d tmp_q_2 = _mm256_mul_pd(tmp_q_1,_mm256_set_pd(Dummy_3707,Dummy_3707,Dummy_3707,Dummy_3707));
-                   const __m256d tmp_q_3 = _mm256_mul_pd(tmp_q_1,_mm256_set_pd(Dummy_3709,Dummy_3709,Dummy_3709,Dummy_3709));
-                   const __m256d tmp_q_5 = _mm256_mul_pd(tmp_q_1,_mm256_set_pd(Dummy_3708,Dummy_3708,Dummy_3708,Dummy_3708));
-                   const __m256d tmp_q_6 = _mm256_mul_pd(tmp_q_1,_mm256_set_pd(Dummy_3710,Dummy_3710,Dummy_3710,Dummy_3710));
-                   const double tmp_q_7 = Dummy_3711*_data_q_w[q];
-                   const __m256d res_tmp_0_0 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_2,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0)),_mm256_mul_pd(tmp_q_3,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0))),_mm256_set_pd(Dummy_3712,Dummy_3712,Dummy_3712,Dummy_3712)),_mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_5,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0)),_mm256_mul_pd(tmp_q_6,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0))),_mm256_set_pd(Dummy_3713,Dummy_3713,Dummy_3713,Dummy_3713))),_mm256_set_pd(tmp_q_7,tmp_q_7,tmp_q_7,tmp_q_7));
-                   const __m256d res_tmp_0_1 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_2,_mm256_set_pd(Dummy_3712,Dummy_3712,Dummy_3712,Dummy_3712)),_mm256_mul_pd(tmp_q_5,_mm256_set_pd(Dummy_3713,Dummy_3713,Dummy_3713,Dummy_3713))),_mm256_set_pd(tmp_q_7,tmp_q_7,tmp_q_7,tmp_q_7));
-                   const __m256d res_tmp_0_2 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_3,_mm256_set_pd(Dummy_3712,Dummy_3712,Dummy_3712,Dummy_3712)),_mm256_mul_pd(tmp_q_6,_mm256_set_pd(Dummy_3713,Dummy_3713,Dummy_3713,Dummy_3713))),_mm256_set_pd(tmp_q_7,tmp_q_7,tmp_q_7,tmp_q_7));
-                   const __m256d res_tmp_1_1 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_1,_mm256_mul_pd(_mm256_set_pd(Dummy_3707,Dummy_3707,Dummy_3707,Dummy_3707),_mm256_set_pd(Dummy_3707,Dummy_3707,Dummy_3707,Dummy_3707))),_mm256_mul_pd(tmp_q_1,_mm256_mul_pd(_mm256_set_pd(Dummy_3708,Dummy_3708,Dummy_3708,Dummy_3708),_mm256_set_pd(Dummy_3708,Dummy_3708,Dummy_3708,Dummy_3708)))),_mm256_set_pd(tmp_q_7,tmp_q_7,tmp_q_7,tmp_q_7));
-                   const __m256d res_tmp_1_2 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_2,_mm256_set_pd(Dummy_3709,Dummy_3709,Dummy_3709,Dummy_3709)),_mm256_mul_pd(tmp_q_5,_mm256_set_pd(Dummy_3710,Dummy_3710,Dummy_3710,Dummy_3710))),_mm256_set_pd(tmp_q_7,tmp_q_7,tmp_q_7,tmp_q_7));
-                   const __m256d res_tmp_2_2 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_1,_mm256_mul_pd(_mm256_set_pd(Dummy_3709,Dummy_3709,Dummy_3709,Dummy_3709),_mm256_set_pd(Dummy_3709,Dummy_3709,Dummy_3709,Dummy_3709))),_mm256_mul_pd(tmp_q_1,_mm256_mul_pd(_mm256_set_pd(Dummy_3710,Dummy_3710,Dummy_3710,Dummy_3710),_mm256_set_pd(Dummy_3710,Dummy_3710,Dummy_3710,Dummy_3710)))),_mm256_set_pd(tmp_q_7,tmp_q_7,tmp_q_7,tmp_q_7));
+                   const __m256d tmp_q_0 = _mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(k_dof_0,_mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q])),_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q]))),_mm256_set_pd(1.0,1.0,1.0,1.0))),_mm256_mul_pd(k_dof_1,_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q]))),_mm256_mul_pd(k_dof_2,_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q])));
+                   const double tmp_q_1 = Dummy_3711*_data_q_w[q];
+                   const __m256d res_tmp_0_0 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(Dummy_3707,Dummy_3707,Dummy_3707,Dummy_3707)),_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(Dummy_3709,Dummy_3709,Dummy_3709,Dummy_3709))),_mm256_add_pd(_mm256_mul_pd(_mm256_mul_pd(tmp_q_0,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0)),_mm256_set_pd(Dummy_3707,Dummy_3707,Dummy_3707,Dummy_3707)),_mm256_mul_pd(_mm256_mul_pd(tmp_q_0,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0)),_mm256_set_pd(Dummy_3709,Dummy_3709,Dummy_3709,Dummy_3709)))),_mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(Dummy_3708,Dummy_3708,Dummy_3708,Dummy_3708)),_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(Dummy_3710,Dummy_3710,Dummy_3710,Dummy_3710))),_mm256_add_pd(_mm256_mul_pd(_mm256_mul_pd(tmp_q_0,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0)),_mm256_set_pd(Dummy_3708,Dummy_3708,Dummy_3708,Dummy_3708)),_mm256_mul_pd(_mm256_mul_pd(tmp_q_0,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0)),_mm256_set_pd(Dummy_3710,Dummy_3710,Dummy_3710,Dummy_3710))))),_mm256_set_pd(tmp_q_1,tmp_q_1,tmp_q_1,tmp_q_1));
+                   const __m256d res_tmp_1_1 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_0,_mm256_mul_pd(_mm256_set_pd(Dummy_3707,Dummy_3707,Dummy_3707,Dummy_3707),_mm256_set_pd(Dummy_3707,Dummy_3707,Dummy_3707,Dummy_3707))),_mm256_mul_pd(tmp_q_0,_mm256_mul_pd(_mm256_set_pd(Dummy_3708,Dummy_3708,Dummy_3708,Dummy_3708),_mm256_set_pd(Dummy_3708,Dummy_3708,Dummy_3708,Dummy_3708)))),_mm256_set_pd(tmp_q_1,tmp_q_1,tmp_q_1,tmp_q_1));
+                   const __m256d res_tmp_2_2 = _mm256_mul_pd(_mm256_add_pd(_mm256_mul_pd(tmp_q_0,_mm256_mul_pd(_mm256_set_pd(Dummy_3709,Dummy_3709,Dummy_3709,Dummy_3709),_mm256_set_pd(Dummy_3709,Dummy_3709,Dummy_3709,Dummy_3709))),_mm256_mul_pd(tmp_q_0,_mm256_mul_pd(_mm256_set_pd(Dummy_3710,Dummy_3710,Dummy_3710,Dummy_3710),_mm256_set_pd(Dummy_3710,Dummy_3710,Dummy_3710,Dummy_3710)))),_mm256_set_pd(tmp_q_1,tmp_q_1,tmp_q_1,tmp_q_1));
                    q_acc_0_0 = _mm256_add_pd(q_acc_0_0,res_tmp_0_0);
-                   q_acc_0_1 = _mm256_add_pd(q_acc_0_1,res_tmp_0_1);
-                   q_acc_0_2 = _mm256_add_pd(q_acc_0_2,res_tmp_0_2);
                    q_acc_1_1 = _mm256_add_pd(q_acc_1_1,res_tmp_1_1);
-                   q_acc_1_2 = _mm256_add_pd(q_acc_1_2,res_tmp_1_2);
                    q_acc_2_2 = _mm256_add_pd(q_acc_2_2,res_tmp_2_2);
                 }
-                __m256d q_acc_1_0 = q_acc_0_1;
-                __m256d q_acc_2_0 = q_acc_0_2;
-                __m256d q_acc_2_1 = q_acc_1_2;
                 const __m256d elMatDiag_0 = q_acc_0_0;
                 const __m256d elMatDiag_1 = q_acc_1_1;
                 const __m256d elMatDiag_2 = q_acc_2_2;
@@ -231,39 +179,23 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_2D( doubl
              }
              for (int64_t ctr_0 = (int64_t)((-ctr_1 + micro_edges_per_macro_edge - 1) / (4)) * (4); ctr_0 < -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
              {
-                const double k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
                 const double k_dof_1 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
                 const double k_dof_0 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+                const double k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
                 double q_acc_0_0 = 0.0;
-                double q_acc_0_1 = 0.0;
-                double q_acc_0_2 = 0.0;
                 double q_acc_1_1 = 0.0;
-                double q_acc_1_2 = 0.0;
                 double q_acc_2_2 = 0.0;
                 for (int64_t q = 0; q < 3; q += 1)
                 {
-                   const double tmp_q_1 = k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q];
-                   const double tmp_q_2 = Dummy_3707*tmp_q_1;
-                   const double tmp_q_3 = Dummy_3709*tmp_q_1;
-                   const double tmp_q_5 = Dummy_3708*tmp_q_1;
-                   const double tmp_q_6 = Dummy_3710*tmp_q_1;
-                   const double tmp_q_7 = Dummy_3711*_data_q_w[q];
-                   const double res_tmp_0_0 = tmp_q_7*(Dummy_3712*(-tmp_q_2 - tmp_q_3) + Dummy_3713*(-tmp_q_5 - tmp_q_6));
-                   const double res_tmp_0_1 = tmp_q_7*(Dummy_3712*tmp_q_2 + Dummy_3713*tmp_q_5);
-                   const double res_tmp_0_2 = tmp_q_7*(Dummy_3712*tmp_q_3 + Dummy_3713*tmp_q_6);
-                   const double res_tmp_1_1 = tmp_q_7*((Dummy_3707*Dummy_3707)*tmp_q_1 + (Dummy_3708*Dummy_3708)*tmp_q_1);
-                   const double res_tmp_1_2 = tmp_q_7*(Dummy_3709*tmp_q_2 + Dummy_3710*tmp_q_5);
-                   const double res_tmp_2_2 = tmp_q_7*((Dummy_3709*Dummy_3709)*tmp_q_1 + (Dummy_3710*Dummy_3710)*tmp_q_1);
+                   const double tmp_q_0 = k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q];
+                   const double tmp_q_1 = Dummy_3711*_data_q_w[q];
+                   const double res_tmp_0_0 = tmp_q_1*((-Dummy_3707 - Dummy_3709)*(-Dummy_3707*tmp_q_0 - Dummy_3709*tmp_q_0) + (-Dummy_3708 - Dummy_3710)*(-Dummy_3708*tmp_q_0 - Dummy_3710*tmp_q_0));
+                   const double res_tmp_1_1 = tmp_q_1*((Dummy_3707*Dummy_3707)*tmp_q_0 + (Dummy_3708*Dummy_3708)*tmp_q_0);
+                   const double res_tmp_2_2 = tmp_q_1*((Dummy_3709*Dummy_3709)*tmp_q_0 + (Dummy_3710*Dummy_3710)*tmp_q_0);
                    q_acc_0_0 = q_acc_0_0 + res_tmp_0_0;
-                   q_acc_0_1 = q_acc_0_1 + res_tmp_0_1;
-                   q_acc_0_2 = q_acc_0_2 + res_tmp_0_2;
                    q_acc_1_1 = q_acc_1_1 + res_tmp_1_1;
-                   q_acc_1_2 = q_acc_1_2 + res_tmp_1_2;
                    q_acc_2_2 = q_acc_2_2 + res_tmp_2_2;
                 }
-                double q_acc_1_0 = q_acc_0_1;
-                double q_acc_2_0 = q_acc_0_2;
-                double q_acc_2_1 = q_acc_1_2;
                 const double elMatDiag_0 = q_acc_0_0;
                 const double elMatDiag_1 = q_acc_1_1;
                 const double elMatDiag_2 = q_acc_2_2;

@@ -54,7 +54,7 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-void P1ElementwiseDiffusion::toMatrix_macro_2D( int64_t * RESTRICT  _data_dst, int64_t * RESTRICT  _data_src, double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1, std::shared_ptr< SparseMatrixProxy > mat, int64_t micro_edges_per_macro_edge, double micro_edges_per_macro_edge_float ) const
+void P1ElementwiseDiffusion::toMatrix_macro_2D( idx_t * RESTRICT  _data_dst, idx_t * RESTRICT  _data_src, double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1, std::shared_ptr< SparseMatrixProxy > mat, int64_t micro_edges_per_macro_edge, double micro_edges_per_macro_edge_float ) const
 {
     {
        const double tmp_GRAY_0 = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
@@ -136,7 +136,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_2D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 3 );
                    std::vector< uint_t > _data_colIdx( 3 );
-                   std::vector< double > _data_mat( 9 );
+                   std::vector< real_t > _data_mat( 9 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1]));
@@ -149,15 +149,15 @@ void P1ElementwiseDiffusion::toMatrix_macro_2D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = elMat_0_0;
-                   _data_mat[1] = elMat_0_1;
-                   _data_mat[2] = elMat_0_2;
-                   _data_mat[3] = elMat_1_0;
-                   _data_mat[4] = elMat_1_1;
-                   _data_mat[5] = elMat_1_2;
-                   _data_mat[6] = elMat_2_0;
-                   _data_mat[7] = elMat_2_1;
-                   _data_mat[8] = elMat_2_2;
+                   _data_mat[0] = ((real_t)(elMat_0_0));
+                   _data_mat[1] = ((real_t)(elMat_0_1));
+                   _data_mat[2] = ((real_t)(elMat_0_2));
+                   _data_mat[3] = ((real_t)(elMat_1_0));
+                   _data_mat[4] = ((real_t)(elMat_1_1));
+                   _data_mat[5] = ((real_t)(elMat_1_2));
+                   _data_mat[6] = ((real_t)(elMat_2_0));
+                   _data_mat[7] = ((real_t)(elMat_2_1));
+                   _data_mat[8] = ((real_t)(elMat_2_2));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -168,7 +168,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_2D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 3 );
                    std::vector< uint_t > _data_colIdx( 3 );
-                   std::vector< double > _data_mat( 9 );
+                   std::vector< real_t > _data_mat( 9 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))]));
@@ -181,15 +181,15 @@ void P1ElementwiseDiffusion::toMatrix_macro_2D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = Dummy_1782;
-                   _data_mat[1] = Dummy_1783;
-                   _data_mat[2] = Dummy_1784;
-                   _data_mat[3] = Dummy_1785;
-                   _data_mat[4] = Dummy_1786;
-                   _data_mat[5] = Dummy_1787;
-                   _data_mat[6] = Dummy_1788;
-                   _data_mat[7] = Dummy_1789;
-                   _data_mat[8] = Dummy_1790;
+                   _data_mat[0] = ((real_t)(Dummy_1782));
+                   _data_mat[1] = ((real_t)(Dummy_1783));
+                   _data_mat[2] = ((real_t)(Dummy_1784));
+                   _data_mat[3] = ((real_t)(Dummy_1785));
+                   _data_mat[4] = ((real_t)(Dummy_1786));
+                   _data_mat[5] = ((real_t)(Dummy_1787));
+                   _data_mat[6] = ((real_t)(Dummy_1788));
+                   _data_mat[7] = ((real_t)(Dummy_1789));
+                   _data_mat[8] = ((real_t)(Dummy_1790));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -202,7 +202,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_2D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 3 );
                    std::vector< uint_t > _data_colIdx( 3 );
-                   std::vector< double > _data_mat( 9 );
+                   std::vector< real_t > _data_mat( 9 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_1*(micro_edges_per_macro_edge + 2) - ctr_1 + micro_edges_per_macro_edge - ((ctr_1*(ctr_1 + 1)) / (2)) - 1]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_1*(micro_edges_per_macro_edge + 2) - ctr_1 + micro_edges_per_macro_edge - ((ctr_1*(ctr_1 + 1)) / (2))]));
@@ -215,15 +215,15 @@ void P1ElementwiseDiffusion::toMatrix_macro_2D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = elMat_0_0;
-                   _data_mat[1] = elMat_0_1;
-                   _data_mat[2] = elMat_0_2;
-                   _data_mat[3] = elMat_1_0;
-                   _data_mat[4] = elMat_1_1;
-                   _data_mat[5] = elMat_1_2;
-                   _data_mat[6] = elMat_2_0;
-                   _data_mat[7] = elMat_2_1;
-                   _data_mat[8] = elMat_2_2;
+                   _data_mat[0] = ((real_t)(elMat_0_0));
+                   _data_mat[1] = ((real_t)(elMat_0_1));
+                   _data_mat[2] = ((real_t)(elMat_0_2));
+                   _data_mat[3] = ((real_t)(elMat_1_0));
+                   _data_mat[4] = ((real_t)(elMat_1_1));
+                   _data_mat[5] = ((real_t)(elMat_1_2));
+                   _data_mat[6] = ((real_t)(elMat_2_0));
+                   _data_mat[7] = ((real_t)(elMat_2_1));
+                   _data_mat[8] = ((real_t)(elMat_2_2));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );

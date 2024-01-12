@@ -54,7 +54,7 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, int64_t * RESTRICT  _data_src, double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_0comp2, double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_1comp2, double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1, double macro_vertex_coord_id_2comp2, double macro_vertex_coord_id_3comp0, double macro_vertex_coord_id_3comp1, double macro_vertex_coord_id_3comp2, std::shared_ptr< SparseMatrixProxy > mat, int64_t micro_edges_per_macro_edge, double micro_edges_per_macro_edge_float ) const
+void P1ElementwiseDiffusion::toMatrix_macro_3D( idx_t * RESTRICT  _data_dst, idx_t * RESTRICT  _data_src, double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_0comp2, double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_1comp2, double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1, double macro_vertex_coord_id_2comp2, double macro_vertex_coord_id_3comp0, double macro_vertex_coord_id_3comp1, double macro_vertex_coord_id_3comp2, std::shared_ptr< SparseMatrixProxy > mat, int64_t micro_edges_per_macro_edge, double micro_edges_per_macro_edge_float ) const
 {
     {
        const double tmp_WHITE_UP_0 = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
@@ -499,7 +499,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 4 );
                    std::vector< uint_t > _data_colIdx( 4 );
-                   std::vector< double > _data_mat( 16 );
+                   std::vector< real_t > _data_mat( 16 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1]));
@@ -514,22 +514,22 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = elMat_0_0;
-                   _data_mat[1] = elMat_0_1;
-                   _data_mat[2] = elMat_0_2;
-                   _data_mat[3] = elMat_0_3;
-                   _data_mat[4] = elMat_1_0;
-                   _data_mat[5] = elMat_1_1;
-                   _data_mat[6] = elMat_1_2;
-                   _data_mat[7] = elMat_1_3;
-                   _data_mat[8] = elMat_2_0;
-                   _data_mat[9] = elMat_2_1;
-                   _data_mat[10] = elMat_2_2;
-                   _data_mat[11] = elMat_2_3;
-                   _data_mat[12] = elMat_3_0;
-                   _data_mat[13] = elMat_3_1;
-                   _data_mat[14] = elMat_3_2;
-                   _data_mat[15] = elMat_3_3;
+                   _data_mat[0] = ((real_t)(elMat_0_0));
+                   _data_mat[1] = ((real_t)(elMat_0_1));
+                   _data_mat[2] = ((real_t)(elMat_0_2));
+                   _data_mat[3] = ((real_t)(elMat_0_3));
+                   _data_mat[4] = ((real_t)(elMat_1_0));
+                   _data_mat[5] = ((real_t)(elMat_1_1));
+                   _data_mat[6] = ((real_t)(elMat_1_2));
+                   _data_mat[7] = ((real_t)(elMat_1_3));
+                   _data_mat[8] = ((real_t)(elMat_2_0));
+                   _data_mat[9] = ((real_t)(elMat_2_1));
+                   _data_mat[10] = ((real_t)(elMat_2_2));
+                   _data_mat[11] = ((real_t)(elMat_2_3));
+                   _data_mat[12] = ((real_t)(elMat_3_0));
+                   _data_mat[13] = ((real_t)(elMat_3_1));
+                   _data_mat[14] = ((real_t)(elMat_3_2));
+                   _data_mat[15] = ((real_t)(elMat_3_3));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -540,7 +540,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 4 );
                    std::vector< uint_t > _data_colIdx( 4 );
-                   std::vector< double > _data_mat( 16 );
+                   std::vector< real_t > _data_mat( 16 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1]));
@@ -555,22 +555,22 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = Dummy_2006;
-                   _data_mat[1] = Dummy_2007;
-                   _data_mat[2] = Dummy_2008;
-                   _data_mat[3] = Dummy_2009;
-                   _data_mat[4] = Dummy_2010;
-                   _data_mat[5] = Dummy_2011;
-                   _data_mat[6] = Dummy_2012;
-                   _data_mat[7] = Dummy_2013;
-                   _data_mat[8] = Dummy_2014;
-                   _data_mat[9] = Dummy_2015;
-                   _data_mat[10] = Dummy_2016;
-                   _data_mat[11] = Dummy_2017;
-                   _data_mat[12] = Dummy_2018;
-                   _data_mat[13] = Dummy_2019;
-                   _data_mat[14] = Dummy_2020;
-                   _data_mat[15] = Dummy_2021;
+                   _data_mat[0] = ((real_t)(Dummy_2006));
+                   _data_mat[1] = ((real_t)(Dummy_2007));
+                   _data_mat[2] = ((real_t)(Dummy_2008));
+                   _data_mat[3] = ((real_t)(Dummy_2009));
+                   _data_mat[4] = ((real_t)(Dummy_2010));
+                   _data_mat[5] = ((real_t)(Dummy_2011));
+                   _data_mat[6] = ((real_t)(Dummy_2012));
+                   _data_mat[7] = ((real_t)(Dummy_2013));
+                   _data_mat[8] = ((real_t)(Dummy_2014));
+                   _data_mat[9] = ((real_t)(Dummy_2015));
+                   _data_mat[10] = ((real_t)(Dummy_2016));
+                   _data_mat[11] = ((real_t)(Dummy_2017));
+                   _data_mat[12] = ((real_t)(Dummy_2018));
+                   _data_mat[13] = ((real_t)(Dummy_2019));
+                   _data_mat[14] = ((real_t)(Dummy_2020));
+                   _data_mat[15] = ((real_t)(Dummy_2021));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -581,7 +581,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 4 );
                    std::vector< uint_t > _data_colIdx( 4 );
-                   std::vector< double > _data_mat( 16 );
+                   std::vector< real_t > _data_mat( 16 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))]));
@@ -596,22 +596,22 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = Dummy_2063;
-                   _data_mat[1] = Dummy_2064;
-                   _data_mat[2] = Dummy_2065;
-                   _data_mat[3] = Dummy_2066;
-                   _data_mat[4] = Dummy_2067;
-                   _data_mat[5] = Dummy_2068;
-                   _data_mat[6] = Dummy_2069;
-                   _data_mat[7] = Dummy_2070;
-                   _data_mat[8] = Dummy_2071;
-                   _data_mat[9] = Dummy_2072;
-                   _data_mat[10] = Dummy_2073;
-                   _data_mat[11] = Dummy_2074;
-                   _data_mat[12] = Dummy_2075;
-                   _data_mat[13] = Dummy_2076;
-                   _data_mat[14] = Dummy_2077;
-                   _data_mat[15] = Dummy_2078;
+                   _data_mat[0] = ((real_t)(Dummy_2063));
+                   _data_mat[1] = ((real_t)(Dummy_2064));
+                   _data_mat[2] = ((real_t)(Dummy_2065));
+                   _data_mat[3] = ((real_t)(Dummy_2066));
+                   _data_mat[4] = ((real_t)(Dummy_2067));
+                   _data_mat[5] = ((real_t)(Dummy_2068));
+                   _data_mat[6] = ((real_t)(Dummy_2069));
+                   _data_mat[7] = ((real_t)(Dummy_2070));
+                   _data_mat[8] = ((real_t)(Dummy_2071));
+                   _data_mat[9] = ((real_t)(Dummy_2072));
+                   _data_mat[10] = ((real_t)(Dummy_2073));
+                   _data_mat[11] = ((real_t)(Dummy_2074));
+                   _data_mat[12] = ((real_t)(Dummy_2075));
+                   _data_mat[13] = ((real_t)(Dummy_2076));
+                   _data_mat[14] = ((real_t)(Dummy_2077));
+                   _data_mat[15] = ((real_t)(Dummy_2078));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -622,7 +622,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 4 );
                    std::vector< uint_t > _data_colIdx( 4 );
-                   std::vector< double > _data_mat( 16 );
+                   std::vector< real_t > _data_mat( 16 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))]));
@@ -637,22 +637,22 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = Dummy_2120;
-                   _data_mat[1] = Dummy_2121;
-                   _data_mat[2] = Dummy_2122;
-                   _data_mat[3] = Dummy_2123;
-                   _data_mat[4] = Dummy_2124;
-                   _data_mat[5] = Dummy_2125;
-                   _data_mat[6] = Dummy_2126;
-                   _data_mat[7] = Dummy_2127;
-                   _data_mat[8] = Dummy_2128;
-                   _data_mat[9] = Dummy_2129;
-                   _data_mat[10] = Dummy_2130;
-                   _data_mat[11] = Dummy_2131;
-                   _data_mat[12] = Dummy_2132;
-                   _data_mat[13] = Dummy_2133;
-                   _data_mat[14] = Dummy_2134;
-                   _data_mat[15] = Dummy_2135;
+                   _data_mat[0] = ((real_t)(Dummy_2120));
+                   _data_mat[1] = ((real_t)(Dummy_2121));
+                   _data_mat[2] = ((real_t)(Dummy_2122));
+                   _data_mat[3] = ((real_t)(Dummy_2123));
+                   _data_mat[4] = ((real_t)(Dummy_2124));
+                   _data_mat[5] = ((real_t)(Dummy_2125));
+                   _data_mat[6] = ((real_t)(Dummy_2126));
+                   _data_mat[7] = ((real_t)(Dummy_2127));
+                   _data_mat[8] = ((real_t)(Dummy_2128));
+                   _data_mat[9] = ((real_t)(Dummy_2129));
+                   _data_mat[10] = ((real_t)(Dummy_2130));
+                   _data_mat[11] = ((real_t)(Dummy_2131));
+                   _data_mat[12] = ((real_t)(Dummy_2132));
+                   _data_mat[13] = ((real_t)(Dummy_2133));
+                   _data_mat[14] = ((real_t)(Dummy_2134));
+                   _data_mat[15] = ((real_t)(Dummy_2135));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -663,7 +663,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 4 );
                    std::vector< uint_t > _data_colIdx( 4 );
-                   std::vector< double > _data_mat( 16 );
+                   std::vector< real_t > _data_mat( 16 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))]));
@@ -678,22 +678,22 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = Dummy_2177;
-                   _data_mat[1] = Dummy_2178;
-                   _data_mat[2] = Dummy_2179;
-                   _data_mat[3] = Dummy_2180;
-                   _data_mat[4] = Dummy_2181;
-                   _data_mat[5] = Dummy_2182;
-                   _data_mat[6] = Dummy_2183;
-                   _data_mat[7] = Dummy_2184;
-                   _data_mat[8] = Dummy_2185;
-                   _data_mat[9] = Dummy_2186;
-                   _data_mat[10] = Dummy_2187;
-                   _data_mat[11] = Dummy_2188;
-                   _data_mat[12] = Dummy_2189;
-                   _data_mat[13] = Dummy_2190;
-                   _data_mat[14] = Dummy_2191;
-                   _data_mat[15] = Dummy_2192;
+                   _data_mat[0] = ((real_t)(Dummy_2177));
+                   _data_mat[1] = ((real_t)(Dummy_2178));
+                   _data_mat[2] = ((real_t)(Dummy_2179));
+                   _data_mat[3] = ((real_t)(Dummy_2180));
+                   _data_mat[4] = ((real_t)(Dummy_2181));
+                   _data_mat[5] = ((real_t)(Dummy_2182));
+                   _data_mat[6] = ((real_t)(Dummy_2183));
+                   _data_mat[7] = ((real_t)(Dummy_2184));
+                   _data_mat[8] = ((real_t)(Dummy_2185));
+                   _data_mat[9] = ((real_t)(Dummy_2186));
+                   _data_mat[10] = ((real_t)(Dummy_2187));
+                   _data_mat[11] = ((real_t)(Dummy_2188));
+                   _data_mat[12] = ((real_t)(Dummy_2189));
+                   _data_mat[13] = ((real_t)(Dummy_2190));
+                   _data_mat[14] = ((real_t)(Dummy_2191));
+                   _data_mat[15] = ((real_t)(Dummy_2192));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -704,7 +704,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 4 );
                    std::vector< uint_t > _data_colIdx( 4 );
-                   std::vector< double > _data_mat( 16 );
+                   std::vector< real_t > _data_mat( 16 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1]));
@@ -719,22 +719,22 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = Dummy_2234;
-                   _data_mat[1] = Dummy_2235;
-                   _data_mat[2] = Dummy_2236;
-                   _data_mat[3] = Dummy_2237;
-                   _data_mat[4] = Dummy_2238;
-                   _data_mat[5] = Dummy_2239;
-                   _data_mat[6] = Dummy_2240;
-                   _data_mat[7] = Dummy_2241;
-                   _data_mat[8] = Dummy_2242;
-                   _data_mat[9] = Dummy_2243;
-                   _data_mat[10] = Dummy_2244;
-                   _data_mat[11] = Dummy_2245;
-                   _data_mat[12] = Dummy_2246;
-                   _data_mat[13] = Dummy_2247;
-                   _data_mat[14] = Dummy_2248;
-                   _data_mat[15] = Dummy_2249;
+                   _data_mat[0] = ((real_t)(Dummy_2234));
+                   _data_mat[1] = ((real_t)(Dummy_2235));
+                   _data_mat[2] = ((real_t)(Dummy_2236));
+                   _data_mat[3] = ((real_t)(Dummy_2237));
+                   _data_mat[4] = ((real_t)(Dummy_2238));
+                   _data_mat[5] = ((real_t)(Dummy_2239));
+                   _data_mat[6] = ((real_t)(Dummy_2240));
+                   _data_mat[7] = ((real_t)(Dummy_2241));
+                   _data_mat[8] = ((real_t)(Dummy_2242));
+                   _data_mat[9] = ((real_t)(Dummy_2243));
+                   _data_mat[10] = ((real_t)(Dummy_2244));
+                   _data_mat[11] = ((real_t)(Dummy_2245));
+                   _data_mat[12] = ((real_t)(Dummy_2246));
+                   _data_mat[13] = ((real_t)(Dummy_2247));
+                   _data_mat[14] = ((real_t)(Dummy_2248));
+                   _data_mat[15] = ((real_t)(Dummy_2249));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -813,7 +813,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 4 );
                    std::vector< uint_t > _data_colIdx( 4 );
-                   std::vector< double > _data_mat( 16 );
+                   std::vector< real_t > _data_mat( 16 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ctr_1 - ctr_2 + micro_edges_per_macro_edge - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) - 2]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ctr_1 - ctr_2 + micro_edges_per_macro_edge - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) - 1]));
@@ -828,22 +828,22 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = elMat_0_0;
-                   _data_mat[1] = elMat_0_1;
-                   _data_mat[2] = elMat_0_2;
-                   _data_mat[3] = elMat_0_3;
-                   _data_mat[4] = elMat_1_0;
-                   _data_mat[5] = elMat_1_1;
-                   _data_mat[6] = elMat_1_2;
-                   _data_mat[7] = elMat_1_3;
-                   _data_mat[8] = elMat_2_0;
-                   _data_mat[9] = elMat_2_1;
-                   _data_mat[10] = elMat_2_2;
-                   _data_mat[11] = elMat_2_3;
-                   _data_mat[12] = elMat_3_0;
-                   _data_mat[13] = elMat_3_1;
-                   _data_mat[14] = elMat_3_2;
-                   _data_mat[15] = elMat_3_3;
+                   _data_mat[0] = ((real_t)(elMat_0_0));
+                   _data_mat[1] = ((real_t)(elMat_0_1));
+                   _data_mat[2] = ((real_t)(elMat_0_2));
+                   _data_mat[3] = ((real_t)(elMat_0_3));
+                   _data_mat[4] = ((real_t)(elMat_1_0));
+                   _data_mat[5] = ((real_t)(elMat_1_1));
+                   _data_mat[6] = ((real_t)(elMat_1_2));
+                   _data_mat[7] = ((real_t)(elMat_1_3));
+                   _data_mat[8] = ((real_t)(elMat_2_0));
+                   _data_mat[9] = ((real_t)(elMat_2_1));
+                   _data_mat[10] = ((real_t)(elMat_2_2));
+                   _data_mat[11] = ((real_t)(elMat_2_3));
+                   _data_mat[12] = ((real_t)(elMat_3_0));
+                   _data_mat[13] = ((real_t)(elMat_3_1));
+                   _data_mat[14] = ((real_t)(elMat_3_2));
+                   _data_mat[15] = ((real_t)(elMat_3_3));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -925,7 +925,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 4 );
                    std::vector< uint_t > _data_colIdx( 4 );
-                   std::vector< double > _data_mat( 16 );
+                   std::vector< real_t > _data_mat( 16 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ctr_1 - ctr_2 + micro_edges_per_macro_edge - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) - 1]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[-ctr_1 - ctr_2 + micro_edges_per_macro_edge + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) - 2]));
@@ -940,22 +940,22 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = Dummy_2291;
-                   _data_mat[1] = Dummy_2292;
-                   _data_mat[2] = Dummy_2293;
-                   _data_mat[3] = Dummy_2294;
-                   _data_mat[4] = Dummy_2295;
-                   _data_mat[5] = Dummy_2296;
-                   _data_mat[6] = Dummy_2297;
-                   _data_mat[7] = Dummy_2298;
-                   _data_mat[8] = Dummy_2299;
-                   _data_mat[9] = Dummy_2300;
-                   _data_mat[10] = Dummy_2301;
-                   _data_mat[11] = Dummy_2302;
-                   _data_mat[12] = Dummy_2303;
-                   _data_mat[13] = Dummy_2304;
-                   _data_mat[14] = Dummy_2305;
-                   _data_mat[15] = Dummy_2306;
+                   _data_mat[0] = ((real_t)(Dummy_2291));
+                   _data_mat[1] = ((real_t)(Dummy_2292));
+                   _data_mat[2] = ((real_t)(Dummy_2293));
+                   _data_mat[3] = ((real_t)(Dummy_2294));
+                   _data_mat[4] = ((real_t)(Dummy_2295));
+                   _data_mat[5] = ((real_t)(Dummy_2296));
+                   _data_mat[6] = ((real_t)(Dummy_2297));
+                   _data_mat[7] = ((real_t)(Dummy_2298));
+                   _data_mat[8] = ((real_t)(Dummy_2299));
+                   _data_mat[9] = ((real_t)(Dummy_2300));
+                   _data_mat[10] = ((real_t)(Dummy_2301));
+                   _data_mat[11] = ((real_t)(Dummy_2302));
+                   _data_mat[12] = ((real_t)(Dummy_2303));
+                   _data_mat[13] = ((real_t)(Dummy_2304));
+                   _data_mat[14] = ((real_t)(Dummy_2305));
+                   _data_mat[15] = ((real_t)(Dummy_2306));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -1040,7 +1040,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 4 );
                    std::vector< uint_t > _data_colIdx( 4 );
-                   std::vector< double > _data_mat( 16 );
+                   std::vector< real_t > _data_mat( 16 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[-ctr_1 - ctr_2 + micro_edges_per_macro_edge + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) - 2]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ctr_1 - ctr_2 + micro_edges_per_macro_edge - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - 2]));
@@ -1055,22 +1055,22 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = Dummy_2348;
-                   _data_mat[1] = Dummy_2349;
-                   _data_mat[2] = Dummy_2350;
-                   _data_mat[3] = Dummy_2351;
-                   _data_mat[4] = Dummy_2352;
-                   _data_mat[5] = Dummy_2353;
-                   _data_mat[6] = Dummy_2354;
-                   _data_mat[7] = Dummy_2355;
-                   _data_mat[8] = Dummy_2356;
-                   _data_mat[9] = Dummy_2357;
-                   _data_mat[10] = Dummy_2358;
-                   _data_mat[11] = Dummy_2359;
-                   _data_mat[12] = Dummy_2360;
-                   _data_mat[13] = Dummy_2361;
-                   _data_mat[14] = Dummy_2362;
-                   _data_mat[15] = Dummy_2363;
+                   _data_mat[0] = ((real_t)(Dummy_2348));
+                   _data_mat[1] = ((real_t)(Dummy_2349));
+                   _data_mat[2] = ((real_t)(Dummy_2350));
+                   _data_mat[3] = ((real_t)(Dummy_2351));
+                   _data_mat[4] = ((real_t)(Dummy_2352));
+                   _data_mat[5] = ((real_t)(Dummy_2353));
+                   _data_mat[6] = ((real_t)(Dummy_2354));
+                   _data_mat[7] = ((real_t)(Dummy_2355));
+                   _data_mat[8] = ((real_t)(Dummy_2356));
+                   _data_mat[9] = ((real_t)(Dummy_2357));
+                   _data_mat[10] = ((real_t)(Dummy_2358));
+                   _data_mat[11] = ((real_t)(Dummy_2359));
+                   _data_mat[12] = ((real_t)(Dummy_2360));
+                   _data_mat[13] = ((real_t)(Dummy_2361));
+                   _data_mat[14] = ((real_t)(Dummy_2362));
+                   _data_mat[15] = ((real_t)(Dummy_2363));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -1152,7 +1152,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 4 );
                    std::vector< uint_t > _data_colIdx( 4 );
-                   std::vector< double > _data_mat( 16 );
+                   std::vector< real_t > _data_mat( 16 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ctr_1 - ctr_2 + micro_edges_per_macro_edge - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) - 1]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[-ctr_1 - ctr_2 + micro_edges_per_macro_edge + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) - 2]));
@@ -1167,22 +1167,22 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = Dummy_2405;
-                   _data_mat[1] = Dummy_2406;
-                   _data_mat[2] = Dummy_2407;
-                   _data_mat[3] = Dummy_2408;
-                   _data_mat[4] = Dummy_2409;
-                   _data_mat[5] = Dummy_2410;
-                   _data_mat[6] = Dummy_2411;
-                   _data_mat[7] = Dummy_2412;
-                   _data_mat[8] = Dummy_2413;
-                   _data_mat[9] = Dummy_2414;
-                   _data_mat[10] = Dummy_2415;
-                   _data_mat[11] = Dummy_2416;
-                   _data_mat[12] = Dummy_2417;
-                   _data_mat[13] = Dummy_2418;
-                   _data_mat[14] = Dummy_2419;
-                   _data_mat[15] = Dummy_2420;
+                   _data_mat[0] = ((real_t)(Dummy_2405));
+                   _data_mat[1] = ((real_t)(Dummy_2406));
+                   _data_mat[2] = ((real_t)(Dummy_2407));
+                   _data_mat[3] = ((real_t)(Dummy_2408));
+                   _data_mat[4] = ((real_t)(Dummy_2409));
+                   _data_mat[5] = ((real_t)(Dummy_2410));
+                   _data_mat[6] = ((real_t)(Dummy_2411));
+                   _data_mat[7] = ((real_t)(Dummy_2412));
+                   _data_mat[8] = ((real_t)(Dummy_2413));
+                   _data_mat[9] = ((real_t)(Dummy_2414));
+                   _data_mat[10] = ((real_t)(Dummy_2415));
+                   _data_mat[11] = ((real_t)(Dummy_2416));
+                   _data_mat[12] = ((real_t)(Dummy_2417));
+                   _data_mat[13] = ((real_t)(Dummy_2418));
+                   _data_mat[14] = ((real_t)(Dummy_2419));
+                   _data_mat[15] = ((real_t)(Dummy_2420));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -1267,7 +1267,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 4 );
                    std::vector< uint_t > _data_colIdx( 4 );
-                   std::vector< double > _data_mat( 16 );
+                   std::vector< real_t > _data_mat( 16 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[-ctr_1 - ctr_2 + micro_edges_per_macro_edge + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) - 2]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[-ctr_1 - ctr_2 + micro_edges_per_macro_edge + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) - 1]));
@@ -1282,22 +1282,22 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = Dummy_2462;
-                   _data_mat[1] = Dummy_2463;
-                   _data_mat[2] = Dummy_2464;
-                   _data_mat[3] = Dummy_2465;
-                   _data_mat[4] = Dummy_2466;
-                   _data_mat[5] = Dummy_2467;
-                   _data_mat[6] = Dummy_2468;
-                   _data_mat[7] = Dummy_2469;
-                   _data_mat[8] = Dummy_2470;
-                   _data_mat[9] = Dummy_2471;
-                   _data_mat[10] = Dummy_2472;
-                   _data_mat[11] = Dummy_2473;
-                   _data_mat[12] = Dummy_2474;
-                   _data_mat[13] = Dummy_2475;
-                   _data_mat[14] = Dummy_2476;
-                   _data_mat[15] = Dummy_2477;
+                   _data_mat[0] = ((real_t)(Dummy_2462));
+                   _data_mat[1] = ((real_t)(Dummy_2463));
+                   _data_mat[2] = ((real_t)(Dummy_2464));
+                   _data_mat[3] = ((real_t)(Dummy_2465));
+                   _data_mat[4] = ((real_t)(Dummy_2466));
+                   _data_mat[5] = ((real_t)(Dummy_2467));
+                   _data_mat[6] = ((real_t)(Dummy_2468));
+                   _data_mat[7] = ((real_t)(Dummy_2469));
+                   _data_mat[8] = ((real_t)(Dummy_2470));
+                   _data_mat[9] = ((real_t)(Dummy_2471));
+                   _data_mat[10] = ((real_t)(Dummy_2472));
+                   _data_mat[11] = ((real_t)(Dummy_2473));
+                   _data_mat[12] = ((real_t)(Dummy_2474));
+                   _data_mat[13] = ((real_t)(Dummy_2475));
+                   _data_mat[14] = ((real_t)(Dummy_2476));
+                   _data_mat[15] = ((real_t)(Dummy_2477));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -1310,7 +1310,7 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                    std::vector< uint_t > _data_rowIdx( 4 );
                    std::vector< uint_t > _data_colIdx( 4 );
-                   std::vector< double > _data_mat( 16 );
+                   std::vector< real_t > _data_mat( 16 );
                
                    _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ctr_1 - ctr_2 + micro_edges_per_macro_edge - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) - 1]));
                    _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ctr_1 - ctr_2 + micro_edges_per_macro_edge - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))]));
@@ -1325,22 +1325,22 @@ void P1ElementwiseDiffusion::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, i
                
                
                
-                   _data_mat[0] = elMat_0_0;
-                   _data_mat[1] = elMat_0_1;
-                   _data_mat[2] = elMat_0_2;
-                   _data_mat[3] = elMat_0_3;
-                   _data_mat[4] = elMat_1_0;
-                   _data_mat[5] = elMat_1_1;
-                   _data_mat[6] = elMat_1_2;
-                   _data_mat[7] = elMat_1_3;
-                   _data_mat[8] = elMat_2_0;
-                   _data_mat[9] = elMat_2_1;
-                   _data_mat[10] = elMat_2_2;
-                   _data_mat[11] = elMat_2_3;
-                   _data_mat[12] = elMat_3_0;
-                   _data_mat[13] = elMat_3_1;
-                   _data_mat[14] = elMat_3_2;
-                   _data_mat[15] = elMat_3_3;
+                   _data_mat[0] = ((real_t)(elMat_0_0));
+                   _data_mat[1] = ((real_t)(elMat_0_1));
+                   _data_mat[2] = ((real_t)(elMat_0_2));
+                   _data_mat[3] = ((real_t)(elMat_0_3));
+                   _data_mat[4] = ((real_t)(elMat_1_0));
+                   _data_mat[5] = ((real_t)(elMat_1_1));
+                   _data_mat[6] = ((real_t)(elMat_1_2));
+                   _data_mat[7] = ((real_t)(elMat_1_3));
+                   _data_mat[8] = ((real_t)(elMat_2_0));
+                   _data_mat[9] = ((real_t)(elMat_2_1));
+                   _data_mat[10] = ((real_t)(elMat_2_2));
+                   _data_mat[11] = ((real_t)(elMat_2_3));
+                   _data_mat[12] = ((real_t)(elMat_3_0));
+                   _data_mat[13] = ((real_t)(elMat_3_1));
+                   _data_mat[14] = ((real_t)(elMat_3_2));
+                   _data_mat[15] = ((real_t)(elMat_3_3));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );

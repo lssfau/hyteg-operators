@@ -56,7 +56,7 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-void N1E1ElementwiseCurlCurl::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, int64_t * RESTRICT  _data_src, const Cell& cell, const uint_t level, double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_0comp2, double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_1comp2, double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1, double macro_vertex_coord_id_2comp2, double macro_vertex_coord_id_3comp0, double macro_vertex_coord_id_3comp1, double macro_vertex_coord_id_3comp2, std::shared_ptr< SparseMatrixProxy > mat, int64_t micro_edges_per_macro_edge, double micro_edges_per_macro_edge_float ) const
+void N1E1ElementwiseCurlCurl::toMatrix_macro_3D( idx_t * RESTRICT  _data_dst, idx_t * RESTRICT  _data_src, const Cell& cell, const uint_t level, double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_0comp2, double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_1comp2, double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1, double macro_vertex_coord_id_2comp2, double macro_vertex_coord_id_3comp0, double macro_vertex_coord_id_3comp1, double macro_vertex_coord_id_3comp2, std::shared_ptr< SparseMatrixProxy > mat, int64_t micro_edges_per_macro_edge, double micro_edges_per_macro_edge_float ) const
 {
     {
        const double tmp_WHITE_UP_0 = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
@@ -703,7 +703,7 @@ void N1E1ElementwiseCurlCurl::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, 
          
              std::vector< uint_t > _data_rowIdx( 6 );
              std::vector< uint_t > _data_colIdx( 6 );
-             std::vector< double > _data_mat( 36 );
+             std::vector< real_t > _data_mat( 36 );
          
              _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 6*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6))]));
              _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 5*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6))]));
@@ -722,42 +722,42 @@ void N1E1ElementwiseCurlCurl::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, 
          
              const Eigen::DiagonalMatrix< real_t, 6 > basisTransformation = n1e1::macrocell::basisTransformation( level, cell, {ctr_0, ctr_1, ctr_2}, celldof::CellType::WHITE_UP );
          
-             _data_mat[0] = (basisTransformation.diagonal()(0)*basisTransformation.diagonal()(0))*elMat_0_0;
-             _data_mat[1] = basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1)*elMat_0_1;
-             _data_mat[2] = basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2)*elMat_0_2;
-             _data_mat[3] = basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3)*elMat_0_3;
-             _data_mat[4] = basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4)*elMat_0_4;
-             _data_mat[5] = basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5)*elMat_0_5;
-             _data_mat[6] = basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1)*elMat_1_0;
-             _data_mat[7] = (basisTransformation.diagonal()(1)*basisTransformation.diagonal()(1))*elMat_1_1;
-             _data_mat[8] = basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2)*elMat_1_2;
-             _data_mat[9] = basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3)*elMat_1_3;
-             _data_mat[10] = basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4)*elMat_1_4;
-             _data_mat[11] = basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5)*elMat_1_5;
-             _data_mat[12] = basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2)*elMat_2_0;
-             _data_mat[13] = basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2)*elMat_2_1;
-             _data_mat[14] = (basisTransformation.diagonal()(2)*basisTransformation.diagonal()(2))*elMat_2_2;
-             _data_mat[15] = basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3)*elMat_2_3;
-             _data_mat[16] = basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4)*elMat_2_4;
-             _data_mat[17] = basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5)*elMat_2_5;
-             _data_mat[18] = basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3)*elMat_3_0;
-             _data_mat[19] = basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3)*elMat_3_1;
-             _data_mat[20] = basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3)*elMat_3_2;
-             _data_mat[21] = (basisTransformation.diagonal()(3)*basisTransformation.diagonal()(3))*elMat_3_3;
-             _data_mat[22] = basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4)*elMat_3_4;
-             _data_mat[23] = basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5)*elMat_3_5;
-             _data_mat[24] = basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4)*elMat_4_0;
-             _data_mat[25] = basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4)*elMat_4_1;
-             _data_mat[26] = basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4)*elMat_4_2;
-             _data_mat[27] = basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4)*elMat_4_3;
-             _data_mat[28] = (basisTransformation.diagonal()(4)*basisTransformation.diagonal()(4))*elMat_4_4;
-             _data_mat[29] = basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5)*elMat_4_5;
-             _data_mat[30] = basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5)*elMat_5_0;
-             _data_mat[31] = basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5)*elMat_5_1;
-             _data_mat[32] = basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5)*elMat_5_2;
-             _data_mat[33] = basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5)*elMat_5_3;
-             _data_mat[34] = basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5)*elMat_5_4;
-             _data_mat[35] = (basisTransformation.diagonal()(5)*basisTransformation.diagonal()(5))*elMat_5_5;
+             _data_mat[0] = ((real_t)((basisTransformation.diagonal()(0)*basisTransformation.diagonal()(0))*elMat_0_0));
+             _data_mat[1] = ((real_t)(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1)*elMat_0_1));
+             _data_mat[2] = ((real_t)(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2)*elMat_0_2));
+             _data_mat[3] = ((real_t)(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3)*elMat_0_3));
+             _data_mat[4] = ((real_t)(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4)*elMat_0_4));
+             _data_mat[5] = ((real_t)(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5)*elMat_0_5));
+             _data_mat[6] = ((real_t)(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1)*elMat_1_0));
+             _data_mat[7] = ((real_t)((basisTransformation.diagonal()(1)*basisTransformation.diagonal()(1))*elMat_1_1));
+             _data_mat[8] = ((real_t)(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2)*elMat_1_2));
+             _data_mat[9] = ((real_t)(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3)*elMat_1_3));
+             _data_mat[10] = ((real_t)(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4)*elMat_1_4));
+             _data_mat[11] = ((real_t)(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5)*elMat_1_5));
+             _data_mat[12] = ((real_t)(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2)*elMat_2_0));
+             _data_mat[13] = ((real_t)(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2)*elMat_2_1));
+             _data_mat[14] = ((real_t)((basisTransformation.diagonal()(2)*basisTransformation.diagonal()(2))*elMat_2_2));
+             _data_mat[15] = ((real_t)(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3)*elMat_2_3));
+             _data_mat[16] = ((real_t)(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4)*elMat_2_4));
+             _data_mat[17] = ((real_t)(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5)*elMat_2_5));
+             _data_mat[18] = ((real_t)(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3)*elMat_3_0));
+             _data_mat[19] = ((real_t)(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3)*elMat_3_1));
+             _data_mat[20] = ((real_t)(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3)*elMat_3_2));
+             _data_mat[21] = ((real_t)((basisTransformation.diagonal()(3)*basisTransformation.diagonal()(3))*elMat_3_3));
+             _data_mat[22] = ((real_t)(basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4)*elMat_3_4));
+             _data_mat[23] = ((real_t)(basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5)*elMat_3_5));
+             _data_mat[24] = ((real_t)(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4)*elMat_4_0));
+             _data_mat[25] = ((real_t)(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4)*elMat_4_1));
+             _data_mat[26] = ((real_t)(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4)*elMat_4_2));
+             _data_mat[27] = ((real_t)(basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4)*elMat_4_3));
+             _data_mat[28] = ((real_t)((basisTransformation.diagonal()(4)*basisTransformation.diagonal()(4))*elMat_4_4));
+             _data_mat[29] = ((real_t)(basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5)*elMat_4_5));
+             _data_mat[30] = ((real_t)(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5)*elMat_5_0));
+             _data_mat[31] = ((real_t)(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5)*elMat_5_1));
+             _data_mat[32] = ((real_t)(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5)*elMat_5_2));
+             _data_mat[33] = ((real_t)(basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5)*elMat_5_3));
+             _data_mat[34] = ((real_t)(basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5)*elMat_5_4));
+             _data_mat[35] = ((real_t)((basisTransformation.diagonal()(5)*basisTransformation.diagonal()(5))*elMat_5_5));
          
          
              mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -769,7 +769,7 @@ void N1E1ElementwiseCurlCurl::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, 
          
              std::vector< uint_t > _data_rowIdx( 6 );
              std::vector< uint_t > _data_colIdx( 6 );
-             std::vector< double > _data_mat( 36 );
+             std::vector< real_t > _data_mat( 36 );
          
              _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge - 1)*(-ctr_2 + micro_edges_per_macro_edge + 1)) / (6))]));
              _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge - 1)*(-ctr_2 + micro_edges_per_macro_edge + 1)) / (6)) + 1]));
@@ -788,42 +788,42 @@ void N1E1ElementwiseCurlCurl::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, 
          
              const Eigen::DiagonalMatrix< real_t, 6 > basisTransformation = n1e1::macrocell::basisTransformation( level, cell, {ctr_0, ctr_1, ctr_2}, celldof::CellType::WHITE_DOWN );
          
-             _data_mat[0] = Dummy_394*(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(0));
-             _data_mat[1] = Dummy_395*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1);
-             _data_mat[2] = Dummy_396*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2);
-             _data_mat[3] = Dummy_397*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3);
-             _data_mat[4] = Dummy_398*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4);
-             _data_mat[5] = Dummy_399*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5);
-             _data_mat[6] = Dummy_400*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1);
-             _data_mat[7] = Dummy_401*(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(1));
-             _data_mat[8] = Dummy_402*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2);
-             _data_mat[9] = Dummy_403*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3);
-             _data_mat[10] = Dummy_404*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4);
-             _data_mat[11] = Dummy_405*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5);
-             _data_mat[12] = Dummy_406*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2);
-             _data_mat[13] = Dummy_407*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2);
-             _data_mat[14] = Dummy_408*(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(2));
-             _data_mat[15] = Dummy_409*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3);
-             _data_mat[16] = Dummy_410*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4);
-             _data_mat[17] = Dummy_411*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5);
-             _data_mat[18] = Dummy_412*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3);
-             _data_mat[19] = Dummy_413*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3);
-             _data_mat[20] = Dummy_414*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3);
-             _data_mat[21] = Dummy_415*(basisTransformation.diagonal()(3)*basisTransformation.diagonal()(3));
-             _data_mat[22] = Dummy_416*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4);
-             _data_mat[23] = Dummy_417*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5);
-             _data_mat[24] = Dummy_418*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4);
-             _data_mat[25] = Dummy_419*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4);
-             _data_mat[26] = Dummy_420*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4);
-             _data_mat[27] = Dummy_421*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4);
-             _data_mat[28] = Dummy_422*(basisTransformation.diagonal()(4)*basisTransformation.diagonal()(4));
-             _data_mat[29] = Dummy_423*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5);
-             _data_mat[30] = Dummy_424*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5);
-             _data_mat[31] = Dummy_425*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5);
-             _data_mat[32] = Dummy_426*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5);
-             _data_mat[33] = Dummy_427*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5);
-             _data_mat[34] = Dummy_428*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5);
-             _data_mat[35] = Dummy_429*(basisTransformation.diagonal()(5)*basisTransformation.diagonal()(5));
+             _data_mat[0] = ((real_t)(Dummy_394*(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(0))));
+             _data_mat[1] = ((real_t)(Dummy_395*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1)));
+             _data_mat[2] = ((real_t)(Dummy_396*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2)));
+             _data_mat[3] = ((real_t)(Dummy_397*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3)));
+             _data_mat[4] = ((real_t)(Dummy_398*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4)));
+             _data_mat[5] = ((real_t)(Dummy_399*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5)));
+             _data_mat[6] = ((real_t)(Dummy_400*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1)));
+             _data_mat[7] = ((real_t)(Dummy_401*(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(1))));
+             _data_mat[8] = ((real_t)(Dummy_402*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2)));
+             _data_mat[9] = ((real_t)(Dummy_403*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3)));
+             _data_mat[10] = ((real_t)(Dummy_404*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4)));
+             _data_mat[11] = ((real_t)(Dummy_405*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5)));
+             _data_mat[12] = ((real_t)(Dummy_406*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2)));
+             _data_mat[13] = ((real_t)(Dummy_407*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2)));
+             _data_mat[14] = ((real_t)(Dummy_408*(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(2))));
+             _data_mat[15] = ((real_t)(Dummy_409*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3)));
+             _data_mat[16] = ((real_t)(Dummy_410*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4)));
+             _data_mat[17] = ((real_t)(Dummy_411*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5)));
+             _data_mat[18] = ((real_t)(Dummy_412*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3)));
+             _data_mat[19] = ((real_t)(Dummy_413*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3)));
+             _data_mat[20] = ((real_t)(Dummy_414*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3)));
+             _data_mat[21] = ((real_t)(Dummy_415*(basisTransformation.diagonal()(3)*basisTransformation.diagonal()(3))));
+             _data_mat[22] = ((real_t)(Dummy_416*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4)));
+             _data_mat[23] = ((real_t)(Dummy_417*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5)));
+             _data_mat[24] = ((real_t)(Dummy_418*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4)));
+             _data_mat[25] = ((real_t)(Dummy_419*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4)));
+             _data_mat[26] = ((real_t)(Dummy_420*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4)));
+             _data_mat[27] = ((real_t)(Dummy_421*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4)));
+             _data_mat[28] = ((real_t)(Dummy_422*(basisTransformation.diagonal()(4)*basisTransformation.diagonal()(4))));
+             _data_mat[29] = ((real_t)(Dummy_423*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5)));
+             _data_mat[30] = ((real_t)(Dummy_424*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5)));
+             _data_mat[31] = ((real_t)(Dummy_425*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5)));
+             _data_mat[32] = ((real_t)(Dummy_426*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5)));
+             _data_mat[33] = ((real_t)(Dummy_427*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5)));
+             _data_mat[34] = ((real_t)(Dummy_428*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5)));
+             _data_mat[35] = ((real_t)(Dummy_429*(basisTransformation.diagonal()(5)*basisTransformation.diagonal()(5))));
          
          
              mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -835,7 +835,7 @@ void N1E1ElementwiseCurlCurl::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, 
          
              std::vector< uint_t > _data_rowIdx( 6 );
              std::vector< uint_t > _data_colIdx( 6 );
-             std::vector< double > _data_mat( 36 );
+             std::vector< real_t > _data_mat( 36 );
          
              _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 6*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + 1]));
              _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge - 1)*(micro_edges_per_macro_edge + 1)) / (6)) + 6*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge - 1)*(-ctr_2 + micro_edges_per_macro_edge + 1)) / (6))]));
@@ -854,42 +854,42 @@ void N1E1ElementwiseCurlCurl::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, 
          
              const Eigen::DiagonalMatrix< real_t, 6 > basisTransformation = n1e1::macrocell::basisTransformation( level, cell, {ctr_0, ctr_1, ctr_2}, celldof::CellType::BLUE_UP );
          
-             _data_mat[0] = Dummy_492*(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(0));
-             _data_mat[1] = Dummy_493*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1);
-             _data_mat[2] = Dummy_494*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2);
-             _data_mat[3] = Dummy_495*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3);
-             _data_mat[4] = Dummy_496*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4);
-             _data_mat[5] = Dummy_497*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5);
-             _data_mat[6] = Dummy_498*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1);
-             _data_mat[7] = Dummy_499*(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(1));
-             _data_mat[8] = Dummy_500*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2);
-             _data_mat[9] = Dummy_501*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3);
-             _data_mat[10] = Dummy_502*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4);
-             _data_mat[11] = Dummy_503*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5);
-             _data_mat[12] = Dummy_504*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2);
-             _data_mat[13] = Dummy_505*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2);
-             _data_mat[14] = Dummy_506*(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(2));
-             _data_mat[15] = Dummy_507*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3);
-             _data_mat[16] = Dummy_508*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4);
-             _data_mat[17] = Dummy_509*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5);
-             _data_mat[18] = Dummy_510*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3);
-             _data_mat[19] = Dummy_511*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3);
-             _data_mat[20] = Dummy_512*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3);
-             _data_mat[21] = Dummy_513*(basisTransformation.diagonal()(3)*basisTransformation.diagonal()(3));
-             _data_mat[22] = Dummy_514*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4);
-             _data_mat[23] = Dummy_515*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5);
-             _data_mat[24] = Dummy_516*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4);
-             _data_mat[25] = Dummy_517*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4);
-             _data_mat[26] = Dummy_518*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4);
-             _data_mat[27] = Dummy_519*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4);
-             _data_mat[28] = Dummy_520*(basisTransformation.diagonal()(4)*basisTransformation.diagonal()(4));
-             _data_mat[29] = Dummy_521*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5);
-             _data_mat[30] = Dummy_522*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5);
-             _data_mat[31] = Dummy_523*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5);
-             _data_mat[32] = Dummy_524*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5);
-             _data_mat[33] = Dummy_525*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5);
-             _data_mat[34] = Dummy_526*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5);
-             _data_mat[35] = Dummy_527*(basisTransformation.diagonal()(5)*basisTransformation.diagonal()(5));
+             _data_mat[0] = ((real_t)(Dummy_492*(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(0))));
+             _data_mat[1] = ((real_t)(Dummy_493*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1)));
+             _data_mat[2] = ((real_t)(Dummy_494*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2)));
+             _data_mat[3] = ((real_t)(Dummy_495*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3)));
+             _data_mat[4] = ((real_t)(Dummy_496*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4)));
+             _data_mat[5] = ((real_t)(Dummy_497*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5)));
+             _data_mat[6] = ((real_t)(Dummy_498*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1)));
+             _data_mat[7] = ((real_t)(Dummy_499*(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(1))));
+             _data_mat[8] = ((real_t)(Dummy_500*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2)));
+             _data_mat[9] = ((real_t)(Dummy_501*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3)));
+             _data_mat[10] = ((real_t)(Dummy_502*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4)));
+             _data_mat[11] = ((real_t)(Dummy_503*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5)));
+             _data_mat[12] = ((real_t)(Dummy_504*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2)));
+             _data_mat[13] = ((real_t)(Dummy_505*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2)));
+             _data_mat[14] = ((real_t)(Dummy_506*(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(2))));
+             _data_mat[15] = ((real_t)(Dummy_507*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3)));
+             _data_mat[16] = ((real_t)(Dummy_508*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4)));
+             _data_mat[17] = ((real_t)(Dummy_509*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5)));
+             _data_mat[18] = ((real_t)(Dummy_510*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3)));
+             _data_mat[19] = ((real_t)(Dummy_511*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3)));
+             _data_mat[20] = ((real_t)(Dummy_512*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3)));
+             _data_mat[21] = ((real_t)(Dummy_513*(basisTransformation.diagonal()(3)*basisTransformation.diagonal()(3))));
+             _data_mat[22] = ((real_t)(Dummy_514*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4)));
+             _data_mat[23] = ((real_t)(Dummy_515*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5)));
+             _data_mat[24] = ((real_t)(Dummy_516*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4)));
+             _data_mat[25] = ((real_t)(Dummy_517*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4)));
+             _data_mat[26] = ((real_t)(Dummy_518*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4)));
+             _data_mat[27] = ((real_t)(Dummy_519*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4)));
+             _data_mat[28] = ((real_t)(Dummy_520*(basisTransformation.diagonal()(4)*basisTransformation.diagonal()(4))));
+             _data_mat[29] = ((real_t)(Dummy_521*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5)));
+             _data_mat[30] = ((real_t)(Dummy_522*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5)));
+             _data_mat[31] = ((real_t)(Dummy_523*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5)));
+             _data_mat[32] = ((real_t)(Dummy_524*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5)));
+             _data_mat[33] = ((real_t)(Dummy_525*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5)));
+             _data_mat[34] = ((real_t)(Dummy_526*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5)));
+             _data_mat[35] = ((real_t)(Dummy_527*(basisTransformation.diagonal()(5)*basisTransformation.diagonal()(5))));
          
          
              mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -901,7 +901,7 @@ void N1E1ElementwiseCurlCurl::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, 
          
              std::vector< uint_t > _data_rowIdx( 6 );
              std::vector< uint_t > _data_colIdx( 6 );
-             std::vector< double > _data_mat( 36 );
+             std::vector< real_t > _data_mat( 36 );
          
              _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge) - ((ctr_1*(ctr_1 + 1)) / (2)) + 4*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge - 1)*(-ctr_2 + micro_edges_per_macro_edge + 1)) / (6))]));
              _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge - 1)*(-ctr_2 + micro_edges_per_macro_edge + 1)) / (6))]));
@@ -920,42 +920,42 @@ void N1E1ElementwiseCurlCurl::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, 
          
              const Eigen::DiagonalMatrix< real_t, 6 > basisTransformation = n1e1::macrocell::basisTransformation( level, cell, {ctr_0, ctr_1, ctr_2}, celldof::CellType::BLUE_DOWN );
          
-             _data_mat[0] = Dummy_590*(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(0));
-             _data_mat[1] = Dummy_591*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1);
-             _data_mat[2] = Dummy_592*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2);
-             _data_mat[3] = Dummy_593*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3);
-             _data_mat[4] = Dummy_594*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4);
-             _data_mat[5] = Dummy_595*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5);
-             _data_mat[6] = Dummy_596*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1);
-             _data_mat[7] = Dummy_597*(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(1));
-             _data_mat[8] = Dummy_598*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2);
-             _data_mat[9] = Dummy_599*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3);
-             _data_mat[10] = Dummy_600*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4);
-             _data_mat[11] = Dummy_601*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5);
-             _data_mat[12] = Dummy_602*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2);
-             _data_mat[13] = Dummy_603*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2);
-             _data_mat[14] = Dummy_604*(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(2));
-             _data_mat[15] = Dummy_605*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3);
-             _data_mat[16] = Dummy_606*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4);
-             _data_mat[17] = Dummy_607*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5);
-             _data_mat[18] = Dummy_608*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3);
-             _data_mat[19] = Dummy_609*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3);
-             _data_mat[20] = Dummy_610*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3);
-             _data_mat[21] = Dummy_611*(basisTransformation.diagonal()(3)*basisTransformation.diagonal()(3));
-             _data_mat[22] = Dummy_612*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4);
-             _data_mat[23] = Dummy_613*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5);
-             _data_mat[24] = Dummy_614*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4);
-             _data_mat[25] = Dummy_615*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4);
-             _data_mat[26] = Dummy_616*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4);
-             _data_mat[27] = Dummy_617*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4);
-             _data_mat[28] = Dummy_618*(basisTransformation.diagonal()(4)*basisTransformation.diagonal()(4));
-             _data_mat[29] = Dummy_619*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5);
-             _data_mat[30] = Dummy_620*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5);
-             _data_mat[31] = Dummy_621*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5);
-             _data_mat[32] = Dummy_622*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5);
-             _data_mat[33] = Dummy_623*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5);
-             _data_mat[34] = Dummy_624*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5);
-             _data_mat[35] = Dummy_625*(basisTransformation.diagonal()(5)*basisTransformation.diagonal()(5));
+             _data_mat[0] = ((real_t)(Dummy_590*(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(0))));
+             _data_mat[1] = ((real_t)(Dummy_591*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1)));
+             _data_mat[2] = ((real_t)(Dummy_592*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2)));
+             _data_mat[3] = ((real_t)(Dummy_593*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3)));
+             _data_mat[4] = ((real_t)(Dummy_594*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4)));
+             _data_mat[5] = ((real_t)(Dummy_595*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5)));
+             _data_mat[6] = ((real_t)(Dummy_596*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1)));
+             _data_mat[7] = ((real_t)(Dummy_597*(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(1))));
+             _data_mat[8] = ((real_t)(Dummy_598*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2)));
+             _data_mat[9] = ((real_t)(Dummy_599*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3)));
+             _data_mat[10] = ((real_t)(Dummy_600*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4)));
+             _data_mat[11] = ((real_t)(Dummy_601*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5)));
+             _data_mat[12] = ((real_t)(Dummy_602*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2)));
+             _data_mat[13] = ((real_t)(Dummy_603*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2)));
+             _data_mat[14] = ((real_t)(Dummy_604*(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(2))));
+             _data_mat[15] = ((real_t)(Dummy_605*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3)));
+             _data_mat[16] = ((real_t)(Dummy_606*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4)));
+             _data_mat[17] = ((real_t)(Dummy_607*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5)));
+             _data_mat[18] = ((real_t)(Dummy_608*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3)));
+             _data_mat[19] = ((real_t)(Dummy_609*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3)));
+             _data_mat[20] = ((real_t)(Dummy_610*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3)));
+             _data_mat[21] = ((real_t)(Dummy_611*(basisTransformation.diagonal()(3)*basisTransformation.diagonal()(3))));
+             _data_mat[22] = ((real_t)(Dummy_612*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4)));
+             _data_mat[23] = ((real_t)(Dummy_613*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5)));
+             _data_mat[24] = ((real_t)(Dummy_614*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4)));
+             _data_mat[25] = ((real_t)(Dummy_615*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4)));
+             _data_mat[26] = ((real_t)(Dummy_616*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4)));
+             _data_mat[27] = ((real_t)(Dummy_617*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4)));
+             _data_mat[28] = ((real_t)(Dummy_618*(basisTransformation.diagonal()(4)*basisTransformation.diagonal()(4))));
+             _data_mat[29] = ((real_t)(Dummy_619*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5)));
+             _data_mat[30] = ((real_t)(Dummy_620*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5)));
+             _data_mat[31] = ((real_t)(Dummy_621*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5)));
+             _data_mat[32] = ((real_t)(Dummy_622*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5)));
+             _data_mat[33] = ((real_t)(Dummy_623*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5)));
+             _data_mat[34] = ((real_t)(Dummy_624*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5)));
+             _data_mat[35] = ((real_t)(Dummy_625*(basisTransformation.diagonal()(5)*basisTransformation.diagonal()(5))));
          
          
              mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -967,7 +967,7 @@ void N1E1ElementwiseCurlCurl::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, 
          
              std::vector< uint_t > _data_rowIdx( 6 );
              std::vector< uint_t > _data_colIdx( 6 );
-             std::vector< double > _data_mat( 36 );
+             std::vector< real_t > _data_mat( 36 );
          
              _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge - 1)*(-ctr_2 + micro_edges_per_macro_edge + 1)) / (6))]));
              _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge - 1)*(micro_edges_per_macro_edge + 1)) / (6)) + 6*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge - 1)*(-ctr_2 + micro_edges_per_macro_edge + 1)) / (6))]));
@@ -986,42 +986,42 @@ void N1E1ElementwiseCurlCurl::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, 
          
              const Eigen::DiagonalMatrix< real_t, 6 > basisTransformation = n1e1::macrocell::basisTransformation( level, cell, {ctr_0, ctr_1, ctr_2}, celldof::CellType::GREEN_UP );
          
-             _data_mat[0] = Dummy_688*(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(0));
-             _data_mat[1] = Dummy_689*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1);
-             _data_mat[2] = Dummy_690*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2);
-             _data_mat[3] = Dummy_691*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3);
-             _data_mat[4] = Dummy_692*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4);
-             _data_mat[5] = Dummy_693*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5);
-             _data_mat[6] = Dummy_694*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1);
-             _data_mat[7] = Dummy_695*(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(1));
-             _data_mat[8] = Dummy_696*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2);
-             _data_mat[9] = Dummy_697*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3);
-             _data_mat[10] = Dummy_698*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4);
-             _data_mat[11] = Dummy_699*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5);
-             _data_mat[12] = Dummy_700*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2);
-             _data_mat[13] = Dummy_701*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2);
-             _data_mat[14] = Dummy_702*(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(2));
-             _data_mat[15] = Dummy_703*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3);
-             _data_mat[16] = Dummy_704*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4);
-             _data_mat[17] = Dummy_705*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5);
-             _data_mat[18] = Dummy_706*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3);
-             _data_mat[19] = Dummy_707*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3);
-             _data_mat[20] = Dummy_708*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3);
-             _data_mat[21] = Dummy_709*(basisTransformation.diagonal()(3)*basisTransformation.diagonal()(3));
-             _data_mat[22] = Dummy_710*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4);
-             _data_mat[23] = Dummy_711*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5);
-             _data_mat[24] = Dummy_712*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4);
-             _data_mat[25] = Dummy_713*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4);
-             _data_mat[26] = Dummy_714*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4);
-             _data_mat[27] = Dummy_715*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4);
-             _data_mat[28] = Dummy_716*(basisTransformation.diagonal()(4)*basisTransformation.diagonal()(4));
-             _data_mat[29] = Dummy_717*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5);
-             _data_mat[30] = Dummy_718*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5);
-             _data_mat[31] = Dummy_719*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5);
-             _data_mat[32] = Dummy_720*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5);
-             _data_mat[33] = Dummy_721*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5);
-             _data_mat[34] = Dummy_722*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5);
-             _data_mat[35] = Dummy_723*(basisTransformation.diagonal()(5)*basisTransformation.diagonal()(5));
+             _data_mat[0] = ((real_t)(Dummy_688*(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(0))));
+             _data_mat[1] = ((real_t)(Dummy_689*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1)));
+             _data_mat[2] = ((real_t)(Dummy_690*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2)));
+             _data_mat[3] = ((real_t)(Dummy_691*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3)));
+             _data_mat[4] = ((real_t)(Dummy_692*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4)));
+             _data_mat[5] = ((real_t)(Dummy_693*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5)));
+             _data_mat[6] = ((real_t)(Dummy_694*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1)));
+             _data_mat[7] = ((real_t)(Dummy_695*(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(1))));
+             _data_mat[8] = ((real_t)(Dummy_696*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2)));
+             _data_mat[9] = ((real_t)(Dummy_697*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3)));
+             _data_mat[10] = ((real_t)(Dummy_698*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4)));
+             _data_mat[11] = ((real_t)(Dummy_699*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5)));
+             _data_mat[12] = ((real_t)(Dummy_700*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2)));
+             _data_mat[13] = ((real_t)(Dummy_701*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2)));
+             _data_mat[14] = ((real_t)(Dummy_702*(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(2))));
+             _data_mat[15] = ((real_t)(Dummy_703*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3)));
+             _data_mat[16] = ((real_t)(Dummy_704*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4)));
+             _data_mat[17] = ((real_t)(Dummy_705*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5)));
+             _data_mat[18] = ((real_t)(Dummy_706*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3)));
+             _data_mat[19] = ((real_t)(Dummy_707*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3)));
+             _data_mat[20] = ((real_t)(Dummy_708*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3)));
+             _data_mat[21] = ((real_t)(Dummy_709*(basisTransformation.diagonal()(3)*basisTransformation.diagonal()(3))));
+             _data_mat[22] = ((real_t)(Dummy_710*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4)));
+             _data_mat[23] = ((real_t)(Dummy_711*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5)));
+             _data_mat[24] = ((real_t)(Dummy_712*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4)));
+             _data_mat[25] = ((real_t)(Dummy_713*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4)));
+             _data_mat[26] = ((real_t)(Dummy_714*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4)));
+             _data_mat[27] = ((real_t)(Dummy_715*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4)));
+             _data_mat[28] = ((real_t)(Dummy_716*(basisTransformation.diagonal()(4)*basisTransformation.diagonal()(4))));
+             _data_mat[29] = ((real_t)(Dummy_717*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5)));
+             _data_mat[30] = ((real_t)(Dummy_718*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5)));
+             _data_mat[31] = ((real_t)(Dummy_719*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5)));
+             _data_mat[32] = ((real_t)(Dummy_720*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5)));
+             _data_mat[33] = ((real_t)(Dummy_721*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5)));
+             _data_mat[34] = ((real_t)(Dummy_722*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5)));
+             _data_mat[35] = ((real_t)(Dummy_723*(basisTransformation.diagonal()(5)*basisTransformation.diagonal()(5))));
          
          
              mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
@@ -1033,7 +1033,7 @@ void N1E1ElementwiseCurlCurl::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, 
          
              std::vector< uint_t > _data_rowIdx( 6 );
              std::vector< uint_t > _data_colIdx( 6 );
-             std::vector< double > _data_mat( 36 );
+             std::vector< real_t > _data_mat( 36 );
          
              _data_rowIdx[0] = ((uint64_t)(_data_dst[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge) - ((ctr_1*(ctr_1 + 1)) / (2)) + 4*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge - 1)*(-ctr_2 + micro_edges_per_macro_edge + 1)) / (6))]));
              _data_rowIdx[1] = ((uint64_t)(_data_dst[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 5*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6))]));
@@ -1052,42 +1052,42 @@ void N1E1ElementwiseCurlCurl::toMatrix_macro_3D( int64_t * RESTRICT  _data_dst, 
          
              const Eigen::DiagonalMatrix< real_t, 6 > basisTransformation = n1e1::macrocell::basisTransformation( level, cell, {ctr_0, ctr_1, ctr_2}, celldof::CellType::GREEN_DOWN );
          
-             _data_mat[0] = Dummy_786*(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(0));
-             _data_mat[1] = Dummy_787*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1);
-             _data_mat[2] = Dummy_788*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2);
-             _data_mat[3] = Dummy_789*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3);
-             _data_mat[4] = Dummy_790*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4);
-             _data_mat[5] = Dummy_791*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5);
-             _data_mat[6] = Dummy_792*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1);
-             _data_mat[7] = Dummy_793*(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(1));
-             _data_mat[8] = Dummy_794*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2);
-             _data_mat[9] = Dummy_795*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3);
-             _data_mat[10] = Dummy_796*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4);
-             _data_mat[11] = Dummy_797*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5);
-             _data_mat[12] = Dummy_798*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2);
-             _data_mat[13] = Dummy_799*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2);
-             _data_mat[14] = Dummy_800*(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(2));
-             _data_mat[15] = Dummy_801*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3);
-             _data_mat[16] = Dummy_802*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4);
-             _data_mat[17] = Dummy_803*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5);
-             _data_mat[18] = Dummy_804*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3);
-             _data_mat[19] = Dummy_805*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3);
-             _data_mat[20] = Dummy_806*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3);
-             _data_mat[21] = Dummy_807*(basisTransformation.diagonal()(3)*basisTransformation.diagonal()(3));
-             _data_mat[22] = Dummy_808*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4);
-             _data_mat[23] = Dummy_809*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5);
-             _data_mat[24] = Dummy_810*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4);
-             _data_mat[25] = Dummy_811*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4);
-             _data_mat[26] = Dummy_812*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4);
-             _data_mat[27] = Dummy_813*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4);
-             _data_mat[28] = Dummy_814*(basisTransformation.diagonal()(4)*basisTransformation.diagonal()(4));
-             _data_mat[29] = Dummy_815*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5);
-             _data_mat[30] = Dummy_816*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5);
-             _data_mat[31] = Dummy_817*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5);
-             _data_mat[32] = Dummy_818*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5);
-             _data_mat[33] = Dummy_819*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5);
-             _data_mat[34] = Dummy_820*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5);
-             _data_mat[35] = Dummy_821*(basisTransformation.diagonal()(5)*basisTransformation.diagonal()(5));
+             _data_mat[0] = ((real_t)(Dummy_786*(basisTransformation.diagonal()(0)*basisTransformation.diagonal()(0))));
+             _data_mat[1] = ((real_t)(Dummy_787*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1)));
+             _data_mat[2] = ((real_t)(Dummy_788*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2)));
+             _data_mat[3] = ((real_t)(Dummy_789*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3)));
+             _data_mat[4] = ((real_t)(Dummy_790*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4)));
+             _data_mat[5] = ((real_t)(Dummy_791*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5)));
+             _data_mat[6] = ((real_t)(Dummy_792*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(1)));
+             _data_mat[7] = ((real_t)(Dummy_793*(basisTransformation.diagonal()(1)*basisTransformation.diagonal()(1))));
+             _data_mat[8] = ((real_t)(Dummy_794*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2)));
+             _data_mat[9] = ((real_t)(Dummy_795*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3)));
+             _data_mat[10] = ((real_t)(Dummy_796*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4)));
+             _data_mat[11] = ((real_t)(Dummy_797*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5)));
+             _data_mat[12] = ((real_t)(Dummy_798*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(2)));
+             _data_mat[13] = ((real_t)(Dummy_799*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(2)));
+             _data_mat[14] = ((real_t)(Dummy_800*(basisTransformation.diagonal()(2)*basisTransformation.diagonal()(2))));
+             _data_mat[15] = ((real_t)(Dummy_801*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3)));
+             _data_mat[16] = ((real_t)(Dummy_802*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4)));
+             _data_mat[17] = ((real_t)(Dummy_803*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5)));
+             _data_mat[18] = ((real_t)(Dummy_804*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(3)));
+             _data_mat[19] = ((real_t)(Dummy_805*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(3)));
+             _data_mat[20] = ((real_t)(Dummy_806*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(3)));
+             _data_mat[21] = ((real_t)(Dummy_807*(basisTransformation.diagonal()(3)*basisTransformation.diagonal()(3))));
+             _data_mat[22] = ((real_t)(Dummy_808*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4)));
+             _data_mat[23] = ((real_t)(Dummy_809*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5)));
+             _data_mat[24] = ((real_t)(Dummy_810*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(4)));
+             _data_mat[25] = ((real_t)(Dummy_811*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(4)));
+             _data_mat[26] = ((real_t)(Dummy_812*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(4)));
+             _data_mat[27] = ((real_t)(Dummy_813*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(4)));
+             _data_mat[28] = ((real_t)(Dummy_814*(basisTransformation.diagonal()(4)*basisTransformation.diagonal()(4))));
+             _data_mat[29] = ((real_t)(Dummy_815*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5)));
+             _data_mat[30] = ((real_t)(Dummy_816*basisTransformation.diagonal()(0)*basisTransformation.diagonal()(5)));
+             _data_mat[31] = ((real_t)(Dummy_817*basisTransformation.diagonal()(1)*basisTransformation.diagonal()(5)));
+             _data_mat[32] = ((real_t)(Dummy_818*basisTransformation.diagonal()(2)*basisTransformation.diagonal()(5)));
+             _data_mat[33] = ((real_t)(Dummy_819*basisTransformation.diagonal()(3)*basisTransformation.diagonal()(5)));
+             _data_mat[34] = ((real_t)(Dummy_820*basisTransformation.diagonal()(4)*basisTransformation.diagonal()(5)));
+             _data_mat[35] = ((real_t)(Dummy_821*(basisTransformation.diagonal()(5)*basisTransformation.diagonal()(5))));
          
          
              mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );

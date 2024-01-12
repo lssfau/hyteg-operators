@@ -26,21 +26,21 @@
 
 #pragma once
 
+#include "hyteg/communication/Syncing.hpp"
+
 #include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
+
+#include "hyteg/operators/Operator.hpp"
+
+#include "hyteg/p1functionspace/P1Function.hpp"
+
+#include "hyteg/solvers/Smoothables.hpp"
 
 #include "hyteg/primitivestorage/PrimitiveStorage.hpp"
 
 #include "core/DataTypes.h"
 
 #include "hyteg/LikwidWrapper.hpp"
-
-#include "hyteg/p1functionspace/P1Function.hpp"
-
-#include "hyteg/solvers/Smoothables.hpp"
-
-#include "hyteg/communication/Syncing.hpp"
-
-#include "hyteg/operators/Operator.hpp"
 
 #include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
 
@@ -115,14 +115,16 @@ private:
   /// ------  ------  ------  ------  -----  -------------  ----------------
   /// -------------
   ///     23      29       2       0      1              0                 0 3
-  void toMatrix_macro_2D(
-      int64_t *RESTRICT _data_dst, int64_t *RESTRICT _data_src,
-      double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1,
-      double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1,
-      double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1,
-      std::shared_ptr<SparseMatrixProxy> mat,
-      int64_t micro_edges_per_macro_edge,
-      double micro_edges_per_macro_edge_float) const;
+  void toMatrix_macro_2D(idx_t *RESTRICT _data_dst, idx_t *RESTRICT _data_src,
+                         double macro_vertex_coord_id_0comp0,
+                         double macro_vertex_coord_id_0comp1,
+                         double macro_vertex_coord_id_1comp0,
+                         double macro_vertex_coord_id_1comp1,
+                         double macro_vertex_coord_id_2comp0,
+                         double macro_vertex_coord_id_2comp1,
+                         std::shared_ptr<SparseMatrixProxy> mat,
+                         int64_t micro_edges_per_macro_edge,
+                         double micro_edges_per_macro_edge_float) const;
   /// Kernel type: toMatrix
   /// - quadrature rule: Xiao-Gimbutas | points: 1, degree: 1
   /// - operations per element:
@@ -132,7 +134,7 @@ private:
   /// -------------
   ///     73      84       2       0      1              0                 0 3
   void toMatrix_macro_3D(
-      int64_t *RESTRICT _data_dst, int64_t *RESTRICT _data_src,
+      idx_t *RESTRICT _data_dst, idx_t *RESTRICT _data_src,
       double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1,
       double macro_vertex_coord_id_0comp2, double macro_vertex_coord_id_1comp0,
       double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_1comp2,

@@ -26,23 +26,23 @@
 
 #pragma once
 
-#include "hyteg/n1e1functionspace/N1E1VectorFunction.hpp"
+#include "hyteg/n1e1functionspace/N1E1MacroCell.hpp"
+
+#include "hyteg/communication/Syncing.hpp"
 
 #include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
+
+#include "hyteg/operators/Operator.hpp"
+
+#include "hyteg/solvers/Smoothables.hpp"
 
 #include "hyteg/primitivestorage/PrimitiveStorage.hpp"
 
 #include "core/DataTypes.h"
 
-#include "hyteg/n1e1functionspace/N1E1MacroCell.hpp"
+#include "hyteg/n1e1functionspace/N1E1VectorFunction.hpp"
 
 #include "hyteg/LikwidWrapper.hpp"
-
-#include "hyteg/solvers/Smoothables.hpp"
-
-#include "hyteg/communication/Syncing.hpp"
-
-#include "hyteg/operators/Operator.hpp"
 
 #include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
 
@@ -103,8 +103,8 @@ private:
   /// -------------
   ///     89     202       2       0      1              0                 0 3
   void toMatrix_macro_3D(
-      int64_t *RESTRICT _data_dst, int64_t *RESTRICT _data_src,
-      const Cell &cell, const uint_t level, double macro_vertex_coord_id_0comp0,
+      idx_t *RESTRICT _data_dst, idx_t *RESTRICT _data_src, const Cell &cell,
+      const uint_t level, double macro_vertex_coord_id_0comp0,
       double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_0comp2,
       double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1,
       double macro_vertex_coord_id_1comp2, double macro_vertex_coord_id_2comp0,

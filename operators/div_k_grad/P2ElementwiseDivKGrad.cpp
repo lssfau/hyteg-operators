@@ -64,7 +64,7 @@ inline void P2ElementwiseDivKGrad::apply(const P2Function<double> &src,
     // However, we must not zero out anything that is not flagged with the
     // specified BCs. Therefore, we first zero out everything that flagged, and
     // then, later, the halos of the highest dim primitives.
-    dst.interpolate(real_c(0), level, flag);
+    dst.interpolate(walberla::numeric_cast<double>(0), level, flag);
   }
 
   if (storage_->hasGlobalCells()) {
@@ -99,40 +99,40 @@ inline void P2ElementwiseDivKGrad::apply(const P2Function<double> &src,
         if (!vertexdof::macrocell::isOnCellFace(idx, level).empty()) {
           auto arrayIdx =
               vertexdof::macrocell::index(level, idx.x(), idx.y(), idx.z());
-          _data_dstVertex[arrayIdx] = real_c(0);
+          _data_dstVertex[arrayIdx] = double(0);
         }
       }
-      for (const auto &idx : edgedof::macrocell::Iterator(level)) {
-        for (const auto &orientation :
-             edgedof::allEdgeDoFOrientationsWithoutXYZ) {
-          if (!edgedof::macrocell::isInnerEdgeDoF(level, idx, orientation)) {
-            auto arrayIdx = edgedof::macrocell::index(level, idx.x(), idx.y(),
-                                                      idx.z(), orientation);
-            _data_dstEdge[arrayIdx] = real_c(0);
-          }
-        }
-      }
+      edgedof::macrocell::setBoundaryToZero(
+          level, cell, dst.getEdgeDoFFunction().getCellDataID());
 
       const auto micro_edges_per_macro_edge =
           (int64_t)levelinfo::num_microedges_per_edge(level);
       const auto micro_edges_per_macro_edge_float =
           (double)levelinfo::num_microedges_per_edge(level);
-      const auto micro_edges_per_macro_face =
-          (int64_t)levelinfo::num_microedges_per_face(level);
-      const auto micro_edges_per_macro_face_float =
-          (double)levelinfo::num_microedges_per_face(level);
-      const double macro_vertex_coord_id_0comp0 = cell.getCoordinates()[0][0];
-      const double macro_vertex_coord_id_0comp1 = cell.getCoordinates()[0][1];
-      const double macro_vertex_coord_id_0comp2 = cell.getCoordinates()[0][2];
-      const double macro_vertex_coord_id_1comp0 = cell.getCoordinates()[1][0];
-      const double macro_vertex_coord_id_1comp1 = cell.getCoordinates()[1][1];
-      const double macro_vertex_coord_id_1comp2 = cell.getCoordinates()[1][2];
-      const double macro_vertex_coord_id_2comp0 = cell.getCoordinates()[2][0];
-      const double macro_vertex_coord_id_2comp1 = cell.getCoordinates()[2][1];
-      const double macro_vertex_coord_id_2comp2 = cell.getCoordinates()[2][2];
-      const double macro_vertex_coord_id_3comp0 = cell.getCoordinates()[3][0];
-      const double macro_vertex_coord_id_3comp1 = cell.getCoordinates()[3][1];
-      const double macro_vertex_coord_id_3comp2 = cell.getCoordinates()[3][2];
+      const double macro_vertex_coord_id_0comp0 =
+          (double)cell.getCoordinates()[0][0];
+      const double macro_vertex_coord_id_0comp1 =
+          (double)cell.getCoordinates()[0][1];
+      const double macro_vertex_coord_id_0comp2 =
+          (double)cell.getCoordinates()[0][2];
+      const double macro_vertex_coord_id_1comp0 =
+          (double)cell.getCoordinates()[1][0];
+      const double macro_vertex_coord_id_1comp1 =
+          (double)cell.getCoordinates()[1][1];
+      const double macro_vertex_coord_id_1comp2 =
+          (double)cell.getCoordinates()[1][2];
+      const double macro_vertex_coord_id_2comp0 =
+          (double)cell.getCoordinates()[2][0];
+      const double macro_vertex_coord_id_2comp1 =
+          (double)cell.getCoordinates()[2][1];
+      const double macro_vertex_coord_id_2comp2 =
+          (double)cell.getCoordinates()[2][2];
+      const double macro_vertex_coord_id_3comp0 =
+          (double)cell.getCoordinates()[3][0];
+      const double macro_vertex_coord_id_3comp1 =
+          (double)cell.getCoordinates()[3][1];
+      const double macro_vertex_coord_id_3comp2 =
+          (double)cell.getCoordinates()[3][2];
 
       apply_macro_3D(
 
@@ -193,7 +193,7 @@ inline void P2ElementwiseDivKGrad::apply(const P2Function<double> &src,
       for (const auto &idx : vertexdof::macroface::Iterator(level)) {
         if (vertexdof::macroface::isVertexOnBoundary(level, idx)) {
           auto arrayIdx = vertexdof::macroface::index(level, idx.x(), idx.y());
-          _data_dstVertex[arrayIdx] = real_c(0);
+          _data_dstVertex[arrayIdx] = walberla::numeric_cast<double>(0);
         }
       }
       for (const auto &idx : edgedof::macroface::Iterator(level)) {
@@ -201,7 +201,7 @@ inline void P2ElementwiseDivKGrad::apply(const P2Function<double> &src,
           if (!edgedof::macroface::isInnerEdgeDoF(level, idx, orientation)) {
             auto arrayIdx =
                 edgedof::macroface::index(level, idx.x(), idx.y(), orientation);
-            _data_dstEdge[arrayIdx] = real_c(0);
+            _data_dstEdge[arrayIdx] = walberla::numeric_cast<double>(0);
           }
         }
       }
@@ -210,16 +210,18 @@ inline void P2ElementwiseDivKGrad::apply(const P2Function<double> &src,
           (int64_t)levelinfo::num_microedges_per_edge(level);
       const auto micro_edges_per_macro_edge_float =
           (double)levelinfo::num_microedges_per_edge(level);
-      const auto micro_edges_per_macro_face =
-          (int64_t)levelinfo::num_microedges_per_face(level);
-      const auto micro_edges_per_macro_face_float =
-          (double)levelinfo::num_microedges_per_face(level);
-      const double macro_vertex_coord_id_0comp0 = face.getCoordinates()[0][0];
-      const double macro_vertex_coord_id_0comp1 = face.getCoordinates()[0][1];
-      const double macro_vertex_coord_id_1comp0 = face.getCoordinates()[1][0];
-      const double macro_vertex_coord_id_1comp1 = face.getCoordinates()[1][1];
-      const double macro_vertex_coord_id_2comp0 = face.getCoordinates()[2][0];
-      const double macro_vertex_coord_id_2comp1 = face.getCoordinates()[2][1];
+      const double macro_vertex_coord_id_0comp0 =
+          (double)face.getCoordinates()[0][0];
+      const double macro_vertex_coord_id_0comp1 =
+          (double)face.getCoordinates()[0][1];
+      const double macro_vertex_coord_id_1comp0 =
+          (double)face.getCoordinates()[1][0];
+      const double macro_vertex_coord_id_1comp1 =
+          (double)face.getCoordinates()[1][1];
+      const double macro_vertex_coord_id_2comp0 =
+          (double)face.getCoordinates()[2][0];
+      const double macro_vertex_coord_id_2comp1 =
+          (double)face.getCoordinates()[2][1];
 
       apply_macro_2D(
 
@@ -228,7 +230,7 @@ inline void P2ElementwiseDivKGrad::apply(const P2Function<double> &src,
           macro_vertex_coord_id_0comp1, macro_vertex_coord_id_1comp0,
           macro_vertex_coord_id_1comp1, macro_vertex_coord_id_2comp0,
           macro_vertex_coord_id_2comp1, micro_edges_per_macro_edge,
-          micro_edges_per_macro_edge_float, micro_edges_per_macro_face);
+          micro_edges_per_macro_edge_float);
     }
 
     // Push result to lower-dimensional primitives
@@ -284,22 +286,30 @@ inline void P2ElementwiseDivKGrad::toMatrix(
           (int64_t)levelinfo::num_microedges_per_edge(level);
       const auto micro_edges_per_macro_edge_float =
           (double)levelinfo::num_microedges_per_edge(level);
-      const auto micro_edges_per_macro_face =
-          (int64_t)levelinfo::num_microedges_per_face(level);
-      const auto micro_edges_per_macro_face_float =
-          (double)levelinfo::num_microedges_per_face(level);
-      const double macro_vertex_coord_id_0comp0 = cell.getCoordinates()[0][0];
-      const double macro_vertex_coord_id_0comp1 = cell.getCoordinates()[0][1];
-      const double macro_vertex_coord_id_0comp2 = cell.getCoordinates()[0][2];
-      const double macro_vertex_coord_id_1comp0 = cell.getCoordinates()[1][0];
-      const double macro_vertex_coord_id_1comp1 = cell.getCoordinates()[1][1];
-      const double macro_vertex_coord_id_1comp2 = cell.getCoordinates()[1][2];
-      const double macro_vertex_coord_id_2comp0 = cell.getCoordinates()[2][0];
-      const double macro_vertex_coord_id_2comp1 = cell.getCoordinates()[2][1];
-      const double macro_vertex_coord_id_2comp2 = cell.getCoordinates()[2][2];
-      const double macro_vertex_coord_id_3comp0 = cell.getCoordinates()[3][0];
-      const double macro_vertex_coord_id_3comp1 = cell.getCoordinates()[3][1];
-      const double macro_vertex_coord_id_3comp2 = cell.getCoordinates()[3][2];
+      const double macro_vertex_coord_id_0comp0 =
+          (double)cell.getCoordinates()[0][0];
+      const double macro_vertex_coord_id_0comp1 =
+          (double)cell.getCoordinates()[0][1];
+      const double macro_vertex_coord_id_0comp2 =
+          (double)cell.getCoordinates()[0][2];
+      const double macro_vertex_coord_id_1comp0 =
+          (double)cell.getCoordinates()[1][0];
+      const double macro_vertex_coord_id_1comp1 =
+          (double)cell.getCoordinates()[1][1];
+      const double macro_vertex_coord_id_1comp2 =
+          (double)cell.getCoordinates()[1][2];
+      const double macro_vertex_coord_id_2comp0 =
+          (double)cell.getCoordinates()[2][0];
+      const double macro_vertex_coord_id_2comp1 =
+          (double)cell.getCoordinates()[2][1];
+      const double macro_vertex_coord_id_2comp2 =
+          (double)cell.getCoordinates()[2][2];
+      const double macro_vertex_coord_id_3comp0 =
+          (double)cell.getCoordinates()[3][0];
+      const double macro_vertex_coord_id_3comp1 =
+          (double)cell.getCoordinates()[3][1];
+      const double macro_vertex_coord_id_3comp2 =
+          (double)cell.getCoordinates()[3][2];
 
       toMatrix_macro_3D(
 
@@ -343,16 +353,18 @@ inline void P2ElementwiseDivKGrad::toMatrix(
           (int64_t)levelinfo::num_microedges_per_edge(level);
       const auto micro_edges_per_macro_edge_float =
           (double)levelinfo::num_microedges_per_edge(level);
-      const auto micro_edges_per_macro_face =
-          (int64_t)levelinfo::num_microedges_per_face(level);
-      const auto micro_edges_per_macro_face_float =
-          (double)levelinfo::num_microedges_per_face(level);
-      const double macro_vertex_coord_id_0comp0 = face.getCoordinates()[0][0];
-      const double macro_vertex_coord_id_0comp1 = face.getCoordinates()[0][1];
-      const double macro_vertex_coord_id_1comp0 = face.getCoordinates()[1][0];
-      const double macro_vertex_coord_id_1comp1 = face.getCoordinates()[1][1];
-      const double macro_vertex_coord_id_2comp0 = face.getCoordinates()[2][0];
-      const double macro_vertex_coord_id_2comp1 = face.getCoordinates()[2][1];
+      const double macro_vertex_coord_id_0comp0 =
+          (double)face.getCoordinates()[0][0];
+      const double macro_vertex_coord_id_0comp1 =
+          (double)face.getCoordinates()[0][1];
+      const double macro_vertex_coord_id_1comp0 =
+          (double)face.getCoordinates()[1][0];
+      const double macro_vertex_coord_id_1comp1 =
+          (double)face.getCoordinates()[1][1];
+      const double macro_vertex_coord_id_2comp0 =
+          (double)face.getCoordinates()[2][0];
+      const double macro_vertex_coord_id_2comp1 =
+          (double)face.getCoordinates()[2][1];
 
       toMatrix_macro_2D(
 
@@ -361,7 +373,7 @@ inline void P2ElementwiseDivKGrad::toMatrix(
           macro_vertex_coord_id_0comp1, macro_vertex_coord_id_1comp0,
           macro_vertex_coord_id_1comp1, macro_vertex_coord_id_2comp0,
           macro_vertex_coord_id_2comp1, mat, micro_edges_per_macro_edge,
-          micro_edges_per_macro_edge_float, micro_edges_per_macro_face);
+          micro_edges_per_macro_edge_float);
     }
   }
 }
@@ -400,22 +412,30 @@ void P2ElementwiseDivKGrad::computeInverseDiagonalOperatorValues() {
             (int64_t)levelinfo::num_microedges_per_edge(level);
         const auto micro_edges_per_macro_edge_float =
             (double)levelinfo::num_microedges_per_edge(level);
-        const auto micro_edges_per_macro_face =
-            (int64_t)levelinfo::num_microedges_per_face(level);
-        const auto micro_edges_per_macro_face_float =
-            (double)levelinfo::num_microedges_per_face(level);
-        const double macro_vertex_coord_id_0comp0 = cell.getCoordinates()[0][0];
-        const double macro_vertex_coord_id_0comp1 = cell.getCoordinates()[0][1];
-        const double macro_vertex_coord_id_0comp2 = cell.getCoordinates()[0][2];
-        const double macro_vertex_coord_id_1comp0 = cell.getCoordinates()[1][0];
-        const double macro_vertex_coord_id_1comp1 = cell.getCoordinates()[1][1];
-        const double macro_vertex_coord_id_1comp2 = cell.getCoordinates()[1][2];
-        const double macro_vertex_coord_id_2comp0 = cell.getCoordinates()[2][0];
-        const double macro_vertex_coord_id_2comp1 = cell.getCoordinates()[2][1];
-        const double macro_vertex_coord_id_2comp2 = cell.getCoordinates()[2][2];
-        const double macro_vertex_coord_id_3comp0 = cell.getCoordinates()[3][0];
-        const double macro_vertex_coord_id_3comp1 = cell.getCoordinates()[3][1];
-        const double macro_vertex_coord_id_3comp2 = cell.getCoordinates()[3][2];
+        const double macro_vertex_coord_id_0comp0 =
+            (double)cell.getCoordinates()[0][0];
+        const double macro_vertex_coord_id_0comp1 =
+            (double)cell.getCoordinates()[0][1];
+        const double macro_vertex_coord_id_0comp2 =
+            (double)cell.getCoordinates()[0][2];
+        const double macro_vertex_coord_id_1comp0 =
+            (double)cell.getCoordinates()[1][0];
+        const double macro_vertex_coord_id_1comp1 =
+            (double)cell.getCoordinates()[1][1];
+        const double macro_vertex_coord_id_1comp2 =
+            (double)cell.getCoordinates()[1][2];
+        const double macro_vertex_coord_id_2comp0 =
+            (double)cell.getCoordinates()[2][0];
+        const double macro_vertex_coord_id_2comp1 =
+            (double)cell.getCoordinates()[2][1];
+        const double macro_vertex_coord_id_2comp2 =
+            (double)cell.getCoordinates()[2][2];
+        const double macro_vertex_coord_id_3comp0 =
+            (double)cell.getCoordinates()[3][0];
+        const double macro_vertex_coord_id_3comp1 =
+            (double)cell.getCoordinates()[3][1];
+        const double macro_vertex_coord_id_3comp2 =
+            (double)cell.getCoordinates()[3][2];
 
         computeInverseDiagonalOperatorValues_macro_3D(
 
@@ -468,16 +488,18 @@ void P2ElementwiseDivKGrad::computeInverseDiagonalOperatorValues() {
             (int64_t)levelinfo::num_microedges_per_edge(level);
         const auto micro_edges_per_macro_edge_float =
             (double)levelinfo::num_microedges_per_edge(level);
-        const auto micro_edges_per_macro_face =
-            (int64_t)levelinfo::num_microedges_per_face(level);
-        const auto micro_edges_per_macro_face_float =
-            (double)levelinfo::num_microedges_per_face(level);
-        const double macro_vertex_coord_id_0comp0 = face.getCoordinates()[0][0];
-        const double macro_vertex_coord_id_0comp1 = face.getCoordinates()[0][1];
-        const double macro_vertex_coord_id_1comp0 = face.getCoordinates()[1][0];
-        const double macro_vertex_coord_id_1comp1 = face.getCoordinates()[1][1];
-        const double macro_vertex_coord_id_2comp0 = face.getCoordinates()[2][0];
-        const double macro_vertex_coord_id_2comp1 = face.getCoordinates()[2][1];
+        const double macro_vertex_coord_id_0comp0 =
+            (double)face.getCoordinates()[0][0];
+        const double macro_vertex_coord_id_0comp1 =
+            (double)face.getCoordinates()[0][1];
+        const double macro_vertex_coord_id_1comp0 =
+            (double)face.getCoordinates()[1][0];
+        const double macro_vertex_coord_id_1comp1 =
+            (double)face.getCoordinates()[1][1];
+        const double macro_vertex_coord_id_2comp0 =
+            (double)face.getCoordinates()[2][0];
+        const double macro_vertex_coord_id_2comp1 =
+            (double)face.getCoordinates()[2][1];
 
         computeInverseDiagonalOperatorValues_macro_2D(
 
@@ -486,7 +508,7 @@ void P2ElementwiseDivKGrad::computeInverseDiagonalOperatorValues() {
             macro_vertex_coord_id_0comp1, macro_vertex_coord_id_1comp0,
             macro_vertex_coord_id_1comp1, macro_vertex_coord_id_2comp0,
             macro_vertex_coord_id_2comp1, micro_edges_per_macro_edge,
-            micro_edges_per_macro_edge_float, micro_edges_per_macro_face);
+            micro_edges_per_macro_edge_float);
       }
 
       // Push result to lower-dimensional primitives
