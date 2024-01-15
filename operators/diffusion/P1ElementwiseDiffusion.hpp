@@ -26,23 +26,23 @@
 
 #pragma once
 
-#include "hyteg/communication/Syncing.hpp"
-
 #include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
+
+#include "core/DataTypes.h"
 
 #include "hyteg/operators/Operator.hpp"
 
 #include "hyteg/p1functionspace/P1Function.hpp"
 
+#include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
+
 #include "hyteg/solvers/Smoothables.hpp"
-
-#include "hyteg/primitivestorage/PrimitiveStorage.hpp"
-
-#include "core/DataTypes.h"
 
 #include "hyteg/LikwidWrapper.hpp"
 
-#include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
+#include "hyteg/primitivestorage/PrimitiveStorage.hpp"
+
+#include "hyteg/communication/Syncing.hpp"
 
 #define FUNC_PREFIX
 

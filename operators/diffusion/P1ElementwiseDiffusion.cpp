@@ -24,6 +24,21 @@
  * Avoid modifying this file. If buggy, consider fixing the generator itself.
  */
 
+// Unfortunately, the inverse diagonal kernel wrapper triggers a GCC bug (maybe
+// (related to) https://gcc.gnu.org/bugzilla/show_bug.cgi?id=107087) causing a
+// warning in an internal standard library header (bits/stl_algobase.h). As a
+// workaround, we disable the warning and include this header indirectly through
+// a public header.
+#include <waLBerlaDefinitions.h>
+#ifdef WALBERLA_CXX_COMPILER_IS_GNU
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnonnull"
+#endif
+#include <cmath>
+#ifdef WALBERLA_CXX_COMPILER_IS_GNU
+#pragma GCC diagnostic pop
+#endif
+
 #include "P1ElementwiseDiffusion.hpp"
 
 #define FUNC_PREFIX
