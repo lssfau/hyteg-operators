@@ -90,7 +90,7 @@ def generate_cmake(
         print(f")", file=f)
         print(f"", file=f)
 
-        print(f"if(HYTEG_BUILD_WITH_AVX)", file=f)
+        print(f"if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)", file=f)
         print(f"   target_sources({lib_name} PRIVATE", file=f)
         print(f"", file=f)
 
@@ -113,6 +113,14 @@ def generate_cmake(
 
         print(f"   )", file=f)
         print(f"else()", file=f)
+        print(f"   if(HYTEG_BUILD_WITH_AVX AND NOT WALBERLA_DOUBLE_ACCURACY)", file=f)
+        print(
+            f'      message(WARNING "AVX vectorization only available in double precision. Using scalar kernels.")',
+            file=f,
+        )
+        print(f"   endif()", file=f)
+        print(f"", file=f)
+
         print(f"   target_sources({lib_name} PRIVATE", file=f)
         print(f"", file=f)
 
