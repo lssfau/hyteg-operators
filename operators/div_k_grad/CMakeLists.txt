@@ -6,7 +6,7 @@ add_library( opgen-div_k_grad
    P2ElementwiseDivKGrad.hpp
 )
 
-if(HYTEG_BUILD_WITH_AVX)
+if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-div_k_grad PRIVATE
 
       avx/P1ElementwiseDivKGrad_apply_macro_2D.cpp
@@ -37,6 +37,10 @@ if(HYTEG_BUILD_WITH_AVX)
       PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
    )
 else()
+   if(HYTEG_BUILD_WITH_AVX AND NOT WALBERLA_DOUBLE_ACCURACY)
+      message(WARNING "AVX vectorization only available in double precision. Using scalar kernels.")
+   endif()
+
    target_sources(opgen-div_k_grad PRIVATE
 
       noarch/P1ElementwiseDivKGrad_apply_macro_2D.cpp

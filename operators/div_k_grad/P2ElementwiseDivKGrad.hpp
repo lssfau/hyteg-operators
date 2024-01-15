@@ -26,23 +26,23 @@
 
 #pragma once
 
-#include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
+#include "hyteg/p2functionspace/P2Function.hpp"
 
 #include "core/DataTypes.h"
 
-#include "hyteg/p2functionspace/P2Function.hpp"
+#include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
 
-#include "hyteg/operators/Operator.hpp"
-
-#include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
-
-#include "hyteg/solvers/Smoothables.hpp"
+#include "hyteg/communication/Syncing.hpp"
 
 #include "hyteg/LikwidWrapper.hpp"
 
+#include "hyteg/operators/Operator.hpp"
+
+#include "hyteg/solvers/Smoothables.hpp"
+
 #include "hyteg/primitivestorage/PrimitiveStorage.hpp"
 
-#include "hyteg/communication/Syncing.hpp"
+#include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
 
 #define FUNC_PREFIX
 
@@ -51,15 +51,15 @@ namespace hyteg {
 namespace operatorgeneration {
 
 class P2ElementwiseDivKGrad
-    : public Operator<P2Function<double>, P2Function<double>>,
-      public OperatorWithInverseDiagonal<P2Function<double>> {
+    : public Operator<P2Function<real_t>, P2Function<real_t>>,
+      public OperatorWithInverseDiagonal<P2Function<real_t>> {
 public:
   P2ElementwiseDivKGrad(const std::shared_ptr<PrimitiveStorage> &storage,
                         size_t minLevel, size_t maxLevel,
-                        const P2Function<double> &_k);
+                        const P2Function<real_t> &_k);
 
-  inline void apply(const P2Function<double> &src,
-                    const P2Function<double> &dst, uint_t level, DoFType flag,
+  inline void apply(const P2Function<real_t> &src,
+                    const P2Function<real_t> &dst, uint_t level, DoFType flag,
                     UpdateType updateType = Replace) const;
 
   inline void toMatrix(const std::shared_ptr<SparseMatrixProxy> &mat,
@@ -69,7 +69,7 @@ public:
 
   void computeInverseDiagonalOperatorValues();
 
-  std::shared_ptr<P2Function<double>> getInverseDiagonalValues() const;
+  std::shared_ptr<P2Function<real_t>> getInverseDiagonalValues() const;
 
 protected:
 private:
@@ -82,14 +82,14 @@ private:
   /// -------------
   ///    307     433      12       0      1              0                 0 0
   void apply_macro_2D(
-      double *RESTRICT _data_dstEdge, double *RESTRICT _data_dstVertex,
-      double *RESTRICT _data_kEdge, double *RESTRICT _data_kVertex,
-      double *RESTRICT _data_srcEdge, double *RESTRICT _data_srcVertex,
-      double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1,
-      double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1,
-      double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1,
+      real_t *RESTRICT _data_dstEdge, real_t *RESTRICT _data_dstVertex,
+      real_t *RESTRICT _data_kEdge, real_t *RESTRICT _data_kVertex,
+      real_t *RESTRICT _data_srcEdge, real_t *RESTRICT _data_srcVertex,
+      real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1,
+      real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1,
+      real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1,
       int64_t micro_edges_per_macro_edge,
-      double micro_edges_per_macro_edge_float) const;
+      real_t micro_edges_per_macro_edge_float) const;
   /// Kernel type: apply
   /// - quadrature rule: Xiao-Gimbutas | points: 4, degree: 2
   /// - operations per element:
@@ -99,17 +99,17 @@ private:
   /// -------------
   ///   1314    1736      30       0      1              0                 0 0
   void apply_macro_3D(
-      double *RESTRICT _data_dstEdge, double *RESTRICT _data_dstVertex,
-      double *RESTRICT _data_kEdge, double *RESTRICT _data_kVertex,
-      double *RESTRICT _data_srcEdge, double *RESTRICT _data_srcVertex,
-      double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1,
-      double macro_vertex_coord_id_0comp2, double macro_vertex_coord_id_1comp0,
-      double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_1comp2,
-      double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1,
-      double macro_vertex_coord_id_2comp2, double macro_vertex_coord_id_3comp0,
-      double macro_vertex_coord_id_3comp1, double macro_vertex_coord_id_3comp2,
+      real_t *RESTRICT _data_dstEdge, real_t *RESTRICT _data_dstVertex,
+      real_t *RESTRICT _data_kEdge, real_t *RESTRICT _data_kVertex,
+      real_t *RESTRICT _data_srcEdge, real_t *RESTRICT _data_srcVertex,
+      real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1,
+      real_t macro_vertex_coord_id_0comp2, real_t macro_vertex_coord_id_1comp0,
+      real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_1comp2,
+      real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1,
+      real_t macro_vertex_coord_id_2comp2, real_t macro_vertex_coord_id_3comp0,
+      real_t macro_vertex_coord_id_3comp1, real_t macro_vertex_coord_id_3comp2,
       int64_t micro_edges_per_macro_edge,
-      double micro_edges_per_macro_edge_float) const;
+      real_t micro_edges_per_macro_edge_float) const;
   /// Kernel type: toMatrix
   /// - quadrature rule: Xiao-Gimbutas | points: 3, degree: 2
   /// - operations per element:
@@ -120,14 +120,14 @@ private:
   ///    271     397      12       0      1              0                 0 3
   void toMatrix_macro_2D(
       idx_t *RESTRICT _data_dstEdge, idx_t *RESTRICT _data_dstVertex,
-      double *RESTRICT _data_kEdge, double *RESTRICT _data_kVertex,
+      real_t *RESTRICT _data_kEdge, real_t *RESTRICT _data_kVertex,
       idx_t *RESTRICT _data_srcEdge, idx_t *RESTRICT _data_srcVertex,
-      double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1,
-      double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1,
-      double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1,
+      real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1,
+      real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1,
+      real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1,
       std::shared_ptr<SparseMatrixProxy> mat,
       int64_t micro_edges_per_macro_edge,
-      double micro_edges_per_macro_edge_float) const;
+      real_t micro_edges_per_macro_edge_float) const;
   /// Kernel type: toMatrix
   /// - quadrature rule: Xiao-Gimbutas | points: 4, degree: 2
   /// - operations per element:
@@ -138,17 +138,17 @@ private:
   ///   1214    1636      30       0      1              0                 0 3
   void toMatrix_macro_3D(
       idx_t *RESTRICT _data_dstEdge, idx_t *RESTRICT _data_dstVertex,
-      double *RESTRICT _data_kEdge, double *RESTRICT _data_kVertex,
+      real_t *RESTRICT _data_kEdge, real_t *RESTRICT _data_kVertex,
       idx_t *RESTRICT _data_srcEdge, idx_t *RESTRICT _data_srcVertex,
-      double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1,
-      double macro_vertex_coord_id_0comp2, double macro_vertex_coord_id_1comp0,
-      double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_1comp2,
-      double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1,
-      double macro_vertex_coord_id_2comp2, double macro_vertex_coord_id_3comp0,
-      double macro_vertex_coord_id_3comp1, double macro_vertex_coord_id_3comp2,
+      real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1,
+      real_t macro_vertex_coord_id_0comp2, real_t macro_vertex_coord_id_1comp0,
+      real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_1comp2,
+      real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1,
+      real_t macro_vertex_coord_id_2comp2, real_t macro_vertex_coord_id_3comp0,
+      real_t macro_vertex_coord_id_3comp1, real_t macro_vertex_coord_id_3comp2,
       std::shared_ptr<SparseMatrixProxy> mat,
       int64_t micro_edges_per_macro_edge,
-      double micro_edges_per_macro_edge_float) const;
+      real_t micro_edges_per_macro_edge_float) const;
   /// Kernel type: computeInverseDiagonalOperatorValues
   /// - quadrature rule: Xiao-Gimbutas | points: 3, degree: 2
   /// - operations per element:
@@ -158,13 +158,13 @@ private:
   /// -------------
   ///    187     238      12       0      1              0                 0 0
   void computeInverseDiagonalOperatorValues_macro_2D(
-      double *RESTRICT _data_invDiag_Edge,
-      double *RESTRICT _data_invDiag_Vertex, double *RESTRICT _data_kEdge,
-      double *RESTRICT _data_kVertex, double macro_vertex_coord_id_0comp0,
-      double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_1comp0,
-      double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_2comp0,
-      double macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge,
-      double micro_edges_per_macro_edge_float) const;
+      real_t *RESTRICT _data_invDiag_Edge,
+      real_t *RESTRICT _data_invDiag_Vertex, real_t *RESTRICT _data_kEdge,
+      real_t *RESTRICT _data_kVertex, real_t macro_vertex_coord_id_0comp0,
+      real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_1comp0,
+      real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_2comp0,
+      real_t macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge,
+      real_t micro_edges_per_macro_edge_float) const;
   /// Kernel type: computeInverseDiagonalOperatorValues
   /// - quadrature rule: Xiao-Gimbutas | points: 4, degree: 2
   /// - operations per element:
@@ -174,19 +174,19 @@ private:
   /// -------------
   ///    672     844      30       0      1              0                 0 0
   void computeInverseDiagonalOperatorValues_macro_3D(
-      double *RESTRICT _data_invDiag_Edge,
-      double *RESTRICT _data_invDiag_Vertex, double *RESTRICT _data_kEdge,
-      double *RESTRICT _data_kVertex, double macro_vertex_coord_id_0comp0,
-      double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_0comp2,
-      double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1,
-      double macro_vertex_coord_id_1comp2, double macro_vertex_coord_id_2comp0,
-      double macro_vertex_coord_id_2comp1, double macro_vertex_coord_id_2comp2,
-      double macro_vertex_coord_id_3comp0, double macro_vertex_coord_id_3comp1,
-      double macro_vertex_coord_id_3comp2, int64_t micro_edges_per_macro_edge,
-      double micro_edges_per_macro_edge_float) const;
+      real_t *RESTRICT _data_invDiag_Edge,
+      real_t *RESTRICT _data_invDiag_Vertex, real_t *RESTRICT _data_kEdge,
+      real_t *RESTRICT _data_kVertex, real_t macro_vertex_coord_id_0comp0,
+      real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_0comp2,
+      real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1,
+      real_t macro_vertex_coord_id_1comp2, real_t macro_vertex_coord_id_2comp0,
+      real_t macro_vertex_coord_id_2comp1, real_t macro_vertex_coord_id_2comp2,
+      real_t macro_vertex_coord_id_3comp0, real_t macro_vertex_coord_id_3comp1,
+      real_t macro_vertex_coord_id_3comp2, int64_t micro_edges_per_macro_edge,
+      real_t micro_edges_per_macro_edge_float) const;
 
-  std::shared_ptr<P2Function<double>> invDiag_;
-  P2Function<double> k;
+  std::shared_ptr<P2Function<real_t>> invDiag_;
+  P2Function<real_t> k;
 };
 
 } // namespace operatorgeneration

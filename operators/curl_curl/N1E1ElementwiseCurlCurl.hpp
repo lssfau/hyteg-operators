@@ -26,25 +26,25 @@
 
 #pragma once
 
-#include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
+#include "hyteg/n1e1functionspace/N1E1VectorFunction.hpp"
 
 #include "core/DataTypes.h"
 
+#include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
+
 #include "hyteg/n1e1functionspace/N1E1MacroCell.hpp"
 
-#include "hyteg/operators/Operator.hpp"
-
-#include "hyteg/n1e1functionspace/N1E1VectorFunction.hpp"
-
-#include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
-
-#include "hyteg/solvers/Smoothables.hpp"
+#include "hyteg/communication/Syncing.hpp"
 
 #include "hyteg/LikwidWrapper.hpp"
 
+#include "hyteg/operators/Operator.hpp"
+
+#include "hyteg/solvers/Smoothables.hpp"
+
 #include "hyteg/primitivestorage/PrimitiveStorage.hpp"
 
-#include "hyteg/communication/Syncing.hpp"
+#include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
 
 #define FUNC_PREFIX
 
@@ -53,15 +53,15 @@ namespace hyteg {
 namespace operatorgeneration {
 
 class N1E1ElementwiseCurlCurl
-    : public Operator<n1e1::N1E1VectorFunction<double>,
-                      n1e1::N1E1VectorFunction<double>>,
-      public OperatorWithInverseDiagonal<n1e1::N1E1VectorFunction<double>> {
+    : public Operator<n1e1::N1E1VectorFunction<real_t>,
+                      n1e1::N1E1VectorFunction<real_t>>,
+      public OperatorWithInverseDiagonal<n1e1::N1E1VectorFunction<real_t>> {
 public:
   N1E1ElementwiseCurlCurl(const std::shared_ptr<PrimitiveStorage> &storage,
                           size_t minLevel, size_t maxLevel);
 
-  inline void apply(const n1e1::N1E1VectorFunction<double> &src,
-                    const n1e1::N1E1VectorFunction<double> &dst, uint_t level,
+  inline void apply(const n1e1::N1E1VectorFunction<real_t> &src,
+                    const n1e1::N1E1VectorFunction<real_t> &dst, uint_t level,
                     DoFType flag, UpdateType updateType = Replace) const;
 
   inline void toMatrix(const std::shared_ptr<SparseMatrixProxy> &mat,
@@ -71,7 +71,7 @@ public:
 
   void computeInverseDiagonalOperatorValues();
 
-  std::shared_ptr<n1e1::N1E1VectorFunction<double>>
+  std::shared_ptr<n1e1::N1E1VectorFunction<real_t>>
   getInverseDiagonalValues() const;
 
 protected:
@@ -85,15 +85,15 @@ private:
   /// -------------
   ///    125     151       2       0      1              0                 0 0
   void apply_macro_3D(
-      double *RESTRICT _data_dst, double *RESTRICT _data_src,
-      double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1,
-      double macro_vertex_coord_id_0comp2, double macro_vertex_coord_id_1comp0,
-      double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_1comp2,
-      double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1,
-      double macro_vertex_coord_id_2comp2, double macro_vertex_coord_id_3comp0,
-      double macro_vertex_coord_id_3comp1, double macro_vertex_coord_id_3comp2,
+      real_t *RESTRICT _data_dst, real_t *RESTRICT _data_src,
+      real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1,
+      real_t macro_vertex_coord_id_0comp2, real_t macro_vertex_coord_id_1comp0,
+      real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_1comp2,
+      real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1,
+      real_t macro_vertex_coord_id_2comp2, real_t macro_vertex_coord_id_3comp0,
+      real_t macro_vertex_coord_id_3comp1, real_t macro_vertex_coord_id_3comp2,
       int64_t micro_edges_per_macro_edge,
-      double micro_edges_per_macro_edge_float) const;
+      real_t micro_edges_per_macro_edge_float) const;
   /// Kernel type: toMatrix
   /// - quadrature rule: Xiao-Gimbutas | points: 1, degree: 1
   /// - operations per element:
@@ -104,16 +104,16 @@ private:
   ///     89     202       2       0      1              0                 0 3
   void toMatrix_macro_3D(
       idx_t *RESTRICT _data_dst, idx_t *RESTRICT _data_src, const Cell &cell,
-      const uint_t level, double macro_vertex_coord_id_0comp0,
-      double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_0comp2,
-      double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1,
-      double macro_vertex_coord_id_1comp2, double macro_vertex_coord_id_2comp0,
-      double macro_vertex_coord_id_2comp1, double macro_vertex_coord_id_2comp2,
-      double macro_vertex_coord_id_3comp0, double macro_vertex_coord_id_3comp1,
-      double macro_vertex_coord_id_3comp2,
+      const uint_t level, real_t macro_vertex_coord_id_0comp0,
+      real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_0comp2,
+      real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1,
+      real_t macro_vertex_coord_id_1comp2, real_t macro_vertex_coord_id_2comp0,
+      real_t macro_vertex_coord_id_2comp1, real_t macro_vertex_coord_id_2comp2,
+      real_t macro_vertex_coord_id_3comp0, real_t macro_vertex_coord_id_3comp1,
+      real_t macro_vertex_coord_id_3comp2,
       std::shared_ptr<SparseMatrixProxy> mat,
       int64_t micro_edges_per_macro_edge,
-      double micro_edges_per_macro_edge_float) const;
+      real_t micro_edges_per_macro_edge_float) const;
   /// Kernel type: computeInverseDiagonalOperatorValues
   /// - quadrature rule: Xiao-Gimbutas | points: 1, degree: 1
   /// - operations per element:
@@ -123,16 +123,16 @@ private:
   /// -------------
   ///     65      64       2       0      1              0                 0 0
   void computeInverseDiagonalOperatorValues_macro_3D(
-      double *RESTRICT _data_invDiag_, double macro_vertex_coord_id_0comp0,
-      double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_0comp2,
-      double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1,
-      double macro_vertex_coord_id_1comp2, double macro_vertex_coord_id_2comp0,
-      double macro_vertex_coord_id_2comp1, double macro_vertex_coord_id_2comp2,
-      double macro_vertex_coord_id_3comp0, double macro_vertex_coord_id_3comp1,
-      double macro_vertex_coord_id_3comp2, int64_t micro_edges_per_macro_edge,
-      double micro_edges_per_macro_edge_float) const;
+      real_t *RESTRICT _data_invDiag_, real_t macro_vertex_coord_id_0comp0,
+      real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_0comp2,
+      real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1,
+      real_t macro_vertex_coord_id_1comp2, real_t macro_vertex_coord_id_2comp0,
+      real_t macro_vertex_coord_id_2comp1, real_t macro_vertex_coord_id_2comp2,
+      real_t macro_vertex_coord_id_3comp0, real_t macro_vertex_coord_id_3comp1,
+      real_t macro_vertex_coord_id_3comp2, int64_t micro_edges_per_macro_edge,
+      real_t micro_edges_per_macro_edge_float) const;
 
-  std::shared_ptr<n1e1::N1E1VectorFunction<double>> invDiag_;
+  std::shared_ptr<n1e1::N1E1VectorFunction<real_t>> invDiag_;
 };
 
 } // namespace operatorgeneration

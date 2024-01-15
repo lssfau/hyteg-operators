@@ -56,69 +56,69 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_2D( double * RESTRICT  _data_invDiag_, double * RESTRICT  _data_k, double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge, double micro_edges_per_macro_edge_float ) const
+void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_2D( real_t * RESTRICT  _data_invDiag_, real_t * RESTRICT  _data_k, real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge, real_t micro_edges_per_macro_edge_float ) const
 {
     {
-       const double _data_q_w [] = {0.166666666666667, 0.166666666666667, 0.166666666666667};
+       const real_t _data_q_w [] = {0.16666666666666674, 0.16666666666666674, 0.16666666666666674};
    
-       const double _data_q_p_0 [] = {0.166666666666667, 0.666666666666667, 0.166666666666667};
+       const real_t _data_q_p_0 [] = {0.16666666666666674, 0.66666666666666674, 0.16666666666666663};
    
-       const double _data_q_p_1 [] = {0.166666666666667, 0.166666666666667, 0.666666666666667};
+       const real_t _data_q_p_1 [] = {0.16666666666666663, 0.16666666666666663, 0.66666666666666685};
    
-       const double p_affine_0_0 = macro_vertex_coord_id_0comp0;
-       const double p_affine_0_1 = macro_vertex_coord_id_0comp1;
-       const double p_affine_1_0 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0;
-       const double p_affine_1_1 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0;
-       const double p_affine_2_0 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
-       const double p_affine_2_1 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0;
-       const double jac_affine_0_0 = -p_affine_0_0 + p_affine_1_0;
-       const double jac_affine_0_1 = -p_affine_0_0 + p_affine_2_0;
-       const double jac_affine_1_0 = -p_affine_0_1 + p_affine_1_1;
-       const double jac_affine_1_1 = -p_affine_0_1 + p_affine_2_1;
-       const double jac_affine_inv_0_0 = jac_affine_1_1*1.0 / (jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0);
-       const double jac_affine_inv_0_1 = -jac_affine_0_1*1.0 / (jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0);
-       const double jac_affine_inv_1_0 = -jac_affine_1_0*1.0 / (jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0);
-       const double jac_affine_inv_1_1 = jac_affine_0_0*1.0 / (jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0);
-       const double abs_det_jac_affine = fabs(jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0);
-       const double Dummy_3697 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0;
-       const double Dummy_3698 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0;
-       const double Dummy_3699 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
-       const double Dummy_3700 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0;
-       const double Dummy_3701 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
-       const double Dummy_3702 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0;
-       const double Dummy_3703 = -Dummy_3697 + Dummy_3699;
-       const double Dummy_3704 = -Dummy_3697 + Dummy_3701;
-       const double Dummy_3705 = -Dummy_3698 + Dummy_3700;
-       const double Dummy_3706 = -Dummy_3698 + Dummy_3702;
-       const double Dummy_3707 = Dummy_3706*1.0 / (Dummy_3703*Dummy_3706 - Dummy_3704*Dummy_3705);
-       const double Dummy_3708 = -Dummy_3704*1.0 / (Dummy_3703*Dummy_3706 - Dummy_3704*Dummy_3705);
-       const double Dummy_3709 = -Dummy_3705*1.0 / (Dummy_3703*Dummy_3706 - Dummy_3704*Dummy_3705);
-       const double Dummy_3710 = Dummy_3703*1.0 / (Dummy_3703*Dummy_3706 - Dummy_3704*Dummy_3705);
-       const double Dummy_3711 = fabs(Dummy_3703*Dummy_3706 - Dummy_3704*Dummy_3705);
+       const real_t p_affine_0_0 = macro_vertex_coord_id_0comp0;
+       const real_t p_affine_0_1 = macro_vertex_coord_id_0comp1;
+       const real_t p_affine_1_0 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0;
+       const real_t p_affine_1_1 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0;
+       const real_t p_affine_2_0 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
+       const real_t p_affine_2_1 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0;
+       const real_t jac_affine_0_0 = -p_affine_0_0 + p_affine_1_0;
+       const real_t jac_affine_0_1 = -p_affine_0_0 + p_affine_2_0;
+       const real_t jac_affine_1_0 = -p_affine_0_1 + p_affine_1_1;
+       const real_t jac_affine_1_1 = -p_affine_0_1 + p_affine_2_1;
+       const real_t jac_affine_inv_0_0 = jac_affine_1_1*1.0 / (jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0);
+       const real_t jac_affine_inv_0_1 = -jac_affine_0_1*1.0 / (jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0);
+       const real_t jac_affine_inv_1_0 = -jac_affine_1_0*1.0 / (jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0);
+       const real_t jac_affine_inv_1_1 = jac_affine_0_0*1.0 / (jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0);
+       const real_t abs_det_jac_affine = abs(jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0);
+       const real_t Dummy_3697 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0;
+       const real_t Dummy_3698 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0;
+       const real_t Dummy_3699 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
+       const real_t Dummy_3700 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0;
+       const real_t Dummy_3701 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
+       const real_t Dummy_3702 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0;
+       const real_t Dummy_3703 = -Dummy_3697 + Dummy_3699;
+       const real_t Dummy_3704 = -Dummy_3697 + Dummy_3701;
+       const real_t Dummy_3705 = -Dummy_3698 + Dummy_3700;
+       const real_t Dummy_3706 = -Dummy_3698 + Dummy_3702;
+       const real_t Dummy_3707 = Dummy_3706*1.0 / (Dummy_3703*Dummy_3706 - Dummy_3704*Dummy_3705);
+       const real_t Dummy_3708 = -Dummy_3704*1.0 / (Dummy_3703*Dummy_3706 - Dummy_3704*Dummy_3705);
+       const real_t Dummy_3709 = -Dummy_3705*1.0 / (Dummy_3703*Dummy_3706 - Dummy_3704*Dummy_3705);
+       const real_t Dummy_3710 = Dummy_3703*1.0 / (Dummy_3703*Dummy_3706 - Dummy_3704*Dummy_3705);
+       const real_t Dummy_3711 = abs(Dummy_3703*Dummy_3706 - Dummy_3704*Dummy_3705);
        {
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge; ctr_0 += 1)
           {
-             const double k_dof_0 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
-             const double k_dof_1 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-             const double k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-             double q_acc_0_0 = 0.0;
-             double q_acc_1_1 = 0.0;
-             double q_acc_2_2 = 0.0;
+             const real_t k_dof_1 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+             const real_t k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+             const real_t k_dof_0 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
+             real_t q_acc_0_0 = 0.0;
+             real_t q_acc_1_1 = 0.0;
+             real_t q_acc_2_2 = 0.0;
              for (int64_t q = 0; q < 3; q += 1)
              {
-                const double tmp_q_0 = k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q];
-                const double tmp_q_1 = abs_det_jac_affine*_data_q_w[q];
-                const double res_tmp_0_0 = tmp_q_1*((-jac_affine_inv_0_0 - jac_affine_inv_1_0)*(-jac_affine_inv_0_0*tmp_q_0 - jac_affine_inv_1_0*tmp_q_0) + (-jac_affine_inv_0_1 - jac_affine_inv_1_1)*(-jac_affine_inv_0_1*tmp_q_0 - jac_affine_inv_1_1*tmp_q_0));
-                const double res_tmp_1_1 = tmp_q_1*((jac_affine_inv_0_0*jac_affine_inv_0_0)*tmp_q_0 + (jac_affine_inv_0_1*jac_affine_inv_0_1)*tmp_q_0);
-                const double res_tmp_2_2 = tmp_q_1*((jac_affine_inv_1_0*jac_affine_inv_1_0)*tmp_q_0 + (jac_affine_inv_1_1*jac_affine_inv_1_1)*tmp_q_0);
+                const real_t tmp_q_0 = k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q];
+                const real_t tmp_q_1 = abs_det_jac_affine*_data_q_w[q];
+                const real_t res_tmp_0_0 = tmp_q_1*((-jac_affine_inv_0_0 - jac_affine_inv_1_0)*(-jac_affine_inv_0_0*tmp_q_0 - jac_affine_inv_1_0*tmp_q_0) + (-jac_affine_inv_0_1 - jac_affine_inv_1_1)*(-jac_affine_inv_0_1*tmp_q_0 - jac_affine_inv_1_1*tmp_q_0));
+                const real_t res_tmp_1_1 = tmp_q_1*((jac_affine_inv_0_0*jac_affine_inv_0_0)*tmp_q_0 + (jac_affine_inv_0_1*jac_affine_inv_0_1)*tmp_q_0);
+                const real_t res_tmp_2_2 = tmp_q_1*((jac_affine_inv_1_0*jac_affine_inv_1_0)*tmp_q_0 + (jac_affine_inv_1_1*jac_affine_inv_1_1)*tmp_q_0);
                 q_acc_0_0 = q_acc_0_0 + res_tmp_0_0;
                 q_acc_1_1 = q_acc_1_1 + res_tmp_1_1;
                 q_acc_2_2 = q_acc_2_2 + res_tmp_2_2;
              }
-             const double elMatDiag_0 = q_acc_0_0;
-             const double elMatDiag_1 = q_acc_1_1;
-             const double elMatDiag_2 = q_acc_2_2;
+             const real_t elMatDiag_0 = q_acc_0_0;
+             const real_t elMatDiag_1 = q_acc_1_1;
+             const real_t elMatDiag_2 = q_acc_2_2;
              _data_invDiag_[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))] = elMatDiag_0 + _data_invDiag_[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
              _data_invDiag_[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1] = elMatDiag_1 + _data_invDiag_[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
              _data_invDiag_[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))] = elMatDiag_2 + _data_invDiag_[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
@@ -126,26 +126,26 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_2D( doubl
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
           {
-             const double k_dof_0 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-             const double k_dof_1 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-             const double k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
-             double q_acc_0_0 = 0.0;
-             double q_acc_1_1 = 0.0;
-             double q_acc_2_2 = 0.0;
+             const real_t k_dof_1 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+             const real_t k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
+             const real_t k_dof_0 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+             real_t q_acc_0_0 = 0.0;
+             real_t q_acc_1_1 = 0.0;
+             real_t q_acc_2_2 = 0.0;
              for (int64_t q = 0; q < 3; q += 1)
              {
-                const double tmp_q_0 = k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q];
-                const double tmp_q_1 = Dummy_3711*_data_q_w[q];
-                const double res_tmp_0_0 = tmp_q_1*((-Dummy_3707 - Dummy_3709)*(-Dummy_3707*tmp_q_0 - Dummy_3709*tmp_q_0) + (-Dummy_3708 - Dummy_3710)*(-Dummy_3708*tmp_q_0 - Dummy_3710*tmp_q_0));
-                const double res_tmp_1_1 = tmp_q_1*((Dummy_3707*Dummy_3707)*tmp_q_0 + (Dummy_3708*Dummy_3708)*tmp_q_0);
-                const double res_tmp_2_2 = tmp_q_1*((Dummy_3709*Dummy_3709)*tmp_q_0 + (Dummy_3710*Dummy_3710)*tmp_q_0);
+                const real_t tmp_q_0 = k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q];
+                const real_t tmp_q_1 = Dummy_3711*_data_q_w[q];
+                const real_t res_tmp_0_0 = tmp_q_1*((-Dummy_3707 - Dummy_3709)*(-Dummy_3707*tmp_q_0 - Dummy_3709*tmp_q_0) + (-Dummy_3708 - Dummy_3710)*(-Dummy_3708*tmp_q_0 - Dummy_3710*tmp_q_0));
+                const real_t res_tmp_1_1 = tmp_q_1*((Dummy_3707*Dummy_3707)*tmp_q_0 + (Dummy_3708*Dummy_3708)*tmp_q_0);
+                const real_t res_tmp_2_2 = tmp_q_1*((Dummy_3709*Dummy_3709)*tmp_q_0 + (Dummy_3710*Dummy_3710)*tmp_q_0);
                 q_acc_0_0 = q_acc_0_0 + res_tmp_0_0;
                 q_acc_1_1 = q_acc_1_1 + res_tmp_1_1;
                 q_acc_2_2 = q_acc_2_2 + res_tmp_2_2;
              }
-             const double elMatDiag_0 = q_acc_0_0;
-             const double elMatDiag_1 = q_acc_1_1;
-             const double elMatDiag_2 = q_acc_2_2;
+             const real_t elMatDiag_0 = q_acc_0_0;
+             const real_t elMatDiag_1 = q_acc_1_1;
+             const real_t elMatDiag_2 = q_acc_2_2;
              _data_invDiag_[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1] = elMatDiag_0 + _data_invDiag_[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
              _data_invDiag_[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))] = elMatDiag_1 + _data_invDiag_[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
              _data_invDiag_[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1] = elMatDiag_2 + _data_invDiag_[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];

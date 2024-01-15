@@ -56,61 +56,61 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-void P1ElementwiseDiffusion::apply_macro_2D( double * RESTRICT  _data_dst, double * RESTRICT  _data_src, double macro_vertex_coord_id_0comp0, double macro_vertex_coord_id_0comp1, double macro_vertex_coord_id_1comp0, double macro_vertex_coord_id_1comp1, double macro_vertex_coord_id_2comp0, double macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge, double micro_edges_per_macro_edge_float ) const
+void P1ElementwiseDiffusion::apply_macro_2D( real_t * RESTRICT  _data_dst, real_t * RESTRICT  _data_src, real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge, real_t micro_edges_per_macro_edge_float ) const
 {
     {
-       const double tmp_GRAY_0 = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
-       const double p_affine_0_0 = macro_vertex_coord_id_0comp0;
-       const double p_affine_0_1 = macro_vertex_coord_id_0comp1;
-       const double p_affine_1_0 = macro_vertex_coord_id_0comp0 + tmp_GRAY_0*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
-       const double p_affine_1_1 = macro_vertex_coord_id_0comp1 + tmp_GRAY_0*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
-       const double p_affine_2_0 = macro_vertex_coord_id_0comp0 + tmp_GRAY_0*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
-       const double p_affine_2_1 = macro_vertex_coord_id_0comp1 + tmp_GRAY_0*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
-       const double jac_affine_0_0 = -p_affine_0_0 + p_affine_1_0;
-       const double jac_affine_0_1 = -p_affine_0_0 + p_affine_2_0;
-       const double jac_affine_1_0 = -p_affine_0_1 + p_affine_1_1;
-       const double jac_affine_1_1 = -p_affine_0_1 + p_affine_2_1;
-       const double tmp_GRAY_1 = jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0;
-       const double tmp_GRAY_2 = 1.0 / (tmp_GRAY_1);
-       const double jac_affine_inv_0_0 = jac_affine_1_1*tmp_GRAY_2;
-       const double jac_affine_inv_0_1 = -jac_affine_0_1*tmp_GRAY_2;
-       const double jac_affine_inv_1_0 = -jac_affine_1_0*tmp_GRAY_2;
-       const double jac_affine_inv_1_1 = jac_affine_0_0*tmp_GRAY_2;
-       const double abs_det_jac_affine = fabs(tmp_GRAY_1);
-       const double tmp_0 = -jac_affine_inv_0_0 - jac_affine_inv_1_0;
-       const double tmp_1 = -jac_affine_inv_0_1 - jac_affine_inv_1_1;
-       const double tmp_2 = abs_det_jac_affine*0.50000000000000089;
-       const double tmp_4 = jac_affine_inv_0_0*tmp_0 + jac_affine_inv_0_1*tmp_1;
-       const double tmp_6 = jac_affine_inv_1_0*tmp_0 + jac_affine_inv_1_1*tmp_1;
-       const double tmp_8 = jac_affine_inv_0_0*jac_affine_inv_1_0 + jac_affine_inv_0_1*jac_affine_inv_1_1;
-       const double tmp_BLUE_0 = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
-       const double tmp_BLUE_1 = macro_vertex_coord_id_0comp0 + tmp_BLUE_0*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
-       const double tmp_BLUE_2 = macro_vertex_coord_id_0comp1 + tmp_BLUE_0*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
-       const double tmp_BLUE_3 = tmp_BLUE_0*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
-       const double tmp_BLUE_4 = tmp_BLUE_0*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
-       const double Dummy_1049 = tmp_BLUE_1;
-       const double Dummy_1050 = tmp_BLUE_2;
-       const double Dummy_1051 = macro_vertex_coord_id_0comp0 + tmp_BLUE_3;
-       const double Dummy_1052 = macro_vertex_coord_id_0comp1 + tmp_BLUE_4;
-       const double Dummy_1053 = tmp_BLUE_1 + tmp_BLUE_3;
-       const double Dummy_1054 = tmp_BLUE_2 + tmp_BLUE_4;
-       const double Dummy_1055 = -Dummy_1049 + Dummy_1051;
-       const double Dummy_1056 = -Dummy_1049 + Dummy_1053;
-       const double Dummy_1057 = -Dummy_1050 + Dummy_1052;
-       const double Dummy_1058 = -Dummy_1050 + Dummy_1054;
-       const double tmp_BLUE_5 = Dummy_1055*Dummy_1058 - Dummy_1056*Dummy_1057;
-       const double tmp_BLUE_6 = 1.0 / (tmp_BLUE_5);
-       const double Dummy_1059 = Dummy_1058*tmp_BLUE_6;
-       const double Dummy_1060 = -Dummy_1056*tmp_BLUE_6;
-       const double Dummy_1061 = -Dummy_1057*tmp_BLUE_6;
-       const double Dummy_1062 = Dummy_1055*tmp_BLUE_6;
-       const double Dummy_1063 = fabs(tmp_BLUE_5);
-       const double Dummy_1064 = -Dummy_1059 - Dummy_1061;
-       const double Dummy_1065 = -Dummy_1060 - Dummy_1062;
-       const double Dummy_1066 = Dummy_1063*0.50000000000000089;
-       const double Dummy_1068 = Dummy_1059*Dummy_1064 + Dummy_1060*Dummy_1065;
-       const double Dummy_1070 = Dummy_1061*Dummy_1064 + Dummy_1062*Dummy_1065;
-       const double Dummy_1072 = Dummy_1059*Dummy_1061 + Dummy_1060*Dummy_1062;
+       const real_t tmp_GRAY_0 = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
+       const real_t p_affine_0_0 = macro_vertex_coord_id_0comp0;
+       const real_t p_affine_0_1 = macro_vertex_coord_id_0comp1;
+       const real_t p_affine_1_0 = macro_vertex_coord_id_0comp0 + tmp_GRAY_0*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
+       const real_t p_affine_1_1 = macro_vertex_coord_id_0comp1 + tmp_GRAY_0*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
+       const real_t p_affine_2_0 = macro_vertex_coord_id_0comp0 + tmp_GRAY_0*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
+       const real_t p_affine_2_1 = macro_vertex_coord_id_0comp1 + tmp_GRAY_0*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
+       const real_t jac_affine_0_0 = -p_affine_0_0 + p_affine_1_0;
+       const real_t jac_affine_0_1 = -p_affine_0_0 + p_affine_2_0;
+       const real_t jac_affine_1_0 = -p_affine_0_1 + p_affine_1_1;
+       const real_t jac_affine_1_1 = -p_affine_0_1 + p_affine_2_1;
+       const real_t tmp_GRAY_1 = jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0;
+       const real_t tmp_GRAY_2 = 1.0 / (tmp_GRAY_1);
+       const real_t jac_affine_inv_0_0 = jac_affine_1_1*tmp_GRAY_2;
+       const real_t jac_affine_inv_0_1 = -jac_affine_0_1*tmp_GRAY_2;
+       const real_t jac_affine_inv_1_0 = -jac_affine_1_0*tmp_GRAY_2;
+       const real_t jac_affine_inv_1_1 = jac_affine_0_0*tmp_GRAY_2;
+       const real_t abs_det_jac_affine = abs(tmp_GRAY_1);
+       const real_t tmp_0 = -jac_affine_inv_0_0 - jac_affine_inv_1_0;
+       const real_t tmp_1 = -jac_affine_inv_0_1 - jac_affine_inv_1_1;
+       const real_t tmp_2 = abs_det_jac_affine*0.50000000000000089;
+       const real_t tmp_4 = jac_affine_inv_0_0*tmp_0 + jac_affine_inv_0_1*tmp_1;
+       const real_t tmp_6 = jac_affine_inv_1_0*tmp_0 + jac_affine_inv_1_1*tmp_1;
+       const real_t tmp_8 = jac_affine_inv_0_0*jac_affine_inv_1_0 + jac_affine_inv_0_1*jac_affine_inv_1_1;
+       const real_t tmp_BLUE_0 = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
+       const real_t tmp_BLUE_1 = macro_vertex_coord_id_0comp0 + tmp_BLUE_0*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
+       const real_t tmp_BLUE_2 = macro_vertex_coord_id_0comp1 + tmp_BLUE_0*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
+       const real_t tmp_BLUE_3 = tmp_BLUE_0*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
+       const real_t tmp_BLUE_4 = tmp_BLUE_0*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
+       const real_t Dummy_1049 = tmp_BLUE_1;
+       const real_t Dummy_1050 = tmp_BLUE_2;
+       const real_t Dummy_1051 = macro_vertex_coord_id_0comp0 + tmp_BLUE_3;
+       const real_t Dummy_1052 = macro_vertex_coord_id_0comp1 + tmp_BLUE_4;
+       const real_t Dummy_1053 = tmp_BLUE_1 + tmp_BLUE_3;
+       const real_t Dummy_1054 = tmp_BLUE_2 + tmp_BLUE_4;
+       const real_t Dummy_1055 = -Dummy_1049 + Dummy_1051;
+       const real_t Dummy_1056 = -Dummy_1049 + Dummy_1053;
+       const real_t Dummy_1057 = -Dummy_1050 + Dummy_1052;
+       const real_t Dummy_1058 = -Dummy_1050 + Dummy_1054;
+       const real_t tmp_BLUE_5 = Dummy_1055*Dummy_1058 - Dummy_1056*Dummy_1057;
+       const real_t tmp_BLUE_6 = 1.0 / (tmp_BLUE_5);
+       const real_t Dummy_1059 = Dummy_1058*tmp_BLUE_6;
+       const real_t Dummy_1060 = -Dummy_1056*tmp_BLUE_6;
+       const real_t Dummy_1061 = -Dummy_1057*tmp_BLUE_6;
+       const real_t Dummy_1062 = Dummy_1055*tmp_BLUE_6;
+       const real_t Dummy_1063 = abs(tmp_BLUE_5);
+       const real_t Dummy_1064 = -Dummy_1059 - Dummy_1061;
+       const real_t Dummy_1065 = -Dummy_1060 - Dummy_1062;
+       const real_t Dummy_1066 = Dummy_1063*0.50000000000000089;
+       const real_t Dummy_1068 = Dummy_1059*Dummy_1064 + Dummy_1060*Dummy_1065;
+       const real_t Dummy_1070 = Dummy_1061*Dummy_1064 + Dummy_1062*Dummy_1065;
+       const real_t Dummy_1072 = Dummy_1059*Dummy_1061 + Dummy_1060*Dummy_1062;
        for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
        {
           {
@@ -151,15 +151,15 @@ void P1ElementwiseDiffusion::apply_macro_2D( double * RESTRICT  _data_dst, doubl
              }
              for (int64_t ctr_0 = (int64_t)((-ctr_1 + micro_edges_per_macro_edge - 1) / (4)) * (4); ctr_0 < -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
              {
-                const double src_dof_0 = _data_src[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
-                const double src_dof_1 = _data_src[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-                const double src_dof_2 = _data_src[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-                const double tmp_3 = src_dof_0*tmp_2;
-                const double tmp_5 = src_dof_1*tmp_2;
-                const double tmp_7 = src_dof_2*tmp_2;
-                const double elMatVec_0 = tmp_3*((tmp_0*tmp_0) + (tmp_1*tmp_1)) + tmp_4*tmp_5 + tmp_6*tmp_7;
-                const double elMatVec_1 = tmp_3*tmp_4 + tmp_5*((jac_affine_inv_0_0*jac_affine_inv_0_0) + (jac_affine_inv_0_1*jac_affine_inv_0_1)) + tmp_7*tmp_8;
-                const double elMatVec_2 = tmp_3*tmp_6 + tmp_5*tmp_8 + tmp_7*((jac_affine_inv_1_0*jac_affine_inv_1_0) + (jac_affine_inv_1_1*jac_affine_inv_1_1));
+                const real_t src_dof_0 = _data_src[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
+                const real_t src_dof_1 = _data_src[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+                const real_t src_dof_2 = _data_src[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+                const real_t tmp_3 = src_dof_0*tmp_2;
+                const real_t tmp_5 = src_dof_1*tmp_2;
+                const real_t tmp_7 = src_dof_2*tmp_2;
+                const real_t elMatVec_0 = tmp_3*((tmp_0*tmp_0) + (tmp_1*tmp_1)) + tmp_4*tmp_5 + tmp_6*tmp_7;
+                const real_t elMatVec_1 = tmp_3*tmp_4 + tmp_5*((jac_affine_inv_0_0*jac_affine_inv_0_0) + (jac_affine_inv_0_1*jac_affine_inv_0_1)) + tmp_7*tmp_8;
+                const real_t elMatVec_2 = tmp_3*tmp_6 + tmp_5*tmp_8 + tmp_7*((jac_affine_inv_1_0*jac_affine_inv_1_0) + (jac_affine_inv_1_1*jac_affine_inv_1_1));
                 {
                    {
                       _data_dst[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))] = elMatVec_0 + _data_dst[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
@@ -167,15 +167,15 @@ void P1ElementwiseDiffusion::apply_macro_2D( double * RESTRICT  _data_dst, doubl
                       _data_dst[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))] = elMatVec_2 + _data_dst[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
                    }
                 }
-                const double Dummy_1046 = _data_src[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-                const double Dummy_1047 = _data_src[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-                const double Dummy_1048 = _data_src[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
-                const double Dummy_1067 = Dummy_1046*Dummy_1066;
-                const double Dummy_1069 = Dummy_1047*Dummy_1066;
-                const double Dummy_1071 = Dummy_1048*Dummy_1066;
-                const double Dummy_1073 = Dummy_1067*((Dummy_1064*Dummy_1064) + (Dummy_1065*Dummy_1065)) + Dummy_1068*Dummy_1069 + Dummy_1070*Dummy_1071;
-                const double Dummy_1074 = Dummy_1067*Dummy_1068 + Dummy_1069*((Dummy_1059*Dummy_1059) + (Dummy_1060*Dummy_1060)) + Dummy_1071*Dummy_1072;
-                const double Dummy_1075 = Dummy_1067*Dummy_1070 + Dummy_1069*Dummy_1072 + Dummy_1071*((Dummy_1061*Dummy_1061) + (Dummy_1062*Dummy_1062));
+                const real_t Dummy_1046 = _data_src[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+                const real_t Dummy_1047 = _data_src[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+                const real_t Dummy_1048 = _data_src[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
+                const real_t Dummy_1067 = Dummy_1046*Dummy_1066;
+                const real_t Dummy_1069 = Dummy_1047*Dummy_1066;
+                const real_t Dummy_1071 = Dummy_1048*Dummy_1066;
+                const real_t Dummy_1073 = Dummy_1067*((Dummy_1064*Dummy_1064) + (Dummy_1065*Dummy_1065)) + Dummy_1068*Dummy_1069 + Dummy_1070*Dummy_1071;
+                const real_t Dummy_1074 = Dummy_1067*Dummy_1068 + Dummy_1069*((Dummy_1059*Dummy_1059) + (Dummy_1060*Dummy_1060)) + Dummy_1071*Dummy_1072;
+                const real_t Dummy_1075 = Dummy_1067*Dummy_1070 + Dummy_1069*Dummy_1072 + Dummy_1071*((Dummy_1061*Dummy_1061) + (Dummy_1062*Dummy_1062));
                 {
                    {
                       _data_dst[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1] = Dummy_1073 + _data_dst[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
@@ -185,15 +185,15 @@ void P1ElementwiseDiffusion::apply_macro_2D( double * RESTRICT  _data_dst, doubl
                 }
              }
           }
-          const double src_dof_0 = _data_src[ctr_1*(micro_edges_per_macro_edge + 2) - ctr_1 + micro_edges_per_macro_edge - ((ctr_1*(ctr_1 + 1)) / (2)) - 1];
-          const double src_dof_1 = _data_src[ctr_1*(micro_edges_per_macro_edge + 2) - ctr_1 + micro_edges_per_macro_edge - ((ctr_1*(ctr_1 + 1)) / (2))];
-          const double src_dof_2 = _data_src[-ctr_1 + micro_edges_per_macro_edge + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) - 1];
-          const double tmp_3 = src_dof_0*tmp_2;
-          const double tmp_5 = src_dof_1*tmp_2;
-          const double tmp_7 = src_dof_2*tmp_2;
-          const double elMatVec_0 = tmp_3*((tmp_0*tmp_0) + (tmp_1*tmp_1)) + tmp_4*tmp_5 + tmp_6*tmp_7;
-          const double elMatVec_1 = tmp_3*tmp_4 + tmp_5*((jac_affine_inv_0_0*jac_affine_inv_0_0) + (jac_affine_inv_0_1*jac_affine_inv_0_1)) + tmp_7*tmp_8;
-          const double elMatVec_2 = tmp_3*tmp_6 + tmp_5*tmp_8 + tmp_7*((jac_affine_inv_1_0*jac_affine_inv_1_0) + (jac_affine_inv_1_1*jac_affine_inv_1_1));
+          const real_t src_dof_0 = _data_src[ctr_1*(micro_edges_per_macro_edge + 2) - ctr_1 + micro_edges_per_macro_edge - ((ctr_1*(ctr_1 + 1)) / (2)) - 1];
+          const real_t src_dof_1 = _data_src[ctr_1*(micro_edges_per_macro_edge + 2) - ctr_1 + micro_edges_per_macro_edge - ((ctr_1*(ctr_1 + 1)) / (2))];
+          const real_t src_dof_2 = _data_src[-ctr_1 + micro_edges_per_macro_edge + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) - 1];
+          const real_t tmp_3 = src_dof_0*tmp_2;
+          const real_t tmp_5 = src_dof_1*tmp_2;
+          const real_t tmp_7 = src_dof_2*tmp_2;
+          const real_t elMatVec_0 = tmp_3*((tmp_0*tmp_0) + (tmp_1*tmp_1)) + tmp_4*tmp_5 + tmp_6*tmp_7;
+          const real_t elMatVec_1 = tmp_3*tmp_4 + tmp_5*((jac_affine_inv_0_0*jac_affine_inv_0_0) + (jac_affine_inv_0_1*jac_affine_inv_0_1)) + tmp_7*tmp_8;
+          const real_t elMatVec_2 = tmp_3*tmp_6 + tmp_5*tmp_8 + tmp_7*((jac_affine_inv_1_0*jac_affine_inv_1_0) + (jac_affine_inv_1_1*jac_affine_inv_1_1));
           {
              {
                 {
