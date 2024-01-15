@@ -176,7 +176,7 @@ def generate_operator(
         operator_generation.optimizer.opts_arg_mapping[opt.upper()]
         for opt in spec["optimizations"]
     }
-    type_descriptor = types.HFGType()  # TODO
+    type_descriptor = types.hyteg_default_type()  # TODO
     blending = "id"  # TODO
 
     kernel_types = [
