@@ -57,6 +57,10 @@ def generate_toplevel_cmake(
     with open(output_path, "w") as f:
         print(f'add_compile_options( "-Wno-shadow" )', file=f)
         print(f"", file=f)
+        print(f"if(NOT WALBERLA_DOUBLE_ACCURACY)", file=f)
+        print(f'   add_compile_options( "-Wno-float-conversion" )', file=f)
+        print(f"endif()", file=f)
+        print(f"", file=f)
 
         for form_str in toml_dict:
             print(f"add_subdirectory({form_str})", file=f)
