@@ -111,7 +111,7 @@ class P1ElementwiseMass : public Operator< P1Function< real_t >, P1Function< rea
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///     18      18       0       0      0              0                 0              3
-   void toMatrix_macro_2D( idx_t* RESTRICT _data_dst,
+   void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dst,
                            idx_t* RESTRICT                      _data_src,
                            real_t                               macro_vertex_coord_id_0comp0,
                            real_t                               macro_vertex_coord_id_0comp1,
@@ -128,7 +128,7 @@ class P1ElementwiseMass : public Operator< P1Function< real_t >, P1Function< rea
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///     40      40       0       0      0              0                 0              3
-   void toMatrix_macro_3D( idx_t* RESTRICT _data_dst,
+   void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dst,
                            idx_t* RESTRICT                      _data_src,
                            real_t                               macro_vertex_coord_id_0comp0,
                            real_t                               macro_vertex_coord_id_0comp1,

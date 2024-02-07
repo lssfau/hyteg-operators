@@ -21,7 +21,7 @@ form-space-args.coefficient_function_space = "P1"
 dimensions    = [2, 3]
 quadrature    = 2
 loop-strategy = "sawtooth"
-optimizations = ["moveconstants", "vectorize", "quadloops", "sym_loc_mat"]
+optimizations = ["moveconstants", "vectorize", "quadloops"]
 
 [[div_k_grad]]
 trial-space   = "P2"
@@ -30,7 +30,7 @@ form-space-args.coefficient_function_space = "P2"
 dimensions    = [2, 3]
 quadrature    = 2
 loop-strategy = "sawtooth"
-optimizations = ["moveconstants", "vectorize", "quadloops", "sym_loc_mat"]
+optimizations = ["moveconstants", "vectorize", "quadloops"]
 
 [[mass]]
 trial-space   = "P1"
@@ -38,4 +38,4 @@ test-space    = "P1"
 dimensions    = [2, 3]
 quadrature    = 2
 loop-strategy = "sawtooth"
-optimizations = ["moveconstants", "vectorize", "quadloops", "sym_loc_mat", "tabulate"]
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]

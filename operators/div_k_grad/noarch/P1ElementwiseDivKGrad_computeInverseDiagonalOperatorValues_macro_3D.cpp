@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2023 Nils Kohl, Daniel Bauer, Fabian Böhm.
+* Copyright (c) 2017-2024 Nils Kohl, Daniel Bauer, Fabian Böhm.
 *
 * This file is part of HyTeG
 * (see https://i10git.cs.fau.de/hyteg/hyteg).
@@ -67,217 +67,70 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_3D( real_
    
        const real_t _data_q_p_2 [] = {0.0069232355736274509, 0.3817653560693467, 0.43070170707783589, 0.039933048641498381};
    
-       const real_t p_affine_0_0 = macro_vertex_coord_id_0comp0;
-       const real_t p_affine_0_1 = macro_vertex_coord_id_0comp1;
-       const real_t p_affine_0_2 = macro_vertex_coord_id_0comp2;
-       const real_t p_affine_1_0 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0;
-       const real_t p_affine_1_1 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0;
-       const real_t p_affine_1_2 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2)*1.0;
-       const real_t p_affine_2_0 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
-       const real_t p_affine_2_1 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0;
-       const real_t p_affine_2_2 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2)*1.0;
-       const real_t p_affine_3_0 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0)*1.0;
-       const real_t p_affine_3_1 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1)*1.0;
-       const real_t p_affine_3_2 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2)*1.0;
-       const real_t jac_affine_0_0 = -p_affine_0_0 + p_affine_1_0;
-       const real_t jac_affine_0_1 = -p_affine_0_0 + p_affine_2_0;
-       const real_t jac_affine_0_2 = -p_affine_0_0 + p_affine_3_0;
-       const real_t jac_affine_1_0 = -p_affine_0_1 + p_affine_1_1;
-       const real_t jac_affine_1_1 = -p_affine_0_1 + p_affine_2_1;
-       const real_t jac_affine_1_2 = -p_affine_0_1 + p_affine_3_1;
-       const real_t jac_affine_2_0 = -p_affine_0_2 + p_affine_1_2;
-       const real_t jac_affine_2_1 = -p_affine_0_2 + p_affine_2_2;
-       const real_t jac_affine_2_2 = -p_affine_0_2 + p_affine_3_2;
-       const real_t jac_affine_inv_0_0 = (jac_affine_1_1*jac_affine_2_2 - jac_affine_1_2*jac_affine_2_1)*1.0 / (jac_affine_0_0*jac_affine_1_1*jac_affine_2_2 - jac_affine_0_0*jac_affine_1_2*jac_affine_2_1 - jac_affine_0_1*jac_affine_1_0*jac_affine_2_2 + jac_affine_0_1*jac_affine_1_2*jac_affine_2_0 + jac_affine_0_2*jac_affine_1_0*jac_affine_2_1 - jac_affine_0_2*jac_affine_1_1*jac_affine_2_0);
-       const real_t jac_affine_inv_0_1 = (-jac_affine_0_1*jac_affine_2_2 + jac_affine_0_2*jac_affine_2_1)*1.0 / (jac_affine_0_0*jac_affine_1_1*jac_affine_2_2 - jac_affine_0_0*jac_affine_1_2*jac_affine_2_1 - jac_affine_0_1*jac_affine_1_0*jac_affine_2_2 + jac_affine_0_1*jac_affine_1_2*jac_affine_2_0 + jac_affine_0_2*jac_affine_1_0*jac_affine_2_1 - jac_affine_0_2*jac_affine_1_1*jac_affine_2_0);
-       const real_t jac_affine_inv_0_2 = (jac_affine_0_1*jac_affine_1_2 - jac_affine_0_2*jac_affine_1_1)*1.0 / (jac_affine_0_0*jac_affine_1_1*jac_affine_2_2 - jac_affine_0_0*jac_affine_1_2*jac_affine_2_1 - jac_affine_0_1*jac_affine_1_0*jac_affine_2_2 + jac_affine_0_1*jac_affine_1_2*jac_affine_2_0 + jac_affine_0_2*jac_affine_1_0*jac_affine_2_1 - jac_affine_0_2*jac_affine_1_1*jac_affine_2_0);
-       const real_t jac_affine_inv_1_0 = (-jac_affine_1_0*jac_affine_2_2 + jac_affine_1_2*jac_affine_2_0)*1.0 / (jac_affine_0_0*jac_affine_1_1*jac_affine_2_2 - jac_affine_0_0*jac_affine_1_2*jac_affine_2_1 - jac_affine_0_1*jac_affine_1_0*jac_affine_2_2 + jac_affine_0_1*jac_affine_1_2*jac_affine_2_0 + jac_affine_0_2*jac_affine_1_0*jac_affine_2_1 - jac_affine_0_2*jac_affine_1_1*jac_affine_2_0);
-       const real_t jac_affine_inv_1_1 = (jac_affine_0_0*jac_affine_2_2 - jac_affine_0_2*jac_affine_2_0)*1.0 / (jac_affine_0_0*jac_affine_1_1*jac_affine_2_2 - jac_affine_0_0*jac_affine_1_2*jac_affine_2_1 - jac_affine_0_1*jac_affine_1_0*jac_affine_2_2 + jac_affine_0_1*jac_affine_1_2*jac_affine_2_0 + jac_affine_0_2*jac_affine_1_0*jac_affine_2_1 - jac_affine_0_2*jac_affine_1_1*jac_affine_2_0);
-       const real_t jac_affine_inv_1_2 = (-jac_affine_0_0*jac_affine_1_2 + jac_affine_0_2*jac_affine_1_0)*1.0 / (jac_affine_0_0*jac_affine_1_1*jac_affine_2_2 - jac_affine_0_0*jac_affine_1_2*jac_affine_2_1 - jac_affine_0_1*jac_affine_1_0*jac_affine_2_2 + jac_affine_0_1*jac_affine_1_2*jac_affine_2_0 + jac_affine_0_2*jac_affine_1_0*jac_affine_2_1 - jac_affine_0_2*jac_affine_1_1*jac_affine_2_0);
-       const real_t jac_affine_inv_2_0 = (jac_affine_1_0*jac_affine_2_1 - jac_affine_1_1*jac_affine_2_0)*1.0 / (jac_affine_0_0*jac_affine_1_1*jac_affine_2_2 - jac_affine_0_0*jac_affine_1_2*jac_affine_2_1 - jac_affine_0_1*jac_affine_1_0*jac_affine_2_2 + jac_affine_0_1*jac_affine_1_2*jac_affine_2_0 + jac_affine_0_2*jac_affine_1_0*jac_affine_2_1 - jac_affine_0_2*jac_affine_1_1*jac_affine_2_0);
-       const real_t jac_affine_inv_2_1 = (-jac_affine_0_0*jac_affine_2_1 + jac_affine_0_1*jac_affine_2_0)*1.0 / (jac_affine_0_0*jac_affine_1_1*jac_affine_2_2 - jac_affine_0_0*jac_affine_1_2*jac_affine_2_1 - jac_affine_0_1*jac_affine_1_0*jac_affine_2_2 + jac_affine_0_1*jac_affine_1_2*jac_affine_2_0 + jac_affine_0_2*jac_affine_1_0*jac_affine_2_1 - jac_affine_0_2*jac_affine_1_1*jac_affine_2_0);
-       const real_t jac_affine_inv_2_2 = (jac_affine_0_0*jac_affine_1_1 - jac_affine_0_1*jac_affine_1_0)*1.0 / (jac_affine_0_0*jac_affine_1_1*jac_affine_2_2 - jac_affine_0_0*jac_affine_1_2*jac_affine_2_1 - jac_affine_0_1*jac_affine_1_0*jac_affine_2_2 + jac_affine_0_1*jac_affine_1_2*jac_affine_2_0 + jac_affine_0_2*jac_affine_1_0*jac_affine_2_1 - jac_affine_0_2*jac_affine_1_1*jac_affine_2_0);
-       const real_t abs_det_jac_affine = abs(jac_affine_0_0*jac_affine_1_1*jac_affine_2_2 - jac_affine_0_0*jac_affine_1_2*jac_affine_2_1 - jac_affine_0_1*jac_affine_1_0*jac_affine_2_2 + jac_affine_0_1*jac_affine_1_2*jac_affine_2_0 + jac_affine_0_2*jac_affine_1_0*jac_affine_2_1 - jac_affine_0_2*jac_affine_1_1*jac_affine_2_0);
-       const real_t Dummy_3820 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
-       const real_t Dummy_3821 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0;
-       const real_t Dummy_3822 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2)*1.0;
-       const real_t Dummy_3823 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0)*1.0;
-       const real_t Dummy_3824 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1)*1.0;
-       const real_t Dummy_3825 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2)*1.0;
-       const real_t Dummy_3826 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0)*1.0;
-       const real_t Dummy_3827 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1)*1.0;
-       const real_t Dummy_3828 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2)*1.0;
-       const real_t Dummy_3829 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0)*1.0;
-       const real_t Dummy_3830 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1)*1.0;
-       const real_t Dummy_3831 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2)*1.0;
-       const real_t Dummy_3832 = -Dummy_3820 + Dummy_3823;
-       const real_t Dummy_3833 = -Dummy_3820 + Dummy_3826;
-       const real_t Dummy_3834 = -Dummy_3820 + Dummy_3829;
-       const real_t Dummy_3835 = -Dummy_3821 + Dummy_3824;
-       const real_t Dummy_3836 = -Dummy_3821 + Dummy_3827;
-       const real_t Dummy_3837 = -Dummy_3821 + Dummy_3830;
-       const real_t Dummy_3838 = -Dummy_3822 + Dummy_3825;
-       const real_t Dummy_3839 = -Dummy_3822 + Dummy_3828;
-       const real_t Dummy_3840 = -Dummy_3822 + Dummy_3831;
-       const real_t Dummy_3841 = (Dummy_3836*Dummy_3840 - Dummy_3837*Dummy_3839)*1.0 / (Dummy_3832*Dummy_3836*Dummy_3840 - Dummy_3832*Dummy_3837*Dummy_3839 - Dummy_3833*Dummy_3835*Dummy_3840 + Dummy_3833*Dummy_3837*Dummy_3838 + Dummy_3834*Dummy_3835*Dummy_3839 - Dummy_3834*Dummy_3836*Dummy_3838);
-       const real_t Dummy_3842 = (-Dummy_3833*Dummy_3840 + Dummy_3834*Dummy_3839)*1.0 / (Dummy_3832*Dummy_3836*Dummy_3840 - Dummy_3832*Dummy_3837*Dummy_3839 - Dummy_3833*Dummy_3835*Dummy_3840 + Dummy_3833*Dummy_3837*Dummy_3838 + Dummy_3834*Dummy_3835*Dummy_3839 - Dummy_3834*Dummy_3836*Dummy_3838);
-       const real_t Dummy_3843 = (Dummy_3833*Dummy_3837 - Dummy_3834*Dummy_3836)*1.0 / (Dummy_3832*Dummy_3836*Dummy_3840 - Dummy_3832*Dummy_3837*Dummy_3839 - Dummy_3833*Dummy_3835*Dummy_3840 + Dummy_3833*Dummy_3837*Dummy_3838 + Dummy_3834*Dummy_3835*Dummy_3839 - Dummy_3834*Dummy_3836*Dummy_3838);
-       const real_t Dummy_3844 = (-Dummy_3835*Dummy_3840 + Dummy_3837*Dummy_3838)*1.0 / (Dummy_3832*Dummy_3836*Dummy_3840 - Dummy_3832*Dummy_3837*Dummy_3839 - Dummy_3833*Dummy_3835*Dummy_3840 + Dummy_3833*Dummy_3837*Dummy_3838 + Dummy_3834*Dummy_3835*Dummy_3839 - Dummy_3834*Dummy_3836*Dummy_3838);
-       const real_t Dummy_3845 = (Dummy_3832*Dummy_3840 - Dummy_3834*Dummy_3838)*1.0 / (Dummy_3832*Dummy_3836*Dummy_3840 - Dummy_3832*Dummy_3837*Dummy_3839 - Dummy_3833*Dummy_3835*Dummy_3840 + Dummy_3833*Dummy_3837*Dummy_3838 + Dummy_3834*Dummy_3835*Dummy_3839 - Dummy_3834*Dummy_3836*Dummy_3838);
-       const real_t Dummy_3846 = (-Dummy_3832*Dummy_3837 + Dummy_3834*Dummy_3835)*1.0 / (Dummy_3832*Dummy_3836*Dummy_3840 - Dummy_3832*Dummy_3837*Dummy_3839 - Dummy_3833*Dummy_3835*Dummy_3840 + Dummy_3833*Dummy_3837*Dummy_3838 + Dummy_3834*Dummy_3835*Dummy_3839 - Dummy_3834*Dummy_3836*Dummy_3838);
-       const real_t Dummy_3847 = (Dummy_3835*Dummy_3839 - Dummy_3836*Dummy_3838)*1.0 / (Dummy_3832*Dummy_3836*Dummy_3840 - Dummy_3832*Dummy_3837*Dummy_3839 - Dummy_3833*Dummy_3835*Dummy_3840 + Dummy_3833*Dummy_3837*Dummy_3838 + Dummy_3834*Dummy_3835*Dummy_3839 - Dummy_3834*Dummy_3836*Dummy_3838);
-       const real_t Dummy_3848 = (-Dummy_3832*Dummy_3839 + Dummy_3833*Dummy_3838)*1.0 / (Dummy_3832*Dummy_3836*Dummy_3840 - Dummy_3832*Dummy_3837*Dummy_3839 - Dummy_3833*Dummy_3835*Dummy_3840 + Dummy_3833*Dummy_3837*Dummy_3838 + Dummy_3834*Dummy_3835*Dummy_3839 - Dummy_3834*Dummy_3836*Dummy_3838);
-       const real_t Dummy_3849 = (Dummy_3832*Dummy_3836 - Dummy_3833*Dummy_3835)*1.0 / (Dummy_3832*Dummy_3836*Dummy_3840 - Dummy_3832*Dummy_3837*Dummy_3839 - Dummy_3833*Dummy_3835*Dummy_3840 + Dummy_3833*Dummy_3837*Dummy_3838 + Dummy_3834*Dummy_3835*Dummy_3839 - Dummy_3834*Dummy_3836*Dummy_3838);
-       const real_t Dummy_3850 = abs(Dummy_3832*Dummy_3836*Dummy_3840 - Dummy_3832*Dummy_3837*Dummy_3839 - Dummy_3833*Dummy_3835*Dummy_3840 + Dummy_3833*Dummy_3837*Dummy_3838 + Dummy_3834*Dummy_3835*Dummy_3839 - Dummy_3834*Dummy_3836*Dummy_3838);
-       const real_t Dummy_3851 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0;
-       const real_t Dummy_3852 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0;
-       const real_t Dummy_3853 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2)*1.0;
-       const real_t Dummy_3854 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
-       const real_t Dummy_3855 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0;
-       const real_t Dummy_3856 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2)*1.0;
-       const real_t Dummy_3857 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
-       const real_t Dummy_3858 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0;
-       const real_t Dummy_3859 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2)*1.0;
-       const real_t Dummy_3860 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0)*1.0;
-       const real_t Dummy_3861 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1)*1.0;
-       const real_t Dummy_3862 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2)*1.0;
-       const real_t Dummy_3863 = -Dummy_3851 + Dummy_3854;
-       const real_t Dummy_3864 = -Dummy_3851 + Dummy_3857;
-       const real_t Dummy_3865 = -Dummy_3851 + Dummy_3860;
-       const real_t Dummy_3866 = -Dummy_3852 + Dummy_3855;
-       const real_t Dummy_3867 = -Dummy_3852 + Dummy_3858;
-       const real_t Dummy_3868 = -Dummy_3852 + Dummy_3861;
-       const real_t Dummy_3869 = -Dummy_3853 + Dummy_3856;
-       const real_t Dummy_3870 = -Dummy_3853 + Dummy_3859;
-       const real_t Dummy_3871 = -Dummy_3853 + Dummy_3862;
-       const real_t Dummy_3872 = (Dummy_3867*Dummy_3871 - Dummy_3868*Dummy_3870)*1.0 / (Dummy_3863*Dummy_3867*Dummy_3871 - Dummy_3863*Dummy_3868*Dummy_3870 - Dummy_3864*Dummy_3866*Dummy_3871 + Dummy_3864*Dummy_3868*Dummy_3869 + Dummy_3865*Dummy_3866*Dummy_3870 - Dummy_3865*Dummy_3867*Dummy_3869);
-       const real_t Dummy_3873 = (-Dummy_3864*Dummy_3871 + Dummy_3865*Dummy_3870)*1.0 / (Dummy_3863*Dummy_3867*Dummy_3871 - Dummy_3863*Dummy_3868*Dummy_3870 - Dummy_3864*Dummy_3866*Dummy_3871 + Dummy_3864*Dummy_3868*Dummy_3869 + Dummy_3865*Dummy_3866*Dummy_3870 - Dummy_3865*Dummy_3867*Dummy_3869);
-       const real_t Dummy_3874 = (Dummy_3864*Dummy_3868 - Dummy_3865*Dummy_3867)*1.0 / (Dummy_3863*Dummy_3867*Dummy_3871 - Dummy_3863*Dummy_3868*Dummy_3870 - Dummy_3864*Dummy_3866*Dummy_3871 + Dummy_3864*Dummy_3868*Dummy_3869 + Dummy_3865*Dummy_3866*Dummy_3870 - Dummy_3865*Dummy_3867*Dummy_3869);
-       const real_t Dummy_3875 = (-Dummy_3866*Dummy_3871 + Dummy_3868*Dummy_3869)*1.0 / (Dummy_3863*Dummy_3867*Dummy_3871 - Dummy_3863*Dummy_3868*Dummy_3870 - Dummy_3864*Dummy_3866*Dummy_3871 + Dummy_3864*Dummy_3868*Dummy_3869 + Dummy_3865*Dummy_3866*Dummy_3870 - Dummy_3865*Dummy_3867*Dummy_3869);
-       const real_t Dummy_3876 = (Dummy_3863*Dummy_3871 - Dummy_3865*Dummy_3869)*1.0 / (Dummy_3863*Dummy_3867*Dummy_3871 - Dummy_3863*Dummy_3868*Dummy_3870 - Dummy_3864*Dummy_3866*Dummy_3871 + Dummy_3864*Dummy_3868*Dummy_3869 + Dummy_3865*Dummy_3866*Dummy_3870 - Dummy_3865*Dummy_3867*Dummy_3869);
-       const real_t Dummy_3877 = (-Dummy_3863*Dummy_3868 + Dummy_3865*Dummy_3866)*1.0 / (Dummy_3863*Dummy_3867*Dummy_3871 - Dummy_3863*Dummy_3868*Dummy_3870 - Dummy_3864*Dummy_3866*Dummy_3871 + Dummy_3864*Dummy_3868*Dummy_3869 + Dummy_3865*Dummy_3866*Dummy_3870 - Dummy_3865*Dummy_3867*Dummy_3869);
-       const real_t Dummy_3878 = (Dummy_3866*Dummy_3870 - Dummy_3867*Dummy_3869)*1.0 / (Dummy_3863*Dummy_3867*Dummy_3871 - Dummy_3863*Dummy_3868*Dummy_3870 - Dummy_3864*Dummy_3866*Dummy_3871 + Dummy_3864*Dummy_3868*Dummy_3869 + Dummy_3865*Dummy_3866*Dummy_3870 - Dummy_3865*Dummy_3867*Dummy_3869);
-       const real_t Dummy_3879 = (-Dummy_3863*Dummy_3870 + Dummy_3864*Dummy_3869)*1.0 / (Dummy_3863*Dummy_3867*Dummy_3871 - Dummy_3863*Dummy_3868*Dummy_3870 - Dummy_3864*Dummy_3866*Dummy_3871 + Dummy_3864*Dummy_3868*Dummy_3869 + Dummy_3865*Dummy_3866*Dummy_3870 - Dummy_3865*Dummy_3867*Dummy_3869);
-       const real_t Dummy_3880 = (Dummy_3863*Dummy_3867 - Dummy_3864*Dummy_3866)*1.0 / (Dummy_3863*Dummy_3867*Dummy_3871 - Dummy_3863*Dummy_3868*Dummy_3870 - Dummy_3864*Dummy_3866*Dummy_3871 + Dummy_3864*Dummy_3868*Dummy_3869 + Dummy_3865*Dummy_3866*Dummy_3870 - Dummy_3865*Dummy_3867*Dummy_3869);
-       const real_t Dummy_3881 = abs(Dummy_3863*Dummy_3867*Dummy_3871 - Dummy_3863*Dummy_3868*Dummy_3870 - Dummy_3864*Dummy_3866*Dummy_3871 + Dummy_3864*Dummy_3868*Dummy_3869 + Dummy_3865*Dummy_3866*Dummy_3870 - Dummy_3865*Dummy_3867*Dummy_3869);
-       const real_t Dummy_3882 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
-       const real_t Dummy_3883 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0;
-       const real_t Dummy_3884 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2)*1.0;
-       const real_t Dummy_3885 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0)*1.0;
-       const real_t Dummy_3886 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1)*1.0;
-       const real_t Dummy_3887 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2)*1.0;
-       const real_t Dummy_3888 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0)*1.0;
-       const real_t Dummy_3889 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1)*1.0;
-       const real_t Dummy_3890 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2)*1.0;
-       const real_t Dummy_3891 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0)*1.0;
-       const real_t Dummy_3892 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1)*1.0;
-       const real_t Dummy_3893 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2)*1.0;
-       const real_t Dummy_3894 = -Dummy_3882 + Dummy_3885;
-       const real_t Dummy_3895 = -Dummy_3882 + Dummy_3888;
-       const real_t Dummy_3896 = -Dummy_3882 + Dummy_3891;
-       const real_t Dummy_3897 = -Dummy_3883 + Dummy_3886;
-       const real_t Dummy_3898 = -Dummy_3883 + Dummy_3889;
-       const real_t Dummy_3899 = -Dummy_3883 + Dummy_3892;
-       const real_t Dummy_3900 = -Dummy_3884 + Dummy_3887;
-       const real_t Dummy_3901 = -Dummy_3884 + Dummy_3890;
-       const real_t Dummy_3902 = -Dummy_3884 + Dummy_3893;
-       const real_t Dummy_3903 = (Dummy_3898*Dummy_3902 - Dummy_3899*Dummy_3901)*1.0 / (Dummy_3894*Dummy_3898*Dummy_3902 - Dummy_3894*Dummy_3899*Dummy_3901 - Dummy_3895*Dummy_3897*Dummy_3902 + Dummy_3895*Dummy_3899*Dummy_3900 + Dummy_3896*Dummy_3897*Dummy_3901 - Dummy_3896*Dummy_3898*Dummy_3900);
-       const real_t Dummy_3904 = (-Dummy_3895*Dummy_3902 + Dummy_3896*Dummy_3901)*1.0 / (Dummy_3894*Dummy_3898*Dummy_3902 - Dummy_3894*Dummy_3899*Dummy_3901 - Dummy_3895*Dummy_3897*Dummy_3902 + Dummy_3895*Dummy_3899*Dummy_3900 + Dummy_3896*Dummy_3897*Dummy_3901 - Dummy_3896*Dummy_3898*Dummy_3900);
-       const real_t Dummy_3905 = (Dummy_3895*Dummy_3899 - Dummy_3896*Dummy_3898)*1.0 / (Dummy_3894*Dummy_3898*Dummy_3902 - Dummy_3894*Dummy_3899*Dummy_3901 - Dummy_3895*Dummy_3897*Dummy_3902 + Dummy_3895*Dummy_3899*Dummy_3900 + Dummy_3896*Dummy_3897*Dummy_3901 - Dummy_3896*Dummy_3898*Dummy_3900);
-       const real_t Dummy_3906 = (-Dummy_3897*Dummy_3902 + Dummy_3899*Dummy_3900)*1.0 / (Dummy_3894*Dummy_3898*Dummy_3902 - Dummy_3894*Dummy_3899*Dummy_3901 - Dummy_3895*Dummy_3897*Dummy_3902 + Dummy_3895*Dummy_3899*Dummy_3900 + Dummy_3896*Dummy_3897*Dummy_3901 - Dummy_3896*Dummy_3898*Dummy_3900);
-       const real_t Dummy_3907 = (Dummy_3894*Dummy_3902 - Dummy_3896*Dummy_3900)*1.0 / (Dummy_3894*Dummy_3898*Dummy_3902 - Dummy_3894*Dummy_3899*Dummy_3901 - Dummy_3895*Dummy_3897*Dummy_3902 + Dummy_3895*Dummy_3899*Dummy_3900 + Dummy_3896*Dummy_3897*Dummy_3901 - Dummy_3896*Dummy_3898*Dummy_3900);
-       const real_t Dummy_3908 = (-Dummy_3894*Dummy_3899 + Dummy_3896*Dummy_3897)*1.0 / (Dummy_3894*Dummy_3898*Dummy_3902 - Dummy_3894*Dummy_3899*Dummy_3901 - Dummy_3895*Dummy_3897*Dummy_3902 + Dummy_3895*Dummy_3899*Dummy_3900 + Dummy_3896*Dummy_3897*Dummy_3901 - Dummy_3896*Dummy_3898*Dummy_3900);
-       const real_t Dummy_3909 = (Dummy_3897*Dummy_3901 - Dummy_3898*Dummy_3900)*1.0 / (Dummy_3894*Dummy_3898*Dummy_3902 - Dummy_3894*Dummy_3899*Dummy_3901 - Dummy_3895*Dummy_3897*Dummy_3902 + Dummy_3895*Dummy_3899*Dummy_3900 + Dummy_3896*Dummy_3897*Dummy_3901 - Dummy_3896*Dummy_3898*Dummy_3900);
-       const real_t Dummy_3910 = (-Dummy_3894*Dummy_3901 + Dummy_3895*Dummy_3900)*1.0 / (Dummy_3894*Dummy_3898*Dummy_3902 - Dummy_3894*Dummy_3899*Dummy_3901 - Dummy_3895*Dummy_3897*Dummy_3902 + Dummy_3895*Dummy_3899*Dummy_3900 + Dummy_3896*Dummy_3897*Dummy_3901 - Dummy_3896*Dummy_3898*Dummy_3900);
-       const real_t Dummy_3911 = (Dummy_3894*Dummy_3898 - Dummy_3895*Dummy_3897)*1.0 / (Dummy_3894*Dummy_3898*Dummy_3902 - Dummy_3894*Dummy_3899*Dummy_3901 - Dummy_3895*Dummy_3897*Dummy_3902 + Dummy_3895*Dummy_3899*Dummy_3900 + Dummy_3896*Dummy_3897*Dummy_3901 - Dummy_3896*Dummy_3898*Dummy_3900);
-       const real_t Dummy_3912 = abs(Dummy_3894*Dummy_3898*Dummy_3902 - Dummy_3894*Dummy_3899*Dummy_3901 - Dummy_3895*Dummy_3897*Dummy_3902 + Dummy_3895*Dummy_3899*Dummy_3900 + Dummy_3896*Dummy_3897*Dummy_3901 - Dummy_3896*Dummy_3898*Dummy_3900);
-       const real_t Dummy_3913 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0;
-       const real_t Dummy_3914 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0;
-       const real_t Dummy_3915 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2)*1.0;
-       const real_t Dummy_3916 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
-       const real_t Dummy_3917 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0;
-       const real_t Dummy_3918 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2)*1.0;
-       const real_t Dummy_3919 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0)*1.0;
-       const real_t Dummy_3920 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1)*1.0;
-       const real_t Dummy_3921 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2)*1.0;
-       const real_t Dummy_3922 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0)*1.0;
-       const real_t Dummy_3923 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1)*1.0;
-       const real_t Dummy_3924 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2)*1.0;
-       const real_t Dummy_3925 = -Dummy_3913 + Dummy_3916;
-       const real_t Dummy_3926 = -Dummy_3913 + Dummy_3919;
-       const real_t Dummy_3927 = -Dummy_3913 + Dummy_3922;
-       const real_t Dummy_3928 = -Dummy_3914 + Dummy_3917;
-       const real_t Dummy_3929 = -Dummy_3914 + Dummy_3920;
-       const real_t Dummy_3930 = -Dummy_3914 + Dummy_3923;
-       const real_t Dummy_3931 = -Dummy_3915 + Dummy_3918;
-       const real_t Dummy_3932 = -Dummy_3915 + Dummy_3921;
-       const real_t Dummy_3933 = -Dummy_3915 + Dummy_3924;
-       const real_t Dummy_3934 = (Dummy_3929*Dummy_3933 - Dummy_3930*Dummy_3932)*1.0 / (Dummy_3925*Dummy_3929*Dummy_3933 - Dummy_3925*Dummy_3930*Dummy_3932 - Dummy_3926*Dummy_3928*Dummy_3933 + Dummy_3926*Dummy_3930*Dummy_3931 + Dummy_3927*Dummy_3928*Dummy_3932 - Dummy_3927*Dummy_3929*Dummy_3931);
-       const real_t Dummy_3935 = (-Dummy_3926*Dummy_3933 + Dummy_3927*Dummy_3932)*1.0 / (Dummy_3925*Dummy_3929*Dummy_3933 - Dummy_3925*Dummy_3930*Dummy_3932 - Dummy_3926*Dummy_3928*Dummy_3933 + Dummy_3926*Dummy_3930*Dummy_3931 + Dummy_3927*Dummy_3928*Dummy_3932 - Dummy_3927*Dummy_3929*Dummy_3931);
-       const real_t Dummy_3936 = (Dummy_3926*Dummy_3930 - Dummy_3927*Dummy_3929)*1.0 / (Dummy_3925*Dummy_3929*Dummy_3933 - Dummy_3925*Dummy_3930*Dummy_3932 - Dummy_3926*Dummy_3928*Dummy_3933 + Dummy_3926*Dummy_3930*Dummy_3931 + Dummy_3927*Dummy_3928*Dummy_3932 - Dummy_3927*Dummy_3929*Dummy_3931);
-       const real_t Dummy_3937 = (-Dummy_3928*Dummy_3933 + Dummy_3930*Dummy_3931)*1.0 / (Dummy_3925*Dummy_3929*Dummy_3933 - Dummy_3925*Dummy_3930*Dummy_3932 - Dummy_3926*Dummy_3928*Dummy_3933 + Dummy_3926*Dummy_3930*Dummy_3931 + Dummy_3927*Dummy_3928*Dummy_3932 - Dummy_3927*Dummy_3929*Dummy_3931);
-       const real_t Dummy_3938 = (Dummy_3925*Dummy_3933 - Dummy_3927*Dummy_3931)*1.0 / (Dummy_3925*Dummy_3929*Dummy_3933 - Dummy_3925*Dummy_3930*Dummy_3932 - Dummy_3926*Dummy_3928*Dummy_3933 + Dummy_3926*Dummy_3930*Dummy_3931 + Dummy_3927*Dummy_3928*Dummy_3932 - Dummy_3927*Dummy_3929*Dummy_3931);
-       const real_t Dummy_3939 = (-Dummy_3925*Dummy_3930 + Dummy_3927*Dummy_3928)*1.0 / (Dummy_3925*Dummy_3929*Dummy_3933 - Dummy_3925*Dummy_3930*Dummy_3932 - Dummy_3926*Dummy_3928*Dummy_3933 + Dummy_3926*Dummy_3930*Dummy_3931 + Dummy_3927*Dummy_3928*Dummy_3932 - Dummy_3927*Dummy_3929*Dummy_3931);
-       const real_t Dummy_3940 = (Dummy_3928*Dummy_3932 - Dummy_3929*Dummy_3931)*1.0 / (Dummy_3925*Dummy_3929*Dummy_3933 - Dummy_3925*Dummy_3930*Dummy_3932 - Dummy_3926*Dummy_3928*Dummy_3933 + Dummy_3926*Dummy_3930*Dummy_3931 + Dummy_3927*Dummy_3928*Dummy_3932 - Dummy_3927*Dummy_3929*Dummy_3931);
-       const real_t Dummy_3941 = (-Dummy_3925*Dummy_3932 + Dummy_3926*Dummy_3931)*1.0 / (Dummy_3925*Dummy_3929*Dummy_3933 - Dummy_3925*Dummy_3930*Dummy_3932 - Dummy_3926*Dummy_3928*Dummy_3933 + Dummy_3926*Dummy_3930*Dummy_3931 + Dummy_3927*Dummy_3928*Dummy_3932 - Dummy_3927*Dummy_3929*Dummy_3931);
-       const real_t Dummy_3942 = (Dummy_3925*Dummy_3929 - Dummy_3926*Dummy_3928)*1.0 / (Dummy_3925*Dummy_3929*Dummy_3933 - Dummy_3925*Dummy_3930*Dummy_3932 - Dummy_3926*Dummy_3928*Dummy_3933 + Dummy_3926*Dummy_3930*Dummy_3931 + Dummy_3927*Dummy_3928*Dummy_3932 - Dummy_3927*Dummy_3929*Dummy_3931);
-       const real_t Dummy_3943 = abs(Dummy_3925*Dummy_3929*Dummy_3933 - Dummy_3925*Dummy_3930*Dummy_3932 - Dummy_3926*Dummy_3928*Dummy_3933 + Dummy_3926*Dummy_3930*Dummy_3931 + Dummy_3927*Dummy_3928*Dummy_3932 - Dummy_3927*Dummy_3929*Dummy_3931);
-       const real_t Dummy_3944 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
-       const real_t Dummy_3945 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0;
-       const real_t Dummy_3946 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2)*1.0;
-       const real_t Dummy_3947 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0;
-       const real_t Dummy_3948 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0;
-       const real_t Dummy_3949 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2)*1.0;
-       const real_t Dummy_3950 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0)*1.0;
-       const real_t Dummy_3951 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1)*1.0;
-       const real_t Dummy_3952 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2)*1.0;
-       const real_t Dummy_3953 = macro_vertex_coord_id_0comp0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0)*1.0;
-       const real_t Dummy_3954 = macro_vertex_coord_id_0comp1 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1)*1.0;
-       const real_t Dummy_3955 = macro_vertex_coord_id_0comp2 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2)*1.0 + 1.0 / (micro_edges_per_macro_edge_float)*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2)*1.0;
-       const real_t Dummy_3956 = -Dummy_3944 + Dummy_3947;
-       const real_t Dummy_3957 = -Dummy_3944 + Dummy_3950;
-       const real_t Dummy_3958 = -Dummy_3944 + Dummy_3953;
-       const real_t Dummy_3959 = -Dummy_3945 + Dummy_3948;
-       const real_t Dummy_3960 = -Dummy_3945 + Dummy_3951;
-       const real_t Dummy_3961 = -Dummy_3945 + Dummy_3954;
-       const real_t Dummy_3962 = -Dummy_3946 + Dummy_3949;
-       const real_t Dummy_3963 = -Dummy_3946 + Dummy_3952;
-       const real_t Dummy_3964 = -Dummy_3946 + Dummy_3955;
-       const real_t Dummy_3965 = (Dummy_3960*Dummy_3964 - Dummy_3961*Dummy_3963)*1.0 / (Dummy_3956*Dummy_3960*Dummy_3964 - Dummy_3956*Dummy_3961*Dummy_3963 - Dummy_3957*Dummy_3959*Dummy_3964 + Dummy_3957*Dummy_3961*Dummy_3962 + Dummy_3958*Dummy_3959*Dummy_3963 - Dummy_3958*Dummy_3960*Dummy_3962);
-       const real_t Dummy_3966 = (-Dummy_3957*Dummy_3964 + Dummy_3958*Dummy_3963)*1.0 / (Dummy_3956*Dummy_3960*Dummy_3964 - Dummy_3956*Dummy_3961*Dummy_3963 - Dummy_3957*Dummy_3959*Dummy_3964 + Dummy_3957*Dummy_3961*Dummy_3962 + Dummy_3958*Dummy_3959*Dummy_3963 - Dummy_3958*Dummy_3960*Dummy_3962);
-       const real_t Dummy_3967 = (Dummy_3957*Dummy_3961 - Dummy_3958*Dummy_3960)*1.0 / (Dummy_3956*Dummy_3960*Dummy_3964 - Dummy_3956*Dummy_3961*Dummy_3963 - Dummy_3957*Dummy_3959*Dummy_3964 + Dummy_3957*Dummy_3961*Dummy_3962 + Dummy_3958*Dummy_3959*Dummy_3963 - Dummy_3958*Dummy_3960*Dummy_3962);
-       const real_t Dummy_3968 = (-Dummy_3959*Dummy_3964 + Dummy_3961*Dummy_3962)*1.0 / (Dummy_3956*Dummy_3960*Dummy_3964 - Dummy_3956*Dummy_3961*Dummy_3963 - Dummy_3957*Dummy_3959*Dummy_3964 + Dummy_3957*Dummy_3961*Dummy_3962 + Dummy_3958*Dummy_3959*Dummy_3963 - Dummy_3958*Dummy_3960*Dummy_3962);
-       const real_t Dummy_3969 = (Dummy_3956*Dummy_3964 - Dummy_3958*Dummy_3962)*1.0 / (Dummy_3956*Dummy_3960*Dummy_3964 - Dummy_3956*Dummy_3961*Dummy_3963 - Dummy_3957*Dummy_3959*Dummy_3964 + Dummy_3957*Dummy_3961*Dummy_3962 + Dummy_3958*Dummy_3959*Dummy_3963 - Dummy_3958*Dummy_3960*Dummy_3962);
-       const real_t Dummy_3970 = (-Dummy_3956*Dummy_3961 + Dummy_3958*Dummy_3959)*1.0 / (Dummy_3956*Dummy_3960*Dummy_3964 - Dummy_3956*Dummy_3961*Dummy_3963 - Dummy_3957*Dummy_3959*Dummy_3964 + Dummy_3957*Dummy_3961*Dummy_3962 + Dummy_3958*Dummy_3959*Dummy_3963 - Dummy_3958*Dummy_3960*Dummy_3962);
-       const real_t Dummy_3971 = (Dummy_3959*Dummy_3963 - Dummy_3960*Dummy_3962)*1.0 / (Dummy_3956*Dummy_3960*Dummy_3964 - Dummy_3956*Dummy_3961*Dummy_3963 - Dummy_3957*Dummy_3959*Dummy_3964 + Dummy_3957*Dummy_3961*Dummy_3962 + Dummy_3958*Dummy_3959*Dummy_3963 - Dummy_3958*Dummy_3960*Dummy_3962);
-       const real_t Dummy_3972 = (-Dummy_3956*Dummy_3963 + Dummy_3957*Dummy_3962)*1.0 / (Dummy_3956*Dummy_3960*Dummy_3964 - Dummy_3956*Dummy_3961*Dummy_3963 - Dummy_3957*Dummy_3959*Dummy_3964 + Dummy_3957*Dummy_3961*Dummy_3962 + Dummy_3958*Dummy_3959*Dummy_3963 - Dummy_3958*Dummy_3960*Dummy_3962);
-       const real_t Dummy_3973 = (Dummy_3956*Dummy_3960 - Dummy_3957*Dummy_3959)*1.0 / (Dummy_3956*Dummy_3960*Dummy_3964 - Dummy_3956*Dummy_3961*Dummy_3963 - Dummy_3957*Dummy_3959*Dummy_3964 + Dummy_3957*Dummy_3961*Dummy_3962 + Dummy_3958*Dummy_3959*Dummy_3963 - Dummy_3958*Dummy_3960*Dummy_3962);
-       const real_t Dummy_3974 = abs(Dummy_3956*Dummy_3960*Dummy_3964 - Dummy_3956*Dummy_3961*Dummy_3963 - Dummy_3957*Dummy_3959*Dummy_3964 + Dummy_3957*Dummy_3961*Dummy_3962 + Dummy_3958*Dummy_3959*Dummy_3963 - Dummy_3958*Dummy_3960*Dummy_3962);
+       const real_t tmp_0_WHITE_UP = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
+       const real_t p_affine_const_0_0_WHITE_UP = macro_vertex_coord_id_0comp0;
+       const real_t p_affine_const_0_1_WHITE_UP = macro_vertex_coord_id_0comp1;
+       const real_t p_affine_const_0_2_WHITE_UP = macro_vertex_coord_id_0comp2;
+       const real_t p_affine_const_1_0_WHITE_UP = macro_vertex_coord_id_0comp0 + tmp_0_WHITE_UP*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
+       const real_t p_affine_const_1_1_WHITE_UP = macro_vertex_coord_id_0comp1 + tmp_0_WHITE_UP*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
+       const real_t p_affine_const_1_2_WHITE_UP = macro_vertex_coord_id_0comp2 + tmp_0_WHITE_UP*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2);
+       const real_t p_affine_const_2_0_WHITE_UP = macro_vertex_coord_id_0comp0 + tmp_0_WHITE_UP*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
+       const real_t p_affine_const_2_1_WHITE_UP = macro_vertex_coord_id_0comp1 + tmp_0_WHITE_UP*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
+       const real_t p_affine_const_2_2_WHITE_UP = macro_vertex_coord_id_0comp2 + tmp_0_WHITE_UP*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2);
+       const real_t p_affine_const_3_0_WHITE_UP = macro_vertex_coord_id_0comp0 + tmp_0_WHITE_UP*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0);
+       const real_t p_affine_const_3_1_WHITE_UP = macro_vertex_coord_id_0comp1 + tmp_0_WHITE_UP*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1);
+       const real_t p_affine_const_3_2_WHITE_UP = macro_vertex_coord_id_0comp2 + tmp_0_WHITE_UP*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2);
+       const real_t jac_affine_0_0_WHITE_UP = -p_affine_const_0_0_WHITE_UP + p_affine_const_1_0_WHITE_UP;
+       const real_t jac_affine_0_1_WHITE_UP = -p_affine_const_0_0_WHITE_UP + p_affine_const_2_0_WHITE_UP;
+       const real_t jac_affine_0_2_WHITE_UP = -p_affine_const_0_0_WHITE_UP + p_affine_const_3_0_WHITE_UP;
+       const real_t jac_affine_1_0_WHITE_UP = -p_affine_const_0_1_WHITE_UP + p_affine_const_1_1_WHITE_UP;
+       const real_t jac_affine_1_1_WHITE_UP = -p_affine_const_0_1_WHITE_UP + p_affine_const_2_1_WHITE_UP;
+       const real_t tmp_5_WHITE_UP = jac_affine_0_2_WHITE_UP*jac_affine_1_1_WHITE_UP;
+       const real_t jac_affine_1_2_WHITE_UP = -p_affine_const_0_1_WHITE_UP + p_affine_const_3_1_WHITE_UP;
+       const real_t tmp_3_WHITE_UP = jac_affine_0_1_WHITE_UP*jac_affine_1_2_WHITE_UP;
+       const real_t jac_affine_2_0_WHITE_UP = -p_affine_const_0_2_WHITE_UP + p_affine_const_1_2_WHITE_UP;
+       const real_t jac_affine_2_1_WHITE_UP = -p_affine_const_0_2_WHITE_UP + p_affine_const_2_2_WHITE_UP;
+       const real_t tmp_2_WHITE_UP = jac_affine_1_2_WHITE_UP*jac_affine_2_1_WHITE_UP;
+       const real_t jac_affine_2_2_WHITE_UP = -p_affine_const_0_2_WHITE_UP + p_affine_const_3_2_WHITE_UP;
+       const real_t tmp_1_WHITE_UP = jac_affine_1_1_WHITE_UP*jac_affine_2_2_WHITE_UP;
+       const real_t tmp_4_WHITE_UP = jac_affine_0_1_WHITE_UP*jac_affine_2_2_WHITE_UP;
+       const real_t tmp_6_WHITE_UP = jac_affine_0_0_WHITE_UP*tmp_1_WHITE_UP - jac_affine_0_0_WHITE_UP*tmp_2_WHITE_UP + jac_affine_0_2_WHITE_UP*jac_affine_1_0_WHITE_UP*jac_affine_2_1_WHITE_UP - jac_affine_1_0_WHITE_UP*tmp_4_WHITE_UP + jac_affine_2_0_WHITE_UP*tmp_3_WHITE_UP - jac_affine_2_0_WHITE_UP*tmp_5_WHITE_UP;
+       const real_t tmp_7_WHITE_UP = 1.0 / (tmp_6_WHITE_UP);
+       const real_t jac_affine_inv_0_0_WHITE_UP = tmp_7_WHITE_UP*(tmp_1_WHITE_UP - tmp_2_WHITE_UP);
+       const real_t jac_affine_inv_0_1_WHITE_UP = tmp_7_WHITE_UP*(jac_affine_0_2_WHITE_UP*jac_affine_2_1_WHITE_UP - tmp_4_WHITE_UP);
+       const real_t jac_affine_inv_0_2_WHITE_UP = tmp_7_WHITE_UP*(tmp_3_WHITE_UP - tmp_5_WHITE_UP);
+       const real_t jac_affine_inv_1_0_WHITE_UP = tmp_7_WHITE_UP*(-jac_affine_1_0_WHITE_UP*jac_affine_2_2_WHITE_UP + jac_affine_1_2_WHITE_UP*jac_affine_2_0_WHITE_UP);
+       const real_t jac_affine_inv_1_1_WHITE_UP = tmp_7_WHITE_UP*(jac_affine_0_0_WHITE_UP*jac_affine_2_2_WHITE_UP - jac_affine_0_2_WHITE_UP*jac_affine_2_0_WHITE_UP);
+       const real_t jac_affine_inv_1_2_WHITE_UP = tmp_7_WHITE_UP*(-jac_affine_0_0_WHITE_UP*jac_affine_1_2_WHITE_UP + jac_affine_0_2_WHITE_UP*jac_affine_1_0_WHITE_UP);
+       const real_t jac_affine_inv_2_0_WHITE_UP = tmp_7_WHITE_UP*(jac_affine_1_0_WHITE_UP*jac_affine_2_1_WHITE_UP - jac_affine_1_1_WHITE_UP*jac_affine_2_0_WHITE_UP);
+       const real_t jac_affine_inv_2_1_WHITE_UP = tmp_7_WHITE_UP*(-jac_affine_0_0_WHITE_UP*jac_affine_2_1_WHITE_UP + jac_affine_0_1_WHITE_UP*jac_affine_2_0_WHITE_UP);
+       const real_t jac_affine_inv_2_2_WHITE_UP = tmp_7_WHITE_UP*(jac_affine_0_0_WHITE_UP*jac_affine_1_1_WHITE_UP - jac_affine_0_1_WHITE_UP*jac_affine_1_0_WHITE_UP);
+       const real_t abs_det_jac_affine_WHITE_UP = abs(tmp_6_WHITE_UP);
        {
+          /* CellType.WHITE_UP */
           for (int64_t ctr_2 = 0; ctr_2 < micro_edges_per_macro_edge; ctr_2 += 1)
           for (int64_t ctr_1 = 0; ctr_1 < -ctr_2 + micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 - ctr_2 + micro_edges_per_macro_edge; ctr_0 += 1)
           {
+             const real_t k_dof_0 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))];
              const real_t k_dof_1 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1];
              const real_t k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))];
              const real_t k_dof_3 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))];
-             const real_t k_dof_0 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))];
              real_t q_acc_0_0 = 0.0;
              real_t q_acc_1_1 = 0.0;
              real_t q_acc_2_2 = 0.0;
              real_t q_acc_3_3 = 0.0;
              for (int64_t q = 0; q < 4; q += 1)
              {
-                const real_t tmp_q_0 = k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q];
-                const real_t tmp_q_1 = abs_det_jac_affine*_data_q_w[q];
-                const real_t res_tmp_0_0 = tmp_q_1*((-jac_affine_inv_0_0 - jac_affine_inv_1_0 - jac_affine_inv_2_0)*(-jac_affine_inv_0_0*tmp_q_0 - jac_affine_inv_1_0*tmp_q_0 - jac_affine_inv_2_0*tmp_q_0) + (-jac_affine_inv_0_1 - jac_affine_inv_1_1 - jac_affine_inv_2_1)*(-jac_affine_inv_0_1*tmp_q_0 - jac_affine_inv_1_1*tmp_q_0 - jac_affine_inv_2_1*tmp_q_0) + (-jac_affine_inv_0_2 - jac_affine_inv_1_2 - jac_affine_inv_2_2)*(-jac_affine_inv_0_2*tmp_q_0 - jac_affine_inv_1_2*tmp_q_0 - jac_affine_inv_2_2*tmp_q_0));
-                const real_t res_tmp_1_1 = tmp_q_1*((jac_affine_inv_0_0*jac_affine_inv_0_0)*tmp_q_0 + (jac_affine_inv_0_1*jac_affine_inv_0_1)*tmp_q_0 + (jac_affine_inv_0_2*jac_affine_inv_0_2)*tmp_q_0);
-                const real_t res_tmp_2_2 = tmp_q_1*((jac_affine_inv_1_0*jac_affine_inv_1_0)*tmp_q_0 + (jac_affine_inv_1_1*jac_affine_inv_1_1)*tmp_q_0 + (jac_affine_inv_1_2*jac_affine_inv_1_2)*tmp_q_0);
-                const real_t res_tmp_3_3 = tmp_q_1*((jac_affine_inv_2_0*jac_affine_inv_2_0)*tmp_q_0 + (jac_affine_inv_2_1*jac_affine_inv_2_1)*tmp_q_0 + (jac_affine_inv_2_2*jac_affine_inv_2_2)*tmp_q_0);
-                q_acc_0_0 = q_acc_0_0 + res_tmp_0_0;
-                q_acc_1_1 = q_acc_1_1 + res_tmp_1_1;
-                q_acc_2_2 = q_acc_2_2 + res_tmp_2_2;
-                q_acc_3_3 = q_acc_3_3 + res_tmp_3_3;
+                const real_t tmp_q_0 = abs_det_jac_affine_WHITE_UP*(k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q])*_data_q_w[q];
+                const real_t q_tmp_0_0 = tmp_q_0*(((-jac_affine_inv_0_0_WHITE_UP - jac_affine_inv_1_0_WHITE_UP - jac_affine_inv_2_0_WHITE_UP)*(-jac_affine_inv_0_0_WHITE_UP - jac_affine_inv_1_0_WHITE_UP - jac_affine_inv_2_0_WHITE_UP)) + ((-jac_affine_inv_0_1_WHITE_UP - jac_affine_inv_1_1_WHITE_UP - jac_affine_inv_2_1_WHITE_UP)*(-jac_affine_inv_0_1_WHITE_UP - jac_affine_inv_1_1_WHITE_UP - jac_affine_inv_2_1_WHITE_UP)) + ((-jac_affine_inv_0_2_WHITE_UP - jac_affine_inv_1_2_WHITE_UP - jac_affine_inv_2_2_WHITE_UP)*(-jac_affine_inv_0_2_WHITE_UP - jac_affine_inv_1_2_WHITE_UP - jac_affine_inv_2_2_WHITE_UP)));
+                const real_t q_tmp_1_1 = tmp_q_0*((jac_affine_inv_0_0_WHITE_UP*jac_affine_inv_0_0_WHITE_UP) + (jac_affine_inv_0_1_WHITE_UP*jac_affine_inv_0_1_WHITE_UP) + (jac_affine_inv_0_2_WHITE_UP*jac_affine_inv_0_2_WHITE_UP));
+                const real_t q_tmp_2_2 = tmp_q_0*((jac_affine_inv_1_0_WHITE_UP*jac_affine_inv_1_0_WHITE_UP) + (jac_affine_inv_1_1_WHITE_UP*jac_affine_inv_1_1_WHITE_UP) + (jac_affine_inv_1_2_WHITE_UP*jac_affine_inv_1_2_WHITE_UP));
+                const real_t q_tmp_3_3 = tmp_q_0*((jac_affine_inv_2_0_WHITE_UP*jac_affine_inv_2_0_WHITE_UP) + (jac_affine_inv_2_1_WHITE_UP*jac_affine_inv_2_1_WHITE_UP) + (jac_affine_inv_2_2_WHITE_UP*jac_affine_inv_2_2_WHITE_UP));
+                q_acc_0_0 = q_acc_0_0 + q_tmp_0_0;
+                q_acc_1_1 = q_acc_1_1 + q_tmp_1_1;
+                q_acc_2_2 = q_acc_2_2 + q_tmp_2_2;
+                q_acc_3_3 = q_acc_3_3 + q_tmp_3_3;
              }
              const real_t elMatDiag_0 = q_acc_0_0;
              const real_t elMatDiag_1 = q_acc_1_1;
@@ -288,30 +141,83 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_3D( real_
              _data_invDiag_[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))] = elMatDiag_2 + _data_invDiag_[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))];
              _data_invDiag_[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))] = elMatDiag_3 + _data_invDiag_[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))];
           }
+       }
+       const real_t tmp_0_WHITE_DOWN = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
+       const real_t tmp_1_WHITE_DOWN = tmp_0_WHITE_DOWN*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
+       const real_t tmp_2_WHITE_DOWN = macro_vertex_coord_id_0comp0 + tmp_0_WHITE_DOWN*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
+       const real_t tmp_3_WHITE_DOWN = tmp_1_WHITE_DOWN + tmp_2_WHITE_DOWN;
+       const real_t tmp_4_WHITE_DOWN = tmp_0_WHITE_DOWN*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
+       const real_t tmp_5_WHITE_DOWN = macro_vertex_coord_id_0comp1 + tmp_0_WHITE_DOWN*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
+       const real_t tmp_6_WHITE_DOWN = tmp_4_WHITE_DOWN + tmp_5_WHITE_DOWN;
+       const real_t tmp_7_WHITE_DOWN = tmp_0_WHITE_DOWN*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2);
+       const real_t tmp_8_WHITE_DOWN = macro_vertex_coord_id_0comp2 + tmp_0_WHITE_DOWN*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2);
+       const real_t tmp_9_WHITE_DOWN = tmp_7_WHITE_DOWN + tmp_8_WHITE_DOWN;
+       const real_t tmp_10_WHITE_DOWN = tmp_0_WHITE_DOWN*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0);
+       const real_t tmp_11_WHITE_DOWN = tmp_0_WHITE_DOWN*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1);
+       const real_t tmp_12_WHITE_DOWN = tmp_0_WHITE_DOWN*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2);
+       const real_t p_affine_const_0_0_WHITE_DOWN = tmp_3_WHITE_DOWN;
+       const real_t p_affine_const_0_1_WHITE_DOWN = tmp_6_WHITE_DOWN;
+       const real_t p_affine_const_0_2_WHITE_DOWN = tmp_9_WHITE_DOWN;
+       const real_t p_affine_const_1_0_WHITE_DOWN = tmp_10_WHITE_DOWN + tmp_2_WHITE_DOWN;
+       const real_t p_affine_const_1_1_WHITE_DOWN = tmp_11_WHITE_DOWN + tmp_5_WHITE_DOWN;
+       const real_t p_affine_const_1_2_WHITE_DOWN = tmp_12_WHITE_DOWN + tmp_8_WHITE_DOWN;
+       const real_t p_affine_const_2_0_WHITE_DOWN = macro_vertex_coord_id_0comp0 + tmp_10_WHITE_DOWN + tmp_1_WHITE_DOWN;
+       const real_t p_affine_const_2_1_WHITE_DOWN = macro_vertex_coord_id_0comp1 + tmp_11_WHITE_DOWN + tmp_4_WHITE_DOWN;
+       const real_t p_affine_const_2_2_WHITE_DOWN = macro_vertex_coord_id_0comp2 + tmp_12_WHITE_DOWN + tmp_7_WHITE_DOWN;
+       const real_t p_affine_const_3_0_WHITE_DOWN = tmp_10_WHITE_DOWN + tmp_3_WHITE_DOWN;
+       const real_t p_affine_const_3_1_WHITE_DOWN = tmp_11_WHITE_DOWN + tmp_6_WHITE_DOWN;
+       const real_t p_affine_const_3_2_WHITE_DOWN = tmp_12_WHITE_DOWN + tmp_9_WHITE_DOWN;
+       const real_t jac_affine_0_0_WHITE_DOWN = -p_affine_const_0_0_WHITE_DOWN + p_affine_const_1_0_WHITE_DOWN;
+       const real_t jac_affine_0_1_WHITE_DOWN = -p_affine_const_0_0_WHITE_DOWN + p_affine_const_2_0_WHITE_DOWN;
+       const real_t jac_affine_0_2_WHITE_DOWN = -p_affine_const_0_0_WHITE_DOWN + p_affine_const_3_0_WHITE_DOWN;
+       const real_t jac_affine_1_0_WHITE_DOWN = -p_affine_const_0_1_WHITE_DOWN + p_affine_const_1_1_WHITE_DOWN;
+       const real_t jac_affine_1_1_WHITE_DOWN = -p_affine_const_0_1_WHITE_DOWN + p_affine_const_2_1_WHITE_DOWN;
+       const real_t tmp_17_WHITE_DOWN = jac_affine_0_2_WHITE_DOWN*jac_affine_1_1_WHITE_DOWN;
+       const real_t jac_affine_1_2_WHITE_DOWN = -p_affine_const_0_1_WHITE_DOWN + p_affine_const_3_1_WHITE_DOWN;
+       const real_t tmp_15_WHITE_DOWN = jac_affine_0_1_WHITE_DOWN*jac_affine_1_2_WHITE_DOWN;
+       const real_t jac_affine_2_0_WHITE_DOWN = -p_affine_const_0_2_WHITE_DOWN + p_affine_const_1_2_WHITE_DOWN;
+       const real_t jac_affine_2_1_WHITE_DOWN = -p_affine_const_0_2_WHITE_DOWN + p_affine_const_2_2_WHITE_DOWN;
+       const real_t tmp_14_WHITE_DOWN = jac_affine_1_2_WHITE_DOWN*jac_affine_2_1_WHITE_DOWN;
+       const real_t jac_affine_2_2_WHITE_DOWN = -p_affine_const_0_2_WHITE_DOWN + p_affine_const_3_2_WHITE_DOWN;
+       const real_t tmp_13_WHITE_DOWN = jac_affine_1_1_WHITE_DOWN*jac_affine_2_2_WHITE_DOWN;
+       const real_t tmp_16_WHITE_DOWN = jac_affine_0_1_WHITE_DOWN*jac_affine_2_2_WHITE_DOWN;
+       const real_t tmp_18_WHITE_DOWN = jac_affine_0_0_WHITE_DOWN*tmp_13_WHITE_DOWN - jac_affine_0_0_WHITE_DOWN*tmp_14_WHITE_DOWN + jac_affine_0_2_WHITE_DOWN*jac_affine_1_0_WHITE_DOWN*jac_affine_2_1_WHITE_DOWN - jac_affine_1_0_WHITE_DOWN*tmp_16_WHITE_DOWN + jac_affine_2_0_WHITE_DOWN*tmp_15_WHITE_DOWN - jac_affine_2_0_WHITE_DOWN*tmp_17_WHITE_DOWN;
+       const real_t tmp_19_WHITE_DOWN = 1.0 / (tmp_18_WHITE_DOWN);
+       const real_t jac_affine_inv_0_0_WHITE_DOWN = tmp_19_WHITE_DOWN*(tmp_13_WHITE_DOWN - tmp_14_WHITE_DOWN);
+       const real_t jac_affine_inv_0_1_WHITE_DOWN = tmp_19_WHITE_DOWN*(jac_affine_0_2_WHITE_DOWN*jac_affine_2_1_WHITE_DOWN - tmp_16_WHITE_DOWN);
+       const real_t jac_affine_inv_0_2_WHITE_DOWN = tmp_19_WHITE_DOWN*(tmp_15_WHITE_DOWN - tmp_17_WHITE_DOWN);
+       const real_t jac_affine_inv_1_0_WHITE_DOWN = tmp_19_WHITE_DOWN*(-jac_affine_1_0_WHITE_DOWN*jac_affine_2_2_WHITE_DOWN + jac_affine_1_2_WHITE_DOWN*jac_affine_2_0_WHITE_DOWN);
+       const real_t jac_affine_inv_1_1_WHITE_DOWN = tmp_19_WHITE_DOWN*(jac_affine_0_0_WHITE_DOWN*jac_affine_2_2_WHITE_DOWN - jac_affine_0_2_WHITE_DOWN*jac_affine_2_0_WHITE_DOWN);
+       const real_t jac_affine_inv_1_2_WHITE_DOWN = tmp_19_WHITE_DOWN*(-jac_affine_0_0_WHITE_DOWN*jac_affine_1_2_WHITE_DOWN + jac_affine_0_2_WHITE_DOWN*jac_affine_1_0_WHITE_DOWN);
+       const real_t jac_affine_inv_2_0_WHITE_DOWN = tmp_19_WHITE_DOWN*(jac_affine_1_0_WHITE_DOWN*jac_affine_2_1_WHITE_DOWN - jac_affine_1_1_WHITE_DOWN*jac_affine_2_0_WHITE_DOWN);
+       const real_t jac_affine_inv_2_1_WHITE_DOWN = tmp_19_WHITE_DOWN*(-jac_affine_0_0_WHITE_DOWN*jac_affine_2_1_WHITE_DOWN + jac_affine_0_1_WHITE_DOWN*jac_affine_2_0_WHITE_DOWN);
+       const real_t jac_affine_inv_2_2_WHITE_DOWN = tmp_19_WHITE_DOWN*(jac_affine_0_0_WHITE_DOWN*jac_affine_1_1_WHITE_DOWN - jac_affine_0_1_WHITE_DOWN*jac_affine_1_0_WHITE_DOWN);
+       const real_t abs_det_jac_affine_WHITE_DOWN = abs(tmp_18_WHITE_DOWN);
+       {
+          /* CellType.WHITE_DOWN */
           for (int64_t ctr_2 = 0; ctr_2 < micro_edges_per_macro_edge; ctr_2 += 1)
           for (int64_t ctr_1 = 0; ctr_1 < -ctr_2 + micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 - ctr_2 + micro_edges_per_macro_edge - 2; ctr_0 += 1)
           {
+             const real_t k_dof_0 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1];
              const real_t k_dof_1 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1];
              const real_t k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))];
              const real_t k_dof_3 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1];
-             const real_t k_dof_0 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1];
              real_t q_acc_0_0 = 0.0;
              real_t q_acc_1_1 = 0.0;
              real_t q_acc_2_2 = 0.0;
              real_t q_acc_3_3 = 0.0;
              for (int64_t q = 0; q < 4; q += 1)
              {
-                const real_t tmp_q_0 = k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q];
-                const real_t tmp_q_1 = Dummy_3850*_data_q_w[q];
-                const real_t res_tmp_0_0 = tmp_q_1*((-Dummy_3841 - Dummy_3844 - Dummy_3847)*(-Dummy_3841*tmp_q_0 - Dummy_3844*tmp_q_0 - Dummy_3847*tmp_q_0) + (-Dummy_3842 - Dummy_3845 - Dummy_3848)*(-Dummy_3842*tmp_q_0 - Dummy_3845*tmp_q_0 - Dummy_3848*tmp_q_0) + (-Dummy_3843 - Dummy_3846 - Dummy_3849)*(-Dummy_3843*tmp_q_0 - Dummy_3846*tmp_q_0 - Dummy_3849*tmp_q_0));
-                const real_t res_tmp_1_1 = tmp_q_1*((Dummy_3841*Dummy_3841)*tmp_q_0 + (Dummy_3842*Dummy_3842)*tmp_q_0 + (Dummy_3843*Dummy_3843)*tmp_q_0);
-                const real_t res_tmp_2_2 = tmp_q_1*((Dummy_3844*Dummy_3844)*tmp_q_0 + (Dummy_3845*Dummy_3845)*tmp_q_0 + (Dummy_3846*Dummy_3846)*tmp_q_0);
-                const real_t res_tmp_3_3 = tmp_q_1*((Dummy_3847*Dummy_3847)*tmp_q_0 + (Dummy_3848*Dummy_3848)*tmp_q_0 + (Dummy_3849*Dummy_3849)*tmp_q_0);
-                q_acc_0_0 = q_acc_0_0 + res_tmp_0_0;
-                q_acc_1_1 = q_acc_1_1 + res_tmp_1_1;
-                q_acc_2_2 = q_acc_2_2 + res_tmp_2_2;
-                q_acc_3_3 = q_acc_3_3 + res_tmp_3_3;
+                const real_t tmp_q_0 = abs_det_jac_affine_WHITE_DOWN*(k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q])*_data_q_w[q];
+                const real_t q_tmp_0_0 = tmp_q_0*(((-jac_affine_inv_0_0_WHITE_DOWN - jac_affine_inv_1_0_WHITE_DOWN - jac_affine_inv_2_0_WHITE_DOWN)*(-jac_affine_inv_0_0_WHITE_DOWN - jac_affine_inv_1_0_WHITE_DOWN - jac_affine_inv_2_0_WHITE_DOWN)) + ((-jac_affine_inv_0_1_WHITE_DOWN - jac_affine_inv_1_1_WHITE_DOWN - jac_affine_inv_2_1_WHITE_DOWN)*(-jac_affine_inv_0_1_WHITE_DOWN - jac_affine_inv_1_1_WHITE_DOWN - jac_affine_inv_2_1_WHITE_DOWN)) + ((-jac_affine_inv_0_2_WHITE_DOWN - jac_affine_inv_1_2_WHITE_DOWN - jac_affine_inv_2_2_WHITE_DOWN)*(-jac_affine_inv_0_2_WHITE_DOWN - jac_affine_inv_1_2_WHITE_DOWN - jac_affine_inv_2_2_WHITE_DOWN)));
+                const real_t q_tmp_1_1 = tmp_q_0*((jac_affine_inv_0_0_WHITE_DOWN*jac_affine_inv_0_0_WHITE_DOWN) + (jac_affine_inv_0_1_WHITE_DOWN*jac_affine_inv_0_1_WHITE_DOWN) + (jac_affine_inv_0_2_WHITE_DOWN*jac_affine_inv_0_2_WHITE_DOWN));
+                const real_t q_tmp_2_2 = tmp_q_0*((jac_affine_inv_1_0_WHITE_DOWN*jac_affine_inv_1_0_WHITE_DOWN) + (jac_affine_inv_1_1_WHITE_DOWN*jac_affine_inv_1_1_WHITE_DOWN) + (jac_affine_inv_1_2_WHITE_DOWN*jac_affine_inv_1_2_WHITE_DOWN));
+                const real_t q_tmp_3_3 = tmp_q_0*((jac_affine_inv_2_0_WHITE_DOWN*jac_affine_inv_2_0_WHITE_DOWN) + (jac_affine_inv_2_1_WHITE_DOWN*jac_affine_inv_2_1_WHITE_DOWN) + (jac_affine_inv_2_2_WHITE_DOWN*jac_affine_inv_2_2_WHITE_DOWN));
+                q_acc_0_0 = q_acc_0_0 + q_tmp_0_0;
+                q_acc_1_1 = q_acc_1_1 + q_tmp_1_1;
+                q_acc_2_2 = q_acc_2_2 + q_tmp_2_2;
+                q_acc_3_3 = q_acc_3_3 + q_tmp_3_3;
              }
              const real_t elMatDiag_0 = q_acc_0_0;
              const real_t elMatDiag_1 = q_acc_1_1;
@@ -322,30 +228,77 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_3D( real_
              _data_invDiag_[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))] = elMatDiag_2 + _data_invDiag_[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))];
              _data_invDiag_[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1] = elMatDiag_3 + _data_invDiag_[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1];
           }
+       }
+       const real_t tmp_0_BLUE_UP = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
+       const real_t tmp_1_BLUE_UP = macro_vertex_coord_id_0comp0 + tmp_0_BLUE_UP*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
+       const real_t tmp_2_BLUE_UP = macro_vertex_coord_id_0comp1 + tmp_0_BLUE_UP*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
+       const real_t tmp_3_BLUE_UP = macro_vertex_coord_id_0comp2 + tmp_0_BLUE_UP*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2);
+       const real_t tmp_4_BLUE_UP = tmp_0_BLUE_UP*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
+       const real_t tmp_5_BLUE_UP = tmp_0_BLUE_UP*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
+       const real_t tmp_6_BLUE_UP = tmp_0_BLUE_UP*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2);
+       const real_t p_affine_const_0_0_BLUE_UP = tmp_1_BLUE_UP;
+       const real_t p_affine_const_0_1_BLUE_UP = tmp_2_BLUE_UP;
+       const real_t p_affine_const_0_2_BLUE_UP = tmp_3_BLUE_UP;
+       const real_t p_affine_const_1_0_BLUE_UP = macro_vertex_coord_id_0comp0 + tmp_4_BLUE_UP;
+       const real_t p_affine_const_1_1_BLUE_UP = macro_vertex_coord_id_0comp1 + tmp_5_BLUE_UP;
+       const real_t p_affine_const_1_2_BLUE_UP = macro_vertex_coord_id_0comp2 + tmp_6_BLUE_UP;
+       const real_t p_affine_const_2_0_BLUE_UP = tmp_1_BLUE_UP + tmp_4_BLUE_UP;
+       const real_t p_affine_const_2_1_BLUE_UP = tmp_2_BLUE_UP + tmp_5_BLUE_UP;
+       const real_t p_affine_const_2_2_BLUE_UP = tmp_3_BLUE_UP + tmp_6_BLUE_UP;
+       const real_t p_affine_const_3_0_BLUE_UP = tmp_0_BLUE_UP*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0) + tmp_1_BLUE_UP;
+       const real_t p_affine_const_3_1_BLUE_UP = tmp_0_BLUE_UP*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1) + tmp_2_BLUE_UP;
+       const real_t p_affine_const_3_2_BLUE_UP = tmp_0_BLUE_UP*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2) + tmp_3_BLUE_UP;
+       const real_t jac_affine_0_0_BLUE_UP = -p_affine_const_0_0_BLUE_UP + p_affine_const_1_0_BLUE_UP;
+       const real_t jac_affine_0_1_BLUE_UP = -p_affine_const_0_0_BLUE_UP + p_affine_const_2_0_BLUE_UP;
+       const real_t jac_affine_0_2_BLUE_UP = -p_affine_const_0_0_BLUE_UP + p_affine_const_3_0_BLUE_UP;
+       const real_t jac_affine_1_0_BLUE_UP = -p_affine_const_0_1_BLUE_UP + p_affine_const_1_1_BLUE_UP;
+       const real_t jac_affine_1_1_BLUE_UP = -p_affine_const_0_1_BLUE_UP + p_affine_const_2_1_BLUE_UP;
+       const real_t tmp_11_BLUE_UP = jac_affine_0_2_BLUE_UP*jac_affine_1_1_BLUE_UP;
+       const real_t jac_affine_1_2_BLUE_UP = -p_affine_const_0_1_BLUE_UP + p_affine_const_3_1_BLUE_UP;
+       const real_t tmp_9_BLUE_UP = jac_affine_0_1_BLUE_UP*jac_affine_1_2_BLUE_UP;
+       const real_t jac_affine_2_0_BLUE_UP = -p_affine_const_0_2_BLUE_UP + p_affine_const_1_2_BLUE_UP;
+       const real_t jac_affine_2_1_BLUE_UP = -p_affine_const_0_2_BLUE_UP + p_affine_const_2_2_BLUE_UP;
+       const real_t tmp_8_BLUE_UP = jac_affine_1_2_BLUE_UP*jac_affine_2_1_BLUE_UP;
+       const real_t jac_affine_2_2_BLUE_UP = -p_affine_const_0_2_BLUE_UP + p_affine_const_3_2_BLUE_UP;
+       const real_t tmp_7_BLUE_UP = jac_affine_1_1_BLUE_UP*jac_affine_2_2_BLUE_UP;
+       const real_t tmp_10_BLUE_UP = jac_affine_0_1_BLUE_UP*jac_affine_2_2_BLUE_UP;
+       const real_t tmp_12_BLUE_UP = jac_affine_0_0_BLUE_UP*tmp_7_BLUE_UP - jac_affine_0_0_BLUE_UP*tmp_8_BLUE_UP + jac_affine_0_2_BLUE_UP*jac_affine_1_0_BLUE_UP*jac_affine_2_1_BLUE_UP - jac_affine_1_0_BLUE_UP*tmp_10_BLUE_UP - jac_affine_2_0_BLUE_UP*tmp_11_BLUE_UP + jac_affine_2_0_BLUE_UP*tmp_9_BLUE_UP;
+       const real_t tmp_13_BLUE_UP = 1.0 / (tmp_12_BLUE_UP);
+       const real_t jac_affine_inv_0_0_BLUE_UP = tmp_13_BLUE_UP*(tmp_7_BLUE_UP - tmp_8_BLUE_UP);
+       const real_t jac_affine_inv_0_1_BLUE_UP = tmp_13_BLUE_UP*(jac_affine_0_2_BLUE_UP*jac_affine_2_1_BLUE_UP - tmp_10_BLUE_UP);
+       const real_t jac_affine_inv_0_2_BLUE_UP = tmp_13_BLUE_UP*(-tmp_11_BLUE_UP + tmp_9_BLUE_UP);
+       const real_t jac_affine_inv_1_0_BLUE_UP = tmp_13_BLUE_UP*(-jac_affine_1_0_BLUE_UP*jac_affine_2_2_BLUE_UP + jac_affine_1_2_BLUE_UP*jac_affine_2_0_BLUE_UP);
+       const real_t jac_affine_inv_1_1_BLUE_UP = tmp_13_BLUE_UP*(jac_affine_0_0_BLUE_UP*jac_affine_2_2_BLUE_UP - jac_affine_0_2_BLUE_UP*jac_affine_2_0_BLUE_UP);
+       const real_t jac_affine_inv_1_2_BLUE_UP = tmp_13_BLUE_UP*(-jac_affine_0_0_BLUE_UP*jac_affine_1_2_BLUE_UP + jac_affine_0_2_BLUE_UP*jac_affine_1_0_BLUE_UP);
+       const real_t jac_affine_inv_2_0_BLUE_UP = tmp_13_BLUE_UP*(jac_affine_1_0_BLUE_UP*jac_affine_2_1_BLUE_UP - jac_affine_1_1_BLUE_UP*jac_affine_2_0_BLUE_UP);
+       const real_t jac_affine_inv_2_1_BLUE_UP = tmp_13_BLUE_UP*(-jac_affine_0_0_BLUE_UP*jac_affine_2_1_BLUE_UP + jac_affine_0_1_BLUE_UP*jac_affine_2_0_BLUE_UP);
+       const real_t jac_affine_inv_2_2_BLUE_UP = tmp_13_BLUE_UP*(jac_affine_0_0_BLUE_UP*jac_affine_1_1_BLUE_UP - jac_affine_0_1_BLUE_UP*jac_affine_1_0_BLUE_UP);
+       const real_t abs_det_jac_affine_BLUE_UP = abs(tmp_12_BLUE_UP);
+       {
+          /* CellType.BLUE_UP */
           for (int64_t ctr_2 = 0; ctr_2 < micro_edges_per_macro_edge; ctr_2 += 1)
           for (int64_t ctr_1 = 0; ctr_1 < -ctr_2 + micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 - ctr_2 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
           {
+             const real_t k_dof_0 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1];
              const real_t k_dof_1 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))];
              const real_t k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1];
              const real_t k_dof_3 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1];
-             const real_t k_dof_0 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1];
              real_t q_acc_0_0 = 0.0;
              real_t q_acc_1_1 = 0.0;
              real_t q_acc_2_2 = 0.0;
              real_t q_acc_3_3 = 0.0;
              for (int64_t q = 0; q < 4; q += 1)
              {
-                const real_t tmp_q_0 = k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q];
-                const real_t tmp_q_1 = Dummy_3881*_data_q_w[q];
-                const real_t res_tmp_0_0 = tmp_q_1*((-Dummy_3872 - Dummy_3875 - Dummy_3878)*(-Dummy_3872*tmp_q_0 - Dummy_3875*tmp_q_0 - Dummy_3878*tmp_q_0) + (-Dummy_3873 - Dummy_3876 - Dummy_3879)*(-Dummy_3873*tmp_q_0 - Dummy_3876*tmp_q_0 - Dummy_3879*tmp_q_0) + (-Dummy_3874 - Dummy_3877 - Dummy_3880)*(-Dummy_3874*tmp_q_0 - Dummy_3877*tmp_q_0 - Dummy_3880*tmp_q_0));
-                const real_t res_tmp_1_1 = tmp_q_1*((Dummy_3872*Dummy_3872)*tmp_q_0 + (Dummy_3873*Dummy_3873)*tmp_q_0 + (Dummy_3874*Dummy_3874)*tmp_q_0);
-                const real_t res_tmp_2_2 = tmp_q_1*((Dummy_3875*Dummy_3875)*tmp_q_0 + (Dummy_3876*Dummy_3876)*tmp_q_0 + (Dummy_3877*Dummy_3877)*tmp_q_0);
-                const real_t res_tmp_3_3 = tmp_q_1*((Dummy_3878*Dummy_3878)*tmp_q_0 + (Dummy_3879*Dummy_3879)*tmp_q_0 + (Dummy_3880*Dummy_3880)*tmp_q_0);
-                q_acc_0_0 = q_acc_0_0 + res_tmp_0_0;
-                q_acc_1_1 = q_acc_1_1 + res_tmp_1_1;
-                q_acc_2_2 = q_acc_2_2 + res_tmp_2_2;
-                q_acc_3_3 = q_acc_3_3 + res_tmp_3_3;
+                const real_t tmp_q_0 = abs_det_jac_affine_BLUE_UP*(k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q])*_data_q_w[q];
+                const real_t q_tmp_0_0 = tmp_q_0*(((-jac_affine_inv_0_0_BLUE_UP - jac_affine_inv_1_0_BLUE_UP - jac_affine_inv_2_0_BLUE_UP)*(-jac_affine_inv_0_0_BLUE_UP - jac_affine_inv_1_0_BLUE_UP - jac_affine_inv_2_0_BLUE_UP)) + ((-jac_affine_inv_0_1_BLUE_UP - jac_affine_inv_1_1_BLUE_UP - jac_affine_inv_2_1_BLUE_UP)*(-jac_affine_inv_0_1_BLUE_UP - jac_affine_inv_1_1_BLUE_UP - jac_affine_inv_2_1_BLUE_UP)) + ((-jac_affine_inv_0_2_BLUE_UP - jac_affine_inv_1_2_BLUE_UP - jac_affine_inv_2_2_BLUE_UP)*(-jac_affine_inv_0_2_BLUE_UP - jac_affine_inv_1_2_BLUE_UP - jac_affine_inv_2_2_BLUE_UP)));
+                const real_t q_tmp_1_1 = tmp_q_0*((jac_affine_inv_0_0_BLUE_UP*jac_affine_inv_0_0_BLUE_UP) + (jac_affine_inv_0_1_BLUE_UP*jac_affine_inv_0_1_BLUE_UP) + (jac_affine_inv_0_2_BLUE_UP*jac_affine_inv_0_2_BLUE_UP));
+                const real_t q_tmp_2_2 = tmp_q_0*((jac_affine_inv_1_0_BLUE_UP*jac_affine_inv_1_0_BLUE_UP) + (jac_affine_inv_1_1_BLUE_UP*jac_affine_inv_1_1_BLUE_UP) + (jac_affine_inv_1_2_BLUE_UP*jac_affine_inv_1_2_BLUE_UP));
+                const real_t q_tmp_3_3 = tmp_q_0*((jac_affine_inv_2_0_BLUE_UP*jac_affine_inv_2_0_BLUE_UP) + (jac_affine_inv_2_1_BLUE_UP*jac_affine_inv_2_1_BLUE_UP) + (jac_affine_inv_2_2_BLUE_UP*jac_affine_inv_2_2_BLUE_UP));
+                q_acc_0_0 = q_acc_0_0 + q_tmp_0_0;
+                q_acc_1_1 = q_acc_1_1 + q_tmp_1_1;
+                q_acc_2_2 = q_acc_2_2 + q_tmp_2_2;
+                q_acc_3_3 = q_acc_3_3 + q_tmp_3_3;
              }
              const real_t elMatDiag_0 = q_acc_0_0;
              const real_t elMatDiag_1 = q_acc_1_1;
@@ -356,30 +309,80 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_3D( real_
              _data_invDiag_[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1] = elMatDiag_2 + _data_invDiag_[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1];
              _data_invDiag_[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1] = elMatDiag_3 + _data_invDiag_[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1];
           }
+       }
+       const real_t tmp_0_BLUE_DOWN = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
+       const real_t tmp_1_BLUE_DOWN = macro_vertex_coord_id_0comp0 + tmp_0_BLUE_DOWN*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
+       const real_t tmp_2_BLUE_DOWN = macro_vertex_coord_id_0comp1 + tmp_0_BLUE_DOWN*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
+       const real_t tmp_3_BLUE_DOWN = macro_vertex_coord_id_0comp2 + tmp_0_BLUE_DOWN*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2);
+       const real_t tmp_4_BLUE_DOWN = tmp_0_BLUE_DOWN*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0);
+       const real_t tmp_5_BLUE_DOWN = macro_vertex_coord_id_0comp0 + tmp_4_BLUE_DOWN;
+       const real_t tmp_6_BLUE_DOWN = tmp_0_BLUE_DOWN*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1);
+       const real_t tmp_7_BLUE_DOWN = macro_vertex_coord_id_0comp1 + tmp_6_BLUE_DOWN;
+       const real_t tmp_8_BLUE_DOWN = tmp_0_BLUE_DOWN*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2);
+       const real_t tmp_9_BLUE_DOWN = macro_vertex_coord_id_0comp2 + tmp_8_BLUE_DOWN;
+       const real_t p_affine_const_0_0_BLUE_DOWN = tmp_1_BLUE_DOWN;
+       const real_t p_affine_const_0_1_BLUE_DOWN = tmp_2_BLUE_DOWN;
+       const real_t p_affine_const_0_2_BLUE_DOWN = tmp_3_BLUE_DOWN;
+       const real_t p_affine_const_1_0_BLUE_DOWN = tmp_5_BLUE_DOWN;
+       const real_t p_affine_const_1_1_BLUE_DOWN = tmp_7_BLUE_DOWN;
+       const real_t p_affine_const_1_2_BLUE_DOWN = tmp_9_BLUE_DOWN;
+       const real_t p_affine_const_2_0_BLUE_DOWN = tmp_0_BLUE_DOWN*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0) + tmp_5_BLUE_DOWN;
+       const real_t p_affine_const_2_1_BLUE_DOWN = tmp_0_BLUE_DOWN*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1) + tmp_7_BLUE_DOWN;
+       const real_t p_affine_const_2_2_BLUE_DOWN = tmp_0_BLUE_DOWN*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2) + tmp_9_BLUE_DOWN;
+       const real_t p_affine_const_3_0_BLUE_DOWN = tmp_1_BLUE_DOWN + tmp_4_BLUE_DOWN;
+       const real_t p_affine_const_3_1_BLUE_DOWN = tmp_2_BLUE_DOWN + tmp_6_BLUE_DOWN;
+       const real_t p_affine_const_3_2_BLUE_DOWN = tmp_3_BLUE_DOWN + tmp_8_BLUE_DOWN;
+       const real_t jac_affine_0_0_BLUE_DOWN = -p_affine_const_0_0_BLUE_DOWN + p_affine_const_1_0_BLUE_DOWN;
+       const real_t jac_affine_0_1_BLUE_DOWN = -p_affine_const_0_0_BLUE_DOWN + p_affine_const_2_0_BLUE_DOWN;
+       const real_t jac_affine_0_2_BLUE_DOWN = -p_affine_const_0_0_BLUE_DOWN + p_affine_const_3_0_BLUE_DOWN;
+       const real_t jac_affine_1_0_BLUE_DOWN = -p_affine_const_0_1_BLUE_DOWN + p_affine_const_1_1_BLUE_DOWN;
+       const real_t jac_affine_1_1_BLUE_DOWN = -p_affine_const_0_1_BLUE_DOWN + p_affine_const_2_1_BLUE_DOWN;
+       const real_t tmp_14_BLUE_DOWN = jac_affine_0_2_BLUE_DOWN*jac_affine_1_1_BLUE_DOWN;
+       const real_t jac_affine_1_2_BLUE_DOWN = -p_affine_const_0_1_BLUE_DOWN + p_affine_const_3_1_BLUE_DOWN;
+       const real_t tmp_12_BLUE_DOWN = jac_affine_0_1_BLUE_DOWN*jac_affine_1_2_BLUE_DOWN;
+       const real_t jac_affine_2_0_BLUE_DOWN = -p_affine_const_0_2_BLUE_DOWN + p_affine_const_1_2_BLUE_DOWN;
+       const real_t jac_affine_2_1_BLUE_DOWN = -p_affine_const_0_2_BLUE_DOWN + p_affine_const_2_2_BLUE_DOWN;
+       const real_t tmp_11_BLUE_DOWN = jac_affine_1_2_BLUE_DOWN*jac_affine_2_1_BLUE_DOWN;
+       const real_t jac_affine_2_2_BLUE_DOWN = -p_affine_const_0_2_BLUE_DOWN + p_affine_const_3_2_BLUE_DOWN;
+       const real_t tmp_10_BLUE_DOWN = jac_affine_1_1_BLUE_DOWN*jac_affine_2_2_BLUE_DOWN;
+       const real_t tmp_13_BLUE_DOWN = jac_affine_0_1_BLUE_DOWN*jac_affine_2_2_BLUE_DOWN;
+       const real_t tmp_15_BLUE_DOWN = jac_affine_0_0_BLUE_DOWN*tmp_10_BLUE_DOWN - jac_affine_0_0_BLUE_DOWN*tmp_11_BLUE_DOWN + jac_affine_0_2_BLUE_DOWN*jac_affine_1_0_BLUE_DOWN*jac_affine_2_1_BLUE_DOWN - jac_affine_1_0_BLUE_DOWN*tmp_13_BLUE_DOWN + jac_affine_2_0_BLUE_DOWN*tmp_12_BLUE_DOWN - jac_affine_2_0_BLUE_DOWN*tmp_14_BLUE_DOWN;
+       const real_t tmp_16_BLUE_DOWN = 1.0 / (tmp_15_BLUE_DOWN);
+       const real_t jac_affine_inv_0_0_BLUE_DOWN = tmp_16_BLUE_DOWN*(tmp_10_BLUE_DOWN - tmp_11_BLUE_DOWN);
+       const real_t jac_affine_inv_0_1_BLUE_DOWN = tmp_16_BLUE_DOWN*(jac_affine_0_2_BLUE_DOWN*jac_affine_2_1_BLUE_DOWN - tmp_13_BLUE_DOWN);
+       const real_t jac_affine_inv_0_2_BLUE_DOWN = tmp_16_BLUE_DOWN*(tmp_12_BLUE_DOWN - tmp_14_BLUE_DOWN);
+       const real_t jac_affine_inv_1_0_BLUE_DOWN = tmp_16_BLUE_DOWN*(-jac_affine_1_0_BLUE_DOWN*jac_affine_2_2_BLUE_DOWN + jac_affine_1_2_BLUE_DOWN*jac_affine_2_0_BLUE_DOWN);
+       const real_t jac_affine_inv_1_1_BLUE_DOWN = tmp_16_BLUE_DOWN*(jac_affine_0_0_BLUE_DOWN*jac_affine_2_2_BLUE_DOWN - jac_affine_0_2_BLUE_DOWN*jac_affine_2_0_BLUE_DOWN);
+       const real_t jac_affine_inv_1_2_BLUE_DOWN = tmp_16_BLUE_DOWN*(-jac_affine_0_0_BLUE_DOWN*jac_affine_1_2_BLUE_DOWN + jac_affine_0_2_BLUE_DOWN*jac_affine_1_0_BLUE_DOWN);
+       const real_t jac_affine_inv_2_0_BLUE_DOWN = tmp_16_BLUE_DOWN*(jac_affine_1_0_BLUE_DOWN*jac_affine_2_1_BLUE_DOWN - jac_affine_1_1_BLUE_DOWN*jac_affine_2_0_BLUE_DOWN);
+       const real_t jac_affine_inv_2_1_BLUE_DOWN = tmp_16_BLUE_DOWN*(-jac_affine_0_0_BLUE_DOWN*jac_affine_2_1_BLUE_DOWN + jac_affine_0_1_BLUE_DOWN*jac_affine_2_0_BLUE_DOWN);
+       const real_t jac_affine_inv_2_2_BLUE_DOWN = tmp_16_BLUE_DOWN*(jac_affine_0_0_BLUE_DOWN*jac_affine_1_1_BLUE_DOWN - jac_affine_0_1_BLUE_DOWN*jac_affine_1_0_BLUE_DOWN);
+       const real_t abs_det_jac_affine_BLUE_DOWN = abs(tmp_15_BLUE_DOWN);
+       {
+          /* CellType.BLUE_DOWN */
           for (int64_t ctr_2 = 0; ctr_2 < micro_edges_per_macro_edge; ctr_2 += 1)
           for (int64_t ctr_1 = 0; ctr_1 < -ctr_2 + micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 - ctr_2 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
           {
+             const real_t k_dof_0 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))];
              const real_t k_dof_1 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))];
              const real_t k_dof_2 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1];
              const real_t k_dof_3 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))];
-             const real_t k_dof_0 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))];
              real_t q_acc_0_0 = 0.0;
              real_t q_acc_1_1 = 0.0;
              real_t q_acc_2_2 = 0.0;
              real_t q_acc_3_3 = 0.0;
              for (int64_t q = 0; q < 4; q += 1)
              {
-                const real_t tmp_q_0 = k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q];
-                const real_t tmp_q_1 = Dummy_3912*_data_q_w[q];
-                const real_t res_tmp_0_0 = tmp_q_1*((-Dummy_3903 - Dummy_3906 - Dummy_3909)*(-Dummy_3903*tmp_q_0 - Dummy_3906*tmp_q_0 - Dummy_3909*tmp_q_0) + (-Dummy_3904 - Dummy_3907 - Dummy_3910)*(-Dummy_3904*tmp_q_0 - Dummy_3907*tmp_q_0 - Dummy_3910*tmp_q_0) + (-Dummy_3905 - Dummy_3908 - Dummy_3911)*(-Dummy_3905*tmp_q_0 - Dummy_3908*tmp_q_0 - Dummy_3911*tmp_q_0));
-                const real_t res_tmp_1_1 = tmp_q_1*((Dummy_3903*Dummy_3903)*tmp_q_0 + (Dummy_3904*Dummy_3904)*tmp_q_0 + (Dummy_3905*Dummy_3905)*tmp_q_0);
-                const real_t res_tmp_2_2 = tmp_q_1*((Dummy_3906*Dummy_3906)*tmp_q_0 + (Dummy_3907*Dummy_3907)*tmp_q_0 + (Dummy_3908*Dummy_3908)*tmp_q_0);
-                const real_t res_tmp_3_3 = tmp_q_1*((Dummy_3909*Dummy_3909)*tmp_q_0 + (Dummy_3910*Dummy_3910)*tmp_q_0 + (Dummy_3911*Dummy_3911)*tmp_q_0);
-                q_acc_0_0 = q_acc_0_0 + res_tmp_0_0;
-                q_acc_1_1 = q_acc_1_1 + res_tmp_1_1;
-                q_acc_2_2 = q_acc_2_2 + res_tmp_2_2;
-                q_acc_3_3 = q_acc_3_3 + res_tmp_3_3;
+                const real_t tmp_q_0 = abs_det_jac_affine_BLUE_DOWN*(k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q])*_data_q_w[q];
+                const real_t q_tmp_0_0 = tmp_q_0*(((-jac_affine_inv_0_0_BLUE_DOWN - jac_affine_inv_1_0_BLUE_DOWN - jac_affine_inv_2_0_BLUE_DOWN)*(-jac_affine_inv_0_0_BLUE_DOWN - jac_affine_inv_1_0_BLUE_DOWN - jac_affine_inv_2_0_BLUE_DOWN)) + ((-jac_affine_inv_0_1_BLUE_DOWN - jac_affine_inv_1_1_BLUE_DOWN - jac_affine_inv_2_1_BLUE_DOWN)*(-jac_affine_inv_0_1_BLUE_DOWN - jac_affine_inv_1_1_BLUE_DOWN - jac_affine_inv_2_1_BLUE_DOWN)) + ((-jac_affine_inv_0_2_BLUE_DOWN - jac_affine_inv_1_2_BLUE_DOWN - jac_affine_inv_2_2_BLUE_DOWN)*(-jac_affine_inv_0_2_BLUE_DOWN - jac_affine_inv_1_2_BLUE_DOWN - jac_affine_inv_2_2_BLUE_DOWN)));
+                const real_t q_tmp_1_1 = tmp_q_0*((jac_affine_inv_0_0_BLUE_DOWN*jac_affine_inv_0_0_BLUE_DOWN) + (jac_affine_inv_0_1_BLUE_DOWN*jac_affine_inv_0_1_BLUE_DOWN) + (jac_affine_inv_0_2_BLUE_DOWN*jac_affine_inv_0_2_BLUE_DOWN));
+                const real_t q_tmp_2_2 = tmp_q_0*((jac_affine_inv_1_0_BLUE_DOWN*jac_affine_inv_1_0_BLUE_DOWN) + (jac_affine_inv_1_1_BLUE_DOWN*jac_affine_inv_1_1_BLUE_DOWN) + (jac_affine_inv_1_2_BLUE_DOWN*jac_affine_inv_1_2_BLUE_DOWN));
+                const real_t q_tmp_3_3 = tmp_q_0*((jac_affine_inv_2_0_BLUE_DOWN*jac_affine_inv_2_0_BLUE_DOWN) + (jac_affine_inv_2_1_BLUE_DOWN*jac_affine_inv_2_1_BLUE_DOWN) + (jac_affine_inv_2_2_BLUE_DOWN*jac_affine_inv_2_2_BLUE_DOWN));
+                q_acc_0_0 = q_acc_0_0 + q_tmp_0_0;
+                q_acc_1_1 = q_acc_1_1 + q_tmp_1_1;
+                q_acc_2_2 = q_acc_2_2 + q_tmp_2_2;
+                q_acc_3_3 = q_acc_3_3 + q_tmp_3_3;
              }
              const real_t elMatDiag_0 = q_acc_0_0;
              const real_t elMatDiag_1 = q_acc_1_1;
@@ -390,30 +393,77 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_3D( real_
              _data_invDiag_[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1] = elMatDiag_2 + _data_invDiag_[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1];
              _data_invDiag_[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))] = elMatDiag_3 + _data_invDiag_[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))];
           }
+       }
+       const real_t tmp_0_GREEN_UP = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
+       const real_t tmp_1_GREEN_UP = macro_vertex_coord_id_0comp0 + tmp_0_GREEN_UP*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
+       const real_t tmp_2_GREEN_UP = macro_vertex_coord_id_0comp1 + tmp_0_GREEN_UP*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
+       const real_t tmp_3_GREEN_UP = macro_vertex_coord_id_0comp2 + tmp_0_GREEN_UP*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2);
+       const real_t tmp_4_GREEN_UP = tmp_0_GREEN_UP*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0);
+       const real_t tmp_5_GREEN_UP = tmp_0_GREEN_UP*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1);
+       const real_t tmp_6_GREEN_UP = tmp_0_GREEN_UP*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2);
+       const real_t p_affine_const_0_0_GREEN_UP = tmp_1_GREEN_UP;
+       const real_t p_affine_const_0_1_GREEN_UP = tmp_2_GREEN_UP;
+       const real_t p_affine_const_0_2_GREEN_UP = tmp_3_GREEN_UP;
+       const real_t p_affine_const_1_0_GREEN_UP = macro_vertex_coord_id_0comp0 + tmp_0_GREEN_UP*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
+       const real_t p_affine_const_1_1_GREEN_UP = macro_vertex_coord_id_0comp1 + tmp_0_GREEN_UP*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
+       const real_t p_affine_const_1_2_GREEN_UP = macro_vertex_coord_id_0comp2 + tmp_0_GREEN_UP*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2);
+       const real_t p_affine_const_2_0_GREEN_UP = macro_vertex_coord_id_0comp0 + tmp_4_GREEN_UP;
+       const real_t p_affine_const_2_1_GREEN_UP = macro_vertex_coord_id_0comp1 + tmp_5_GREEN_UP;
+       const real_t p_affine_const_2_2_GREEN_UP = macro_vertex_coord_id_0comp2 + tmp_6_GREEN_UP;
+       const real_t p_affine_const_3_0_GREEN_UP = tmp_1_GREEN_UP + tmp_4_GREEN_UP;
+       const real_t p_affine_const_3_1_GREEN_UP = tmp_2_GREEN_UP + tmp_5_GREEN_UP;
+       const real_t p_affine_const_3_2_GREEN_UP = tmp_3_GREEN_UP + tmp_6_GREEN_UP;
+       const real_t jac_affine_0_0_GREEN_UP = -p_affine_const_0_0_GREEN_UP + p_affine_const_1_0_GREEN_UP;
+       const real_t jac_affine_0_1_GREEN_UP = -p_affine_const_0_0_GREEN_UP + p_affine_const_2_0_GREEN_UP;
+       const real_t jac_affine_0_2_GREEN_UP = -p_affine_const_0_0_GREEN_UP + p_affine_const_3_0_GREEN_UP;
+       const real_t jac_affine_1_0_GREEN_UP = -p_affine_const_0_1_GREEN_UP + p_affine_const_1_1_GREEN_UP;
+       const real_t jac_affine_1_1_GREEN_UP = -p_affine_const_0_1_GREEN_UP + p_affine_const_2_1_GREEN_UP;
+       const real_t tmp_11_GREEN_UP = jac_affine_0_2_GREEN_UP*jac_affine_1_1_GREEN_UP;
+       const real_t jac_affine_1_2_GREEN_UP = -p_affine_const_0_1_GREEN_UP + p_affine_const_3_1_GREEN_UP;
+       const real_t tmp_9_GREEN_UP = jac_affine_0_1_GREEN_UP*jac_affine_1_2_GREEN_UP;
+       const real_t jac_affine_2_0_GREEN_UP = -p_affine_const_0_2_GREEN_UP + p_affine_const_1_2_GREEN_UP;
+       const real_t jac_affine_2_1_GREEN_UP = -p_affine_const_0_2_GREEN_UP + p_affine_const_2_2_GREEN_UP;
+       const real_t tmp_8_GREEN_UP = jac_affine_1_2_GREEN_UP*jac_affine_2_1_GREEN_UP;
+       const real_t jac_affine_2_2_GREEN_UP = -p_affine_const_0_2_GREEN_UP + p_affine_const_3_2_GREEN_UP;
+       const real_t tmp_7_GREEN_UP = jac_affine_1_1_GREEN_UP*jac_affine_2_2_GREEN_UP;
+       const real_t tmp_10_GREEN_UP = jac_affine_0_1_GREEN_UP*jac_affine_2_2_GREEN_UP;
+       const real_t tmp_12_GREEN_UP = jac_affine_0_0_GREEN_UP*tmp_7_GREEN_UP - jac_affine_0_0_GREEN_UP*tmp_8_GREEN_UP + jac_affine_0_2_GREEN_UP*jac_affine_1_0_GREEN_UP*jac_affine_2_1_GREEN_UP - jac_affine_1_0_GREEN_UP*tmp_10_GREEN_UP - jac_affine_2_0_GREEN_UP*tmp_11_GREEN_UP + jac_affine_2_0_GREEN_UP*tmp_9_GREEN_UP;
+       const real_t tmp_13_GREEN_UP = 1.0 / (tmp_12_GREEN_UP);
+       const real_t jac_affine_inv_0_0_GREEN_UP = tmp_13_GREEN_UP*(tmp_7_GREEN_UP - tmp_8_GREEN_UP);
+       const real_t jac_affine_inv_0_1_GREEN_UP = tmp_13_GREEN_UP*(jac_affine_0_2_GREEN_UP*jac_affine_2_1_GREEN_UP - tmp_10_GREEN_UP);
+       const real_t jac_affine_inv_0_2_GREEN_UP = tmp_13_GREEN_UP*(-tmp_11_GREEN_UP + tmp_9_GREEN_UP);
+       const real_t jac_affine_inv_1_0_GREEN_UP = tmp_13_GREEN_UP*(-jac_affine_1_0_GREEN_UP*jac_affine_2_2_GREEN_UP + jac_affine_1_2_GREEN_UP*jac_affine_2_0_GREEN_UP);
+       const real_t jac_affine_inv_1_1_GREEN_UP = tmp_13_GREEN_UP*(jac_affine_0_0_GREEN_UP*jac_affine_2_2_GREEN_UP - jac_affine_0_2_GREEN_UP*jac_affine_2_0_GREEN_UP);
+       const real_t jac_affine_inv_1_2_GREEN_UP = tmp_13_GREEN_UP*(-jac_affine_0_0_GREEN_UP*jac_affine_1_2_GREEN_UP + jac_affine_0_2_GREEN_UP*jac_affine_1_0_GREEN_UP);
+       const real_t jac_affine_inv_2_0_GREEN_UP = tmp_13_GREEN_UP*(jac_affine_1_0_GREEN_UP*jac_affine_2_1_GREEN_UP - jac_affine_1_1_GREEN_UP*jac_affine_2_0_GREEN_UP);
+       const real_t jac_affine_inv_2_1_GREEN_UP = tmp_13_GREEN_UP*(-jac_affine_0_0_GREEN_UP*jac_affine_2_1_GREEN_UP + jac_affine_0_1_GREEN_UP*jac_affine_2_0_GREEN_UP);
+       const real_t jac_affine_inv_2_2_GREEN_UP = tmp_13_GREEN_UP*(jac_affine_0_0_GREEN_UP*jac_affine_1_1_GREEN_UP - jac_affine_0_1_GREEN_UP*jac_affine_1_0_GREEN_UP);
+       const real_t abs_det_jac_affine_GREEN_UP = abs(tmp_12_GREEN_UP);
+       {
+          /* CellType.GREEN_UP */
           for (int64_t ctr_2 = 0; ctr_2 < micro_edges_per_macro_edge; ctr_2 += 1)
           for (int64_t ctr_1 = 0; ctr_1 < -ctr_2 + micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 - ctr_2 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
           {
+             const real_t k_dof_0 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1];
              const real_t k_dof_1 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))];
              const real_t k_dof_2 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))];
              const real_t k_dof_3 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1];
-             const real_t k_dof_0 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1];
              real_t q_acc_0_0 = 0.0;
              real_t q_acc_1_1 = 0.0;
              real_t q_acc_2_2 = 0.0;
              real_t q_acc_3_3 = 0.0;
              for (int64_t q = 0; q < 4; q += 1)
              {
-                const real_t tmp_q_0 = k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q];
-                const real_t tmp_q_1 = Dummy_3943*_data_q_w[q];
-                const real_t res_tmp_0_0 = tmp_q_1*((-Dummy_3934 - Dummy_3937 - Dummy_3940)*(-Dummy_3934*tmp_q_0 - Dummy_3937*tmp_q_0 - Dummy_3940*tmp_q_0) + (-Dummy_3935 - Dummy_3938 - Dummy_3941)*(-Dummy_3935*tmp_q_0 - Dummy_3938*tmp_q_0 - Dummy_3941*tmp_q_0) + (-Dummy_3936 - Dummy_3939 - Dummy_3942)*(-Dummy_3936*tmp_q_0 - Dummy_3939*tmp_q_0 - Dummy_3942*tmp_q_0));
-                const real_t res_tmp_1_1 = tmp_q_1*((Dummy_3934*Dummy_3934)*tmp_q_0 + (Dummy_3935*Dummy_3935)*tmp_q_0 + (Dummy_3936*Dummy_3936)*tmp_q_0);
-                const real_t res_tmp_2_2 = tmp_q_1*((Dummy_3937*Dummy_3937)*tmp_q_0 + (Dummy_3938*Dummy_3938)*tmp_q_0 + (Dummy_3939*Dummy_3939)*tmp_q_0);
-                const real_t res_tmp_3_3 = tmp_q_1*((Dummy_3940*Dummy_3940)*tmp_q_0 + (Dummy_3941*Dummy_3941)*tmp_q_0 + (Dummy_3942*Dummy_3942)*tmp_q_0);
-                q_acc_0_0 = q_acc_0_0 + res_tmp_0_0;
-                q_acc_1_1 = q_acc_1_1 + res_tmp_1_1;
-                q_acc_2_2 = q_acc_2_2 + res_tmp_2_2;
-                q_acc_3_3 = q_acc_3_3 + res_tmp_3_3;
+                const real_t tmp_q_0 = abs_det_jac_affine_GREEN_UP*(k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q])*_data_q_w[q];
+                const real_t q_tmp_0_0 = tmp_q_0*(((-jac_affine_inv_0_0_GREEN_UP - jac_affine_inv_1_0_GREEN_UP - jac_affine_inv_2_0_GREEN_UP)*(-jac_affine_inv_0_0_GREEN_UP - jac_affine_inv_1_0_GREEN_UP - jac_affine_inv_2_0_GREEN_UP)) + ((-jac_affine_inv_0_1_GREEN_UP - jac_affine_inv_1_1_GREEN_UP - jac_affine_inv_2_1_GREEN_UP)*(-jac_affine_inv_0_1_GREEN_UP - jac_affine_inv_1_1_GREEN_UP - jac_affine_inv_2_1_GREEN_UP)) + ((-jac_affine_inv_0_2_GREEN_UP - jac_affine_inv_1_2_GREEN_UP - jac_affine_inv_2_2_GREEN_UP)*(-jac_affine_inv_0_2_GREEN_UP - jac_affine_inv_1_2_GREEN_UP - jac_affine_inv_2_2_GREEN_UP)));
+                const real_t q_tmp_1_1 = tmp_q_0*((jac_affine_inv_0_0_GREEN_UP*jac_affine_inv_0_0_GREEN_UP) + (jac_affine_inv_0_1_GREEN_UP*jac_affine_inv_0_1_GREEN_UP) + (jac_affine_inv_0_2_GREEN_UP*jac_affine_inv_0_2_GREEN_UP));
+                const real_t q_tmp_2_2 = tmp_q_0*((jac_affine_inv_1_0_GREEN_UP*jac_affine_inv_1_0_GREEN_UP) + (jac_affine_inv_1_1_GREEN_UP*jac_affine_inv_1_1_GREEN_UP) + (jac_affine_inv_1_2_GREEN_UP*jac_affine_inv_1_2_GREEN_UP));
+                const real_t q_tmp_3_3 = tmp_q_0*((jac_affine_inv_2_0_GREEN_UP*jac_affine_inv_2_0_GREEN_UP) + (jac_affine_inv_2_1_GREEN_UP*jac_affine_inv_2_1_GREEN_UP) + (jac_affine_inv_2_2_GREEN_UP*jac_affine_inv_2_2_GREEN_UP));
+                q_acc_0_0 = q_acc_0_0 + q_tmp_0_0;
+                q_acc_1_1 = q_acc_1_1 + q_tmp_1_1;
+                q_acc_2_2 = q_acc_2_2 + q_tmp_2_2;
+                q_acc_3_3 = q_acc_3_3 + q_tmp_3_3;
              }
              const real_t elMatDiag_0 = q_acc_0_0;
              const real_t elMatDiag_1 = q_acc_1_1;
@@ -424,30 +474,80 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_3D( real_
              _data_invDiag_[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))] = elMatDiag_2 + _data_invDiag_[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))];
              _data_invDiag_[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1] = elMatDiag_3 + _data_invDiag_[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1];
           }
+       }
+       const real_t tmp_0_GREEN_DOWN = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
+       const real_t tmp_1_GREEN_DOWN = macro_vertex_coord_id_0comp0 + tmp_0_GREEN_DOWN*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
+       const real_t tmp_2_GREEN_DOWN = macro_vertex_coord_id_0comp1 + tmp_0_GREEN_DOWN*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
+       const real_t tmp_3_GREEN_DOWN = macro_vertex_coord_id_0comp2 + tmp_0_GREEN_DOWN*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_2comp2);
+       const real_t tmp_4_GREEN_DOWN = tmp_0_GREEN_DOWN*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
+       const real_t tmp_5_GREEN_DOWN = tmp_0_GREEN_DOWN*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
+       const real_t tmp_6_GREEN_DOWN = tmp_0_GREEN_DOWN*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_1comp2);
+       const real_t tmp_7_GREEN_DOWN = tmp_0_GREEN_DOWN*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_3comp0);
+       const real_t tmp_8_GREEN_DOWN = tmp_0_GREEN_DOWN*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_3comp1);
+       const real_t tmp_9_GREEN_DOWN = tmp_0_GREEN_DOWN*(-macro_vertex_coord_id_0comp2 + macro_vertex_coord_id_3comp2);
+       const real_t p_affine_const_0_0_GREEN_DOWN = tmp_1_GREEN_DOWN;
+       const real_t p_affine_const_0_1_GREEN_DOWN = tmp_2_GREEN_DOWN;
+       const real_t p_affine_const_0_2_GREEN_DOWN = tmp_3_GREEN_DOWN;
+       const real_t p_affine_const_1_0_GREEN_DOWN = tmp_1_GREEN_DOWN + tmp_4_GREEN_DOWN;
+       const real_t p_affine_const_1_1_GREEN_DOWN = tmp_2_GREEN_DOWN + tmp_5_GREEN_DOWN;
+       const real_t p_affine_const_1_2_GREEN_DOWN = tmp_3_GREEN_DOWN + tmp_6_GREEN_DOWN;
+       const real_t p_affine_const_2_0_GREEN_DOWN = macro_vertex_coord_id_0comp0 + tmp_4_GREEN_DOWN + tmp_7_GREEN_DOWN;
+       const real_t p_affine_const_2_1_GREEN_DOWN = macro_vertex_coord_id_0comp1 + tmp_5_GREEN_DOWN + tmp_8_GREEN_DOWN;
+       const real_t p_affine_const_2_2_GREEN_DOWN = macro_vertex_coord_id_0comp2 + tmp_6_GREEN_DOWN + tmp_9_GREEN_DOWN;
+       const real_t p_affine_const_3_0_GREEN_DOWN = tmp_1_GREEN_DOWN + tmp_7_GREEN_DOWN;
+       const real_t p_affine_const_3_1_GREEN_DOWN = tmp_2_GREEN_DOWN + tmp_8_GREEN_DOWN;
+       const real_t p_affine_const_3_2_GREEN_DOWN = tmp_3_GREEN_DOWN + tmp_9_GREEN_DOWN;
+       const real_t jac_affine_0_0_GREEN_DOWN = -p_affine_const_0_0_GREEN_DOWN + p_affine_const_1_0_GREEN_DOWN;
+       const real_t jac_affine_0_1_GREEN_DOWN = -p_affine_const_0_0_GREEN_DOWN + p_affine_const_2_0_GREEN_DOWN;
+       const real_t jac_affine_0_2_GREEN_DOWN = -p_affine_const_0_0_GREEN_DOWN + p_affine_const_3_0_GREEN_DOWN;
+       const real_t jac_affine_1_0_GREEN_DOWN = -p_affine_const_0_1_GREEN_DOWN + p_affine_const_1_1_GREEN_DOWN;
+       const real_t jac_affine_1_1_GREEN_DOWN = -p_affine_const_0_1_GREEN_DOWN + p_affine_const_2_1_GREEN_DOWN;
+       const real_t tmp_14_GREEN_DOWN = jac_affine_0_2_GREEN_DOWN*jac_affine_1_1_GREEN_DOWN;
+       const real_t jac_affine_1_2_GREEN_DOWN = -p_affine_const_0_1_GREEN_DOWN + p_affine_const_3_1_GREEN_DOWN;
+       const real_t tmp_12_GREEN_DOWN = jac_affine_0_1_GREEN_DOWN*jac_affine_1_2_GREEN_DOWN;
+       const real_t jac_affine_2_0_GREEN_DOWN = -p_affine_const_0_2_GREEN_DOWN + p_affine_const_1_2_GREEN_DOWN;
+       const real_t jac_affine_2_1_GREEN_DOWN = -p_affine_const_0_2_GREEN_DOWN + p_affine_const_2_2_GREEN_DOWN;
+       const real_t tmp_11_GREEN_DOWN = jac_affine_1_2_GREEN_DOWN*jac_affine_2_1_GREEN_DOWN;
+       const real_t jac_affine_2_2_GREEN_DOWN = -p_affine_const_0_2_GREEN_DOWN + p_affine_const_3_2_GREEN_DOWN;
+       const real_t tmp_10_GREEN_DOWN = jac_affine_1_1_GREEN_DOWN*jac_affine_2_2_GREEN_DOWN;
+       const real_t tmp_13_GREEN_DOWN = jac_affine_0_1_GREEN_DOWN*jac_affine_2_2_GREEN_DOWN;
+       const real_t tmp_15_GREEN_DOWN = jac_affine_0_0_GREEN_DOWN*tmp_10_GREEN_DOWN - jac_affine_0_0_GREEN_DOWN*tmp_11_GREEN_DOWN + jac_affine_0_2_GREEN_DOWN*jac_affine_1_0_GREEN_DOWN*jac_affine_2_1_GREEN_DOWN - jac_affine_1_0_GREEN_DOWN*tmp_13_GREEN_DOWN + jac_affine_2_0_GREEN_DOWN*tmp_12_GREEN_DOWN - jac_affine_2_0_GREEN_DOWN*tmp_14_GREEN_DOWN;
+       const real_t tmp_16_GREEN_DOWN = 1.0 / (tmp_15_GREEN_DOWN);
+       const real_t jac_affine_inv_0_0_GREEN_DOWN = tmp_16_GREEN_DOWN*(tmp_10_GREEN_DOWN - tmp_11_GREEN_DOWN);
+       const real_t jac_affine_inv_0_1_GREEN_DOWN = tmp_16_GREEN_DOWN*(jac_affine_0_2_GREEN_DOWN*jac_affine_2_1_GREEN_DOWN - tmp_13_GREEN_DOWN);
+       const real_t jac_affine_inv_0_2_GREEN_DOWN = tmp_16_GREEN_DOWN*(tmp_12_GREEN_DOWN - tmp_14_GREEN_DOWN);
+       const real_t jac_affine_inv_1_0_GREEN_DOWN = tmp_16_GREEN_DOWN*(-jac_affine_1_0_GREEN_DOWN*jac_affine_2_2_GREEN_DOWN + jac_affine_1_2_GREEN_DOWN*jac_affine_2_0_GREEN_DOWN);
+       const real_t jac_affine_inv_1_1_GREEN_DOWN = tmp_16_GREEN_DOWN*(jac_affine_0_0_GREEN_DOWN*jac_affine_2_2_GREEN_DOWN - jac_affine_0_2_GREEN_DOWN*jac_affine_2_0_GREEN_DOWN);
+       const real_t jac_affine_inv_1_2_GREEN_DOWN = tmp_16_GREEN_DOWN*(-jac_affine_0_0_GREEN_DOWN*jac_affine_1_2_GREEN_DOWN + jac_affine_0_2_GREEN_DOWN*jac_affine_1_0_GREEN_DOWN);
+       const real_t jac_affine_inv_2_0_GREEN_DOWN = tmp_16_GREEN_DOWN*(jac_affine_1_0_GREEN_DOWN*jac_affine_2_1_GREEN_DOWN - jac_affine_1_1_GREEN_DOWN*jac_affine_2_0_GREEN_DOWN);
+       const real_t jac_affine_inv_2_1_GREEN_DOWN = tmp_16_GREEN_DOWN*(-jac_affine_0_0_GREEN_DOWN*jac_affine_2_1_GREEN_DOWN + jac_affine_0_1_GREEN_DOWN*jac_affine_2_0_GREEN_DOWN);
+       const real_t jac_affine_inv_2_2_GREEN_DOWN = tmp_16_GREEN_DOWN*(jac_affine_0_0_GREEN_DOWN*jac_affine_1_1_GREEN_DOWN - jac_affine_0_1_GREEN_DOWN*jac_affine_1_0_GREEN_DOWN);
+       const real_t abs_det_jac_affine_GREEN_DOWN = abs(tmp_15_GREEN_DOWN);
+       {
+          /* CellType.GREEN_DOWN */
           for (int64_t ctr_2 = 0; ctr_2 < micro_edges_per_macro_edge; ctr_2 += 1)
           for (int64_t ctr_1 = 0; ctr_1 < -ctr_2 + micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 - ctr_2 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
           {
+             const real_t k_dof_0 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))];
              const real_t k_dof_1 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6)) + 1];
              const real_t k_dof_2 = _data_k[ctr_0 + ctr_1*(-ctr_2 + micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) + 1];
              const real_t k_dof_3 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) - (((-ctr_2 + micro_edges_per_macro_edge)*(-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)) / (6)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6))];
-             const real_t k_dof_0 = _data_k[ctr_0 + (ctr_1 + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + (((micro_edges_per_macro_edge + 1)*(micro_edges_per_macro_edge + 2)*(micro_edges_per_macro_edge + 3)) / (6)) - (((-ctr_2 + micro_edges_per_macro_edge + 1)*(-ctr_2 + micro_edges_per_macro_edge + 2)*(-ctr_2 + micro_edges_per_macro_edge + 3)) / (6))];
              real_t q_acc_0_0 = 0.0;
              real_t q_acc_1_1 = 0.0;
              real_t q_acc_2_2 = 0.0;
              real_t q_acc_3_3 = 0.0;
              for (int64_t q = 0; q < 4; q += 1)
              {
-                const real_t tmp_q_0 = k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q];
-                const real_t tmp_q_1 = Dummy_3974*_data_q_w[q];
-                const real_t res_tmp_0_0 = tmp_q_1*((-Dummy_3965 - Dummy_3968 - Dummy_3971)*(-Dummy_3965*tmp_q_0 - Dummy_3968*tmp_q_0 - Dummy_3971*tmp_q_0) + (-Dummy_3966 - Dummy_3969 - Dummy_3972)*(-Dummy_3966*tmp_q_0 - Dummy_3969*tmp_q_0 - Dummy_3972*tmp_q_0) + (-Dummy_3967 - Dummy_3970 - Dummy_3973)*(-Dummy_3967*tmp_q_0 - Dummy_3970*tmp_q_0 - Dummy_3973*tmp_q_0));
-                const real_t res_tmp_1_1 = tmp_q_1*((Dummy_3965*Dummy_3965)*tmp_q_0 + (Dummy_3966*Dummy_3966)*tmp_q_0 + (Dummy_3967*Dummy_3967)*tmp_q_0);
-                const real_t res_tmp_2_2 = tmp_q_1*((Dummy_3968*Dummy_3968)*tmp_q_0 + (Dummy_3969*Dummy_3969)*tmp_q_0 + (Dummy_3970*Dummy_3970)*tmp_q_0);
-                const real_t res_tmp_3_3 = tmp_q_1*((Dummy_3971*Dummy_3971)*tmp_q_0 + (Dummy_3972*Dummy_3972)*tmp_q_0 + (Dummy_3973*Dummy_3973)*tmp_q_0);
-                q_acc_0_0 = q_acc_0_0 + res_tmp_0_0;
-                q_acc_1_1 = q_acc_1_1 + res_tmp_1_1;
-                q_acc_2_2 = q_acc_2_2 + res_tmp_2_2;
-                q_acc_3_3 = q_acc_3_3 + res_tmp_3_3;
+                const real_t tmp_q_0 = abs_det_jac_affine_GREEN_DOWN*(k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q])*_data_q_w[q];
+                const real_t q_tmp_0_0 = tmp_q_0*(((-jac_affine_inv_0_0_GREEN_DOWN - jac_affine_inv_1_0_GREEN_DOWN - jac_affine_inv_2_0_GREEN_DOWN)*(-jac_affine_inv_0_0_GREEN_DOWN - jac_affine_inv_1_0_GREEN_DOWN - jac_affine_inv_2_0_GREEN_DOWN)) + ((-jac_affine_inv_0_1_GREEN_DOWN - jac_affine_inv_1_1_GREEN_DOWN - jac_affine_inv_2_1_GREEN_DOWN)*(-jac_affine_inv_0_1_GREEN_DOWN - jac_affine_inv_1_1_GREEN_DOWN - jac_affine_inv_2_1_GREEN_DOWN)) + ((-jac_affine_inv_0_2_GREEN_DOWN - jac_affine_inv_1_2_GREEN_DOWN - jac_affine_inv_2_2_GREEN_DOWN)*(-jac_affine_inv_0_2_GREEN_DOWN - jac_affine_inv_1_2_GREEN_DOWN - jac_affine_inv_2_2_GREEN_DOWN)));
+                const real_t q_tmp_1_1 = tmp_q_0*((jac_affine_inv_0_0_GREEN_DOWN*jac_affine_inv_0_0_GREEN_DOWN) + (jac_affine_inv_0_1_GREEN_DOWN*jac_affine_inv_0_1_GREEN_DOWN) + (jac_affine_inv_0_2_GREEN_DOWN*jac_affine_inv_0_2_GREEN_DOWN));
+                const real_t q_tmp_2_2 = tmp_q_0*((jac_affine_inv_1_0_GREEN_DOWN*jac_affine_inv_1_0_GREEN_DOWN) + (jac_affine_inv_1_1_GREEN_DOWN*jac_affine_inv_1_1_GREEN_DOWN) + (jac_affine_inv_1_2_GREEN_DOWN*jac_affine_inv_1_2_GREEN_DOWN));
+                const real_t q_tmp_3_3 = tmp_q_0*((jac_affine_inv_2_0_GREEN_DOWN*jac_affine_inv_2_0_GREEN_DOWN) + (jac_affine_inv_2_1_GREEN_DOWN*jac_affine_inv_2_1_GREEN_DOWN) + (jac_affine_inv_2_2_GREEN_DOWN*jac_affine_inv_2_2_GREEN_DOWN));
+                q_acc_0_0 = q_acc_0_0 + q_tmp_0_0;
+                q_acc_1_1 = q_acc_1_1 + q_tmp_1_1;
+                q_acc_2_2 = q_acc_2_2 + q_tmp_2_2;
+                q_acc_3_3 = q_acc_3_3 + q_tmp_3_3;
              }
              const real_t elMatDiag_0 = q_acc_0_0;
              const real_t elMatDiag_1 = q_acc_1_1;
