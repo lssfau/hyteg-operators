@@ -48,7 +48,7 @@
 
 
 
-#include "../P1ElementwiseDivKGrad.hpp"
+#include "../P1ElementwiseMass.hpp"
 
 #define FUNC_PREFIX  
 
@@ -56,14 +56,10 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_2D( real_t * RESTRICT  _data_invDiag_, real_t * RESTRICT  _data_k, real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge, real_t micro_edges_per_macro_edge_float ) const
+void P1ElementwiseMass::computeInverseDiagonalOperatorValues_macro_2D( real_t * RESTRICT  _data_invDiag_, real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge, real_t micro_edges_per_macro_edge_float ) const
 {
     {
        const real_t _data_q_w [] = {0.16666666666666674, 0.16666666666666674, 0.16666666666666674};
-   
-       const real_t _data_q_p_0 [] = {0.16666666666666674, 0.66666666666666674, 0.16666666666666663};
-   
-       const real_t _data_q_p_1 [] = {0.16666666666666663, 0.16666666666666663, 0.66666666666666685};
    
        const real_t tmp_0_GRAY = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
        const real_t p_affine_const_0_0_GRAY = macro_vertex_coord_id_0comp0;
@@ -76,30 +72,22 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_2D( real_
        const real_t jac_affine_0_1_GRAY = -p_affine_const_0_0_GRAY + p_affine_const_2_0_GRAY;
        const real_t jac_affine_1_0_GRAY = -p_affine_const_0_1_GRAY + p_affine_const_1_1_GRAY;
        const real_t jac_affine_1_1_GRAY = -p_affine_const_0_1_GRAY + p_affine_const_2_1_GRAY;
-       const real_t tmp_1_GRAY = jac_affine_0_0_GRAY*jac_affine_1_1_GRAY - jac_affine_0_1_GRAY*jac_affine_1_0_GRAY;
-       const real_t tmp_2_GRAY = 1.0 / (tmp_1_GRAY);
-       const real_t jac_affine_inv_0_0_GRAY = jac_affine_1_1_GRAY*tmp_2_GRAY;
-       const real_t jac_affine_inv_0_1_GRAY = -jac_affine_0_1_GRAY*tmp_2_GRAY;
-       const real_t jac_affine_inv_1_0_GRAY = -jac_affine_1_0_GRAY*tmp_2_GRAY;
-       const real_t jac_affine_inv_1_1_GRAY = jac_affine_0_0_GRAY*tmp_2_GRAY;
-       const real_t abs_det_jac_affine_GRAY = abs(tmp_1_GRAY);
+       const real_t abs_det_jac_affine_GRAY = abs(jac_affine_0_0_GRAY*jac_affine_1_1_GRAY - jac_affine_0_1_GRAY*jac_affine_1_0_GRAY);
        {
           /* FaceType.GRAY */
+          const real_t _data_phi_psi_det_jac_aff_0_GRAY [] = {abs_det_jac_affine_GRAY*0.44444444444444442, abs_det_jac_affine_GRAY*0.11111111111111116, abs_det_jac_affine_GRAY*0.11111111111111108, abs_det_jac_affine_GRAY*0.027777777777777804, abs_det_jac_affine_GRAY*0.027777777777777783, abs_det_jac_affine_GRAY*0.027777777777777766, abs_det_jac_affine_GRAY*0.027777777777777766, abs_det_jac_affine_GRAY*0.1111111111111111, abs_det_jac_affine_GRAY*0.027777777777777766, abs_det_jac_affine_GRAY*0.44444444444444453, abs_det_jac_affine_GRAY*0.1111111111111111, abs_det_jac_affine_GRAY*0.027777777777777766, abs_det_jac_affine_GRAY*0.027777777777777728, abs_det_jac_affine_GRAY*0.027777777777777748, abs_det_jac_affine_GRAY*0.11111111111111105, abs_det_jac_affine_GRAY*0.027777777777777766, abs_det_jac_affine_GRAY*0.11111111111111112, abs_det_jac_affine_GRAY*0.4444444444444447};
+      
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge; ctr_0 += 1)
           {
-             const real_t k_dof_0 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
-             const real_t k_dof_1 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-             const real_t k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
              real_t q_acc_0_0 = 0.0;
              real_t q_acc_1_1 = 0.0;
              real_t q_acc_2_2 = 0.0;
              for (int64_t q = 0; q < 3; q += 1)
              {
-                const real_t tmp_q_0 = abs_det_jac_affine_GRAY*(k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q])*_data_q_w[q];
-                const real_t q_tmp_0_0 = tmp_q_0*(((-jac_affine_inv_0_0_GRAY - jac_affine_inv_1_0_GRAY)*(-jac_affine_inv_0_0_GRAY - jac_affine_inv_1_0_GRAY)) + ((-jac_affine_inv_0_1_GRAY - jac_affine_inv_1_1_GRAY)*(-jac_affine_inv_0_1_GRAY - jac_affine_inv_1_1_GRAY)));
-                const real_t q_tmp_1_1 = tmp_q_0*((jac_affine_inv_0_0_GRAY*jac_affine_inv_0_0_GRAY) + (jac_affine_inv_0_1_GRAY*jac_affine_inv_0_1_GRAY));
-                const real_t q_tmp_2_2 = tmp_q_0*((jac_affine_inv_1_0_GRAY*jac_affine_inv_1_0_GRAY) + (jac_affine_inv_1_1_GRAY*jac_affine_inv_1_1_GRAY));
+                const real_t q_tmp_0_0 = _data_phi_psi_det_jac_aff_0_GRAY[6*q]*_data_q_w[q];
+                const real_t q_tmp_1_1 = _data_phi_psi_det_jac_aff_0_GRAY[6*q + 3]*_data_q_w[q];
+                const real_t q_tmp_2_2 = _data_phi_psi_det_jac_aff_0_GRAY[6*q + 5]*_data_q_w[q];
                 q_acc_0_0 = q_acc_0_0 + q_tmp_0_0;
                 q_acc_1_1 = q_acc_1_1 + q_tmp_1_1;
                 q_acc_2_2 = q_acc_2_2 + q_tmp_2_2;
@@ -127,30 +115,22 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues_macro_2D( real_
        const real_t jac_affine_0_1_BLUE = -p_affine_const_0_0_BLUE + p_affine_const_2_0_BLUE;
        const real_t jac_affine_1_0_BLUE = -p_affine_const_0_1_BLUE + p_affine_const_1_1_BLUE;
        const real_t jac_affine_1_1_BLUE = -p_affine_const_0_1_BLUE + p_affine_const_2_1_BLUE;
-       const real_t tmp_5_BLUE = jac_affine_0_0_BLUE*jac_affine_1_1_BLUE - jac_affine_0_1_BLUE*jac_affine_1_0_BLUE;
-       const real_t tmp_6_BLUE = 1.0 / (tmp_5_BLUE);
-       const real_t jac_affine_inv_0_0_BLUE = jac_affine_1_1_BLUE*tmp_6_BLUE;
-       const real_t jac_affine_inv_0_1_BLUE = -jac_affine_0_1_BLUE*tmp_6_BLUE;
-       const real_t jac_affine_inv_1_0_BLUE = -jac_affine_1_0_BLUE*tmp_6_BLUE;
-       const real_t jac_affine_inv_1_1_BLUE = jac_affine_0_0_BLUE*tmp_6_BLUE;
-       const real_t abs_det_jac_affine_BLUE = abs(tmp_5_BLUE);
+       const real_t abs_det_jac_affine_BLUE = abs(jac_affine_0_0_BLUE*jac_affine_1_1_BLUE - jac_affine_0_1_BLUE*jac_affine_1_0_BLUE);
        {
           /* FaceType.BLUE */
+          const real_t _data_phi_psi_det_jac_aff_0_BLUE [] = {abs_det_jac_affine_BLUE*0.44444444444444442, abs_det_jac_affine_BLUE*0.11111111111111116, abs_det_jac_affine_BLUE*0.11111111111111108, abs_det_jac_affine_BLUE*0.027777777777777804, abs_det_jac_affine_BLUE*0.027777777777777783, abs_det_jac_affine_BLUE*0.027777777777777766, abs_det_jac_affine_BLUE*0.027777777777777766, abs_det_jac_affine_BLUE*0.1111111111111111, abs_det_jac_affine_BLUE*0.027777777777777766, abs_det_jac_affine_BLUE*0.44444444444444453, abs_det_jac_affine_BLUE*0.1111111111111111, abs_det_jac_affine_BLUE*0.027777777777777766, abs_det_jac_affine_BLUE*0.027777777777777728, abs_det_jac_affine_BLUE*0.027777777777777748, abs_det_jac_affine_BLUE*0.11111111111111105, abs_det_jac_affine_BLUE*0.027777777777777766, abs_det_jac_affine_BLUE*0.11111111111111112, abs_det_jac_affine_BLUE*0.4444444444444447};
+      
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
           {
-             const real_t k_dof_0 = _data_k[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-             const real_t k_dof_1 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-             const real_t k_dof_2 = _data_k[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
              real_t q_acc_0_0 = 0.0;
              real_t q_acc_1_1 = 0.0;
              real_t q_acc_2_2 = 0.0;
              for (int64_t q = 0; q < 3; q += 1)
              {
-                const real_t tmp_q_0 = abs_det_jac_affine_BLUE*(k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q])*_data_q_w[q];
-                const real_t q_tmp_0_0 = tmp_q_0*(((-jac_affine_inv_0_0_BLUE - jac_affine_inv_1_0_BLUE)*(-jac_affine_inv_0_0_BLUE - jac_affine_inv_1_0_BLUE)) + ((-jac_affine_inv_0_1_BLUE - jac_affine_inv_1_1_BLUE)*(-jac_affine_inv_0_1_BLUE - jac_affine_inv_1_1_BLUE)));
-                const real_t q_tmp_1_1 = tmp_q_0*((jac_affine_inv_0_0_BLUE*jac_affine_inv_0_0_BLUE) + (jac_affine_inv_0_1_BLUE*jac_affine_inv_0_1_BLUE));
-                const real_t q_tmp_2_2 = tmp_q_0*((jac_affine_inv_1_0_BLUE*jac_affine_inv_1_0_BLUE) + (jac_affine_inv_1_1_BLUE*jac_affine_inv_1_1_BLUE));
+                const real_t q_tmp_0_0 = _data_phi_psi_det_jac_aff_0_BLUE[6*q]*_data_q_w[q];
+                const real_t q_tmp_1_1 = _data_phi_psi_det_jac_aff_0_BLUE[6*q + 3]*_data_q_w[q];
+                const real_t q_tmp_2_2 = _data_phi_psi_det_jac_aff_0_BLUE[6*q + 5]*_data_q_w[q];
                 q_acc_0_0 = q_acc_0_0 + q_tmp_0_0;
                 q_acc_1_1 = q_acc_1_1 + q_tmp_1_1;
                 q_acc_2_2 = q_acc_2_2 + q_tmp_2_2;

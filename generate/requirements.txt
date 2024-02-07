@@ -1,4 +1,5 @@
 --extra-index-url https://test.pypi.org/simple/
 
-hfg @ git+ssh://git@i10git.cs.fau.de/terraneo/hyteg-form-generator.git@7a8d7396e01f24953dd261e42d91e19dad4b9588
+hfg @ git+ssh://git@i10git.cs.fau.de/terraneo/hyteg-form-generator.git@4df7e6639b9d8fc68dd954fb558efac3ea14add8
 tomli >= 1.1.0 ; python_version < "3.11"
+clang-format

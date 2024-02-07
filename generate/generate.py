@@ -156,17 +156,17 @@ def generate_operator(
     }
 
     try:
-        form = getattr(forms, form_str)
+        get_form = getattr(forms, form_str)
     except:
-        form = getattr(forms_vectorial, form_str)
+        get_form = getattr(forms_vectorial, form_str)
 
     if "form-args" in spec:
-        form = partial(form, **spec["form-args"])
+        get_form = partial(get_form, **spec["form-args"])
     if "form-space-args" in spec:
         space_args = {
             key: fe_spaces[val] for (key, val) in spec["form-space-args"].items()
         }
-        form = partial(form, **space_args)
+        get_form = partial(get_form, **space_args)
 
     trial_space = fe_spaces[spec["trial-space"]]
     test_space = fe_spaces[spec["test-space"]]
@@ -177,7 +177,7 @@ def generate_operator(
         for opt in spec["optimizations"]
     }
     type_descriptor = types.hyteg_default_type()  # TODO
-    blending = "id"  # TODO
+    blending = hfg.blending.IdentityMap()  # TODO
 
     kernel_types = [
         operator_generation.kernel_types.Apply(
@@ -213,18 +213,12 @@ def generate_operator(
         )
 
         for geometry in [geometries[dim] for dim in spec["dimensions"]]:
-            quad = quadrature.Quadrature(
-                spec["quadrature"],
-                geometry,
-                type_descriptor=type_descriptor,
-                unrolled_quad=optimizer.Opts.QUADLOOPS not in optimizations,
-            )
+            quad = quadrature.Quadrature(spec["quadrature"], geometry)
 
-            mat, quad_stmts = form(
+            form = get_form(
                 test_space,
                 trial_space,
                 geometry,
-                quad,
                 symbolizer,
                 blending=blending,  # type: ignore[call-arg] # kw-args are not supported by Callable
             )
@@ -233,12 +227,10 @@ def generate_operator(
                 dim=geometry.dimensions,
                 geometry=geometry,
                 integration_domain=operator_generation.operators.MacroIntegrationDomain.VOLUME,
-                mat=mat,
-                quad_stmts=quad_stmts,
                 quad=quad,
+                blending=blending,
+                form=form,
             )
-
-        operator.assume_constant_jacobi_matrix()
 
         dir_path = os.path.join(args.output, form_str)
         operator.generate_class_code(

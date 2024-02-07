@@ -43,11 +43,11 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-class P1ElementwiseDiffusion : public Operator< P1Function< real_t >, P1Function< real_t > >,
-                               public OperatorWithInverseDiagonal< P1Function< real_t > >
+class P1ElementwiseMass : public Operator< P1Function< real_t >, P1Function< real_t > >,
+                          public OperatorWithInverseDiagonal< P1Function< real_t > >
 {
  public:
-   P1ElementwiseDiffusion( const std::shared_ptr< PrimitiveStorage >& storage, size_t minLevel, size_t maxLevel );
+   P1ElementwiseMass( const std::shared_ptr< PrimitiveStorage >& storage, size_t minLevel, size_t maxLevel );
 
    void apply( const P1Function< real_t >& src,
                const P1Function< real_t >& dst,
@@ -68,11 +68,11 @@ class P1ElementwiseDiffusion : public Operator< P1Function< real_t >, P1Function
  protected:
  private:
    /// Kernel type: apply
-   /// - quadrature rule: Xiao-Gimbutas | points: 1, degree: 1
+   /// - quadrature rule: Xiao-Gimbutas | points: 3, degree: 2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     17      25       0       0      0              0                 0              0
+   ///     27      27       0       0      0              0                 0              0
    void apply_macro_2D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_src,
                         real_t           macro_vertex_coord_id_0comp0,
@@ -84,11 +84,11 @@ class P1ElementwiseDiffusion : public Operator< P1Function< real_t >, P1Function
                         int64_t          micro_edges_per_macro_edge,
                         real_t           micro_edges_per_macro_edge_float ) const;
    /// Kernel type: apply
-   /// - quadrature rule: Xiao-Gimbutas | points: 1, degree: 1
+   /// - quadrature rule: Xiao-Gimbutas | points: 4, degree: 2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     42      51       0       0      0              0                 0              0
+   ///     56      56       0       0      0              0                 0              0
    void apply_macro_3D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_src,
                         real_t           macro_vertex_coord_id_0comp0,
@@ -106,11 +106,11 @@ class P1ElementwiseDiffusion : public Operator< P1Function< real_t >, P1Function
                         int64_t          micro_edges_per_macro_edge,
                         real_t           micro_edges_per_macro_edge_float ) const;
    /// Kernel type: toMatrix
-   /// - quadrature rule: Xiao-Gimbutas | points: 1, degree: 1
+   /// - quadrature rule: Xiao-Gimbutas | points: 3, degree: 2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///      8      19       0       0      0              0                 0              3
+   ///     18      18       0       0      0              0                 0              3
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dst,
                            idx_t* RESTRICT                      _data_src,
                            real_t                               macro_vertex_coord_id_0comp0,
@@ -123,11 +123,11 @@ class P1ElementwiseDiffusion : public Operator< P1Function< real_t >, P1Function
                            int64_t                              micro_edges_per_macro_edge,
                            real_t                               micro_edges_per_macro_edge_float ) const;
    /// Kernel type: toMatrix
-   /// - quadrature rule: Xiao-Gimbutas | points: 1, degree: 1
+   /// - quadrature rule: Xiao-Gimbutas | points: 4, degree: 2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     26      41       0       0      0              0                 0              3
+   ///     40      40       0       0      0              0                 0              3
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dst,
                            idx_t* RESTRICT                      _data_src,
                            real_t                               macro_vertex_coord_id_0comp0,
@@ -146,11 +146,11 @@ class P1ElementwiseDiffusion : public Operator< P1Function< real_t >, P1Function
                            int64_t                              micro_edges_per_macro_edge,
                            real_t                               micro_edges_per_macro_edge_float ) const;
    /// Kernel type: computeInverseDiagonalOperatorValues
-   /// - quadrature rule: Xiao-Gimbutas | points: 1, degree: 1
+   /// - quadrature rule: Xiao-Gimbutas | points: 3, degree: 2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///      8      10       0       0      0              0                 0              0
+   ///     12       9       0       0      0              0                 0              0
    void computeInverseDiagonalOperatorValues_macro_2D( real_t* RESTRICT _data_invDiag_,
                                                        real_t           macro_vertex_coord_id_0comp0,
                                                        real_t           macro_vertex_coord_id_0comp1,
@@ -161,11 +161,11 @@ class P1ElementwiseDiffusion : public Operator< P1Function< real_t >, P1Function
                                                        int64_t          micro_edges_per_macro_edge,
                                                        real_t           micro_edges_per_macro_edge_float ) const;
    /// Kernel type: computeInverseDiagonalOperatorValues
-   /// - quadrature rule: Xiao-Gimbutas | points: 1, degree: 1
+   /// - quadrature rule: Xiao-Gimbutas | points: 4, degree: 2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     18      17       0       0      0              0                 0              0
+   ///     20      16       0       0      0              0                 0              0
    void computeInverseDiagonalOperatorValues_macro_3D( real_t* RESTRICT _data_invDiag_,
                                                        real_t           macro_vertex_coord_id_0comp0,
                                                        real_t           macro_vertex_coord_id_0comp1,

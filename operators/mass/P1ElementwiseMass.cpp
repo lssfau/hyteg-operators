@@ -39,7 +39,7 @@
 #pragma GCC diagnostic pop
 #endif
 
-#include "P1ElementwiseDivKGrad.hpp"
+#include "P1ElementwiseMass.hpp"
 
 #define FUNC_PREFIX
 
@@ -47,19 +47,15 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-P1ElementwiseDivKGrad::P1ElementwiseDivKGrad( const std::shared_ptr< PrimitiveStorage >& storage,
-                                              size_t                                     minLevel,
-                                              size_t                                     maxLevel,
-                                              const P1Function< real_t >&                _k )
+P1ElementwiseMass::P1ElementwiseMass( const std::shared_ptr< PrimitiveStorage >& storage, size_t minLevel, size_t maxLevel )
 : Operator( storage, minLevel, maxLevel )
-, k( _k )
 {}
 
-void P1ElementwiseDivKGrad::apply( const P1Function< real_t >& src,
-                                   const P1Function< real_t >& dst,
-                                   uint_t                      level,
-                                   DoFType                     flag,
-                                   UpdateType                  updateType ) const
+void P1ElementwiseMass::apply( const P1Function< real_t >& src,
+                               const P1Function< real_t >& dst,
+                               uint_t                      level,
+                               DoFType                     flag,
+                               UpdateType                  updateType ) const
 {
    // Make sure that halos are up-to-date
    if ( this->storage_->hasGlobalCells() )
@@ -69,14 +65,10 @@ void P1ElementwiseDivKGrad::apply( const P1Function< real_t >& src,
       src.communicate< Face, Cell >( level );
       src.communicate< Edge, Cell >( level );
       src.communicate< Vertex, Cell >( level );
-      k.communicate< Face, Cell >( level );
-      k.communicate< Edge, Cell >( level );
-      k.communicate< Vertex, Cell >( level );
    }
    else
    {
       communication::syncFunctionBetweenPrimitives( src, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( k, level, communication::syncDirection_t::LOW2HIGH );
    }
 
    if ( updateType == Replace )
@@ -97,7 +89,6 @@ void P1ElementwiseDivKGrad::apply( const P1Function< real_t >& src,
          // get hold of the actual numerical data in the functions
          real_t* _data_src = cell.getData( src.getCellDataID() )->getPointer( level );
          real_t* _data_dst = cell.getData( dst.getCellDataID() )->getPointer( level );
-         real_t* _data_k   = cell.getData( k.getCellDataID() )->getPointer( level );
 
          // Zero out dst halos only
          //
@@ -130,7 +121,6 @@ void P1ElementwiseDivKGrad::apply( const P1Function< real_t >& src,
          apply_macro_3D(
 
              _data_dst,
-             _data_k,
              _data_src,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
@@ -165,7 +155,6 @@ void P1ElementwiseDivKGrad::apply( const P1Function< real_t >& src,
          // get hold of the actual numerical data in the functions
          real_t* _data_src = face.getData( src.getFaceDataID() )->getPointer( level );
          real_t* _data_dst = face.getData( dst.getFaceDataID() )->getPointer( level );
-         real_t* _data_k   = face.getData( k.getFaceDataID() )->getPointer( level );
 
          // Zero out dst halos only
          //
@@ -192,7 +181,6 @@ void P1ElementwiseDivKGrad::apply( const P1Function< real_t >& src,
          apply_macro_2D(
 
              _data_dst,
-             _data_k,
              _data_src,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
@@ -212,11 +200,11 @@ void P1ElementwiseDivKGrad::apply( const P1Function< real_t >& src,
       dst.communicateAdditively< Face, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
    }
 }
-void P1ElementwiseDivKGrad::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                      const P1Function< idx_t >&                  src,
-                                      const P1Function< idx_t >&                  dst,
-                                      uint_t                                      level,
-                                      DoFType                                     flag ) const
+void P1ElementwiseMass::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                  const P1Function< idx_t >&                  src,
+                                  const P1Function< idx_t >&                  dst,
+                                  uint_t                                      level,
+                                  DoFType                                     flag ) const
 {
    // We currently ignore the flag provided!
    if ( flag != All )
@@ -226,18 +214,13 @@ void P1ElementwiseDivKGrad::toMatrix( const std::shared_ptr< SparseMatrixProxy >
 
    if ( storage_->hasGlobalCells() )
    {
-      k.communicate< Face, Cell >( level );
-      k.communicate< Edge, Cell >( level );
-      k.communicate< Vertex, Cell >( level );
-
       for ( auto& it : storage_->getCells() )
       {
          Cell& cell = *it.second;
 
          // get hold of the actual numerical data
-         idx_t*  _data_src = cell.getData( src.getCellDataID() )->getPointer( level );
-         idx_t*  _data_dst = cell.getData( dst.getCellDataID() )->getPointer( level );
-         real_t* _data_k   = cell.getData( k.getCellDataID() )->getPointer( level );
+         idx_t* _data_src = cell.getData( src.getCellDataID() )->getPointer( level );
+         idx_t* _data_dst = cell.getData( dst.getCellDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
@@ -257,7 +240,6 @@ void P1ElementwiseDivKGrad::toMatrix( const std::shared_ptr< SparseMatrixProxy >
          toMatrix_macro_3D(
 
              _data_dst,
-             _data_k,
              _data_src,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
@@ -278,16 +260,13 @@ void P1ElementwiseDivKGrad::toMatrix( const std::shared_ptr< SparseMatrixProxy >
    }
    else
    {
-      communication::syncFunctionBetweenPrimitives( k, level, communication::syncDirection_t::LOW2HIGH );
-
       for ( auto& it : storage_->getFaces() )
       {
          Face& face = *it.second;
 
          // get hold of the actual numerical data
-         idx_t*  _data_src = face.getData( src.getFaceDataID() )->getPointer( level );
-         idx_t*  _data_dst = face.getData( dst.getFaceDataID() )->getPointer( level );
-         real_t* _data_k   = face.getData( k.getFaceDataID() )->getPointer( level );
+         idx_t* _data_src = face.getData( src.getFaceDataID() )->getPointer( level );
+         idx_t* _data_dst = face.getData( dst.getFaceDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
@@ -301,7 +280,6 @@ void P1ElementwiseDivKGrad::toMatrix( const std::shared_ptr< SparseMatrixProxy >
          toMatrix_macro_2D(
 
              _data_dst,
-             _data_k,
              _data_src,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
@@ -315,7 +293,7 @@ void P1ElementwiseDivKGrad::toMatrix( const std::shared_ptr< SparseMatrixProxy >
       }
    }
 }
-void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues()
+void P1ElementwiseMass::computeInverseDiagonalOperatorValues()
 {
    if ( invDiag_ == nullptr )
    {
@@ -328,17 +306,12 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues()
 
       if ( storage_->hasGlobalCells() )
       {
-         k.communicate< Face, Cell >( level );
-         k.communicate< Edge, Cell >( level );
-         k.communicate< Vertex, Cell >( level );
-
          for ( auto& it : storage_->getCells() )
          {
             Cell& cell = *it.second;
 
             // get hold of the actual numerical data
             real_t* _data_invDiag_ = cell.getData( ( *invDiag_ ).getCellDataID() )->getPointer( level );
-            real_t* _data_k        = cell.getData( k.getCellDataID() )->getPointer( level );
 
             const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
             const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
@@ -358,7 +331,6 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues()
             computeInverseDiagonalOperatorValues_macro_3D(
 
                 _data_invDiag_,
-                _data_k,
                 macro_vertex_coord_id_0comp0,
                 macro_vertex_coord_id_0comp1,
                 macro_vertex_coord_id_0comp2,
@@ -385,15 +357,12 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues()
       }
       else
       {
-         communication::syncFunctionBetweenPrimitives( k, level, communication::syncDirection_t::LOW2HIGH );
-
          for ( auto& it : storage_->getFaces() )
          {
             Face& face = *it.second;
 
             // get hold of the actual numerical data
             real_t* _data_invDiag_ = face.getData( ( *invDiag_ ).getFaceDataID() )->getPointer( level );
-            real_t* _data_k        = face.getData( k.getFaceDataID() )->getPointer( level );
 
             const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
             const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
@@ -407,7 +376,6 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues()
             computeInverseDiagonalOperatorValues_macro_2D(
 
                 _data_invDiag_,
-                _data_k,
                 macro_vertex_coord_id_0comp0,
                 macro_vertex_coord_id_0comp1,
                 macro_vertex_coord_id_1comp0,
@@ -429,7 +397,7 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues()
       ( *invDiag_ ).invertElementwise( level );
    }
 }
-std::shared_ptr< P1Function< real_t > > P1ElementwiseDivKGrad::getInverseDiagonalValues() const
+std::shared_ptr< P1Function< real_t > > P1ElementwiseMass::getInverseDiagonalValues() const
 {
    return invDiag_;
 }
