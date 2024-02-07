@@ -3,7 +3,7 @@ hyteg-hfg-integration-test:
   image: i10git.cs.fau.de:5005/pycodegen/pycodegen/full
   script:
     - python3 --version
-    - curl -O https://i10git.cs.fau.de/hyteg/hyteg/-/raw/master/.clang-format
+    - wget https://i10git.cs.fau.de/hyteg/hyteg/-/raw/master/.clang-format
     - cd generate
     - virtualenv -p python3 venv
     - source venv/bin/activate
