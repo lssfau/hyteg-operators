@@ -6,9 +6,8 @@ hyteg-hfg-integration-test:
     - cd generate
     - virtualenv -p python3 venv
     - source venv/bin/activate
-    - GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0="url.https://gitlab-ci-token:${CI_JOB_TOKEN}@i10git.cs.fau.de/terraneo.insteadOf" GIT_CONFIG_VALUE_0="ssh://git@i10git.cs.fau.de/terraneo" python -m pip install -r requirements.txt
+    - GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0="url.https://gitlab-ci-token:${CI_JOB_TOKEN}@i10git.cs.fau.de.insteadOf" GIT_CONFIG_VALUE_0="ssh://git@i10git.cs.fau.de" python -m pip install -r requirements.txt
     - pip freeze
-    - git clone https://i10git.cs.fau.de/hyteg/hyteg.git
     - rm -rf ../operators/*
     - python3 generate.py -o ../operators ../operators.toml
     - cd ..
