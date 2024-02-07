@@ -1,0 +1,18 @@
+hyteg-hfg-integration-test:
+  stage: test
+  image: i10git.cs.fau.de:5005/pycodegen/pycodegen/full
+  script:
+    - python3 --version
+    - cd generate
+    - python3 -m venv .venv
+    - source venv/bin/activate
+    - python -m pip install -r requirements.txt
+    - pip freeze
+    - git clone https://i10git.cs.fau.de/hyteg/hyteg.git
+    - rm -rf ../operators/*
+    - python3 generate.py -o ../operators ../operators.toml
+    - cd ..
+    - git status
+    - git diff --exit-code --stat
+  tags:
+    - docker
