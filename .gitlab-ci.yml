@@ -4,7 +4,7 @@ hyteg-hfg-integration-test:
   script:
     - python3 --version
     - cd generate
-    - python3 -m venv .venv
+    - virtualenv -p python3 venv
     - source venv/bin/activate
     - python -m pip install -r requirements.txt
     - pip freeze
