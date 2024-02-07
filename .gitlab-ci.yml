@@ -12,6 +12,7 @@ hyteg-hfg-integration-test:
     - python3 generate.py -o ../operators ../operators.toml
     - cd ..
     - git status
+    - git diff
     - git diff --exit-code --stat
   tags:
     - docker
