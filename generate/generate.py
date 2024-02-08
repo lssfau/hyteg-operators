@@ -3,6 +3,7 @@ from functools import partial
 import os
 import sys
 from typing import Any, Dict, List
+from collections import defaultdict
 
 if sys.version_info >= (3, 11):
     import tomllib
@@ -38,6 +39,7 @@ def main() -> None:
         for form_str, operators in toml_dict.items():
             kernel_implementations = {}
             for spec in operators:
+                spec = defaultdict(lambda: None, spec)
                 op_kernel_impls = generate_operator(args, form_str, spec)
 
                 for platform, impls in op_kernel_impls.items():
@@ -134,7 +136,12 @@ def generate_cmake(
         print(f"if (HYTEG_BUILD_WITH_PETSC)", file=f)
         print(f"   target_link_libraries({lib_name} PUBLIC PETSc::PETSc)", file=f)
         print(f"endif ()", file=f)
-        print(f"target_compile_features({lib_name} PUBLIC cxx_std_17)", file=f)
+        print(f"if (WALBERLA_BUILD_WITH_HALF_PRECISION_SUPPORT)"
+              f"    target_compile_features(opgen-diffusion PUBLIC cxx_std_23)"
+              f"else ()"
+              f"    target_compile_features(opgen-diffusion PUBLIC cxx_std_17))"
+              f"endif ()"
+              , file=f)
 
 
 def generate_operator(
@@ -153,6 +160,12 @@ def generate_operator(
     loop_strategies = {
         "cubes": operator_generation.loop_strategies.CUBES(),
         "sawtooth": operator_generation.loop_strategies.SAWTOOTH(),
+    }
+    blending_maps = {   # TODO fill these constructors with arguments
+        "IdentityMap": hfg.blending.IdentityMap(),
+        "ExternalMap": hfg.blending.ExternalMap(),
+        "AnnulusMap": hfg.blending.AnnulusMap(),
+        "IcosahedralShellMap": hfg.blending.IcosahedralShellMap(),
     }
 
     try:
@@ -176,8 +189,10 @@ def generate_operator(
         operator_generation.optimizer.opts_arg_mapping[opt.upper()]
         for opt in spec["optimizations"]
     }
-    type_descriptor = types.hyteg_default_type()  # TODO
-    blending = hfg.blending.IdentityMap()  # TODO
+    type_descriptor = types.hyteg_type(spec["precision"])
+    # FIXME not sure if we want to throw an error if the given blending is not existing or use identity, as it is now.
+    blending = blending_maps.get(spec["blending"], hfg.blending.IdentityMap())
+
 
     kernel_types = [
         operator_generation.kernel_types.Apply(
