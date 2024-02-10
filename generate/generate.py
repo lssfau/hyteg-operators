@@ -173,14 +173,6 @@ def generate_operator(
         "default": hfg.blending.IdentityMap(),
     }
 
-    def raise_exception(dict_key: Union[str, int]) -> None:
-        dict_arg = spec[f"{dict_key}"]
-        # raise ValueError(
-        print(
-            f"Something went wrong, "
-            f"the given toml spec {dict_key} with value '{dict_arg}' can't be chosen since it is not implemented yet."
-        )
-
     try:
         get_form = getattr(forms, form_str)
     except:
@@ -205,13 +197,11 @@ def generate_operator(
 
     if "precision" not in spec:
         spec["precision"] = "default"
-    # type_descriptor = precisions[spec["precision"]]
-    type_descriptor = precisions.get(spec["precision"], raise_exception("precision"))
+    type_descriptor = precisions[spec["precision"]]
 
     if "blending" not in spec:
         spec["blending"] = "default"
-    # blending = blending_maps[spec["blending"]]
-    blending = blending_maps.get(spec["blending"], raise_exception("blending"))
+    blending = blending_maps[spec["blending"]]
 
     kernel_types = [
         operator_generation.kernel_types.Apply(
