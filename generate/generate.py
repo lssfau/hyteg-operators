@@ -2,7 +2,7 @@ import argparse
 from functools import partial
 import os
 import sys
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 from collections import defaultdict
 
 if sys.version_info >= (3, 11):
@@ -39,7 +39,6 @@ def main() -> None:
         for form_str, operators in toml_dict.items():
             kernel_implementations = {}
             for spec in operators:
-                spec = defaultdict(lambda: None, spec)
                 op_kernel_impls = generate_operator(args, form_str, spec)
 
                 for platform, impls in op_kernel_impls.items():
@@ -136,10 +135,10 @@ def generate_cmake(
         print(f"if (HYTEG_BUILD_WITH_PETSC)", file=f)
         print(f"   target_link_libraries({lib_name} PUBLIC PETSc::PETSc)", file=f)
         print(f"endif ()", file=f)
-        print(f"if (WALBERLA_BUILD_WITH_HALF_PRECISION_SUPPORT)"
-              f"    target_compile_features(opgen-diffusion PUBLIC cxx_std_23)"
-              f"else ()"
-              f"    target_compile_features(opgen-diffusion PUBLIC cxx_std_17))"
+        print(f"if (WALBERLA_BUILD_WITH_HALF_PRECISION_SUPPORT)\n"
+              f"    target_compile_features(opgen-diffusion PUBLIC cxx_std_23)\n"
+              f"else ()\n"
+              f"    target_compile_features(opgen-diffusion PUBLIC cxx_std_17)\n"
               f"endif ()"
               , file=f)
 
@@ -161,12 +160,26 @@ def generate_operator(
         "cubes": operator_generation.loop_strategies.CUBES(),
         "sawtooth": operator_generation.loop_strategies.SAWTOOTH(),
     }
-    blending_maps = {   # TODO fill these constructors with arguments
+    precisions = {
+        "fp16": types.hyteg_type(types.HFGPrecision.FP16),
+        "fp32": types.hyteg_type(types.HFGPrecision.FP32),
+        "fp64": types.hyteg_type(types.HFGPrecision.FP64),
+        "default": types.hyteg_type(types.HFGPrecision.DEFAULT),
+    }
+    blending_maps = {
         "IdentityMap": hfg.blending.IdentityMap(),
-        "ExternalMap": hfg.blending.ExternalMap(),
         "AnnulusMap": hfg.blending.AnnulusMap(),
         "IcosahedralShellMap": hfg.blending.IcosahedralShellMap(),
+        "default": hfg.blending.IdentityMap(),
     }
+
+    def raise_exception(dict_key: Union[str, int]) -> None:
+        dict_arg = spec[f"{dict_key}"]
+        # raise ValueError(
+        print(
+            f"Something went wrong, "
+            f"the given toml spec {dict_key} with value '{dict_arg}' can't be chosen since it is not implemented yet."
+        )
 
     try:
         get_form = getattr(forms, form_str)
@@ -189,10 +202,16 @@ def generate_operator(
         operator_generation.optimizer.opts_arg_mapping[opt.upper()]
         for opt in spec["optimizations"]
     }
-    type_descriptor = types.hyteg_type(spec["precision"])
-    # FIXME not sure if we want to throw an error if the given blending is not existing or use identity, as it is now.
-    blending = blending_maps.get(spec["blending"], hfg.blending.IdentityMap())
 
+    if "precision" not in spec:
+        spec["precision"] = "default"
+    # type_descriptor = precisions[spec["precision"]]
+    type_descriptor = precisions.get(spec["precision"], raise_exception("precision"))
+
+    if "blending" not in spec:
+        spec["blending"] = "default"
+    # blending = blending_maps[spec["blending"]]
+    blending = blending_maps.get(spec["blending"], raise_exception("blending"))
 
     kernel_types = [
         operator_generation.kernel_types.Apply(
