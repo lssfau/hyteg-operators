@@ -44,17 +44,18 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-class N1E1ElementwiseCurlCurl : public Operator< n1e1::N1E1VectorFunction< real_t >, n1e1::N1E1VectorFunction< real_t > >,
-                                public OperatorWithInverseDiagonal< n1e1::N1E1VectorFunction< real_t > >
+class N1E1ElementwiseCurlCurl
+: public Operator< n1e1::N1E1VectorFunction< walberla::float64 >, n1e1::N1E1VectorFunction< walberla::float64 > >,
+  public OperatorWithInverseDiagonal< n1e1::N1E1VectorFunction< walberla::float64 > >
 {
  public:
    N1E1ElementwiseCurlCurl( const std::shared_ptr< PrimitiveStorage >& storage, size_t minLevel, size_t maxLevel );
 
-   void apply( const n1e1::N1E1VectorFunction< real_t >& src,
-               const n1e1::N1E1VectorFunction< real_t >& dst,
-               uint_t                                    level,
-               DoFType                                   flag,
-               UpdateType                                updateType = Replace ) const;
+   void apply( const n1e1::N1E1VectorFunction< walberla::float64 >& src,
+               const n1e1::N1E1VectorFunction< walberla::float64 >& dst,
+               uint_t                                               level,
+               DoFType                                              flag,
+               UpdateType                                           updateType = Replace ) const;
 
    void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                   const n1e1::N1E1VectorFunction< idx_t >&    src,
@@ -64,7 +65,7 @@ class N1E1ElementwiseCurlCurl : public Operator< n1e1::N1E1VectorFunction< real_
 
    void computeInverseDiagonalOperatorValues();
 
-   std::shared_ptr< n1e1::N1E1VectorFunction< real_t > > getInverseDiagonalValues() const;
+   std::shared_ptr< n1e1::N1E1VectorFunction< walberla::float64 > > getInverseDiagonalValues() const;
 
  protected:
  private:
@@ -74,22 +75,22 @@ class N1E1ElementwiseCurlCurl : public Operator< n1e1::N1E1VectorFunction< real_
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///     87     130       1       0      0              0                 0              0
-   void apply_macro_3D( real_t* RESTRICT _data_dst,
-                        real_t* RESTRICT _data_src,
-                        real_t           macro_vertex_coord_id_0comp0,
-                        real_t           macro_vertex_coord_id_0comp1,
-                        real_t           macro_vertex_coord_id_0comp2,
-                        real_t           macro_vertex_coord_id_1comp0,
-                        real_t           macro_vertex_coord_id_1comp1,
-                        real_t           macro_vertex_coord_id_1comp2,
-                        real_t           macro_vertex_coord_id_2comp0,
-                        real_t           macro_vertex_coord_id_2comp1,
-                        real_t           macro_vertex_coord_id_2comp2,
-                        real_t           macro_vertex_coord_id_3comp0,
-                        real_t           macro_vertex_coord_id_3comp1,
-                        real_t           macro_vertex_coord_id_3comp2,
-                        int64_t          micro_edges_per_macro_edge,
-                        real_t           micro_edges_per_macro_edge_float ) const;
+   void apply_macro_3D( walberla::float64* RESTRICT _data_dst,
+                        walberla::float64* RESTRICT _data_src,
+                        walberla::float64           macro_vertex_coord_id_0comp0,
+                        walberla::float64           macro_vertex_coord_id_0comp1,
+                        walberla::float64           macro_vertex_coord_id_0comp2,
+                        walberla::float64           macro_vertex_coord_id_1comp0,
+                        walberla::float64           macro_vertex_coord_id_1comp1,
+                        walberla::float64           macro_vertex_coord_id_1comp2,
+                        walberla::float64           macro_vertex_coord_id_2comp0,
+                        walberla::float64           macro_vertex_coord_id_2comp1,
+                        walberla::float64           macro_vertex_coord_id_2comp2,
+                        walberla::float64           macro_vertex_coord_id_3comp0,
+                        walberla::float64           macro_vertex_coord_id_3comp1,
+                        walberla::float64           macro_vertex_coord_id_3comp2,
+                        int64_t                     micro_edges_per_macro_edge,
+                        walberla::float64           micro_edges_per_macro_edge_float ) const;
    /// Kernel type: toMatrix
    /// - quadrature rule: Xiao-Gimbutas | points: 1, degree: 1
    /// - operations per element:
@@ -100,44 +101,44 @@ class N1E1ElementwiseCurlCurl : public Operator< n1e1::N1E1VectorFunction< real_
                            idx_t* RESTRICT                      _data_src,
                            const Cell&                          cell,
                            const uint_t                         level,
-                           real_t                               macro_vertex_coord_id_0comp0,
-                           real_t                               macro_vertex_coord_id_0comp1,
-                           real_t                               macro_vertex_coord_id_0comp2,
-                           real_t                               macro_vertex_coord_id_1comp0,
-                           real_t                               macro_vertex_coord_id_1comp1,
-                           real_t                               macro_vertex_coord_id_1comp2,
-                           real_t                               macro_vertex_coord_id_2comp0,
-                           real_t                               macro_vertex_coord_id_2comp1,
-                           real_t                               macro_vertex_coord_id_2comp2,
-                           real_t                               macro_vertex_coord_id_3comp0,
-                           real_t                               macro_vertex_coord_id_3comp1,
-                           real_t                               macro_vertex_coord_id_3comp2,
+                           walberla::float64                    macro_vertex_coord_id_0comp0,
+                           walberla::float64                    macro_vertex_coord_id_0comp1,
+                           walberla::float64                    macro_vertex_coord_id_0comp2,
+                           walberla::float64                    macro_vertex_coord_id_1comp0,
+                           walberla::float64                    macro_vertex_coord_id_1comp1,
+                           walberla::float64                    macro_vertex_coord_id_1comp2,
+                           walberla::float64                    macro_vertex_coord_id_2comp0,
+                           walberla::float64                    macro_vertex_coord_id_2comp1,
+                           walberla::float64                    macro_vertex_coord_id_2comp2,
+                           walberla::float64                    macro_vertex_coord_id_3comp0,
+                           walberla::float64                    macro_vertex_coord_id_3comp1,
+                           walberla::float64                    macro_vertex_coord_id_3comp2,
                            std::shared_ptr< SparseMatrixProxy > mat,
                            int64_t                              micro_edges_per_macro_edge,
-                           real_t                               micro_edges_per_macro_edge_float ) const;
+                           walberla::float64                    micro_edges_per_macro_edge_float ) const;
    /// Kernel type: computeInverseDiagonalOperatorValues
    /// - quadrature rule: Xiao-Gimbutas | points: 1, degree: 1
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///     27      43       1       0      0              0                 0              0
-   void computeInverseDiagonalOperatorValues_macro_3D( real_t* RESTRICT _data_invDiag_,
-                                                       real_t           macro_vertex_coord_id_0comp0,
-                                                       real_t           macro_vertex_coord_id_0comp1,
-                                                       real_t           macro_vertex_coord_id_0comp2,
-                                                       real_t           macro_vertex_coord_id_1comp0,
-                                                       real_t           macro_vertex_coord_id_1comp1,
-                                                       real_t           macro_vertex_coord_id_1comp2,
-                                                       real_t           macro_vertex_coord_id_2comp0,
-                                                       real_t           macro_vertex_coord_id_2comp1,
-                                                       real_t           macro_vertex_coord_id_2comp2,
-                                                       real_t           macro_vertex_coord_id_3comp0,
-                                                       real_t           macro_vertex_coord_id_3comp1,
-                                                       real_t           macro_vertex_coord_id_3comp2,
-                                                       int64_t          micro_edges_per_macro_edge,
-                                                       real_t           micro_edges_per_macro_edge_float ) const;
+   void computeInverseDiagonalOperatorValues_macro_3D( walberla::float64* RESTRICT _data_invDiag_,
+                                                       walberla::float64           macro_vertex_coord_id_0comp0,
+                                                       walberla::float64           macro_vertex_coord_id_0comp1,
+                                                       walberla::float64           macro_vertex_coord_id_0comp2,
+                                                       walberla::float64           macro_vertex_coord_id_1comp0,
+                                                       walberla::float64           macro_vertex_coord_id_1comp1,
+                                                       walberla::float64           macro_vertex_coord_id_1comp2,
+                                                       walberla::float64           macro_vertex_coord_id_2comp0,
+                                                       walberla::float64           macro_vertex_coord_id_2comp1,
+                                                       walberla::float64           macro_vertex_coord_id_2comp2,
+                                                       walberla::float64           macro_vertex_coord_id_3comp0,
+                                                       walberla::float64           macro_vertex_coord_id_3comp1,
+                                                       walberla::float64           macro_vertex_coord_id_3comp2,
+                                                       int64_t                     micro_edges_per_macro_edge,
+                                                       walberla::float64           micro_edges_per_macro_edge_float ) const;
 
-   std::shared_ptr< n1e1::N1E1VectorFunction< real_t > > invDiag_;
+   std::shared_ptr< n1e1::N1E1VectorFunction< walberla::float64 > > invDiag_;
 };
 
 } // namespace operatorgeneration
