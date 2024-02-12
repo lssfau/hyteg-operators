@@ -50,7 +50,7 @@ def main() -> None:
 
 
 def generate_toplevel_cmake(
-    args: argparse.Namespace, toml_dict: Dict[str, Any]
+        args: argparse.Namespace, toml_dict: Dict[str, Any]
 ) -> None:
     os.makedirs(args.output, exist_ok=True)
     output_path = os.path.join(args.output, "CMakeLists.txt")
@@ -68,10 +68,10 @@ def generate_toplevel_cmake(
 
 
 def generate_cmake(
-    args: argparse.Namespace,
-    form_str: str,
-    operators: List[Dict[str, Any]],
-    kernel_implementations: Dict[str, List[str]],
+        args: argparse.Namespace,
+        form_str: str,
+        operators: List[Dict[str, Any]],
+        kernel_implementations: Dict[str, List[str]],
 ) -> None:
     dir_path = os.path.join(args.output, form_str)
     os.makedirs(dir_path, exist_ok=True)
@@ -144,7 +144,7 @@ def generate_cmake(
 
 
 def generate_operator(
-    args: argparse.Namespace, form_str: str, spec: Dict[str, Any]
+        args: argparse.Namespace, form_str: str, spec: Dict[str, Any]
 ) -> Dict[str, List[str]]:
     symbolizer = hfg.symbolizer.Symbolizer()
     fe_spaces = {
@@ -164,13 +164,11 @@ def generate_operator(
         "fp16": types.hyteg_type(types.HFGPrecision.FP16),
         "fp32": types.hyteg_type(types.HFGPrecision.FP32),
         "fp64": types.hyteg_type(types.HFGPrecision.FP64),
-        "default": types.hyteg_type(types.HFGPrecision.DEFAULT),
     }
     blending_maps = {
         "IdentityMap": hfg.blending.IdentityMap(),
         "AnnulusMap": hfg.blending.AnnulusMap(),
         "IcosahedralShellMap": hfg.blending.IcosahedralShellMap(),
-        "default": hfg.blending.IdentityMap(),
     }
 
     try:
@@ -196,11 +194,13 @@ def generate_operator(
     }
 
     if "precision" not in spec:
-        spec["precision"] = "default"
+        # set default precision
+        spec["precision"] = "fp64"
     type_descriptor = precisions[spec["precision"]]
 
     if "blending" not in spec:
-        spec["blending"] = "default"
+        # set default blending
+        spec["blending"] = "IdentityMap"
     blending = blending_maps[spec["blending"]]
 
     kernel_types = [
