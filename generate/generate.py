@@ -28,12 +28,34 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def unfold_toml_dict(toml_dict):
+    toml_dict_unfolded = {}
+
+    for form_str, operators in toml_dict.items():
+        operators_unfolded = []
+        for operator in operators:
+            if "components-trial" in operator and "components-test" in operator:
+                for comp_test in operator["components-test"]:
+                    for comp_trial in operator["components-trial"]:
+                        operator_cleared = operator.copy()
+                        operator_cleared.pop("components-trial")
+                        operator_cleared.pop("components-test")
+                        operator_cleared["form-args.component_test"] = comp_test
+                        operator_cleared["form-args.component_trial"] = comp_trial
+                        operators_unfolded.append(operator_cleared)
+            else:
+                operators_unfolded = [o for o in operators]
+        toml_dict_unfolded[form_str] = operators_unfolded
+    return toml_dict_unfolded
+
+
 def main() -> None:
     args = parse_args()
 
     with open(args.filename, "rb") as f:
         toml_dict = tomllib.load(f)
         # print(f"{toml_dict = }")
+        toml_dict = unfold_toml_dict(toml_dict)
 
         generate_toplevel_cmake(args, toml_dict)
         for form_str, operators in toml_dict.items():
@@ -50,7 +72,7 @@ def main() -> None:
 
 
 def generate_toplevel_cmake(
-        args: argparse.Namespace, toml_dict: Dict[str, Any]
+    args: argparse.Namespace, toml_dict: Dict[str, Any]
 ) -> None:
     os.makedirs(args.output, exist_ok=True)
     output_path = os.path.join(args.output, "CMakeLists.txt")
@@ -68,10 +90,10 @@ def generate_toplevel_cmake(
 
 
 def generate_cmake(
-        args: argparse.Namespace,
-        form_str: str,
-        operators: List[Dict[str, Any]],
-        kernel_implementations: Dict[str, List[str]],
+    args: argparse.Namespace,
+    form_str: str,
+    operators: List[Dict[str, Any]],
+    kernel_implementations: Dict[str, List[str]],
 ) -> None:
     dir_path = os.path.join(args.output, form_str)
     os.makedirs(dir_path, exist_ok=True)
@@ -135,16 +157,18 @@ def generate_cmake(
         print(f"if (HYTEG_BUILD_WITH_PETSC)", file=f)
         print(f"   target_link_libraries({lib_name} PUBLIC PETSc::PETSc)", file=f)
         print(f"endif ()", file=f)
-        print(f"if (WALBERLA_BUILD_WITH_HALF_PRECISION_SUPPORT)\n"
-              f"    target_compile_features(opgen-diffusion PUBLIC cxx_std_23)\n"
-              f"else ()\n"
-              f"    target_compile_features(opgen-diffusion PUBLIC cxx_std_17)\n"
-              f"endif ()"
-              , file=f)
+        print(
+            f"if (WALBERLA_BUILD_WITH_HALF_PRECISION_SUPPORT)\n"
+            f"    target_compile_features({lib_name} PUBLIC cxx_std_23)\n"
+            f"else ()\n"
+            f"    target_compile_features({lib_name} PUBLIC cxx_std_17)\n"
+            f"endif ()",
+            file=f,
+        )
 
 
 def generate_operator(
-        args: argparse.Namespace, form_str: str, spec: Dict[str, Any]
+    args: argparse.Namespace, form_str: str, spec: Dict[str, Any]
 ) -> Dict[str, List[str]]:
     symbolizer = hfg.symbolizer.Symbolizer()
     fe_spaces = {
@@ -203,27 +227,40 @@ def generate_operator(
         spec["blending"] = "IdentityMap"
     blending = blending_maps[spec["blending"]]
 
+    dims = spec["dimensions"]
+    components_equal = True
+    if "form-args.component_test" in spec and "form-args.component_trial" in spec:
+        if (
+            spec["form-args.component_test"] == 2
+            or spec["form-args.component_trial"] == 2
+        ):
+            dims = [d for d in spec["dimensions"] if d >= 3]
+
+        components_equal = (
+            spec["form-args.component_test"] == spec["form-args.component_trial"]
+        )
+
     kernel_types = [
         operator_generation.kernel_types.Apply(
             test_space,
             trial_space,
             type_descriptor=type_descriptor,
-            dims=spec["dimensions"],
+            dims=dims,
         ),
         operator_generation.kernel_types.Assemble(
             test_space,
             trial_space,
             type_descriptor=type_descriptor,
-            dims=spec["dimensions"],
+            dims=dims,
         ),
     ]
 
-    if trial_space == test_space:
+    if trial_space == test_space and components_equal:
         kernel_types.append(
             operator_generation.kernel_types.AssembleDiagonal(
                 trial_space,
                 type_descriptor=type_descriptor,
-                dims=spec["dimensions"],
+                dims=dims,
             )
         )
 
@@ -236,7 +273,7 @@ def generate_operator(
             type_descriptor=type_descriptor,
         )
 
-        for geometry in [geometries[dim] for dim in spec["dimensions"]]:
+        for geometry in [geometries[dim] for dim in dims]:
             quad = quadrature.Quadrature(spec["quadrature"], geometry)
 
             form = get_form(
@@ -285,7 +322,13 @@ def elementwise_operator_name(form_str: str, spec: Dict[str, Any]) -> str:
     else:
         space_mapping = f"{spec['test-space']}To{spec['trial-space']}"
 
-    return f"{space_mapping}Elementwise{operator_name}"
+    component = ""
+    if "form-args.component_test" in spec and "form-args.component_trial" in spec:
+        component = (
+            f"_{spec['form-args.component_test']}_{spec['form-args.component_trial']}"
+        )
+
+    return f"{space_mapping}Elementwise{operator_name}{component}"
 
 
 if __name__ == "__main__":

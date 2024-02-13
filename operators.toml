@@ -39,3 +39,25 @@ dimensions    = [2, 3]
 quadrature    = 2
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+
+[[epsilon]]
+trial-space               = "P2"
+test-space                = "P2"
+components-trial = [0, 1, 2]
+components-test  = [0, 1, 2]
+form-space-args.coefficient_function_space = "P2"
+dimensions      = [2, 3]
+quadrature      = 2
+loop-strategy   = "sawtooth"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+
+[[full_stokes]]
+trial-space               = "P2"
+test-space                = "P2"
+components-trial = [0, 1, 2]
+components-test  = [0, 1, 2]
+form-space-args.coefficient_function_space = "P2"
+dimensions      = [2, 3]
+quadrature      = 2
+loop-strategy   = "sawtooth"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
