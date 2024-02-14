@@ -25,6 +25,13 @@ def parse_args() -> argparse.Namespace:
         "-o", "--output", required=True, help="Path to output directory."
     )
 
+    parser.add_argument(
+        "--clang-format-binary",
+        default="clang-format",
+        help=f"Allows to specify the name of the clang-format binary and/or optionally its full path."
+        f" By default 'clang-format' will be used.",
+    )
+
     return parser.parse_args()
 
 
@@ -237,7 +244,9 @@ def generate_operator(
         )
 
         for geometry in [geometries[dim] for dim in spec["dimensions"]]:
-            quad = quadrature.Quadrature(spec["quadrature"], geometry)
+            quad = quadrature.Quadrature(
+                quadrature.select_quadrule(spec["quadrature"], geometry), geometry
+            )
 
             form = get_form(
                 test_space,
@@ -259,6 +268,7 @@ def generate_operator(
         dir_path = os.path.join(args.output, form_str)
         operator.generate_class_code(
             dir_path,
+            args.clang_format_binary,
             loop_strategies[spec["loop-strategy"]],
             class_files=operators.CppClassFiles.HEADER_IMPL_AND_VARIANTS,
             clang_format=True,
