@@ -98,45 +98,56 @@ def generate_cmake(
         print(f")", file=f)
         print(f"", file=f)
 
-        print(f"if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)", file=f)
-        print(f"   target_sources({lib_name} PRIVATE", file=f)
-        print(f"", file=f)
+        def print_noarch_targets(avx_exists: bool):
+            intend_noarch_source_file = "   " if avx_exists else ""
+            print(f"{intend_noarch_source_file}target_sources({lib_name} PRIVATE", file=f)
+            print(f"", file=f)
 
-        for source_file in kernel_implementations["avx"]:
-            print(f"      avx/{source_file}", file=f)
-        for source_file in kernel_implementations["noarch"]:
-            if not source_file in kernel_implementations["avx"]:
-                print(f"      noarch/{source_file}", file=f)
+            for source_file_inner in kernel_implementations["noarch"]:
+                print(f"{intend_noarch_source_file}   noarch/{source_file_inner}", file=f)
 
-        print(f"   )", file=f)
-        print(f"", file=f)
+            print(f"{intend_noarch_source_file})", file=f)
 
-        print(f"   set_source_files_properties(", file=f)
-        print(f"", file=f)
+        if "avx" in kernel_implementations:
 
-        for source_file in kernel_implementations["avx"]:
-            print(f"      avx/{source_file}", file=f)
-        print(f"", file=f)
-        print("      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}", file=f)
+            print(f"if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)", file=f)
+            print(f"   target_sources({lib_name} PRIVATE", file=f)
+            print(f"", file=f)
 
-        print(f"   )", file=f)
-        print(f"else()", file=f)
-        print(f"   if(HYTEG_BUILD_WITH_AVX AND NOT WALBERLA_DOUBLE_ACCURACY)", file=f)
-        print(
-            f'      message(WARNING "AVX vectorization only available in double precision. Using scalar kernels.")',
-            file=f,
-        )
-        print(f"   endif()", file=f)
-        print(f"", file=f)
+            for source_file in kernel_implementations["avx"]:
+                print(f"      avx/{source_file}", file=f)
 
-        print(f"   target_sources({lib_name} PRIVATE", file=f)
-        print(f"", file=f)
+            for source_file in kernel_implementations["noarch"]:
+                if not source_file in kernel_implementations["avx"]:
+                    print(f"      noarch/{source_file}", file=f)
 
-        for source_file in kernel_implementations["noarch"]:
-            print(f"      noarch/{source_file}", file=f)
+            print(f"   )", file=f)
+            print(f"", file=f)
 
-        print(f"   )", file=f)
-        print(f"endif()", file=f)
+            print(f"   set_source_files_properties(", file=f)
+            print(f"", file=f)
+
+            for source_file in kernel_implementations["avx"]:
+                print(f"      avx/{source_file}", file=f)
+            print(f"", file=f)
+            print("      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}", file=f)
+
+            print(f"   )", file=f)
+            print(f"else()", file=f)
+            print(f"   if(HYTEG_BUILD_WITH_AVX AND NOT WALBERLA_DOUBLE_ACCURACY)", file=f)
+            print(
+                f'      message(WARNING "AVX vectorization only available in double precision. Using scalar kernels.")',
+                file=f,
+            )
+            print(f"   endif()", file=f)
+            print(f"", file=f)
+
+            print_noarch_targets(avx_exists=True)
+
+            print(f"endif()", file=f)
+        else:
+            print_noarch_targets(avx_exists=False)
+
         print(f"", file=f)
 
         print(f"if (HYTEG_BUILD_WITH_PETSC)", file=f)
