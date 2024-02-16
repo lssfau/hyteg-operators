@@ -3,7 +3,6 @@ from functools import partial
 import os
 import sys
 from typing import Any, Dict, List, Union
-from collections import defaultdict
 
 if sys.version_info >= (3, 11):
     import tomllib
@@ -189,6 +188,20 @@ def generate_operator(
         "IcosahedralShellMap": hfg.blending.IcosahedralShellMap(),
     }
 
+    def raise_exception(dict_key: Union[str, int]) -> None:
+        dict_arg = spec[f"{dict_key}"]
+        valid_options = []
+        if dict_key == "precision":
+            valid_options = [key for key in precisions.keys()]
+        elif dict_key == "blending":
+            valid_options = [key for key in blending_maps.keys()]
+
+        raise ValueError(
+            f"Something went wrong, "
+            f"the given value '{dict_arg}' is not a valid '{dict_key}'.\n"
+            f"{'' if not valid_options else str('Please choose one of these ' + str(valid_options) + '.')}"
+        )
+
     try:
         get_form = getattr(forms, form_str)
     except:
@@ -211,15 +224,19 @@ def generate_operator(
         for opt in spec["optimizations"]
     }
 
-    if "precision" not in spec:
-        # set default precision
-        spec["precision"] = "fp64"
-    type_descriptor = precisions[spec["precision"]]
+    type_descriptor = precisions["fp64"]  # set default precision
+    if "precision" in spec:
+        if spec["precision"] in precisions:
+            type_descriptor = precisions[spec["precision"]]
+        else:
+            raise_exception("precision")
 
-    if "blending" not in spec:
-        # set default blending
-        spec["blending"] = "IdentityMap"
-    blending = blending_maps[spec["blending"]]
+    blending = blending_maps["IdentityMap"]  # set default blending
+    if "blending" in spec:
+        if spec["blending"] in blending_maps:
+            blending = blending_maps[spec["blending"]]
+        else:
+            raise_exception("blending")
 
     kernel_types = [
         operator_generation.kernel_types.Apply(
