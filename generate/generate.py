@@ -99,13 +99,13 @@ def generate_cmake(
 
         def print_noarch_targets(avx_exists: bool):
             indent_noarch_source_file = "   " if avx_exists else ""
-            print(f"{intend_noarch_source_file}target_sources({lib_name} PRIVATE", file=f)
+            print(f"{indent_noarch_source_file}target_sources({lib_name} PRIVATE", file=f)
             print(f"", file=f)
 
             for source_file_inner in kernel_implementations["noarch"]:
-                print(f"{intend_noarch_source_file}   noarch/{source_file_inner}", file=f)
+                print(f"{indent_noarch_source_file}   noarch/{source_file_inner}", file=f)
 
-            print(f"{intend_noarch_source_file})", file=f)
+            print(f"{indent_noarch_source_file})", file=f)
 
         if "avx" in kernel_implementations:
 
