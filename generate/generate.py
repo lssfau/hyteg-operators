@@ -274,7 +274,9 @@ def generate_operator(
         )
 
         for geometry in [geometries[dim] for dim in dims]:
-            quad = quadrature.Quadrature(spec["quadrature"], geometry)
+            quad = quadrature.Quadrature(
+                quadrature.select_quadrule(spec["quadrature"], geometry), geometry
+            )
 
             form = get_form(
                 test_space,
@@ -296,6 +298,7 @@ def generate_operator(
         dir_path = os.path.join(args.output, form_str)
         operator.generate_class_code(
             dir_path,
+            "clang-format",
             loop_strategies[spec["loop-strategy"]],
             class_files=operators.CppClassFiles.HEADER_IMPL_AND_VARIANTS,
             clang_format=True,

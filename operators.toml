@@ -12,7 +12,7 @@ test-space    = "P1"
 dimensions    = [2, 3]
 quadrature    = 0
 loop-strategy = "cubes"
-optimizations = ["cutloops", "moveconstants", "vectorize"]
+optimizations = ["moveconstants", "vectorize"]
 
 [[div_k_grad]]
 trial-space   = "P1"
