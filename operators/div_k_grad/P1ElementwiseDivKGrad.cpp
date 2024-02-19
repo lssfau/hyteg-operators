@@ -61,7 +61,10 @@ void P1ElementwiseDivKGrad::apply( const P1Function< walberla::float64 >& src,
                                    DoFType                                flag,
                                    UpdateType                             updateType ) const
 {
+   this->startTiming( "apply" );
+
    // Make sure that halos are up-to-date
+   this->timingTree_->start( "pre-communication" );
    if ( this->storage_->hasGlobalCells() )
    {
       // Note that the order of communication is important, since the face -> cell communication may overwrite
@@ -78,6 +81,7 @@ void P1ElementwiseDivKGrad::apply( const P1Function< walberla::float64 >& src,
       communication::syncFunctionBetweenPrimitives( src, level, communication::syncDirection_t::LOW2HIGH );
       communication::syncFunctionBetweenPrimitives( k, level, communication::syncDirection_t::LOW2HIGH );
    }
+   this->timingTree_->stop( "pre-communication" );
 
    if ( updateType == Replace )
    {
@@ -127,6 +131,8 @@ void P1ElementwiseDivKGrad::apply( const P1Function< walberla::float64 >& src,
          const walberla::float64 macro_vertex_coord_id_3comp1 = (walberla::float64) cell.getCoordinates()[3][1];
          const walberla::float64 macro_vertex_coord_id_3comp2 = (walberla::float64) cell.getCoordinates()[3][2];
 
+         this->timingTree_->start( "kernel" );
+
          apply_macro_3D(
 
              _data_dst,
@@ -146,15 +152,18 @@ void P1ElementwiseDivKGrad::apply( const P1Function< walberla::float64 >& src,
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+         this->timingTree_->stop( "kernel" );
       }
 
       // Push result to lower-dimensional primitives
       //
+      this->timingTree_->start( "post-communication" );
       // Note: We could avoid communication here by implementing the apply() also for the respective
       //       lower dimensional primitives!
       dst.communicateAdditively< Cell, Face >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
       dst.communicateAdditively< Cell, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
       dst.communicateAdditively< Cell, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      this->timingTree_->stop( "post-communication" );
    }
    else
    {
@@ -189,6 +198,8 @@ void P1ElementwiseDivKGrad::apply( const P1Function< walberla::float64 >& src,
          const walberla::float64 macro_vertex_coord_id_2comp0 = (walberla::float64) face.getCoordinates()[2][0];
          const walberla::float64 macro_vertex_coord_id_2comp1 = (walberla::float64) face.getCoordinates()[2][1];
 
+         this->timingTree_->start( "kernel" );
+
          apply_macro_2D(
 
              _data_dst,
@@ -202,15 +213,20 @@ void P1ElementwiseDivKGrad::apply( const P1Function< walberla::float64 >& src,
              macro_vertex_coord_id_2comp1,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+         this->timingTree_->stop( "kernel" );
       }
 
       // Push result to lower-dimensional primitives
       //
+      this->timingTree_->start( "post-communication" );
       // Note: We could avoid communication here by implementing the apply() also for the respective
       //       lower dimensional primitives!
       dst.communicateAdditively< Face, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
       dst.communicateAdditively< Face, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      this->timingTree_->stop( "post-communication" );
    }
+
+   this->stopTiming( "apply" );
 }
 void P1ElementwiseDivKGrad::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                                       const P1Function< idx_t >&                  src,
@@ -218,6 +234,8 @@ void P1ElementwiseDivKGrad::toMatrix( const std::shared_ptr< SparseMatrixProxy >
                                       uint_t                                      level,
                                       DoFType                                     flag ) const
 {
+   this->startTiming( "toMatrix" );
+
    // We currently ignore the flag provided!
    if ( flag != All )
    {
@@ -226,9 +244,11 @@ void P1ElementwiseDivKGrad::toMatrix( const std::shared_ptr< SparseMatrixProxy >
 
    if ( storage_->hasGlobalCells() )
    {
+      this->timingTree_->start( "pre-communication" );
       k.communicate< Face, Cell >( level );
       k.communicate< Edge, Cell >( level );
       k.communicate< Vertex, Cell >( level );
+      this->timingTree_->stop( "pre-communication" );
 
       for ( auto& it : storage_->getCells() )
       {
@@ -254,6 +274,8 @@ void P1ElementwiseDivKGrad::toMatrix( const std::shared_ptr< SparseMatrixProxy >
          const walberla::float64 macro_vertex_coord_id_3comp1 = (walberla::float64) cell.getCoordinates()[3][1];
          const walberla::float64 macro_vertex_coord_id_3comp2 = (walberla::float64) cell.getCoordinates()[3][2];
 
+         this->timingTree_->start( "kernel" );
+
          toMatrix_macro_3D(
 
              _data_dst,
@@ -274,11 +296,14 @@ void P1ElementwiseDivKGrad::toMatrix( const std::shared_ptr< SparseMatrixProxy >
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+         this->timingTree_->stop( "kernel" );
       }
    }
    else
    {
+      this->timingTree_->start( "pre-communication" );
       communication::syncFunctionBetweenPrimitives( k, level, communication::syncDirection_t::LOW2HIGH );
+      this->timingTree_->stop( "pre-communication" );
 
       for ( auto& it : storage_->getFaces() )
       {
@@ -298,6 +323,8 @@ void P1ElementwiseDivKGrad::toMatrix( const std::shared_ptr< SparseMatrixProxy >
          const walberla::float64 macro_vertex_coord_id_2comp0 = (walberla::float64) face.getCoordinates()[2][0];
          const walberla::float64 macro_vertex_coord_id_2comp1 = (walberla::float64) face.getCoordinates()[2][1];
 
+         this->timingTree_->start( "kernel" );
+
          toMatrix_macro_2D(
 
              _data_dst,
@@ -312,11 +339,15 @@ void P1ElementwiseDivKGrad::toMatrix( const std::shared_ptr< SparseMatrixProxy >
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+         this->timingTree_->stop( "kernel" );
       }
    }
+   this->stopTiming( "toMatrix" );
 }
 void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues()
 {
+   this->startTiming( "computeInverseDiagonalOperatorValues" );
+
    if ( invDiag_ == nullptr )
    {
       invDiag_ =
@@ -329,9 +360,11 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues()
 
       if ( storage_->hasGlobalCells() )
       {
+         this->timingTree_->start( "pre-communication" );
          k.communicate< Face, Cell >( level );
          k.communicate< Edge, Cell >( level );
          k.communicate< Vertex, Cell >( level );
+         this->timingTree_->stop( "pre-communication" );
 
          for ( auto& it : storage_->getCells() )
          {
@@ -356,6 +389,8 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues()
             const walberla::float64 macro_vertex_coord_id_3comp1 = (walberla::float64) cell.getCoordinates()[3][1];
             const walberla::float64 macro_vertex_coord_id_3comp2 = (walberla::float64) cell.getCoordinates()[3][2];
 
+            this->timingTree_->start( "kernel" );
+
             computeInverseDiagonalOperatorValues_macro_3D(
 
                 _data_invDiag_,
@@ -374,19 +409,24 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues()
                 macro_vertex_coord_id_3comp2,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float );
+            this->timingTree_->stop( "kernel" );
          }
 
          // Push result to lower-dimensional primitives
          //
+         this->timingTree_->start( "post-communication" );
          // Note: We could avoid communication here by implementing the apply() also for the respective
          //       lower dimensional primitives!
          ( *invDiag_ ).communicateAdditively< Cell, Face >( level );
          ( *invDiag_ ).communicateAdditively< Cell, Edge >( level );
          ( *invDiag_ ).communicateAdditively< Cell, Vertex >( level );
+         this->timingTree_->stop( "post-communication" );
       }
       else
       {
+         this->timingTree_->start( "pre-communication" );
          communication::syncFunctionBetweenPrimitives( k, level, communication::syncDirection_t::LOW2HIGH );
+         this->timingTree_->stop( "pre-communication" );
 
          for ( auto& it : storage_->getFaces() )
          {
@@ -405,6 +445,8 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues()
             const walberla::float64 macro_vertex_coord_id_2comp0 = (walberla::float64) face.getCoordinates()[2][0];
             const walberla::float64 macro_vertex_coord_id_2comp1 = (walberla::float64) face.getCoordinates()[2][1];
 
+            this->timingTree_->start( "kernel" );
+
             computeInverseDiagonalOperatorValues_macro_2D(
 
                 _data_invDiag_,
@@ -417,18 +459,23 @@ void P1ElementwiseDivKGrad::computeInverseDiagonalOperatorValues()
                 macro_vertex_coord_id_2comp1,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float );
+            this->timingTree_->stop( "kernel" );
          }
 
          // Push result to lower-dimensional primitives
          //
+         this->timingTree_->start( "post-communication" );
          // Note: We could avoid communication here by implementing the apply() also for the respective
          //       lower dimensional primitives!
          ( *invDiag_ ).communicateAdditively< Face, Edge >( level );
          ( *invDiag_ ).communicateAdditively< Face, Vertex >( level );
+         this->timingTree_->stop( "post-communication" );
       }
 
       ( *invDiag_ ).invertElementwise( level );
    }
+
+   this->stopTiming( "computeInverseDiagonalOperatorValues" );
 }
 std::shared_ptr< P1Function< walberla::float64 > > P1ElementwiseDivKGrad::getInverseDiagonalValues() const
 {

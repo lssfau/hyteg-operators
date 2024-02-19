@@ -61,7 +61,10 @@ void P2ElementwiseFullStokes_2_0::apply( const P2Function< walberla::float64 >& 
                                          DoFType                                flag,
                                          UpdateType                             updateType ) const
 {
+   this->startTiming( "apply" );
+
    // Make sure that halos are up-to-date
+   this->timingTree_->start( "pre-communication" );
    if ( this->storage_->hasGlobalCells() )
    {
       // Note that the order of communication is important, since the face -> cell communication may overwrite
@@ -77,6 +80,7 @@ void P2ElementwiseFullStokes_2_0::apply( const P2Function< walberla::float64 >& 
    {
       WALBERLA_ABORT( "Not implemented." );
    }
+   this->timingTree_->stop( "pre-communication" );
 
    if ( updateType == Replace )
    {
@@ -130,6 +134,8 @@ void P2ElementwiseFullStokes_2_0::apply( const P2Function< walberla::float64 >& 
          const walberla::float64 macro_vertex_coord_id_3comp1 = (walberla::float64) cell.getCoordinates()[3][1];
          const walberla::float64 macro_vertex_coord_id_3comp2 = (walberla::float64) cell.getCoordinates()[3][2];
 
+         this->timingTree_->start( "kernel" );
+
          apply_macro_3D(
 
              _data_dstEdge,
@@ -152,10 +158,12 @@ void P2ElementwiseFullStokes_2_0::apply( const P2Function< walberla::float64 >& 
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+         this->timingTree_->stop( "kernel" );
       }
 
       // Push result to lower-dimensional primitives
       //
+      this->timingTree_->start( "post-communication" );
       // Note: We could avoid communication here by implementing the apply() also for the respective
       //       lower dimensional primitives!
       dst.getVertexDoFFunction().communicateAdditively< Cell, Face >(
@@ -168,11 +176,14 @@ void P2ElementwiseFullStokes_2_0::apply( const P2Function< walberla::float64 >& 
           level, DoFType::All ^ flag, *storage_, updateType == Replace );
       dst.getEdgeDoFFunction().communicateAdditively< Cell, Edge >(
           level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      this->timingTree_->stop( "post-communication" );
    }
    else
    {
       WALBERLA_ABORT( "Not implemented." );
    }
+
+   this->stopTiming( "apply" );
 }
 void P2ElementwiseFullStokes_2_0::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                                             const P2Function< idx_t >&                  src,
@@ -180,6 +191,8 @@ void P2ElementwiseFullStokes_2_0::toMatrix( const std::shared_ptr< SparseMatrixP
                                             uint_t                                      level,
                                             DoFType                                     flag ) const
 {
+   this->startTiming( "toMatrix" );
+
    // We currently ignore the flag provided!
    if ( flag != All )
    {
@@ -188,9 +201,11 @@ void P2ElementwiseFullStokes_2_0::toMatrix( const std::shared_ptr< SparseMatrixP
 
    if ( storage_->hasGlobalCells() )
    {
+      this->timingTree_->start( "pre-communication" );
       mu.communicate< Face, Cell >( level );
       mu.communicate< Edge, Cell >( level );
       mu.communicate< Vertex, Cell >( level );
+      this->timingTree_->stop( "pre-communication" );
 
       for ( auto& it : storage_->getCells() )
       {
@@ -219,6 +234,8 @@ void P2ElementwiseFullStokes_2_0::toMatrix( const std::shared_ptr< SparseMatrixP
          const walberla::float64 macro_vertex_coord_id_3comp1 = (walberla::float64) cell.getCoordinates()[3][1];
          const walberla::float64 macro_vertex_coord_id_3comp2 = (walberla::float64) cell.getCoordinates()[3][2];
 
+         this->timingTree_->start( "kernel" );
+
          toMatrix_macro_3D(
 
              _data_dstEdge,
@@ -242,14 +259,18 @@ void P2ElementwiseFullStokes_2_0::toMatrix( const std::shared_ptr< SparseMatrixP
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+         this->timingTree_->stop( "kernel" );
       }
    }
    else
    {
+      this->timingTree_->start( "pre-communication" );
       communication::syncFunctionBetweenPrimitives( mu, level, communication::syncDirection_t::LOW2HIGH );
+      this->timingTree_->stop( "pre-communication" );
 
       WALBERLA_ABORT( "Not implemented." );
    }
+   this->stopTiming( "toMatrix" );
 }
 
 } // namespace operatorgeneration

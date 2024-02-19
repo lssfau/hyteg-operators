@@ -70,7 +70,7 @@ class N1E1ElementwiseCurlCurl
  protected:
  private:
    /// Kernel type: apply
-   /// - quadrature rule: Xiao-Gimbutas | points: 1, degree: 1
+   /// - quadrature rule: Keast 0 | points: 1, degree: 1
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
@@ -92,7 +92,7 @@ class N1E1ElementwiseCurlCurl
                         int64_t                     micro_edges_per_macro_edge,
                         walberla::float64           micro_edges_per_macro_edge_float ) const;
    /// Kernel type: toMatrix
-   /// - quadrature rule: Xiao-Gimbutas | points: 1, degree: 1
+   /// - quadrature rule: Keast 0 | points: 1, degree: 1
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
@@ -117,7 +117,7 @@ class N1E1ElementwiseCurlCurl
                            int64_t                              micro_edges_per_macro_edge,
                            walberla::float64                    micro_edges_per_macro_edge_float ) const;
    /// Kernel type: computeInverseDiagonalOperatorValues
-   /// - quadrature rule: Xiao-Gimbutas | points: 1, degree: 1
+   /// - quadrature rule: Keast 0 | points: 1, degree: 1
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------

@@ -59,15 +59,15 @@ namespace operatorgeneration {
 void P1ElementwiseMass::toMatrix_macro_2D( idx_t * RESTRICT  _data_dst, idx_t * RESTRICT  _data_src, walberla::float64 macro_vertex_coord_id_0comp0, walberla::float64 macro_vertex_coord_id_0comp1, walberla::float64 macro_vertex_coord_id_1comp0, walberla::float64 macro_vertex_coord_id_1comp1, walberla::float64 macro_vertex_coord_id_2comp0, walberla::float64 macro_vertex_coord_id_2comp1, std::shared_ptr< SparseMatrixProxy > mat, int64_t micro_edges_per_macro_edge, walberla::float64 micro_edges_per_macro_edge_float ) const
 {
     {
-       const walberla::float64 _data_q_w [] = {0.16666666666666674, 0.16666666666666674, 0.16666666666666674};
+       const walberla::float64 _data_q_w [] = {0.16666666666666666, 0.16666666666666666, 0.16666666666666666};
    
-       const walberla::float64 tmp_0_GRAY = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
+       const walberla::float64 tmp_coords_jac_0_GRAY = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
        const walberla::float64 p_affine_const_0_0_GRAY = macro_vertex_coord_id_0comp0;
        const walberla::float64 p_affine_const_0_1_GRAY = macro_vertex_coord_id_0comp1;
-       const walberla::float64 p_affine_const_1_0_GRAY = macro_vertex_coord_id_0comp0 + tmp_0_GRAY*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
-       const walberla::float64 p_affine_const_1_1_GRAY = macro_vertex_coord_id_0comp1 + tmp_0_GRAY*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
-       const walberla::float64 p_affine_const_2_0_GRAY = macro_vertex_coord_id_0comp0 + tmp_0_GRAY*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
-       const walberla::float64 p_affine_const_2_1_GRAY = macro_vertex_coord_id_0comp1 + tmp_0_GRAY*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
+       const walberla::float64 p_affine_const_1_0_GRAY = macro_vertex_coord_id_0comp0 + tmp_coords_jac_0_GRAY*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
+       const walberla::float64 p_affine_const_1_1_GRAY = macro_vertex_coord_id_0comp1 + tmp_coords_jac_0_GRAY*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
+       const walberla::float64 p_affine_const_2_0_GRAY = macro_vertex_coord_id_0comp0 + tmp_coords_jac_0_GRAY*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
+       const walberla::float64 p_affine_const_2_1_GRAY = macro_vertex_coord_id_0comp1 + tmp_coords_jac_0_GRAY*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
        const walberla::float64 jac_affine_0_0_GRAY = -p_affine_const_0_0_GRAY + p_affine_const_1_0_GRAY;
        const walberla::float64 jac_affine_0_1_GRAY = -p_affine_const_0_0_GRAY + p_affine_const_2_0_GRAY;
        const walberla::float64 jac_affine_1_0_GRAY = -p_affine_const_0_1_GRAY + p_affine_const_1_1_GRAY;
@@ -75,7 +75,7 @@ void P1ElementwiseMass::toMatrix_macro_2D( idx_t * RESTRICT  _data_dst, idx_t * 
        const walberla::float64 abs_det_jac_affine_GRAY = abs(jac_affine_0_0_GRAY*jac_affine_1_1_GRAY - jac_affine_0_1_GRAY*jac_affine_1_0_GRAY);
        {
           /* FaceType.GRAY */
-          const walberla::float64 _data_phi_psi_det_jac_aff_0_0_GRAY [] = {abs_det_jac_affine_GRAY*0.44444444444444442, abs_det_jac_affine_GRAY*0.11111111111111116, abs_det_jac_affine_GRAY*0.11111111111111108, abs_det_jac_affine_GRAY*0.027777777777777804, abs_det_jac_affine_GRAY*0.027777777777777783, abs_det_jac_affine_GRAY*0.027777777777777766, abs_det_jac_affine_GRAY*0.027777777777777766, abs_det_jac_affine_GRAY*0.1111111111111111, abs_det_jac_affine_GRAY*0.027777777777777766, abs_det_jac_affine_GRAY*0.44444444444444453, abs_det_jac_affine_GRAY*0.1111111111111111, abs_det_jac_affine_GRAY*0.027777777777777766, abs_det_jac_affine_GRAY*0.027777777777777728, abs_det_jac_affine_GRAY*0.027777777777777748, abs_det_jac_affine_GRAY*0.11111111111111105, abs_det_jac_affine_GRAY*0.027777777777777766, abs_det_jac_affine_GRAY*0.11111111111111112, abs_det_jac_affine_GRAY*0.4444444444444447};
+          const walberla::float64 _data_phi_psi_det_jac_aff_0_0_GRAY [] = {abs_det_jac_affine_GRAY*0.027777777777777804, abs_det_jac_affine_GRAY*0.02777777777777779, abs_det_jac_affine_GRAY*0.11111111111111116, abs_det_jac_affine_GRAY*0.027777777777777776, abs_det_jac_affine_GRAY*0.1111111111111111, abs_det_jac_affine_GRAY*0.44444444444444442, abs_det_jac_affine_GRAY*0.027777777777777794, abs_det_jac_affine_GRAY*0.11111111111111113, abs_det_jac_affine_GRAY*0.027777777777777783, abs_det_jac_affine_GRAY*0.44444444444444442, abs_det_jac_affine_GRAY*0.1111111111111111, abs_det_jac_affine_GRAY*0.027777777777777776, abs_det_jac_affine_GRAY*0.44444444444444453, abs_det_jac_affine_GRAY*0.11111111111111112, abs_det_jac_affine_GRAY*0.11111111111111112, abs_det_jac_affine_GRAY*0.027777777777777776, abs_det_jac_affine_GRAY*0.027777777777777776, abs_det_jac_affine_GRAY*0.027777777777777776};
       
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge; ctr_0 += 1)
@@ -140,17 +140,17 @@ void P1ElementwiseMass::toMatrix_macro_2D( idx_t * RESTRICT  _data_dst, idx_t * 
              mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
           }
        }
-       const walberla::float64 tmp_0_BLUE = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
-       const walberla::float64 tmp_1_BLUE = macro_vertex_coord_id_0comp0 + tmp_0_BLUE*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
-       const walberla::float64 tmp_2_BLUE = macro_vertex_coord_id_0comp1 + tmp_0_BLUE*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
-       const walberla::float64 tmp_3_BLUE = tmp_0_BLUE*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
-       const walberla::float64 tmp_4_BLUE = tmp_0_BLUE*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
-       const walberla::float64 p_affine_const_0_0_BLUE = tmp_1_BLUE;
-       const walberla::float64 p_affine_const_0_1_BLUE = tmp_2_BLUE;
-       const walberla::float64 p_affine_const_1_0_BLUE = macro_vertex_coord_id_0comp0 + tmp_3_BLUE;
-       const walberla::float64 p_affine_const_1_1_BLUE = macro_vertex_coord_id_0comp1 + tmp_4_BLUE;
-       const walberla::float64 p_affine_const_2_0_BLUE = tmp_1_BLUE + tmp_3_BLUE;
-       const walberla::float64 p_affine_const_2_1_BLUE = tmp_2_BLUE + tmp_4_BLUE;
+       const walberla::float64 tmp_coords_jac_0_BLUE = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
+       const walberla::float64 tmp_coords_jac_1_BLUE = macro_vertex_coord_id_0comp0 + tmp_coords_jac_0_BLUE*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
+       const walberla::float64 tmp_coords_jac_2_BLUE = macro_vertex_coord_id_0comp1 + tmp_coords_jac_0_BLUE*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
+       const walberla::float64 tmp_coords_jac_3_BLUE = tmp_coords_jac_0_BLUE*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
+       const walberla::float64 tmp_coords_jac_4_BLUE = tmp_coords_jac_0_BLUE*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
+       const walberla::float64 p_affine_const_0_0_BLUE = tmp_coords_jac_1_BLUE;
+       const walberla::float64 p_affine_const_0_1_BLUE = tmp_coords_jac_2_BLUE;
+       const walberla::float64 p_affine_const_1_0_BLUE = macro_vertex_coord_id_0comp0 + tmp_coords_jac_3_BLUE;
+       const walberla::float64 p_affine_const_1_1_BLUE = macro_vertex_coord_id_0comp1 + tmp_coords_jac_4_BLUE;
+       const walberla::float64 p_affine_const_2_0_BLUE = tmp_coords_jac_1_BLUE + tmp_coords_jac_3_BLUE;
+       const walberla::float64 p_affine_const_2_1_BLUE = tmp_coords_jac_2_BLUE + tmp_coords_jac_4_BLUE;
        const walberla::float64 jac_affine_0_0_BLUE = -p_affine_const_0_0_BLUE + p_affine_const_1_0_BLUE;
        const walberla::float64 jac_affine_0_1_BLUE = -p_affine_const_0_0_BLUE + p_affine_const_2_0_BLUE;
        const walberla::float64 jac_affine_1_0_BLUE = -p_affine_const_0_1_BLUE + p_affine_const_1_1_BLUE;
@@ -158,7 +158,7 @@ void P1ElementwiseMass::toMatrix_macro_2D( idx_t * RESTRICT  _data_dst, idx_t * 
        const walberla::float64 abs_det_jac_affine_BLUE = abs(jac_affine_0_0_BLUE*jac_affine_1_1_BLUE - jac_affine_0_1_BLUE*jac_affine_1_0_BLUE);
        {
           /* FaceType.BLUE */
-          const walberla::float64 _data_phi_psi_det_jac_aff_0_0_BLUE [] = {abs_det_jac_affine_BLUE*0.44444444444444442, abs_det_jac_affine_BLUE*0.11111111111111116, abs_det_jac_affine_BLUE*0.11111111111111108, abs_det_jac_affine_BLUE*0.027777777777777804, abs_det_jac_affine_BLUE*0.027777777777777783, abs_det_jac_affine_BLUE*0.027777777777777766, abs_det_jac_affine_BLUE*0.027777777777777766, abs_det_jac_affine_BLUE*0.1111111111111111, abs_det_jac_affine_BLUE*0.027777777777777766, abs_det_jac_affine_BLUE*0.44444444444444453, abs_det_jac_affine_BLUE*0.1111111111111111, abs_det_jac_affine_BLUE*0.027777777777777766, abs_det_jac_affine_BLUE*0.027777777777777728, abs_det_jac_affine_BLUE*0.027777777777777748, abs_det_jac_affine_BLUE*0.11111111111111105, abs_det_jac_affine_BLUE*0.027777777777777766, abs_det_jac_affine_BLUE*0.11111111111111112, abs_det_jac_affine_BLUE*0.4444444444444447};
+          const walberla::float64 _data_phi_psi_det_jac_aff_0_0_BLUE [] = {abs_det_jac_affine_BLUE*0.027777777777777804, abs_det_jac_affine_BLUE*0.02777777777777779, abs_det_jac_affine_BLUE*0.11111111111111116, abs_det_jac_affine_BLUE*0.027777777777777776, abs_det_jac_affine_BLUE*0.1111111111111111, abs_det_jac_affine_BLUE*0.44444444444444442, abs_det_jac_affine_BLUE*0.027777777777777794, abs_det_jac_affine_BLUE*0.11111111111111113, abs_det_jac_affine_BLUE*0.027777777777777783, abs_det_jac_affine_BLUE*0.44444444444444442, abs_det_jac_affine_BLUE*0.1111111111111111, abs_det_jac_affine_BLUE*0.027777777777777776, abs_det_jac_affine_BLUE*0.44444444444444453, abs_det_jac_affine_BLUE*0.11111111111111112, abs_det_jac_affine_BLUE*0.11111111111111112, abs_det_jac_affine_BLUE*0.027777777777777776, abs_det_jac_affine_BLUE*0.027777777777777776, abs_det_jac_affine_BLUE*0.027777777777777776};
       
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 += 1)

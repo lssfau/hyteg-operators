@@ -49,7 +49,7 @@ namespace operatorgeneration {
 ///
 /// The strong representation of the operator is given by:
 ///
-///    - div[ μ (grad(u)+grad(u)^T) ] + 2/3 grad[ μ div(u) ]
+///    - div[ μ (grad(u)+grad(u)ᵀ) ] + 2/3 grad[ μ div(u) ]
 ///
 /// Note that the factor 2/3 means that for 2D this is the pseudo-3D form
 /// of the operator.
@@ -68,7 +68,7 @@ namespace operatorgeneration {
 ///
 /// where
 ///
-///     ε(w) := (1/2) (∇w + (∇w)^T)
+///     ε(w) := (1/2) (∇w + (∇w)ᵀ)
 
 class P2ElementwiseFullStokes_0_2 : public Operator< P2Function< walberla::float64 >, P2Function< walberla::float64 > >
 {
@@ -93,7 +93,7 @@ class P2ElementwiseFullStokes_0_2 : public Operator< P2Function< walberla::float
  protected:
  private:
    /// Kernel type: apply
-   /// - quadrature rule: Xiao-Gimbutas | points: 4, degree: 2
+   /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
@@ -119,7 +119,7 @@ class P2ElementwiseFullStokes_0_2 : public Operator< P2Function< walberla::float
                         int64_t                     micro_edges_per_macro_edge,
                         walberla::float64           micro_edges_per_macro_edge_float ) const;
    /// Kernel type: toMatrix
-   /// - quadrature rule: Xiao-Gimbutas | points: 4, degree: 2
+   /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
