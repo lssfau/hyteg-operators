@@ -53,13 +53,16 @@ P1ElementwiseDiffusion::P1ElementwiseDiffusion( const std::shared_ptr< Primitive
 : Operator( storage, minLevel, maxLevel )
 {}
 
-void P1ElementwiseDiffusion::apply( const P1Function< real_t >& src,
-                                    const P1Function< real_t >& dst,
-                                    uint_t                      level,
-                                    DoFType                     flag,
-                                    UpdateType                  updateType ) const
+void P1ElementwiseDiffusion::apply( const P1Function< walberla::float64 >& src,
+                                    const P1Function< walberla::float64 >& dst,
+                                    uint_t                                 level,
+                                    DoFType                                flag,
+                                    UpdateType                             updateType ) const
 {
+   this->startTiming( "apply" );
+
    // Make sure that halos are up-to-date
+   this->timingTree_->start( "pre-communication" );
    if ( this->storage_->hasGlobalCells() )
    {
       // Note that the order of communication is important, since the face -> cell communication may overwrite
@@ -72,6 +75,7 @@ void P1ElementwiseDiffusion::apply( const P1Function< real_t >& src,
    {
       communication::syncFunctionBetweenPrimitives( src, level, communication::syncDirection_t::LOW2HIGH );
    }
+   this->timingTree_->stop( "pre-communication" );
 
    if ( updateType == Replace )
    {
@@ -79,7 +83,7 @@ void P1ElementwiseDiffusion::apply( const P1Function< real_t >& src,
       // However, we must not zero out anything that is not flagged with the specified BCs.
       // Therefore, we first zero out everything that flagged, and then, later,
       // the halos of the highest dim primitives.
-      dst.interpolate( walberla::numeric_cast< real_t >( 0 ), level, flag );
+      dst.interpolate( walberla::numeric_cast< walberla::float64 >( 0 ), level, flag );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -89,8 +93,8 @@ void P1ElementwiseDiffusion::apply( const P1Function< real_t >& src,
          Cell& cell = *it.second;
 
          // get hold of the actual numerical data in the functions
-         real_t* _data_src = cell.getData( src.getCellDataID() )->getPointer( level );
-         real_t* _data_dst = cell.getData( dst.getCellDataID() )->getPointer( level );
+         walberla::float64* _data_src = cell.getData( src.getCellDataID() )->getPointer( level );
+         walberla::float64* _data_dst = cell.getData( dst.getCellDataID() )->getPointer( level );
 
          // Zero out dst halos only
          //
@@ -101,24 +105,26 @@ void P1ElementwiseDiffusion::apply( const P1Function< real_t >& src,
             if ( !vertexdof::macrocell::isOnCellFace( idx, level ).empty() )
             {
                auto arrayIdx       = vertexdof::macrocell::index( level, idx.x(), idx.y(), idx.z() );
-               _data_dst[arrayIdx] = real_t( 0 );
+               _data_dst[arrayIdx] = walberla::float64( 0 );
             }
          }
 
-         const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
-         const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
-         const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
-         const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
-         const real_t macro_vertex_coord_id_0comp2     = (real_t) cell.getCoordinates()[0][2];
-         const real_t macro_vertex_coord_id_1comp0     = (real_t) cell.getCoordinates()[1][0];
-         const real_t macro_vertex_coord_id_1comp1     = (real_t) cell.getCoordinates()[1][1];
-         const real_t macro_vertex_coord_id_1comp2     = (real_t) cell.getCoordinates()[1][2];
-         const real_t macro_vertex_coord_id_2comp0     = (real_t) cell.getCoordinates()[2][0];
-         const real_t macro_vertex_coord_id_2comp1     = (real_t) cell.getCoordinates()[2][1];
-         const real_t macro_vertex_coord_id_2comp2     = (real_t) cell.getCoordinates()[2][2];
-         const real_t macro_vertex_coord_id_3comp0     = (real_t) cell.getCoordinates()[3][0];
-         const real_t macro_vertex_coord_id_3comp1     = (real_t) cell.getCoordinates()[3][1];
-         const real_t macro_vertex_coord_id_3comp2     = (real_t) cell.getCoordinates()[3][2];
+         const auto micro_edges_per_macro_edge                = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto micro_edges_per_macro_edge_float          = (walberla::float64) levelinfo::num_microedges_per_edge( level );
+         const walberla::float64 macro_vertex_coord_id_0comp0 = (walberla::float64) cell.getCoordinates()[0][0];
+         const walberla::float64 macro_vertex_coord_id_0comp1 = (walberla::float64) cell.getCoordinates()[0][1];
+         const walberla::float64 macro_vertex_coord_id_0comp2 = (walberla::float64) cell.getCoordinates()[0][2];
+         const walberla::float64 macro_vertex_coord_id_1comp0 = (walberla::float64) cell.getCoordinates()[1][0];
+         const walberla::float64 macro_vertex_coord_id_1comp1 = (walberla::float64) cell.getCoordinates()[1][1];
+         const walberla::float64 macro_vertex_coord_id_1comp2 = (walberla::float64) cell.getCoordinates()[1][2];
+         const walberla::float64 macro_vertex_coord_id_2comp0 = (walberla::float64) cell.getCoordinates()[2][0];
+         const walberla::float64 macro_vertex_coord_id_2comp1 = (walberla::float64) cell.getCoordinates()[2][1];
+         const walberla::float64 macro_vertex_coord_id_2comp2 = (walberla::float64) cell.getCoordinates()[2][2];
+         const walberla::float64 macro_vertex_coord_id_3comp0 = (walberla::float64) cell.getCoordinates()[3][0];
+         const walberla::float64 macro_vertex_coord_id_3comp1 = (walberla::float64) cell.getCoordinates()[3][1];
+         const walberla::float64 macro_vertex_coord_id_3comp2 = (walberla::float64) cell.getCoordinates()[3][2];
+
+         this->timingTree_->start( "kernel" );
 
          apply_macro_3D(
 
@@ -138,15 +144,18 @@ void P1ElementwiseDiffusion::apply( const P1Function< real_t >& src,
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+         this->timingTree_->stop( "kernel" );
       }
 
       // Push result to lower-dimensional primitives
       //
+      this->timingTree_->start( "post-communication" );
       // Note: We could avoid communication here by implementing the apply() also for the respective
       //       lower dimensional primitives!
       dst.communicateAdditively< Cell, Face >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
       dst.communicateAdditively< Cell, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
       dst.communicateAdditively< Cell, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      this->timingTree_->stop( "post-communication" );
    }
    else
    {
@@ -155,8 +164,8 @@ void P1ElementwiseDiffusion::apply( const P1Function< real_t >& src,
          Face& face = *it.second;
 
          // get hold of the actual numerical data in the functions
-         real_t* _data_src = face.getData( src.getFaceDataID() )->getPointer( level );
-         real_t* _data_dst = face.getData( dst.getFaceDataID() )->getPointer( level );
+         walberla::float64* _data_src = face.getData( src.getFaceDataID() )->getPointer( level );
+         walberla::float64* _data_dst = face.getData( dst.getFaceDataID() )->getPointer( level );
 
          // Zero out dst halos only
          //
@@ -167,18 +176,20 @@ void P1ElementwiseDiffusion::apply( const P1Function< real_t >& src,
             if ( vertexdof::macroface::isVertexOnBoundary( level, idx ) )
             {
                auto arrayIdx       = vertexdof::macroface::index( level, idx.x(), idx.y() );
-               _data_dst[arrayIdx] = real_t( 0 );
+               _data_dst[arrayIdx] = walberla::float64( 0 );
             }
          }
 
-         const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
-         const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
-         const real_t macro_vertex_coord_id_0comp0     = (real_t) face.getCoordinates()[0][0];
-         const real_t macro_vertex_coord_id_0comp1     = (real_t) face.getCoordinates()[0][1];
-         const real_t macro_vertex_coord_id_1comp0     = (real_t) face.getCoordinates()[1][0];
-         const real_t macro_vertex_coord_id_1comp1     = (real_t) face.getCoordinates()[1][1];
-         const real_t macro_vertex_coord_id_2comp0     = (real_t) face.getCoordinates()[2][0];
-         const real_t macro_vertex_coord_id_2comp1     = (real_t) face.getCoordinates()[2][1];
+         const auto micro_edges_per_macro_edge                = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto micro_edges_per_macro_edge_float          = (walberla::float64) levelinfo::num_microedges_per_edge( level );
+         const walberla::float64 macro_vertex_coord_id_0comp0 = (walberla::float64) face.getCoordinates()[0][0];
+         const walberla::float64 macro_vertex_coord_id_0comp1 = (walberla::float64) face.getCoordinates()[0][1];
+         const walberla::float64 macro_vertex_coord_id_1comp0 = (walberla::float64) face.getCoordinates()[1][0];
+         const walberla::float64 macro_vertex_coord_id_1comp1 = (walberla::float64) face.getCoordinates()[1][1];
+         const walberla::float64 macro_vertex_coord_id_2comp0 = (walberla::float64) face.getCoordinates()[2][0];
+         const walberla::float64 macro_vertex_coord_id_2comp1 = (walberla::float64) face.getCoordinates()[2][1];
+
+         this->timingTree_->start( "kernel" );
 
          apply_macro_2D(
 
@@ -192,15 +203,20 @@ void P1ElementwiseDiffusion::apply( const P1Function< real_t >& src,
              macro_vertex_coord_id_2comp1,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+         this->timingTree_->stop( "kernel" );
       }
 
       // Push result to lower-dimensional primitives
       //
+      this->timingTree_->start( "post-communication" );
       // Note: We could avoid communication here by implementing the apply() also for the respective
       //       lower dimensional primitives!
       dst.communicateAdditively< Face, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
       dst.communicateAdditively< Face, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      this->timingTree_->stop( "post-communication" );
    }
+
+   this->stopTiming( "apply" );
 }
 void P1ElementwiseDiffusion::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                                        const P1Function< idx_t >&                  src,
@@ -208,6 +224,8 @@ void P1ElementwiseDiffusion::toMatrix( const std::shared_ptr< SparseMatrixProxy 
                                        uint_t                                      level,
                                        DoFType                                     flag ) const
 {
+   this->startTiming( "toMatrix" );
+
    // We currently ignore the flag provided!
    if ( flag != All )
    {
@@ -216,6 +234,10 @@ void P1ElementwiseDiffusion::toMatrix( const std::shared_ptr< SparseMatrixProxy 
 
    if ( storage_->hasGlobalCells() )
    {
+      this->timingTree_->start( "pre-communication" );
+
+      this->timingTree_->stop( "pre-communication" );
+
       for ( auto& it : storage_->getCells() )
       {
          Cell& cell = *it.second;
@@ -224,20 +246,22 @@ void P1ElementwiseDiffusion::toMatrix( const std::shared_ptr< SparseMatrixProxy 
          idx_t* _data_src = cell.getData( src.getCellDataID() )->getPointer( level );
          idx_t* _data_dst = cell.getData( dst.getCellDataID() )->getPointer( level );
 
-         const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
-         const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
-         const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
-         const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
-         const real_t macro_vertex_coord_id_0comp2     = (real_t) cell.getCoordinates()[0][2];
-         const real_t macro_vertex_coord_id_1comp0     = (real_t) cell.getCoordinates()[1][0];
-         const real_t macro_vertex_coord_id_1comp1     = (real_t) cell.getCoordinates()[1][1];
-         const real_t macro_vertex_coord_id_1comp2     = (real_t) cell.getCoordinates()[1][2];
-         const real_t macro_vertex_coord_id_2comp0     = (real_t) cell.getCoordinates()[2][0];
-         const real_t macro_vertex_coord_id_2comp1     = (real_t) cell.getCoordinates()[2][1];
-         const real_t macro_vertex_coord_id_2comp2     = (real_t) cell.getCoordinates()[2][2];
-         const real_t macro_vertex_coord_id_3comp0     = (real_t) cell.getCoordinates()[3][0];
-         const real_t macro_vertex_coord_id_3comp1     = (real_t) cell.getCoordinates()[3][1];
-         const real_t macro_vertex_coord_id_3comp2     = (real_t) cell.getCoordinates()[3][2];
+         const auto micro_edges_per_macro_edge                = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto micro_edges_per_macro_edge_float          = (walberla::float64) levelinfo::num_microedges_per_edge( level );
+         const walberla::float64 macro_vertex_coord_id_0comp0 = (walberla::float64) cell.getCoordinates()[0][0];
+         const walberla::float64 macro_vertex_coord_id_0comp1 = (walberla::float64) cell.getCoordinates()[0][1];
+         const walberla::float64 macro_vertex_coord_id_0comp2 = (walberla::float64) cell.getCoordinates()[0][2];
+         const walberla::float64 macro_vertex_coord_id_1comp0 = (walberla::float64) cell.getCoordinates()[1][0];
+         const walberla::float64 macro_vertex_coord_id_1comp1 = (walberla::float64) cell.getCoordinates()[1][1];
+         const walberla::float64 macro_vertex_coord_id_1comp2 = (walberla::float64) cell.getCoordinates()[1][2];
+         const walberla::float64 macro_vertex_coord_id_2comp0 = (walberla::float64) cell.getCoordinates()[2][0];
+         const walberla::float64 macro_vertex_coord_id_2comp1 = (walberla::float64) cell.getCoordinates()[2][1];
+         const walberla::float64 macro_vertex_coord_id_2comp2 = (walberla::float64) cell.getCoordinates()[2][2];
+         const walberla::float64 macro_vertex_coord_id_3comp0 = (walberla::float64) cell.getCoordinates()[3][0];
+         const walberla::float64 macro_vertex_coord_id_3comp1 = (walberla::float64) cell.getCoordinates()[3][1];
+         const walberla::float64 macro_vertex_coord_id_3comp2 = (walberla::float64) cell.getCoordinates()[3][2];
+
+         this->timingTree_->start( "kernel" );
 
          toMatrix_macro_3D(
 
@@ -258,10 +282,15 @@ void P1ElementwiseDiffusion::toMatrix( const std::shared_ptr< SparseMatrixProxy 
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+         this->timingTree_->stop( "kernel" );
       }
    }
    else
    {
+      this->timingTree_->start( "pre-communication" );
+
+      this->timingTree_->stop( "pre-communication" );
+
       for ( auto& it : storage_->getFaces() )
       {
          Face& face = *it.second;
@@ -270,14 +299,16 @@ void P1ElementwiseDiffusion::toMatrix( const std::shared_ptr< SparseMatrixProxy 
          idx_t* _data_src = face.getData( src.getFaceDataID() )->getPointer( level );
          idx_t* _data_dst = face.getData( dst.getFaceDataID() )->getPointer( level );
 
-         const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
-         const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
-         const real_t macro_vertex_coord_id_0comp0     = (real_t) face.getCoordinates()[0][0];
-         const real_t macro_vertex_coord_id_0comp1     = (real_t) face.getCoordinates()[0][1];
-         const real_t macro_vertex_coord_id_1comp0     = (real_t) face.getCoordinates()[1][0];
-         const real_t macro_vertex_coord_id_1comp1     = (real_t) face.getCoordinates()[1][1];
-         const real_t macro_vertex_coord_id_2comp0     = (real_t) face.getCoordinates()[2][0];
-         const real_t macro_vertex_coord_id_2comp1     = (real_t) face.getCoordinates()[2][1];
+         const auto micro_edges_per_macro_edge                = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto micro_edges_per_macro_edge_float          = (walberla::float64) levelinfo::num_microedges_per_edge( level );
+         const walberla::float64 macro_vertex_coord_id_0comp0 = (walberla::float64) face.getCoordinates()[0][0];
+         const walberla::float64 macro_vertex_coord_id_0comp1 = (walberla::float64) face.getCoordinates()[0][1];
+         const walberla::float64 macro_vertex_coord_id_1comp0 = (walberla::float64) face.getCoordinates()[1][0];
+         const walberla::float64 macro_vertex_coord_id_1comp1 = (walberla::float64) face.getCoordinates()[1][1];
+         const walberla::float64 macro_vertex_coord_id_2comp0 = (walberla::float64) face.getCoordinates()[2][0];
+         const walberla::float64 macro_vertex_coord_id_2comp1 = (walberla::float64) face.getCoordinates()[2][1];
+
+         this->timingTree_->start( "kernel" );
 
          toMatrix_macro_2D(
 
@@ -292,14 +323,19 @@ void P1ElementwiseDiffusion::toMatrix( const std::shared_ptr< SparseMatrixProxy 
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+         this->timingTree_->stop( "kernel" );
       }
    }
+   this->stopTiming( "toMatrix" );
 }
 void P1ElementwiseDiffusion::computeInverseDiagonalOperatorValues()
 {
+   this->startTiming( "computeInverseDiagonalOperatorValues" );
+
    if ( invDiag_ == nullptr )
    {
-      invDiag_ = std::make_shared< P1Function< real_t > >( "inverse diagonal entries", storage_, minLevel_, maxLevel_ );
+      invDiag_ =
+          std::make_shared< P1Function< walberla::float64 > >( "inverse diagonal entries", storage_, minLevel_, maxLevel_ );
    }
 
    for ( uint_t level = minLevel_; level <= maxLevel_; level++ )
@@ -308,27 +344,33 @@ void P1ElementwiseDiffusion::computeInverseDiagonalOperatorValues()
 
       if ( storage_->hasGlobalCells() )
       {
+         this->timingTree_->start( "pre-communication" );
+
+         this->timingTree_->stop( "pre-communication" );
+
          for ( auto& it : storage_->getCells() )
          {
             Cell& cell = *it.second;
 
             // get hold of the actual numerical data
-            real_t* _data_invDiag_ = cell.getData( ( *invDiag_ ).getCellDataID() )->getPointer( level );
+            walberla::float64* _data_invDiag_ = cell.getData( ( *invDiag_ ).getCellDataID() )->getPointer( level );
 
-            const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
-            const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
-            const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
-            const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
-            const real_t macro_vertex_coord_id_0comp2     = (real_t) cell.getCoordinates()[0][2];
-            const real_t macro_vertex_coord_id_1comp0     = (real_t) cell.getCoordinates()[1][0];
-            const real_t macro_vertex_coord_id_1comp1     = (real_t) cell.getCoordinates()[1][1];
-            const real_t macro_vertex_coord_id_1comp2     = (real_t) cell.getCoordinates()[1][2];
-            const real_t macro_vertex_coord_id_2comp0     = (real_t) cell.getCoordinates()[2][0];
-            const real_t macro_vertex_coord_id_2comp1     = (real_t) cell.getCoordinates()[2][1];
-            const real_t macro_vertex_coord_id_2comp2     = (real_t) cell.getCoordinates()[2][2];
-            const real_t macro_vertex_coord_id_3comp0     = (real_t) cell.getCoordinates()[3][0];
-            const real_t macro_vertex_coord_id_3comp1     = (real_t) cell.getCoordinates()[3][1];
-            const real_t macro_vertex_coord_id_3comp2     = (real_t) cell.getCoordinates()[3][2];
+            const auto micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+            const auto micro_edges_per_macro_edge_float = (walberla::float64) levelinfo::num_microedges_per_edge( level );
+            const walberla::float64 macro_vertex_coord_id_0comp0 = (walberla::float64) cell.getCoordinates()[0][0];
+            const walberla::float64 macro_vertex_coord_id_0comp1 = (walberla::float64) cell.getCoordinates()[0][1];
+            const walberla::float64 macro_vertex_coord_id_0comp2 = (walberla::float64) cell.getCoordinates()[0][2];
+            const walberla::float64 macro_vertex_coord_id_1comp0 = (walberla::float64) cell.getCoordinates()[1][0];
+            const walberla::float64 macro_vertex_coord_id_1comp1 = (walberla::float64) cell.getCoordinates()[1][1];
+            const walberla::float64 macro_vertex_coord_id_1comp2 = (walberla::float64) cell.getCoordinates()[1][2];
+            const walberla::float64 macro_vertex_coord_id_2comp0 = (walberla::float64) cell.getCoordinates()[2][0];
+            const walberla::float64 macro_vertex_coord_id_2comp1 = (walberla::float64) cell.getCoordinates()[2][1];
+            const walberla::float64 macro_vertex_coord_id_2comp2 = (walberla::float64) cell.getCoordinates()[2][2];
+            const walberla::float64 macro_vertex_coord_id_3comp0 = (walberla::float64) cell.getCoordinates()[3][0];
+            const walberla::float64 macro_vertex_coord_id_3comp1 = (walberla::float64) cell.getCoordinates()[3][1];
+            const walberla::float64 macro_vertex_coord_id_3comp2 = (walberla::float64) cell.getCoordinates()[3][2];
+
+            this->timingTree_->start( "kernel" );
 
             computeInverseDiagonalOperatorValues_macro_3D(
 
@@ -347,33 +389,42 @@ void P1ElementwiseDiffusion::computeInverseDiagonalOperatorValues()
                 macro_vertex_coord_id_3comp2,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float );
+            this->timingTree_->stop( "kernel" );
          }
 
          // Push result to lower-dimensional primitives
          //
+         this->timingTree_->start( "post-communication" );
          // Note: We could avoid communication here by implementing the apply() also for the respective
          //       lower dimensional primitives!
          ( *invDiag_ ).communicateAdditively< Cell, Face >( level );
          ( *invDiag_ ).communicateAdditively< Cell, Edge >( level );
          ( *invDiag_ ).communicateAdditively< Cell, Vertex >( level );
+         this->timingTree_->stop( "post-communication" );
       }
       else
       {
+         this->timingTree_->start( "pre-communication" );
+
+         this->timingTree_->stop( "pre-communication" );
+
          for ( auto& it : storage_->getFaces() )
          {
             Face& face = *it.second;
 
             // get hold of the actual numerical data
-            real_t* _data_invDiag_ = face.getData( ( *invDiag_ ).getFaceDataID() )->getPointer( level );
+            walberla::float64* _data_invDiag_ = face.getData( ( *invDiag_ ).getFaceDataID() )->getPointer( level );
 
-            const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
-            const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
-            const real_t macro_vertex_coord_id_0comp0     = (real_t) face.getCoordinates()[0][0];
-            const real_t macro_vertex_coord_id_0comp1     = (real_t) face.getCoordinates()[0][1];
-            const real_t macro_vertex_coord_id_1comp0     = (real_t) face.getCoordinates()[1][0];
-            const real_t macro_vertex_coord_id_1comp1     = (real_t) face.getCoordinates()[1][1];
-            const real_t macro_vertex_coord_id_2comp0     = (real_t) face.getCoordinates()[2][0];
-            const real_t macro_vertex_coord_id_2comp1     = (real_t) face.getCoordinates()[2][1];
+            const auto micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+            const auto micro_edges_per_macro_edge_float = (walberla::float64) levelinfo::num_microedges_per_edge( level );
+            const walberla::float64 macro_vertex_coord_id_0comp0 = (walberla::float64) face.getCoordinates()[0][0];
+            const walberla::float64 macro_vertex_coord_id_0comp1 = (walberla::float64) face.getCoordinates()[0][1];
+            const walberla::float64 macro_vertex_coord_id_1comp0 = (walberla::float64) face.getCoordinates()[1][0];
+            const walberla::float64 macro_vertex_coord_id_1comp1 = (walberla::float64) face.getCoordinates()[1][1];
+            const walberla::float64 macro_vertex_coord_id_2comp0 = (walberla::float64) face.getCoordinates()[2][0];
+            const walberla::float64 macro_vertex_coord_id_2comp1 = (walberla::float64) face.getCoordinates()[2][1];
+
+            this->timingTree_->start( "kernel" );
 
             computeInverseDiagonalOperatorValues_macro_2D(
 
@@ -386,20 +437,25 @@ void P1ElementwiseDiffusion::computeInverseDiagonalOperatorValues()
                 macro_vertex_coord_id_2comp1,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float );
+            this->timingTree_->stop( "kernel" );
          }
 
          // Push result to lower-dimensional primitives
          //
+         this->timingTree_->start( "post-communication" );
          // Note: We could avoid communication here by implementing the apply() also for the respective
          //       lower dimensional primitives!
          ( *invDiag_ ).communicateAdditively< Face, Edge >( level );
          ( *invDiag_ ).communicateAdditively< Face, Vertex >( level );
+         this->timingTree_->stop( "post-communication" );
       }
 
       ( *invDiag_ ).invertElementwise( level );
    }
+
+   this->stopTiming( "computeInverseDiagonalOperatorValues" );
 }
-std::shared_ptr< P1Function< real_t > > P1ElementwiseDiffusion::getInverseDiagonalValues() const
+std::shared_ptr< P1Function< walberla::float64 > > P1ElementwiseDiffusion::getInverseDiagonalValues() const
 {
    return invDiag_;
 }
