@@ -3,7 +3,6 @@ from functools import partial
 import os
 import sys
 from typing import Any, Dict, List, Union
-from collections import defaultdict
 
 if sys.version_info >= (3, 11):
     import tomllib
@@ -23,6 +22,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("filename", help="Path to the TOML file.")
     parser.add_argument(
         "-o", "--output", required=True, help="Path to output directory."
+    )
+
+    parser.add_argument(
+        "--clang-format-binary",
+        default="clang-format",
+        help=f"Allows to specify the name of the clang-format binary and/or optionally its full path."
+        f" By default 'clang-format' will be used.",
     )
 
     return parser.parse_args()
@@ -113,50 +119,70 @@ def generate_cmake(
         print(f")", file=f)
         print(f"", file=f)
 
-        print(f"if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)", file=f)
-        print(f"   target_sources({lib_name} PRIVATE", file=f)
-        print(f"", file=f)
+        def print_noarch_targets(avx_exists: bool):
+            indent_noarch_source_file = "   " if avx_exists else ""
+            print(
+                f"{indent_noarch_source_file}target_sources({lib_name} PRIVATE", file=f
+            )
+            print(f"", file=f)
 
-        for source_file in kernel_implementations["avx"]:
-            print(f"      avx/{source_file}", file=f)
-        for source_file in kernel_implementations["noarch"]:
-            if not source_file in kernel_implementations["avx"]:
-                print(f"      noarch/{source_file}", file=f)
+            for source_file_inner in kernel_implementations["noarch"]:
+                print(
+                    f"{indent_noarch_source_file}   noarch/{source_file_inner}", file=f
+                )
 
-        print(f"   )", file=f)
-        print(f"", file=f)
+            print(f"{indent_noarch_source_file})", file=f)
 
-        print(f"   set_source_files_properties(", file=f)
-        print(f"", file=f)
+        if "avx" in kernel_implementations:
+            print(f"if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)", file=f)
+            print(f"   target_sources({lib_name} PRIVATE", file=f)
+            print(f"", file=f)
 
-        for source_file in kernel_implementations["avx"]:
-            print(f"      avx/{source_file}", file=f)
-        print(f"", file=f)
-        print("      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}", file=f)
+            for source_file in kernel_implementations["avx"]:
+                print(f"      avx/{source_file}", file=f)
 
-        print(f"   )", file=f)
-        print(f"else()", file=f)
-        print(f"   if(HYTEG_BUILD_WITH_AVX AND NOT WALBERLA_DOUBLE_ACCURACY)", file=f)
-        print(
-            f'      message(WARNING "AVX vectorization only available in double precision. Using scalar kernels.")',
-            file=f,
-        )
-        print(f"   endif()", file=f)
-        print(f"", file=f)
+            for source_file in kernel_implementations["noarch"]:
+                if not source_file in kernel_implementations["avx"]:
+                    print(f"      noarch/{source_file}", file=f)
 
-        print(f"   target_sources({lib_name} PRIVATE", file=f)
-        print(f"", file=f)
+            print(f"   )", file=f)
+            print(f"", file=f)
 
-        for source_file in kernel_implementations["noarch"]:
-            print(f"      noarch/{source_file}", file=f)
+            print(f"   set_source_files_properties(", file=f)
+            print(f"", file=f)
 
-        print(f"   )", file=f)
-        print(f"endif()", file=f)
+            for source_file in kernel_implementations["avx"]:
+                print(f"      avx/{source_file}", file=f)
+            print(f"", file=f)
+            print(
+                "      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}",
+                file=f,
+            )
+
+            print(f"   )", file=f)
+            print(f"else()", file=f)
+            print(
+                f"   if(HYTEG_BUILD_WITH_AVX AND NOT WALBERLA_DOUBLE_ACCURACY)", file=f
+            )
+            print(
+                f'      message(WARNING "AVX vectorization only available in double precision. Using scalar kernels.")',
+                file=f,
+            )
+            print(f"   endif()", file=f)
+            print(f"", file=f)
+
+            print_noarch_targets(avx_exists=True)
+
+            print(f"endif()", file=f)
+        else:
+            print_noarch_targets(avx_exists=False)
+
         print(f"", file=f)
 
         print(f"if (HYTEG_BUILD_WITH_PETSC)", file=f)
         print(f"   target_link_libraries({lib_name} PUBLIC PETSc::PETSc)", file=f)
         print(f"endif ()", file=f)
+
         print(
             f"if (WALBERLA_BUILD_WITH_HALF_PRECISION_SUPPORT)\n"
             f"    target_compile_features({lib_name} PUBLIC cxx_std_23)\n"
@@ -195,6 +221,20 @@ def generate_operator(
         "IcosahedralShellMap": hfg.blending.IcosahedralShellMap(),
     }
 
+    def raise_exception(dict_key: Union[str, int]) -> None:
+        dict_arg = spec[f"{dict_key}"]
+        valid_options = []
+        if dict_key == "precision":
+            valid_options = [key for key in precisions.keys()]
+        elif dict_key == "blending":
+            valid_options = [key for key in blending_maps.keys()]
+
+        raise ValueError(
+            f"Something went wrong, "
+            f"the given value '{dict_arg}' is not a valid '{dict_key}'.\n"
+            f"{'' if not valid_options else str('Please choose one of these ' + str(valid_options) + '.')}"
+        )
+
     try:
         get_form = getattr(forms, form_str)
     except:
@@ -217,15 +257,19 @@ def generate_operator(
         for opt in spec["optimizations"]
     }
 
-    if "precision" not in spec:
-        # set default precision
-        spec["precision"] = "fp64"
-    type_descriptor = precisions[spec["precision"]]
+    type_descriptor = precisions["fp64"]  # set default precision
+    if "precision" in spec:
+        if spec["precision"] in precisions:
+            type_descriptor = precisions[spec["precision"]]
+        else:
+            raise_exception("precision")
 
-    if "blending" not in spec:
-        # set default blending
-        spec["blending"] = "IdentityMap"
-    blending = blending_maps[spec["blending"]]
+    blending = blending_maps["IdentityMap"]  # set default blending
+    if "blending" in spec:
+        if spec["blending"] in blending_maps:
+            blending = blending_maps[spec["blending"]]
+        else:
+            raise_exception("blending")
 
     dims = spec["dimensions"]
     components_equal = True
@@ -298,7 +342,7 @@ def generate_operator(
         dir_path = os.path.join(args.output, form_str)
         operator.generate_class_code(
             dir_path,
-            "clang-format",
+            args.clang_format_binary,
             loop_strategies[spec["loop-strategy"]],
             class_files=operators.CppClassFiles.HEADER_IMPL_AND_VARIANTS,
             clang_format=True,
