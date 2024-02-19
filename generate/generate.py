@@ -375,7 +375,11 @@ def elementwise_operator_name(form_str: str, spec: Dict[str, Any]) -> str:
             f"_{spec['form-args.component_test']}_{spec['form-args.component_trial']}"
         )
 
-    return f"{space_mapping}Elementwise{operator_name}{component}"
+    blending = ""
+    if spec["blending"] and spec["blending"] != "IdentityMap":
+        blending = spec["blending"]
+
+    return f"{space_mapping}Elementwise{operator_name}{blending}{component}"
 
 
 if __name__ == "__main__":
