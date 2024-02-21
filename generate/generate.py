@@ -31,6 +31,12 @@ def parse_args() -> argparse.Namespace:
         f" By default 'clang-format' will be used.",
     )
 
+    parser.add_argument(
+        "--top-level-cmake-only",
+        action="store_true",
+        help="Generates top-level cmake file and quits.",
+    )
+
     return parser.parse_args()
 
 
@@ -64,6 +70,10 @@ def main() -> None:
         toml_dict = unfold_toml_dict(toml_dict)
 
         generate_toplevel_cmake(args, toml_dict)
+
+        if args.top_level_cmake_only:
+            return
+
         for form_str, operators in toml_dict.items():
             kernel_implementations = {}
             for spec in operators:
