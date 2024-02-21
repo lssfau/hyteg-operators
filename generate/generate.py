@@ -352,10 +352,9 @@ def generate_operator(
         dir_path = os.path.join(args.output, form_str)
         operator.generate_class_code(
             dir_path,
-            args.clang_format_binary,
             loop_strategies[spec["loop-strategy"]],
             class_files=operators.CppClassFiles.HEADER_IMPL_AND_VARIANTS,
-            clang_format=True,
+            clang_format_binary=args.clang_format_binary,
         )
 
         kernel_implementations = {}
