@@ -33,10 +33,10 @@ else()
 
       noarch/P1ElementwiseDiffusion_apply_macro_2D.cpp
       noarch/P1ElementwiseDiffusion_apply_macro_3D.cpp
-      noarch/P1ElementwiseDiffusion_toMatrix_macro_2D.cpp
-      noarch/P1ElementwiseDiffusion_toMatrix_macro_3D.cpp
       noarch/P1ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_2D.cpp
       noarch/P1ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      noarch/P1ElementwiseDiffusion_toMatrix_macro_2D.cpp
+      noarch/P1ElementwiseDiffusion_toMatrix_macro_3D.cpp
    )
 endif()
 

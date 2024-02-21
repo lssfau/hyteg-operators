@@ -32,9 +32,9 @@ def parse_args() -> argparse.Namespace:
     )
 
     parser.add_argument(
-        "--top-level-cmake-only",
+        "--cmake-only",
         action="store_true",
-        help="Generates top-level cmake file and quits.",
+        help="Generates cmake files from existing source and header files and quits.",
     )
 
     return parser.parse_args()
@@ -64,36 +64,41 @@ def unfold_toml_dict(toml_dict):
 def main() -> None:
     args = parse_args()
 
-    with open(args.filename, "rb") as f:
-        toml_dict = tomllib.load(f)
-        # print(f"{toml_dict = }")
-        toml_dict = unfold_toml_dict(toml_dict)
-
-        generate_toplevel_cmake(args, toml_dict)
-
-        if args.top_level_cmake_only:
-            return
-
-        for form_str, operators in toml_dict.items():
-            kernel_implementations = {}
-            for spec in operators:
-                op_kernel_impls = generate_operator(args, form_str, spec)
-
-                for platform, impls in op_kernel_impls.items():
-                    if not platform in kernel_implementations:
-                        kernel_implementations[platform] = []
-                    kernel_implementations[platform].extend(impls)
-
-            generate_cmake(args, form_str, operators, kernel_implementations)
-
-
-def generate_toplevel_cmake(
-    args: argparse.Namespace, toml_dict: Dict[str, Any]
-) -> None:
     os.makedirs(args.output, exist_ok=True)
-    output_path = os.path.join(args.output, "CMakeLists.txt")
 
-    with open(output_path, "w") as f:
+    if not args.cmake_only:
+        with open(args.filename, "rb") as f:
+            toml_dict = tomllib.load(f)
+            toml_dict = unfold_toml_dict(toml_dict)
+
+            for form_str, operators in toml_dict.items():
+                kernel_implementations = {}
+                for spec in operators:
+                    op_kernel_impls = generate_operator(args, form_str, spec)
+
+                    for platform, impls in op_kernel_impls.items():
+                        if not platform in kernel_implementations:
+                            kernel_implementations[platform] = []
+                        kernel_implementations[platform].extend(impls)
+
+    generate_cmake_from_cpp_files(args.output)
+
+
+def generate_cmake_from_cpp_files(output_dir_path: str):
+    """Generates all required cmake files just from the present files and folder structure."""
+    toplevel_cmake_output_path = os.path.join(output_dir_path, "CMakeLists.txt")
+
+    def list_subdirectories(directory) -> List[str]:
+        subdirectories = []
+        for item in os.listdir(directory):
+            item_path = os.path.join(directory, item)
+            if os.path.isdir(item_path):
+                subdirectories.append(item_path)
+        return sorted(subdirectories)
+
+    subdirs = list_subdirectories(output_dir_path)
+
+    with open(toplevel_cmake_output_path, "w") as f:
         print(f'add_compile_options( "-Wno-shadow" )', file=f)
         print(f"", file=f)
         print(f"if(NOT WALBERLA_DOUBLE_ACCURACY)", file=f)
@@ -101,106 +106,236 @@ def generate_toplevel_cmake(
         print(f"endif()", file=f)
         print(f"", file=f)
 
-        for form_str in toml_dict:
-            print(f"add_subdirectory({form_str})", file=f)
+        for subdir in subdirs:
+            print(f"add_subdirectory({os.path.basename(subdir)})", file=f)
 
+    for subdir in subdirs:
+        lib_name = f"opgen-{os.path.basename(subdir)}"
 
-def generate_cmake(
-    args: argparse.Namespace,
-    form_str: str,
-    operators: List[Dict[str, Any]],
-    kernel_implementations: Dict[str, List[str]],
-) -> None:
-    dir_path = os.path.join(args.output, form_str)
-    os.makedirs(dir_path, exist_ok=True)
-    output_path = os.path.join(dir_path, "CMakeLists.txt")
-
-    lib_name = f"opgen-{form_str}"
-
-    with open(output_path, "w") as f:
-        print(f"add_library( {lib_name}", file=f)
-        print(f"", file=f)
-
-        for spec in operators:
-            name = elementwise_operator_name(form_str, spec)
-            print(f"   {name}.cpp", file=f)
-            print(f"   {name}.hpp", file=f)
-
-        print(f")", file=f)
-        print(f"", file=f)
-
-        def print_noarch_targets(avx_exists: bool):
-            indent_noarch_source_file = "   " if avx_exists else ""
-            print(
-                f"{indent_noarch_source_file}target_sources({lib_name} PRIVATE", file=f
-            )
+        with open(os.path.join(subdir, "CMakeLists.txt"), "w") as f:
+            print(f"add_library( {lib_name}", file=f)
             print(f"", file=f)
 
-            for source_file_inner in kernel_implementations["noarch"]:
+            for xpp_file in sorted(
+                [x for x in os.listdir(subdir) if x.endswith((".hpp", ".cpp"))]
+            ):
+                print(f"   {xpp_file}", file=f)
+
+            print(f")", file=f)
+            print(f"", file=f)
+
+            noarch_dir = os.path.join(subdir, "noarch")
+            if not os.path.isdir(noarch_dir):
+                raise FileNotFoundError(f"noarch dir not found under {noarch_dir}")
+
+            noarch_cpp_files = sorted(
+                [
+                    cppfile
+                    for cppfile in os.listdir(os.path.join(subdir, "noarch"))
+                    if cppfile.endswith(".cpp")
+                ]
+            )
+
+            def print_noarch_targets(avx_exists: bool):
+                indent_noarch_source_file = "   " if avx_exists else ""
                 print(
-                    f"{indent_noarch_source_file}   noarch/{source_file_inner}", file=f
+                    f"{indent_noarch_source_file}target_sources({lib_name} PRIVATE",
+                    file=f,
+                )
+                print(f"", file=f)
+
+                for source_file_inner in noarch_cpp_files:
+                    print(
+                        f"{indent_noarch_source_file}   noarch/{source_file_inner}",
+                        file=f,
+                    )
+
+                print(f"{indent_noarch_source_file})", file=f)
+
+            if os.path.isdir(os.path.join(subdir, "avx")):
+                avx_cpp_files = sorted(
+                    [
+                        cppfile
+                        for cppfile in os.listdir(os.path.join(subdir, "avx"))
+                        if cppfile.endswith(".cpp")
+                    ]
                 )
 
-            print(f"{indent_noarch_source_file})", file=f)
+                print(f"if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)", file=f)
+                print(f"   target_sources({lib_name} PRIVATE", file=f)
+                print(f"", file=f)
 
-        if "avx" in kernel_implementations:
-            print(f"if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)", file=f)
-            print(f"   target_sources({lib_name} PRIVATE", file=f)
+                for source_file in avx_cpp_files:
+                    print(f"      avx/{source_file}", file=f)
+
+                for source_file in noarch_cpp_files:
+                    if not source_file in avx_cpp_files:
+                        print(f"      noarch/{source_file}", file=f)
+
+                print(f"   )", file=f)
+                print(f"", file=f)
+
+                print(f"   set_source_files_properties(", file=f)
+                print(f"", file=f)
+
+                for source_file in avx_cpp_files:
+                    print(f"      avx/{source_file}", file=f)
+                print(f"", file=f)
+                print(
+                    "      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}",
+                    file=f,
+                )
+
+                print(f"   )", file=f)
+                print(f"else()", file=f)
+                print(
+                    f"   if(HYTEG_BUILD_WITH_AVX AND NOT WALBERLA_DOUBLE_ACCURACY)",
+                    file=f,
+                )
+                print(
+                    f'      message(WARNING "AVX vectorization only available in double precision. Using scalar kernels.")',
+                    file=f,
+                )
+                print(f"   endif()", file=f)
+                print(f"", file=f)
+
+                print_noarch_targets(avx_exists=True)
+
+                print(f"endif()", file=f)
+            else:
+                print_noarch_targets(avx_exists=False)
+
             print(f"", file=f)
 
-            for source_file in kernel_implementations["avx"]:
-                print(f"      avx/{source_file}", file=f)
+            print(f"if (HYTEG_BUILD_WITH_PETSC)", file=f)
+            print(f"   target_link_libraries({lib_name} PUBLIC PETSc::PETSc)", file=f)
+            print(f"endif ()", file=f)
 
-            for source_file in kernel_implementations["noarch"]:
-                if not source_file in kernel_implementations["avx"]:
-                    print(f"      noarch/{source_file}", file=f)
-
-            print(f"   )", file=f)
-            print(f"", file=f)
-
-            print(f"   set_source_files_properties(", file=f)
-            print(f"", file=f)
-
-            for source_file in kernel_implementations["avx"]:
-                print(f"      avx/{source_file}", file=f)
-            print(f"", file=f)
             print(
-                "      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}",
+                f"if (WALBERLA_BUILD_WITH_HALF_PRECISION_SUPPORT)\n"
+                f"    target_compile_features({lib_name} PUBLIC cxx_std_23)\n"
+                f"else ()\n"
+                f"    target_compile_features({lib_name} PUBLIC cxx_std_17)\n"
+                f"endif ()",
                 file=f,
             )
 
-            print(f"   )", file=f)
-            print(f"else()", file=f)
-            print(
-                f"   if(HYTEG_BUILD_WITH_AVX AND NOT WALBERLA_DOUBLE_ACCURACY)", file=f
-            )
-            print(
-                f'      message(WARNING "AVX vectorization only available in double precision. Using scalar kernels.")',
-                file=f,
-            )
-            print(f"   endif()", file=f)
-            print(f"", file=f)
 
-            print_noarch_targets(avx_exists=True)
-
-            print(f"endif()", file=f)
-        else:
-            print_noarch_targets(avx_exists=False)
-
-        print(f"", file=f)
-
-        print(f"if (HYTEG_BUILD_WITH_PETSC)", file=f)
-        print(f"   target_link_libraries({lib_name} PUBLIC PETSc::PETSc)", file=f)
-        print(f"endif ()", file=f)
-
-        print(
-            f"if (WALBERLA_BUILD_WITH_HALF_PRECISION_SUPPORT)\n"
-            f"    target_compile_features({lib_name} PUBLIC cxx_std_23)\n"
-            f"else ()\n"
-            f"    target_compile_features({lib_name} PUBLIC cxx_std_17)\n"
-            f"endif ()",
-            file=f,
-        )
+# def generate_toplevel_cmake(
+#     args: argparse.Namespace, toml_dict: Dict[str, Any]
+# ) -> None:
+#     os.makedirs(args.output, exist_ok=True)
+#     output_path = os.path.join(args.output, "CMakeLists.txt")
+#
+#     with open(output_path, "w") as f:
+#         print(f'add_compile_options( "-Wno-shadow" )', file=f)
+#         print(f"", file=f)
+#         print(f"if(NOT WALBERLA_DOUBLE_ACCURACY)", file=f)
+#         print(f'   add_compile_options( "-Wno-float-conversion" )', file=f)
+#         print(f"endif()", file=f)
+#         print(f"", file=f)
+#
+#         for form_str in toml_dict:
+#             print(f"add_subdirectory({form_str})", file=f)
+#
+#
+# def generate_cmake(
+#     args: argparse.Namespace,
+#     form_str: str,
+#     operators: List[Dict[str, Any]],
+#     kernel_implementations: Dict[str, List[str]],
+# ) -> None:
+#     dir_path = os.path.join(args.output, form_str)
+#     os.makedirs(dir_path, exist_ok=True)
+#     output_path = os.path.join(dir_path, "CMakeLists.txt")
+#
+#     lib_name = f"opgen-{form_str}"
+#
+#     with open(output_path, "w") as f:
+#         print(f"add_library( {lib_name}", file=f)
+#         print(f"", file=f)
+#
+#         for spec in operators:
+#             name = elementwise_operator_name(form_str, spec)
+#             print(f"   {name}.cpp", file=f)
+#             print(f"   {name}.hpp", file=f)
+#
+#         print(f")", file=f)
+#         print(f"", file=f)
+#
+#         def print_noarch_targets(avx_exists: bool):
+#             indent_noarch_source_file = "   " if avx_exists else ""
+#             print(
+#                 f"{indent_noarch_source_file}target_sources({lib_name} PRIVATE", file=f
+#             )
+#             print(f"", file=f)
+#
+#             for source_file_inner in kernel_implementations["noarch"]:
+#                 print(
+#                     f"{indent_noarch_source_file}   noarch/{source_file_inner}", file=f
+#                 )
+#
+#             print(f"{indent_noarch_source_file})", file=f)
+#
+#         if "avx" in kernel_implementations:
+#             print(f"if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)", file=f)
+#             print(f"   target_sources({lib_name} PRIVATE", file=f)
+#             print(f"", file=f)
+#
+#             for source_file in kernel_implementations["avx"]:
+#                 print(f"      avx/{source_file}", file=f)
+#
+#             for source_file in kernel_implementations["noarch"]:
+#                 if not source_file in kernel_implementations["avx"]:
+#                     print(f"      noarch/{source_file}", file=f)
+#
+#             print(f"   )", file=f)
+#             print(f"", file=f)
+#
+#             print(f"   set_source_files_properties(", file=f)
+#             print(f"", file=f)
+#
+#             for source_file in kernel_implementations["avx"]:
+#                 print(f"      avx/{source_file}", file=f)
+#             print(f"", file=f)
+#             print(
+#                 "      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}",
+#                 file=f,
+#             )
+#
+#             print(f"   )", file=f)
+#             print(f"else()", file=f)
+#             print(
+#                 f"   if(HYTEG_BUILD_WITH_AVX AND NOT WALBERLA_DOUBLE_ACCURACY)", file=f
+#             )
+#             print(
+#                 f'      message(WARNING "AVX vectorization only available in double precision. Using scalar kernels.")',
+#                 file=f,
+#             )
+#             print(f"   endif()", file=f)
+#             print(f"", file=f)
+#
+#             print_noarch_targets(avx_exists=True)
+#
+#             print(f"endif()", file=f)
+#         else:
+#             print_noarch_targets(avx_exists=False)
+#
+#         print(f"", file=f)
+#
+#         print(f"if (HYTEG_BUILD_WITH_PETSC)", file=f)
+#         print(f"   target_link_libraries({lib_name} PUBLIC PETSc::PETSc)", file=f)
+#         print(f"endif ()", file=f)
+#
+#         print(
+#             f"if (WALBERLA_BUILD_WITH_HALF_PRECISION_SUPPORT)\n"
+#             f"    target_compile_features({lib_name} PUBLIC cxx_std_23)\n"
+#             f"else ()\n"
+#             f"    target_compile_features({lib_name} PUBLIC cxx_std_17)\n"
+#             f"endif ()",
+#             file=f,
+#         )
+#
 
 
 def generate_operator(
