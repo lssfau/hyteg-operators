@@ -62,7 +62,7 @@ def unfold_toml_dict(toml_dict):
                     operator_cleared["component_index"] = comp
                     operators_unfolded.append(operator_cleared)
             else:
-                operators_unfolded = [o for o in operators]
+                operators_unfolded.append(operator)
         toml_dict_unfolded[form_str] = operators_unfolded
     return toml_dict_unfolded
 
@@ -137,7 +137,7 @@ def generate_cmake_from_cpp_files(output_dir_path: str):
             noarch_cpp_files = sorted(
                 [
                     cppfile
-                    for cppfile in os.listdir(os.path.join(subdir, "noarch"))
+                    for cppfile in os.listdir(noarch_dir)
                     if cppfile.endswith(".cpp")
                 ]
             )
@@ -411,7 +411,7 @@ def elementwise_operator_name(form_str: str, spec: Dict[str, Any]) -> str:
     if "component_test" in spec and "component_trial" in spec:
         component = f"_{spec['component_test']}_{spec['component_trial']}"
 
-    # I do not like this, but should to the trick until we have actual vector function spaces in the HFG.
+    # I do not like this, but should do the trick until we have actual vector function spaces in the HFG.
     if "component_index" in spec:
         if "divergence" == form_str.lower():
             component = f"_0_{spec['component_index']}"
