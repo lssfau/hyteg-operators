@@ -52,9 +52,15 @@ def unfold_toml_dict(toml_dict):
                         operator_cleared = operator.copy()
                         operator_cleared.pop("components-trial")
                         operator_cleared.pop("components-test")
-                        operator_cleared["form-args.component_test"] = comp_test
-                        operator_cleared["form-args.component_trial"] = comp_trial
+                        operator_cleared["component_test"] = comp_test
+                        operator_cleared["component_trial"] = comp_trial
                         operators_unfolded.append(operator_cleared)
+            elif "components" in operator:
+                for comp in operator["components"]:
+                    operator_cleared = operator.copy()
+                    operator_cleared.pop("components")
+                    operator_cleared["component_index"] = comp
+                    operators_unfolded.append(operator_cleared)
             else:
                 operators_unfolded = [o for o in operators]
         toml_dict_unfolded[form_str] = operators_unfolded
@@ -221,123 +227,6 @@ def generate_cmake_from_cpp_files(output_dir_path: str):
             )
 
 
-# def generate_toplevel_cmake(
-#     args: argparse.Namespace, toml_dict: Dict[str, Any]
-# ) -> None:
-#     os.makedirs(args.output, exist_ok=True)
-#     output_path = os.path.join(args.output, "CMakeLists.txt")
-#
-#     with open(output_path, "w") as f:
-#         print(f'add_compile_options( "-Wno-shadow" )', file=f)
-#         print(f"", file=f)
-#         print(f"if(NOT WALBERLA_DOUBLE_ACCURACY)", file=f)
-#         print(f'   add_compile_options( "-Wno-float-conversion" )', file=f)
-#         print(f"endif()", file=f)
-#         print(f"", file=f)
-#
-#         for form_str in toml_dict:
-#             print(f"add_subdirectory({form_str})", file=f)
-#
-#
-# def generate_cmake(
-#     args: argparse.Namespace,
-#     form_str: str,
-#     operators: List[Dict[str, Any]],
-#     kernel_implementations: Dict[str, List[str]],
-# ) -> None:
-#     dir_path = os.path.join(args.output, form_str)
-#     os.makedirs(dir_path, exist_ok=True)
-#     output_path = os.path.join(dir_path, "CMakeLists.txt")
-#
-#     lib_name = f"opgen-{form_str}"
-#
-#     with open(output_path, "w") as f:
-#         print(f"add_library( {lib_name}", file=f)
-#         print(f"", file=f)
-#
-#         for spec in operators:
-#             name = elementwise_operator_name(form_str, spec)
-#             print(f"   {name}.cpp", file=f)
-#             print(f"   {name}.hpp", file=f)
-#
-#         print(f")", file=f)
-#         print(f"", file=f)
-#
-#         def print_noarch_targets(avx_exists: bool):
-#             indent_noarch_source_file = "   " if avx_exists else ""
-#             print(
-#                 f"{indent_noarch_source_file}target_sources({lib_name} PRIVATE", file=f
-#             )
-#             print(f"", file=f)
-#
-#             for source_file_inner in kernel_implementations["noarch"]:
-#                 print(
-#                     f"{indent_noarch_source_file}   noarch/{source_file_inner}", file=f
-#                 )
-#
-#             print(f"{indent_noarch_source_file})", file=f)
-#
-#         if "avx" in kernel_implementations:
-#             print(f"if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)", file=f)
-#             print(f"   target_sources({lib_name} PRIVATE", file=f)
-#             print(f"", file=f)
-#
-#             for source_file in kernel_implementations["avx"]:
-#                 print(f"      avx/{source_file}", file=f)
-#
-#             for source_file in kernel_implementations["noarch"]:
-#                 if not source_file in kernel_implementations["avx"]:
-#                     print(f"      noarch/{source_file}", file=f)
-#
-#             print(f"   )", file=f)
-#             print(f"", file=f)
-#
-#             print(f"   set_source_files_properties(", file=f)
-#             print(f"", file=f)
-#
-#             for source_file in kernel_implementations["avx"]:
-#                 print(f"      avx/{source_file}", file=f)
-#             print(f"", file=f)
-#             print(
-#                 "      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}",
-#                 file=f,
-#             )
-#
-#             print(f"   )", file=f)
-#             print(f"else()", file=f)
-#             print(
-#                 f"   if(HYTEG_BUILD_WITH_AVX AND NOT WALBERLA_DOUBLE_ACCURACY)", file=f
-#             )
-#             print(
-#                 f'      message(WARNING "AVX vectorization only available in double precision. Using scalar kernels.")',
-#                 file=f,
-#             )
-#             print(f"   endif()", file=f)
-#             print(f"", file=f)
-#
-#             print_noarch_targets(avx_exists=True)
-#
-#             print(f"endif()", file=f)
-#         else:
-#             print_noarch_targets(avx_exists=False)
-#
-#         print(f"", file=f)
-#
-#         print(f"if (HYTEG_BUILD_WITH_PETSC)", file=f)
-#         print(f"   target_link_libraries({lib_name} PUBLIC PETSc::PETSc)", file=f)
-#         print(f"endif ()", file=f)
-#
-#         print(
-#             f"if (WALBERLA_BUILD_WITH_HALF_PRECISION_SUPPORT)\n"
-#             f"    target_compile_features({lib_name} PUBLIC cxx_std_23)\n"
-#             f"else ()\n"
-#             f"    target_compile_features({lib_name} PUBLIC cxx_std_17)\n"
-#             f"endif ()",
-#             file=f,
-#         )
-#
-
-
 def generate_operator(
     args: argparse.Namespace, form_str: str, spec: Dict[str, Any]
 ) -> Dict[str, List[str]]:
@@ -418,27 +307,32 @@ def generate_operator(
 
     dims = spec["dimensions"]
     components_equal = True
-    if "form-args.component_test" in spec and "form-args.component_trial" in spec:
-        if (
-            spec["form-args.component_test"] == 2
-            or spec["form-args.component_trial"] == 2
-        ):
-            dims = [d for d in spec["dimensions"] if d >= 3]
-
-        components_equal = (
-            spec["form-args.component_test"] == spec["form-args.component_trial"]
+    if "component_test" in spec and "component_trial" in spec:
+        get_form = partial(
+            get_form,
+            component_trial=spec["component_trial"],
+            component_test=spec["component_test"],
         )
+        if spec["component_test"] == 2 or spec["component_trial"] == 2:
+            dims = [d for d in spec["dimensions"] if d >= 3]
+        components_equal = spec["component_test"] == spec["component_trial"]
+
+    if "component_index" in spec:
+        get_form = partial(get_form, component_index=spec["component_index"])
+        if spec["component_index"] == 2:
+            dims = [d for d in spec["dimensions"] if d >= 3]
+        components_equal = False
 
     kernel_types = [
         operator_generation.kernel_types.Apply(
-            test_space,
             trial_space,
+            test_space,
             type_descriptor=type_descriptor,
             dims=dims,
         ),
         operator_generation.kernel_types.Assemble(
-            test_space,
             trial_space,
+            test_space,
             type_descriptor=type_descriptor,
             dims=dims,
         ),
@@ -468,8 +362,8 @@ def generate_operator(
             )
 
             form = get_form(
-                test_space,
                 trial_space,
+                test_space,
                 geometry,
                 symbolizer,
                 blending=blending,  # type: ignore[call-arg] # kw-args are not supported by Callable
@@ -511,13 +405,18 @@ def elementwise_operator_name(form_str: str, spec: Dict[str, Any]) -> str:
     if spec["trial-space"] == spec["test-space"]:
         space_mapping = spec["trial-space"]
     else:
-        space_mapping = f"{spec['test-space']}To{spec['trial-space']}"
+        space_mapping = f"{spec['trial-space']}To{spec['test-space']}"
 
     component = ""
-    if "form-args.component_test" in spec and "form-args.component_trial" in spec:
-        component = (
-            f"_{spec['form-args.component_test']}_{spec['form-args.component_trial']}"
-        )
+    if "component_test" in spec and "component_trial" in spec:
+        component = f"_{spec['component_test']}_{spec['component_trial']}"
+
+    # I do not like this, but should to the trick until we have actual vector function spaces in the HFG.
+    if "component_index" in spec:
+        if "divergence" == form_str.lower():
+            component = f"_0_{spec['component_index']}"
+        elif "gradient" == form_str.lower():
+            component = f"_{spec['component_index']}_0"
 
     blending = ""
     if spec.get("blending", "IdentityMap") != "IdentityMap":
