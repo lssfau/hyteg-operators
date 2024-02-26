@@ -45,8 +45,8 @@ namespace operatorgeneration {
 
 /// "Epsilon" operator.
 ///
-/// Component trial: 0
-/// Component test:  0
+/// Component trial: 2
+/// Component test:  2
 /// Geometry map:    IdentityMap
 ///
 /// Weak formulation

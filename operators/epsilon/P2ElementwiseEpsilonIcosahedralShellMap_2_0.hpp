@@ -46,7 +46,7 @@ namespace operatorgeneration {
 /// "Epsilon" operator.
 ///
 /// Component trial: 0
-/// Component test:  0
+/// Component test:  2
 /// Geometry map:    IcosahedralShellMap
 ///
 /// Weak formulation
@@ -85,11 +85,11 @@ class P2ElementwiseEpsilonIcosahedralShellMap_2_0
  protected:
  private:
    /// Kernel type: apply
-   /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
+   /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2137    2788      52       4      4              0                 0              1
+   ///   3168    3442      56       5      5              0                 0              1
    void apply_macro_3D( walberla::float64* RESTRICT _data_dstEdge,
                         walberla::float64* RESTRICT _data_dstVertex,
                         walberla::float64* RESTRICT _data_muEdge,
@@ -125,11 +125,11 @@ class P2ElementwiseEpsilonIcosahedralShellMap_2_0
                         walberla::float64           thrVertex_1,
                         walberla::float64           thrVertex_2 ) const;
    /// Kernel type: toMatrix
-   /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
+   /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2037    2688      52       4      4              0                 0              4
+   ///   3068    3342      56       5      5              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            walberla::float64* RESTRICT          _data_muEdge,

@@ -56,8 +56,8 @@ namespace operatorgeneration {
 /// Note that the factor 2/3 means that for 2D this is the pseudo-3D form
 /// of the operator.
 ///
-/// Component trial: 0
-/// Component test:  0
+/// Component trial: 1
+/// Component test:  1
 /// Geometry map:    IcosahedralShellMap
 ///
 /// Weak formulation
@@ -105,7 +105,7 @@ class P2ElementwiseFullStokesIcosahedralShellMap_1_1
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   3098    4222      56       5      5              0                 0              1
+   ///   3098    4232      56       5      5              0                 0              1
    void apply_macro_3D( walberla::float64* RESTRICT _data_dstEdge,
                         walberla::float64* RESTRICT _data_dstVertex,
                         walberla::float64* RESTRICT _data_muEdge,
@@ -145,7 +145,7 @@ class P2ElementwiseFullStokesIcosahedralShellMap_1_1
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2998    4122      56       5      5              0                 0              4
+   ///   2998    4132      56       5      5              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            walberla::float64* RESTRICT          _data_muEdge,
@@ -186,7 +186,7 @@ class P2ElementwiseFullStokesIcosahedralShellMap_1_1
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1883    2637      56       5      5              0                 0              1
+   ///   1883    2647      56       5      5              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_3D( walberla::float64* RESTRICT _data_invDiag_Edge,
                                                        walberla::float64* RESTRICT _data_invDiag_Vertex,
                                                        walberla::float64* RESTRICT _data_muEdge,

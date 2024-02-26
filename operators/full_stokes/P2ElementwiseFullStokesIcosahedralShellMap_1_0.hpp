@@ -56,7 +56,7 @@ namespace operatorgeneration {
 /// of the operator.
 ///
 /// Component trial: 0
-/// Component test:  0
+/// Component test:  1
 /// Geometry map:    IcosahedralShellMap
 ///
 /// Weak formulation
@@ -99,7 +99,7 @@ class P2ElementwiseFullStokesIcosahedralShellMap_1_0
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   3098    4222      56       5      5              0                 0              1
+   ///   3868    4432      56       5      5              0                 0              1
    void apply_macro_3D( walberla::float64* RESTRICT _data_dstEdge,
                         walberla::float64* RESTRICT _data_dstVertex,
                         walberla::float64* RESTRICT _data_muEdge,
@@ -139,7 +139,7 @@ class P2ElementwiseFullStokesIcosahedralShellMap_1_0
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2998    4122      56       5      5              0                 0              4
+   ///   3768    4332      56       5      5              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            walberla::float64* RESTRICT          _data_muEdge,

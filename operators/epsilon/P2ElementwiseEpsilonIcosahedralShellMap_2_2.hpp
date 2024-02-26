@@ -46,8 +46,8 @@ namespace operatorgeneration {
 
 /// "Epsilon" operator.
 ///
-/// Component trial: 0
-/// Component test:  0
+/// Component trial: 2
+/// Component test:  2
 /// Geometry map:    IcosahedralShellMap
 ///
 /// Weak formulation
@@ -91,11 +91,11 @@ class P2ElementwiseEpsilonIcosahedralShellMap_2_2
  protected:
  private:
    /// Kernel type: apply
-   /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
+   /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2137    2788      52       4      4              0                 0              1
+   ///   2623    3442      56       5      5              0                 0              1
    void apply_macro_3D( walberla::float64* RESTRICT _data_dstEdge,
                         walberla::float64* RESTRICT _data_dstVertex,
                         walberla::float64* RESTRICT _data_muEdge,
@@ -131,11 +131,11 @@ class P2ElementwiseEpsilonIcosahedralShellMap_2_2
                         walberla::float64           thrVertex_1,
                         walberla::float64           thrVertex_2 ) const;
    /// Kernel type: toMatrix
-   /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
+   /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2037    2688      52       4      4              0                 0              4
+   ///   2523    3342      56       5      5              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            walberla::float64* RESTRICT          _data_muEdge,
@@ -172,11 +172,11 @@ class P2ElementwiseEpsilonIcosahedralShellMap_2_2
                            walberla::float64                    thrVertex_1,
                            walberla::float64                    thrVertex_2 ) const;
    /// Kernel type: computeInverseDiagonalOperatorValues
-   /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
+   /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1327    1968      52       4      4              0                 0              1
+   ///   1633    2442      56       5      5              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_3D( walberla::float64* RESTRICT _data_invDiag_Edge,
                                                        walberla::float64* RESTRICT _data_invDiag_Vertex,
                                                        walberla::float64* RESTRICT _data_muEdge,

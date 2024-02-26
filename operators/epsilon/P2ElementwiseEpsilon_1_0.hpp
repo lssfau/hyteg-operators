@@ -45,7 +45,7 @@ namespace operatorgeneration {
 /// "Epsilon" operator.
 ///
 /// Component trial: 0
-/// Component test:  0
+/// Component test:  1
 /// Geometry map:    IdentityMap
 ///
 /// Weak formulation
@@ -87,7 +87,7 @@ class P2ElementwiseEpsilon_1_0 : public Operator< P2Function< walberla::float64 
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    114     120       0       0      0              0                 0              0
+   ///    159     165       0       0      0              0                 0              0
    void apply_macro_2D( walberla::float64* RESTRICT _data_dstEdge,
                         walberla::float64* RESTRICT _data_dstVertex,
                         walberla::float64* RESTRICT _data_muEdge,
@@ -107,7 +107,7 @@ class P2ElementwiseEpsilon_1_0 : public Operator< P2Function< walberla::float64 
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    356     364       0       0      0              0                 0              0
+   ///    536     544       0       0      0              0                 0              0
    void apply_macro_3D( walberla::float64* RESTRICT _data_dstEdge,
                         walberla::float64* RESTRICT _data_dstVertex,
                         walberla::float64* RESTRICT _data_muEdge,
@@ -133,7 +133,7 @@ class P2ElementwiseEpsilon_1_0 : public Operator< P2Function< walberla::float64 
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     78      84       0       0      0              0                 0              3
+   ///    123     129       0       0      0              0                 0              3
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            walberla::float64* RESTRICT          _data_muEdge,
@@ -154,7 +154,7 @@ class P2ElementwiseEpsilon_1_0 : public Operator< P2Function< walberla::float64 
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    256     264       0       0      0              0                 0              3
+   ///    436     444       0       0      0              0                 0              3
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            walberla::float64* RESTRICT          _data_muEdge,
