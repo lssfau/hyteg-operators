@@ -14,6 +14,14 @@ quadrature    = 0
 loop-strategy = "cubes"
 optimizations = ["moveconstants", "vectorize"]
 
+[[diffusion]]
+trial-space   = "P2"
+test-space    = "P2"
+dimensions    = [2, 3]
+quadrature    = 2
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize"]
+
 [[div_k_grad]]
 trial-space   = "P1"
 test-space    = "P1"
@@ -40,6 +48,25 @@ quadrature    = 2
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 
+
+[[divergence]]
+trial-space   = "P2"
+test-space    = "P1"
+components = [0, 1, 2]
+dimensions    = [2, 3]
+quadrature    = 2
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize"]
+
+[[gradient]]
+trial-space   = "P1"
+test-space    = "P2"
+components = [0, 1, 2]
+dimensions    = [2, 3]
+quadrature    = 2
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize"]
+
 [[epsilon]]
 trial-space               = "P2"
 test-space                = "P2"
@@ -58,7 +85,7 @@ components-trial = [0, 1, 2]
 components-test  = [0, 1, 2]
 form-space-args.coefficient_function_space = "P2"
 dimensions      = [3]
-quadrature      = 2
+quadrature      = 3
 loop-strategy   = "sawtooth"
 optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 blending        = "IcosahedralShellMap"
