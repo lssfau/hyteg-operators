@@ -52,14 +52,22 @@ def unfold_toml_dict(toml_dict):
                         operator_cleared = operator.copy()
                         operator_cleared.pop("components-trial")
                         operator_cleared.pop("components-test")
-                        operator_cleared["component_test"] = comp_test
-                        operator_cleared["component_trial"] = comp_trial
+                        if "form-args" not in operator_cleared:
+                            operator_cleared["form-args"] = {}
+                        operator_cleared["form-args"].update(
+                            {"component_test": comp_test}
+                        )
+                        operator_cleared["form-args"].update(
+                            {"component_trial": comp_trial}
+                        )
                         operators_unfolded.append(operator_cleared)
             elif "components" in operator:
                 for comp in operator["components"]:
                     operator_cleared = operator.copy()
                     operator_cleared.pop("components")
-                    operator_cleared["component_index"] = comp
+                    if "form-args" not in operator_cleared:
+                        operator_cleared["form-args"] = {}
+                    operator_cleared["form-args"].update({"component_index": comp})
                     operators_unfolded.append(operator_cleared)
             else:
                 operators_unfolded.append(operator)
@@ -307,21 +315,26 @@ def generate_operator(
 
     dims = spec["dimensions"]
     components_equal = True
-    if "component_test" in spec and "component_trial" in spec:
-        get_form = partial(
-            get_form,
-            component_trial=spec["component_trial"],
-            component_test=spec["component_test"],
-        )
-        if spec["component_test"] == 2 or spec["component_trial"] == 2:
-            dims = [d for d in spec["dimensions"] if d >= 3]
-        components_equal = spec["component_test"] == spec["component_trial"]
+    if "form-args" in spec:
+        if (
+            "component_test" in spec["form-args"]
+            and "component_trial" in spec["form-args"]
+        ):
+            if (
+                spec["form-args"]["component_test"] == 2
+                or spec["form-args"]["component_trial"] == 2
+            ):
+                dims = [d for d in spec["dimensions"] if d >= 3]
+            components_equal = (
+                spec["form-args"]["component_test"]
+                == spec["form-args"]["component_trial"]
+            )
 
-    if "component_index" in spec:
-        get_form = partial(get_form, component_index=spec["component_index"])
-        if spec["component_index"] == 2:
-            dims = [d for d in spec["dimensions"] if d >= 3]
-        components_equal = False
+    if "form-args" in spec:
+        if "component_index" in spec["form-args"]:
+            if spec["form-args"]["component_index"] == 2:
+                dims = [d for d in spec["dimensions"] if d >= 3]
+            components_equal = False
 
     kernel_types = [
         operator_generation.kernel_types.Apply(
@@ -408,15 +421,20 @@ def elementwise_operator_name(form_str: str, spec: Dict[str, Any]) -> str:
         space_mapping = f"{spec['trial-space']}To{spec['test-space']}"
 
     component = ""
-    if "component_test" in spec and "component_trial" in spec:
-        component = f"_{spec['component_test']}_{spec['component_trial']}"
+    if "form-args" in spec:
+        if (
+            "component_test" in spec["form-args"]
+            and "component_trial" in spec["form-args"]
+        ):
+            component = f"_{spec['form-args']['component_test']}_{spec['form-args']['component_trial']}"
 
     # I do not like this, but should do the trick until we have actual vector function spaces in the HFG.
-    if "component_index" in spec:
-        if "divergence" == form_str.lower():
-            component = f"_0_{spec['component_index']}"
-        elif "gradient" == form_str.lower():
-            component = f"_{spec['component_index']}_0"
+    if "form-args" in spec:
+        if "component_index" in spec["form-args"]:
+            if "divergence" == form_str.lower():
+                component = f"_0_{spec['form-args']['component_index']}"
+            elif "gradient" == form_str.lower():
+                component = f"_{spec['form-args']['component_index']}_0"
 
     blending = ""
     if spec.get("blending", "IdentityMap") != "IdentityMap":
