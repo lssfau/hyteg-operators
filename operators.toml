@@ -48,7 +48,6 @@ quadrature    = 2
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 
-
 [[divergence]]
 trial-space   = "P2"
 test-space    = "P1"
