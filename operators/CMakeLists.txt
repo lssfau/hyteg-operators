@@ -2,6 +2,7 @@ add_compile_options( "-Wno-shadow" )
 
 if(NOT WALBERLA_DOUBLE_ACCURACY)
    add_compile_options( "-Wno-float-conversion" )
+   add_compile_options( "-Wno-implicit-float-conversion" )
 endif()
 
 add_subdirectory(curl_curl)

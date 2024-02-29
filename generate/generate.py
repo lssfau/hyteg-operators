@@ -117,6 +117,7 @@ def generate_cmake_from_cpp_files(output_dir_path: str):
         print(f"", file=f)
         print(f"if(NOT WALBERLA_DOUBLE_ACCURACY)", file=f)
         print(f'   add_compile_options( "-Wno-float-conversion" )', file=f)
+        print(f'   add_compile_options( "-Wno-implicit-float-conversion" )', file=f)
         print(f"endif()", file=f)
         print(f"", file=f)
 
@@ -256,6 +257,7 @@ def generate_operator(
         "fp16": types.hyteg_type(types.HFGPrecision.FP16),
         "fp32": types.hyteg_type(types.HFGPrecision.FP32),
         "fp64": types.hyteg_type(types.HFGPrecision.FP64),
+        "real_t": types.hyteg_type(types.HFGPrecision.REAL_T),
     }
     blending_maps = {
         "IdentityMap": hfg.blending.IdentityMap(),
