@@ -301,7 +301,7 @@ def generate_operator(
         for opt in spec["optimizations"]
     }
 
-    type_descriptor = precisions["fp64"]  # set default precision
+    type_descriptor = precisions["real_t"]  # set default precision
     if "precision" in spec:
         if spec["precision"] in precisions:
             type_descriptor = precisions[spec["precision"]]
