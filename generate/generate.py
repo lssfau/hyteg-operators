@@ -3,7 +3,7 @@ from functools import partial
 import os
 import sys
 from typing import Any, Dict, List, Union
-
+from multiprocessing import Pool
 if sys.version_info >= (3, 11):
     import tomllib
 else:
@@ -35,6 +35,14 @@ def parse_args() -> argparse.Namespace:
         "--cmake-only",
         action="store_true",
         help="Generates cmake files from existing source and header files and quits.",
+    )
+
+    parser.add_argument(
+        "--processes",
+        action="store",
+        type=int,
+        default=1,
+        help="Generates kernels in parallel with the specified number of processes.",
     )
 
     return parser.parse_args()
@@ -81,19 +89,16 @@ def main() -> None:
     os.makedirs(args.output, exist_ok=True)
 
     if not args.cmake_only:
-        with open(args.filename, "rb") as f:
+        with (open(args.filename, "rb") as f):
             toml_dict = tomllib.load(f)
             toml_dict = unfold_toml_dict(toml_dict)
 
-            for form_str, operators in toml_dict.items():
-                kernel_implementations = {}
-                for spec in operators:
-                    op_kernel_impls = generate_operator(args, form_str, spec)
-
-                    for platform, impls in op_kernel_impls.items():
-                        if not platform in kernel_implementations:
-                            kernel_implementations[platform] = []
-                        kernel_implementations[platform].extend(impls)
+            with Pool(args.processes) as pool:
+                for form_str, operators in toml_dict.items():
+                    for spec in operators:
+                        pool.apply_async(generate_operator, (args, form_str, spec))
+                pool.close()
+                pool.join()
 
     generate_cmake_from_cpp_files(args.output)
 
