@@ -51,16 +51,16 @@ P2ElementwiseEpsilonIcosahedralShellMap_0_1::P2ElementwiseEpsilonIcosahedralShel
     const std::shared_ptr< PrimitiveStorage >& storage,
     size_t                                     minLevel,
     size_t                                     maxLevel,
-    const P2Function< walberla::float64 >&     _mu )
+    const P2Function< real_t >&                _mu )
 : Operator( storage, minLevel, maxLevel )
 , mu( _mu )
 {}
 
-void P2ElementwiseEpsilonIcosahedralShellMap_0_1::apply( const P2Function< walberla::float64 >& src,
-                                                         const P2Function< walberla::float64 >& dst,
-                                                         uint_t                                 level,
-                                                         DoFType                                flag,
-                                                         UpdateType                             updateType ) const
+void P2ElementwiseEpsilonIcosahedralShellMap_0_1::apply( const P2Function< real_t >& src,
+                                                         const P2Function< real_t >& dst,
+                                                         uint_t                      level,
+                                                         DoFType                     flag,
+                                                         UpdateType                  updateType ) const
 {
    this->startTiming( "apply" );
 
@@ -89,7 +89,7 @@ void P2ElementwiseEpsilonIcosahedralShellMap_0_1::apply( const P2Function< walbe
       // However, we must not zero out anything that is not flagged with the specified BCs.
       // Therefore, we first zero out everything that flagged, and then, later,
       // the halos of the highest dim primitives.
-      dst.interpolate( walberla::numeric_cast< walberla::float64 >( 0 ), level, flag );
+      dst.interpolate( walberla::numeric_cast< real_t >( 0 ), level, flag );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -99,12 +99,12 @@ void P2ElementwiseEpsilonIcosahedralShellMap_0_1::apply( const P2Function< walbe
          Cell& cell = *it.second;
 
          // get hold of the actual numerical data in the functions
-         walberla::float64* _data_srcVertex = cell.getData( src.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         walberla::float64* _data_srcEdge   = cell.getData( src.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         walberla::float64* _data_dstVertex = cell.getData( dst.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         walberla::float64* _data_dstEdge   = cell.getData( dst.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         walberla::float64* _data_muVertex  = cell.getData( mu.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         walberla::float64* _data_muEdge    = cell.getData( mu.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_srcVertex = cell.getData( src.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_srcEdge   = cell.getData( src.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_dstVertex = cell.getData( dst.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_dstEdge   = cell.getData( dst.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_muVertex  = cell.getData( mu.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_muEdge    = cell.getData( mu.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
          // Zero out dst halos only
          //
@@ -115,25 +115,25 @@ void P2ElementwiseEpsilonIcosahedralShellMap_0_1::apply( const P2Function< walbe
             if ( !vertexdof::macrocell::isOnCellFace( idx, level ).empty() )
             {
                auto arrayIdx             = vertexdof::macrocell::index( level, idx.x(), idx.y(), idx.z() );
-               _data_dstVertex[arrayIdx] = walberla::float64( 0 );
+               _data_dstVertex[arrayIdx] = real_t( 0 );
             }
          }
          edgedof::macrocell::setBoundaryToZero( level, cell, dst.getEdgeDoFFunction().getCellDataID() );
 
-         const auto micro_edges_per_macro_edge                = (int64_t) levelinfo::num_microedges_per_edge( level );
-         const auto micro_edges_per_macro_edge_float          = (walberla::float64) levelinfo::num_microedges_per_edge( level );
-         const walberla::float64 macro_vertex_coord_id_0comp0 = (walberla::float64) cell.getCoordinates()[0][0];
-         const walberla::float64 macro_vertex_coord_id_0comp1 = (walberla::float64) cell.getCoordinates()[0][1];
-         const walberla::float64 macro_vertex_coord_id_0comp2 = (walberla::float64) cell.getCoordinates()[0][2];
-         const walberla::float64 macro_vertex_coord_id_1comp0 = (walberla::float64) cell.getCoordinates()[1][0];
-         const walberla::float64 macro_vertex_coord_id_1comp1 = (walberla::float64) cell.getCoordinates()[1][1];
-         const walberla::float64 macro_vertex_coord_id_1comp2 = (walberla::float64) cell.getCoordinates()[1][2];
-         const walberla::float64 macro_vertex_coord_id_2comp0 = (walberla::float64) cell.getCoordinates()[2][0];
-         const walberla::float64 macro_vertex_coord_id_2comp1 = (walberla::float64) cell.getCoordinates()[2][1];
-         const walberla::float64 macro_vertex_coord_id_2comp2 = (walberla::float64) cell.getCoordinates()[2][2];
-         const walberla::float64 macro_vertex_coord_id_3comp0 = (walberla::float64) cell.getCoordinates()[3][0];
-         const walberla::float64 macro_vertex_coord_id_3comp1 = (walberla::float64) cell.getCoordinates()[3][1];
-         const walberla::float64 macro_vertex_coord_id_3comp2 = (walberla::float64) cell.getCoordinates()[3][2];
+         const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
+         const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
+         const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
+         const real_t macro_vertex_coord_id_0comp2     = (real_t) cell.getCoordinates()[0][2];
+         const real_t macro_vertex_coord_id_1comp0     = (real_t) cell.getCoordinates()[1][0];
+         const real_t macro_vertex_coord_id_1comp1     = (real_t) cell.getCoordinates()[1][1];
+         const real_t macro_vertex_coord_id_1comp2     = (real_t) cell.getCoordinates()[1][2];
+         const real_t macro_vertex_coord_id_2comp0     = (real_t) cell.getCoordinates()[2][0];
+         const real_t macro_vertex_coord_id_2comp1     = (real_t) cell.getCoordinates()[2][1];
+         const real_t macro_vertex_coord_id_2comp2     = (real_t) cell.getCoordinates()[2][2];
+         const real_t macro_vertex_coord_id_3comp0     = (real_t) cell.getCoordinates()[3][0];
+         const real_t macro_vertex_coord_id_3comp1     = (real_t) cell.getCoordinates()[3][1];
+         const real_t macro_vertex_coord_id_3comp2     = (real_t) cell.getCoordinates()[3][2];
          WALBERLA_CHECK_NOT_NULLPTR(
              std::dynamic_pointer_cast< IcosahedralShellMap >( cell.getGeometryMap() ),
              "This operator requires the IcosahedralShellMap to be registered as GeometryMap on every macro-cell." )
@@ -244,27 +244,27 @@ void P2ElementwiseEpsilonIcosahedralShellMap_0_1::toMatrix( const std::shared_pt
          Cell& cell = *it.second;
 
          // get hold of the actual numerical data
-         idx_t*             _data_srcVertex = cell.getData( src.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         idx_t*             _data_srcEdge   = cell.getData( src.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         idx_t*             _data_dstVertex = cell.getData( dst.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         idx_t*             _data_dstEdge   = cell.getData( dst.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         walberla::float64* _data_muVertex  = cell.getData( mu.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         walberla::float64* _data_muEdge    = cell.getData( mu.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         idx_t*  _data_srcVertex = cell.getData( src.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         idx_t*  _data_srcEdge   = cell.getData( src.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         idx_t*  _data_dstVertex = cell.getData( dst.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         idx_t*  _data_dstEdge   = cell.getData( dst.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_muVertex  = cell.getData( mu.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_muEdge    = cell.getData( mu.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
-         const auto micro_edges_per_macro_edge                = (int64_t) levelinfo::num_microedges_per_edge( level );
-         const auto micro_edges_per_macro_edge_float          = (walberla::float64) levelinfo::num_microedges_per_edge( level );
-         const walberla::float64 macro_vertex_coord_id_0comp0 = (walberla::float64) cell.getCoordinates()[0][0];
-         const walberla::float64 macro_vertex_coord_id_0comp1 = (walberla::float64) cell.getCoordinates()[0][1];
-         const walberla::float64 macro_vertex_coord_id_0comp2 = (walberla::float64) cell.getCoordinates()[0][2];
-         const walberla::float64 macro_vertex_coord_id_1comp0 = (walberla::float64) cell.getCoordinates()[1][0];
-         const walberla::float64 macro_vertex_coord_id_1comp1 = (walberla::float64) cell.getCoordinates()[1][1];
-         const walberla::float64 macro_vertex_coord_id_1comp2 = (walberla::float64) cell.getCoordinates()[1][2];
-         const walberla::float64 macro_vertex_coord_id_2comp0 = (walberla::float64) cell.getCoordinates()[2][0];
-         const walberla::float64 macro_vertex_coord_id_2comp1 = (walberla::float64) cell.getCoordinates()[2][1];
-         const walberla::float64 macro_vertex_coord_id_2comp2 = (walberla::float64) cell.getCoordinates()[2][2];
-         const walberla::float64 macro_vertex_coord_id_3comp0 = (walberla::float64) cell.getCoordinates()[3][0];
-         const walberla::float64 macro_vertex_coord_id_3comp1 = (walberla::float64) cell.getCoordinates()[3][1];
-         const walberla::float64 macro_vertex_coord_id_3comp2 = (walberla::float64) cell.getCoordinates()[3][2];
+         const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
+         const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
+         const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
+         const real_t macro_vertex_coord_id_0comp2     = (real_t) cell.getCoordinates()[0][2];
+         const real_t macro_vertex_coord_id_1comp0     = (real_t) cell.getCoordinates()[1][0];
+         const real_t macro_vertex_coord_id_1comp1     = (real_t) cell.getCoordinates()[1][1];
+         const real_t macro_vertex_coord_id_1comp2     = (real_t) cell.getCoordinates()[1][2];
+         const real_t macro_vertex_coord_id_2comp0     = (real_t) cell.getCoordinates()[2][0];
+         const real_t macro_vertex_coord_id_2comp1     = (real_t) cell.getCoordinates()[2][1];
+         const real_t macro_vertex_coord_id_2comp2     = (real_t) cell.getCoordinates()[2][2];
+         const real_t macro_vertex_coord_id_3comp0     = (real_t) cell.getCoordinates()[3][0];
+         const real_t macro_vertex_coord_id_3comp1     = (real_t) cell.getCoordinates()[3][1];
+         const real_t macro_vertex_coord_id_3comp2     = (real_t) cell.getCoordinates()[3][2];
          WALBERLA_CHECK_NOT_NULLPTR(
              std::dynamic_pointer_cast< IcosahedralShellMap >( cell.getGeometryMap() ),
              "This operator requires the IcosahedralShellMap to be registered as GeometryMap on every macro-cell." )
