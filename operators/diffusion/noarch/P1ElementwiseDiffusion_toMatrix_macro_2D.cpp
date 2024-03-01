@@ -114,21 +114,21 @@ void P1ElementwiseDiffusion::toMatrix_macro_2D( idx_t * RESTRICT  _data_dst, idx
        const real_t elMat_2_0 = tmp_kernel_op_4;
        const real_t elMat_2_1 = tmp_kernel_op_5;
        const real_t elMat_2_2 = tmp_kernel_op_2*((jac_affine_inv_1_0_GRAY*jac_affine_inv_1_0_GRAY) + (jac_affine_inv_1_1_GRAY*jac_affine_inv_1_1_GRAY));
-       const real_t Dummy_477 = -jac_affine_inv_0_0_BLUE - jac_affine_inv_1_0_BLUE;
-       const real_t Dummy_478 = -jac_affine_inv_0_1_BLUE - jac_affine_inv_1_1_BLUE;
-       const real_t Dummy_479 = abs_det_jac_affine_BLUE*0.5;
-       const real_t Dummy_480 = Dummy_479*(Dummy_477*jac_affine_inv_0_0_BLUE + Dummy_478*jac_affine_inv_0_1_BLUE);
-       const real_t Dummy_481 = Dummy_479*(Dummy_477*jac_affine_inv_1_0_BLUE + Dummy_478*jac_affine_inv_1_1_BLUE);
-       const real_t Dummy_482 = Dummy_479*(jac_affine_inv_0_0_BLUE*jac_affine_inv_1_0_BLUE + jac_affine_inv_0_1_BLUE*jac_affine_inv_1_1_BLUE);
-       const real_t Dummy_483 = Dummy_479*((Dummy_477*Dummy_477) + (Dummy_478*Dummy_478));
-       const real_t Dummy_484 = Dummy_480;
-       const real_t Dummy_485 = Dummy_481;
-       const real_t Dummy_486 = Dummy_480;
-       const real_t Dummy_487 = Dummy_479*((jac_affine_inv_0_0_BLUE*jac_affine_inv_0_0_BLUE) + (jac_affine_inv_0_1_BLUE*jac_affine_inv_0_1_BLUE));
-       const real_t Dummy_488 = Dummy_482;
-       const real_t Dummy_489 = Dummy_481;
-       const real_t Dummy_490 = Dummy_482;
-       const real_t Dummy_491 = Dummy_479*((jac_affine_inv_1_0_BLUE*jac_affine_inv_1_0_BLUE) + (jac_affine_inv_1_1_BLUE*jac_affine_inv_1_1_BLUE));
+       const real_t tmp_moved_constant_0 = -jac_affine_inv_0_0_BLUE - jac_affine_inv_1_0_BLUE;
+       const real_t tmp_moved_constant_1 = -jac_affine_inv_0_1_BLUE - jac_affine_inv_1_1_BLUE;
+       const real_t tmp_moved_constant_2 = abs_det_jac_affine_BLUE*0.5;
+       const real_t tmp_moved_constant_3 = tmp_moved_constant_2*(jac_affine_inv_0_0_BLUE*tmp_moved_constant_0 + jac_affine_inv_0_1_BLUE*tmp_moved_constant_1);
+       const real_t tmp_moved_constant_4 = tmp_moved_constant_2*(jac_affine_inv_1_0_BLUE*tmp_moved_constant_0 + jac_affine_inv_1_1_BLUE*tmp_moved_constant_1);
+       const real_t tmp_moved_constant_5 = tmp_moved_constant_2*(jac_affine_inv_0_0_BLUE*jac_affine_inv_1_0_BLUE + jac_affine_inv_0_1_BLUE*jac_affine_inv_1_1_BLUE);
+       const real_t tmp_moved_constant_6 = tmp_moved_constant_2*((tmp_moved_constant_0*tmp_moved_constant_0) + (tmp_moved_constant_1*tmp_moved_constant_1));
+       const real_t tmp_moved_constant_7 = tmp_moved_constant_3;
+       const real_t tmp_moved_constant_8 = tmp_moved_constant_4;
+       const real_t tmp_moved_constant_9 = tmp_moved_constant_3;
+       const real_t tmp_moved_constant_10 = tmp_moved_constant_2*((jac_affine_inv_0_0_BLUE*jac_affine_inv_0_0_BLUE) + (jac_affine_inv_0_1_BLUE*jac_affine_inv_0_1_BLUE));
+       const real_t tmp_moved_constant_11 = tmp_moved_constant_5;
+       const real_t tmp_moved_constant_12 = tmp_moved_constant_4;
+       const real_t tmp_moved_constant_13 = tmp_moved_constant_5;
+       const real_t tmp_moved_constant_14 = tmp_moved_constant_2*((jac_affine_inv_1_0_BLUE*jac_affine_inv_1_0_BLUE) + (jac_affine_inv_1_1_BLUE*jac_affine_inv_1_1_BLUE));
        for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
        {
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
@@ -183,15 +183,15 @@ void P1ElementwiseDiffusion::toMatrix_macro_2D( idx_t * RESTRICT  _data_dst, idx
                
                
                
-                   _data_mat[0] = ((real_t)(Dummy_483));
-                   _data_mat[1] = ((real_t)(Dummy_484));
-                   _data_mat[2] = ((real_t)(Dummy_485));
-                   _data_mat[3] = ((real_t)(Dummy_486));
-                   _data_mat[4] = ((real_t)(Dummy_487));
-                   _data_mat[5] = ((real_t)(Dummy_488));
-                   _data_mat[6] = ((real_t)(Dummy_489));
-                   _data_mat[7] = ((real_t)(Dummy_490));
-                   _data_mat[8] = ((real_t)(Dummy_491));
+                   _data_mat[0] = ((real_t)(tmp_moved_constant_6));
+                   _data_mat[1] = ((real_t)(tmp_moved_constant_7));
+                   _data_mat[2] = ((real_t)(tmp_moved_constant_8));
+                   _data_mat[3] = ((real_t)(tmp_moved_constant_9));
+                   _data_mat[4] = ((real_t)(tmp_moved_constant_10));
+                   _data_mat[5] = ((real_t)(tmp_moved_constant_11));
+                   _data_mat[6] = ((real_t)(tmp_moved_constant_12));
+                   _data_mat[7] = ((real_t)(tmp_moved_constant_13));
+                   _data_mat[8] = ((real_t)(tmp_moved_constant_14));
                
                
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );

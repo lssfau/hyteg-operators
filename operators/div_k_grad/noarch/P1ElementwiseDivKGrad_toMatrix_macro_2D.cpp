@@ -176,8 +176,8 @@ void P1ElementwiseDivKGrad::toMatrix_macro_2D( idx_t * RESTRICT  _data_dst, real
        const real_t jac_affine_inv_1_0_BLUE = -jac_affine_1_0_BLUE*tmp_coords_jac_6_BLUE;
        const real_t jac_affine_inv_1_1_BLUE = jac_affine_0_0_BLUE*tmp_coords_jac_6_BLUE;
        const real_t abs_det_jac_affine_BLUE = abs(tmp_coords_jac_5_BLUE);
-       const real_t Dummy_199 = -jac_affine_inv_0_0_BLUE - jac_affine_inv_1_0_BLUE;
-       const real_t Dummy_200 = -jac_affine_inv_0_1_BLUE - jac_affine_inv_1_1_BLUE;
+       const real_t tmp_moved_constant_0 = -jac_affine_inv_0_0_BLUE - jac_affine_inv_1_0_BLUE;
+       const real_t tmp_moved_constant_1 = -jac_affine_inv_0_1_BLUE - jac_affine_inv_1_1_BLUE;
        {
           /* FaceType.BLUE */
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
@@ -195,9 +195,9 @@ void P1ElementwiseDivKGrad::toMatrix_macro_2D( idx_t * RESTRICT  _data_dst, real
              for (int64_t q = 0; q < 3; q += 1)
              {
                 const real_t tmp_qloop_2 = abs_det_jac_affine_BLUE*(k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q])*_data_q_w[q];
-                const real_t q_tmp_0_0 = tmp_qloop_2*((Dummy_199*Dummy_199) + (Dummy_200*Dummy_200));
-                const real_t q_tmp_0_1 = tmp_qloop_2*(Dummy_199*jac_affine_inv_0_0_BLUE + Dummy_200*jac_affine_inv_0_1_BLUE);
-                const real_t q_tmp_0_2 = tmp_qloop_2*(Dummy_199*jac_affine_inv_1_0_BLUE + Dummy_200*jac_affine_inv_1_1_BLUE);
+                const real_t q_tmp_0_0 = tmp_qloop_2*((tmp_moved_constant_0*tmp_moved_constant_0) + (tmp_moved_constant_1*tmp_moved_constant_1));
+                const real_t q_tmp_0_1 = tmp_qloop_2*(jac_affine_inv_0_0_BLUE*tmp_moved_constant_0 + jac_affine_inv_0_1_BLUE*tmp_moved_constant_1);
+                const real_t q_tmp_0_2 = tmp_qloop_2*(jac_affine_inv_1_0_BLUE*tmp_moved_constant_0 + jac_affine_inv_1_1_BLUE*tmp_moved_constant_1);
                 const real_t q_tmp_1_1 = tmp_qloop_2*((jac_affine_inv_0_0_BLUE*jac_affine_inv_0_0_BLUE) + (jac_affine_inv_0_1_BLUE*jac_affine_inv_0_1_BLUE));
                 const real_t q_tmp_1_2 = tmp_qloop_2*(jac_affine_inv_0_0_BLUE*jac_affine_inv_1_0_BLUE + jac_affine_inv_0_1_BLUE*jac_affine_inv_1_1_BLUE);
                 const real_t q_tmp_2_2 = tmp_qloop_2*((jac_affine_inv_1_0_BLUE*jac_affine_inv_1_0_BLUE) + (jac_affine_inv_1_1_BLUE*jac_affine_inv_1_1_BLUE));

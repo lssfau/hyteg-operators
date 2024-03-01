@@ -105,12 +105,12 @@ void P1ElementwiseDiffusion::apply_macro_2D( real_t * RESTRICT  _data_dst, real_
        const real_t tmp_kernel_op_4 = jac_affine_inv_0_0_GRAY*tmp_kernel_op_0 + jac_affine_inv_0_1_GRAY*tmp_kernel_op_1;
        const real_t tmp_kernel_op_6 = jac_affine_inv_1_0_GRAY*tmp_kernel_op_0 + jac_affine_inv_1_1_GRAY*tmp_kernel_op_1;
        const real_t tmp_kernel_op_8 = jac_affine_inv_0_0_GRAY*jac_affine_inv_1_0_GRAY + jac_affine_inv_0_1_GRAY*jac_affine_inv_1_1_GRAY;
-       const real_t Dummy_59 = -jac_affine_inv_0_0_BLUE - jac_affine_inv_1_0_BLUE;
-       const real_t Dummy_60 = -jac_affine_inv_0_1_BLUE - jac_affine_inv_1_1_BLUE;
-       const real_t Dummy_61 = abs_det_jac_affine_BLUE*0.5;
-       const real_t Dummy_63 = Dummy_59*jac_affine_inv_0_0_BLUE + Dummy_60*jac_affine_inv_0_1_BLUE;
-       const real_t Dummy_65 = Dummy_59*jac_affine_inv_1_0_BLUE + Dummy_60*jac_affine_inv_1_1_BLUE;
-       const real_t Dummy_67 = jac_affine_inv_0_0_BLUE*jac_affine_inv_1_0_BLUE + jac_affine_inv_0_1_BLUE*jac_affine_inv_1_1_BLUE;
+       const real_t tmp_moved_constant_3 = -jac_affine_inv_0_0_BLUE - jac_affine_inv_1_0_BLUE;
+       const real_t tmp_moved_constant_4 = -jac_affine_inv_0_1_BLUE - jac_affine_inv_1_1_BLUE;
+       const real_t tmp_moved_constant_5 = abs_det_jac_affine_BLUE*0.5;
+       const real_t tmp_moved_constant_7 = jac_affine_inv_0_0_BLUE*tmp_moved_constant_3 + jac_affine_inv_0_1_BLUE*tmp_moved_constant_4;
+       const real_t tmp_moved_constant_9 = jac_affine_inv_1_0_BLUE*tmp_moved_constant_3 + jac_affine_inv_1_1_BLUE*tmp_moved_constant_4;
+       const real_t tmp_moved_constant_11 = jac_affine_inv_0_0_BLUE*jac_affine_inv_1_0_BLUE + jac_affine_inv_0_1_BLUE*jac_affine_inv_1_1_BLUE;
        for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
        {
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
@@ -131,20 +131,20 @@ void P1ElementwiseDiffusion::apply_macro_2D( real_t * RESTRICT  _data_dst, real_
                    _data_dst[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))] = elMatVec_2 + _data_dst[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
                 }
              }
-             const real_t Dummy_56 = _data_src[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-             const real_t Dummy_57 = _data_src[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-             const real_t Dummy_58 = _data_src[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
-             const real_t Dummy_62 = Dummy_56*Dummy_61;
-             const real_t Dummy_64 = Dummy_57*Dummy_61;
-             const real_t Dummy_66 = Dummy_58*Dummy_61;
-             const real_t Dummy_68 = Dummy_62*((Dummy_59*Dummy_59) + (Dummy_60*Dummy_60)) + Dummy_63*Dummy_64 + Dummy_65*Dummy_66;
-             const real_t Dummy_69 = Dummy_62*Dummy_63 + Dummy_64*((jac_affine_inv_0_0_BLUE*jac_affine_inv_0_0_BLUE) + (jac_affine_inv_0_1_BLUE*jac_affine_inv_0_1_BLUE)) + Dummy_66*Dummy_67;
-             const real_t Dummy_70 = Dummy_62*Dummy_65 + Dummy_64*Dummy_67 + Dummy_66*((jac_affine_inv_1_0_BLUE*jac_affine_inv_1_0_BLUE) + (jac_affine_inv_1_1_BLUE*jac_affine_inv_1_1_BLUE));
+             const real_t tmp_moved_constant_0 = _data_src[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+             const real_t tmp_moved_constant_1 = _data_src[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+             const real_t tmp_moved_constant_2 = _data_src[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
+             const real_t tmp_moved_constant_6 = tmp_moved_constant_0*tmp_moved_constant_5;
+             const real_t tmp_moved_constant_8 = tmp_moved_constant_1*tmp_moved_constant_5;
+             const real_t tmp_moved_constant_10 = tmp_moved_constant_2*tmp_moved_constant_5;
+             const real_t tmp_moved_constant_12 = tmp_moved_constant_10*tmp_moved_constant_9 + tmp_moved_constant_6*((tmp_moved_constant_3*tmp_moved_constant_3) + (tmp_moved_constant_4*tmp_moved_constant_4)) + tmp_moved_constant_7*tmp_moved_constant_8;
+             const real_t tmp_moved_constant_13 = tmp_moved_constant_10*tmp_moved_constant_11 + tmp_moved_constant_6*tmp_moved_constant_7 + tmp_moved_constant_8*((jac_affine_inv_0_0_BLUE*jac_affine_inv_0_0_BLUE) + (jac_affine_inv_0_1_BLUE*jac_affine_inv_0_1_BLUE));
+             const real_t tmp_moved_constant_14 = tmp_moved_constant_10*((jac_affine_inv_1_0_BLUE*jac_affine_inv_1_0_BLUE) + (jac_affine_inv_1_1_BLUE*jac_affine_inv_1_1_BLUE)) + tmp_moved_constant_11*tmp_moved_constant_8 + tmp_moved_constant_6*tmp_moved_constant_9;
              {
                 {
-                   _data_dst[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1] = Dummy_68 + _data_dst[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-                   _data_dst[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))] = Dummy_69 + _data_dst[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-                   _data_dst[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1] = Dummy_70 + _data_dst[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
+                   _data_dst[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1] = tmp_moved_constant_12 + _data_dst[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+                   _data_dst[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))] = tmp_moved_constant_13 + _data_dst[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+                   _data_dst[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1] = tmp_moved_constant_14 + _data_dst[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
                 }
              }
           }

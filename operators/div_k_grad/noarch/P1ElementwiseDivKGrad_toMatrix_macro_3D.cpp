@@ -259,9 +259,9 @@ void P1ElementwiseDivKGrad::toMatrix_macro_3D( idx_t * RESTRICT  _data_dst, real
        const real_t jac_affine_inv_2_1_WHITE_DOWN = tmp_coords_jac_19_WHITE_DOWN*(-jac_affine_0_0_WHITE_DOWN*jac_affine_2_1_WHITE_DOWN + jac_affine_0_1_WHITE_DOWN*jac_affine_2_0_WHITE_DOWN);
        const real_t jac_affine_inv_2_2_WHITE_DOWN = tmp_coords_jac_19_WHITE_DOWN*(jac_affine_0_0_WHITE_DOWN*jac_affine_1_1_WHITE_DOWN - jac_affine_0_1_WHITE_DOWN*jac_affine_1_0_WHITE_DOWN);
        const real_t abs_det_jac_affine_WHITE_DOWN = abs(tmp_coords_jac_18_WHITE_DOWN);
-       const real_t Dummy_309 = -jac_affine_inv_0_0_WHITE_DOWN - jac_affine_inv_1_0_WHITE_DOWN - jac_affine_inv_2_0_WHITE_DOWN;
-       const real_t Dummy_310 = -jac_affine_inv_0_1_WHITE_DOWN - jac_affine_inv_1_1_WHITE_DOWN - jac_affine_inv_2_1_WHITE_DOWN;
-       const real_t Dummy_311 = -jac_affine_inv_0_2_WHITE_DOWN - jac_affine_inv_1_2_WHITE_DOWN - jac_affine_inv_2_2_WHITE_DOWN;
+       const real_t tmp_moved_constant_0 = -jac_affine_inv_0_0_WHITE_DOWN - jac_affine_inv_1_0_WHITE_DOWN - jac_affine_inv_2_0_WHITE_DOWN;
+       const real_t tmp_moved_constant_1 = -jac_affine_inv_0_1_WHITE_DOWN - jac_affine_inv_1_1_WHITE_DOWN - jac_affine_inv_2_1_WHITE_DOWN;
+       const real_t tmp_moved_constant_2 = -jac_affine_inv_0_2_WHITE_DOWN - jac_affine_inv_1_2_WHITE_DOWN - jac_affine_inv_2_2_WHITE_DOWN;
        {
           /* CellType.WHITE_DOWN */
           for (int64_t ctr_2 = 0; ctr_2 < micro_edges_per_macro_edge; ctr_2 += 1)
@@ -285,10 +285,10 @@ void P1ElementwiseDivKGrad::toMatrix_macro_3D( idx_t * RESTRICT  _data_dst, real
              for (int64_t q = 0; q < 4; q += 1)
              {
                 const real_t tmp_qloop_3 = abs_det_jac_affine_WHITE_DOWN*(k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q])*_data_q_w[q];
-                const real_t q_tmp_0_0 = tmp_qloop_3*((Dummy_309*Dummy_309) + (Dummy_310*Dummy_310) + (Dummy_311*Dummy_311));
-                const real_t q_tmp_0_1 = tmp_qloop_3*(Dummy_309*jac_affine_inv_0_0_WHITE_DOWN + Dummy_310*jac_affine_inv_0_1_WHITE_DOWN + Dummy_311*jac_affine_inv_0_2_WHITE_DOWN);
-                const real_t q_tmp_0_2 = tmp_qloop_3*(Dummy_309*jac_affine_inv_1_0_WHITE_DOWN + Dummy_310*jac_affine_inv_1_1_WHITE_DOWN + Dummy_311*jac_affine_inv_1_2_WHITE_DOWN);
-                const real_t q_tmp_0_3 = tmp_qloop_3*(Dummy_309*jac_affine_inv_2_0_WHITE_DOWN + Dummy_310*jac_affine_inv_2_1_WHITE_DOWN + Dummy_311*jac_affine_inv_2_2_WHITE_DOWN);
+                const real_t q_tmp_0_0 = tmp_qloop_3*((tmp_moved_constant_0*tmp_moved_constant_0) + (tmp_moved_constant_1*tmp_moved_constant_1) + (tmp_moved_constant_2*tmp_moved_constant_2));
+                const real_t q_tmp_0_1 = tmp_qloop_3*(jac_affine_inv_0_0_WHITE_DOWN*tmp_moved_constant_0 + jac_affine_inv_0_1_WHITE_DOWN*tmp_moved_constant_1 + jac_affine_inv_0_2_WHITE_DOWN*tmp_moved_constant_2);
+                const real_t q_tmp_0_2 = tmp_qloop_3*(jac_affine_inv_1_0_WHITE_DOWN*tmp_moved_constant_0 + jac_affine_inv_1_1_WHITE_DOWN*tmp_moved_constant_1 + jac_affine_inv_1_2_WHITE_DOWN*tmp_moved_constant_2);
+                const real_t q_tmp_0_3 = tmp_qloop_3*(jac_affine_inv_2_0_WHITE_DOWN*tmp_moved_constant_0 + jac_affine_inv_2_1_WHITE_DOWN*tmp_moved_constant_1 + jac_affine_inv_2_2_WHITE_DOWN*tmp_moved_constant_2);
                 const real_t q_tmp_1_1 = tmp_qloop_3*((jac_affine_inv_0_0_WHITE_DOWN*jac_affine_inv_0_0_WHITE_DOWN) + (jac_affine_inv_0_1_WHITE_DOWN*jac_affine_inv_0_1_WHITE_DOWN) + (jac_affine_inv_0_2_WHITE_DOWN*jac_affine_inv_0_2_WHITE_DOWN));
                 const real_t q_tmp_1_2 = tmp_qloop_3*(jac_affine_inv_0_0_WHITE_DOWN*jac_affine_inv_1_0_WHITE_DOWN + jac_affine_inv_0_1_WHITE_DOWN*jac_affine_inv_1_1_WHITE_DOWN + jac_affine_inv_0_2_WHITE_DOWN*jac_affine_inv_1_2_WHITE_DOWN);
                 const real_t q_tmp_1_3 = tmp_qloop_3*(jac_affine_inv_0_0_WHITE_DOWN*jac_affine_inv_2_0_WHITE_DOWN + jac_affine_inv_0_1_WHITE_DOWN*jac_affine_inv_2_1_WHITE_DOWN + jac_affine_inv_0_2_WHITE_DOWN*jac_affine_inv_2_2_WHITE_DOWN);
@@ -406,9 +406,9 @@ void P1ElementwiseDivKGrad::toMatrix_macro_3D( idx_t * RESTRICT  _data_dst, real
        const real_t jac_affine_inv_2_1_BLUE_UP = tmp_coords_jac_13_BLUE_UP*(-jac_affine_0_0_BLUE_UP*jac_affine_2_1_BLUE_UP + jac_affine_0_1_BLUE_UP*jac_affine_2_0_BLUE_UP);
        const real_t jac_affine_inv_2_2_BLUE_UP = tmp_coords_jac_13_BLUE_UP*(jac_affine_0_0_BLUE_UP*jac_affine_1_1_BLUE_UP - jac_affine_0_1_BLUE_UP*jac_affine_1_0_BLUE_UP);
        const real_t abs_det_jac_affine_BLUE_UP = abs(tmp_coords_jac_12_BLUE_UP);
-       const real_t Dummy_312 = -jac_affine_inv_0_0_BLUE_UP - jac_affine_inv_1_0_BLUE_UP - jac_affine_inv_2_0_BLUE_UP;
-       const real_t Dummy_313 = -jac_affine_inv_0_1_BLUE_UP - jac_affine_inv_1_1_BLUE_UP - jac_affine_inv_2_1_BLUE_UP;
-       const real_t Dummy_314 = -jac_affine_inv_0_2_BLUE_UP - jac_affine_inv_1_2_BLUE_UP - jac_affine_inv_2_2_BLUE_UP;
+       const real_t tmp_moved_constant_3 = -jac_affine_inv_0_0_BLUE_UP - jac_affine_inv_1_0_BLUE_UP - jac_affine_inv_2_0_BLUE_UP;
+       const real_t tmp_moved_constant_4 = -jac_affine_inv_0_1_BLUE_UP - jac_affine_inv_1_1_BLUE_UP - jac_affine_inv_2_1_BLUE_UP;
+       const real_t tmp_moved_constant_5 = -jac_affine_inv_0_2_BLUE_UP - jac_affine_inv_1_2_BLUE_UP - jac_affine_inv_2_2_BLUE_UP;
        {
           /* CellType.BLUE_UP */
           for (int64_t ctr_2 = 0; ctr_2 < micro_edges_per_macro_edge; ctr_2 += 1)
@@ -432,10 +432,10 @@ void P1ElementwiseDivKGrad::toMatrix_macro_3D( idx_t * RESTRICT  _data_dst, real
              for (int64_t q = 0; q < 4; q += 1)
              {
                 const real_t tmp_qloop_3 = abs_det_jac_affine_BLUE_UP*(k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q])*_data_q_w[q];
-                const real_t q_tmp_0_0 = tmp_qloop_3*((Dummy_312*Dummy_312) + (Dummy_313*Dummy_313) + (Dummy_314*Dummy_314));
-                const real_t q_tmp_0_1 = tmp_qloop_3*(Dummy_312*jac_affine_inv_0_0_BLUE_UP + Dummy_313*jac_affine_inv_0_1_BLUE_UP + Dummy_314*jac_affine_inv_0_2_BLUE_UP);
-                const real_t q_tmp_0_2 = tmp_qloop_3*(Dummy_312*jac_affine_inv_1_0_BLUE_UP + Dummy_313*jac_affine_inv_1_1_BLUE_UP + Dummy_314*jac_affine_inv_1_2_BLUE_UP);
-                const real_t q_tmp_0_3 = tmp_qloop_3*(Dummy_312*jac_affine_inv_2_0_BLUE_UP + Dummy_313*jac_affine_inv_2_1_BLUE_UP + Dummy_314*jac_affine_inv_2_2_BLUE_UP);
+                const real_t q_tmp_0_0 = tmp_qloop_3*((tmp_moved_constant_3*tmp_moved_constant_3) + (tmp_moved_constant_4*tmp_moved_constant_4) + (tmp_moved_constant_5*tmp_moved_constant_5));
+                const real_t q_tmp_0_1 = tmp_qloop_3*(jac_affine_inv_0_0_BLUE_UP*tmp_moved_constant_3 + jac_affine_inv_0_1_BLUE_UP*tmp_moved_constant_4 + jac_affine_inv_0_2_BLUE_UP*tmp_moved_constant_5);
+                const real_t q_tmp_0_2 = tmp_qloop_3*(jac_affine_inv_1_0_BLUE_UP*tmp_moved_constant_3 + jac_affine_inv_1_1_BLUE_UP*tmp_moved_constant_4 + jac_affine_inv_1_2_BLUE_UP*tmp_moved_constant_5);
+                const real_t q_tmp_0_3 = tmp_qloop_3*(jac_affine_inv_2_0_BLUE_UP*tmp_moved_constant_3 + jac_affine_inv_2_1_BLUE_UP*tmp_moved_constant_4 + jac_affine_inv_2_2_BLUE_UP*tmp_moved_constant_5);
                 const real_t q_tmp_1_1 = tmp_qloop_3*((jac_affine_inv_0_0_BLUE_UP*jac_affine_inv_0_0_BLUE_UP) + (jac_affine_inv_0_1_BLUE_UP*jac_affine_inv_0_1_BLUE_UP) + (jac_affine_inv_0_2_BLUE_UP*jac_affine_inv_0_2_BLUE_UP));
                 const real_t q_tmp_1_2 = tmp_qloop_3*(jac_affine_inv_0_0_BLUE_UP*jac_affine_inv_1_0_BLUE_UP + jac_affine_inv_0_1_BLUE_UP*jac_affine_inv_1_1_BLUE_UP + jac_affine_inv_0_2_BLUE_UP*jac_affine_inv_1_2_BLUE_UP);
                 const real_t q_tmp_1_3 = tmp_qloop_3*(jac_affine_inv_0_0_BLUE_UP*jac_affine_inv_2_0_BLUE_UP + jac_affine_inv_0_1_BLUE_UP*jac_affine_inv_2_1_BLUE_UP + jac_affine_inv_0_2_BLUE_UP*jac_affine_inv_2_2_BLUE_UP);
@@ -556,9 +556,9 @@ void P1ElementwiseDivKGrad::toMatrix_macro_3D( idx_t * RESTRICT  _data_dst, real
        const real_t jac_affine_inv_2_1_BLUE_DOWN = tmp_coords_jac_16_BLUE_DOWN*(-jac_affine_0_0_BLUE_DOWN*jac_affine_2_1_BLUE_DOWN + jac_affine_0_1_BLUE_DOWN*jac_affine_2_0_BLUE_DOWN);
        const real_t jac_affine_inv_2_2_BLUE_DOWN = tmp_coords_jac_16_BLUE_DOWN*(jac_affine_0_0_BLUE_DOWN*jac_affine_1_1_BLUE_DOWN - jac_affine_0_1_BLUE_DOWN*jac_affine_1_0_BLUE_DOWN);
        const real_t abs_det_jac_affine_BLUE_DOWN = abs(tmp_coords_jac_15_BLUE_DOWN);
-       const real_t Dummy_315 = -jac_affine_inv_0_0_BLUE_DOWN - jac_affine_inv_1_0_BLUE_DOWN - jac_affine_inv_2_0_BLUE_DOWN;
-       const real_t Dummy_316 = -jac_affine_inv_0_1_BLUE_DOWN - jac_affine_inv_1_1_BLUE_DOWN - jac_affine_inv_2_1_BLUE_DOWN;
-       const real_t Dummy_317 = -jac_affine_inv_0_2_BLUE_DOWN - jac_affine_inv_1_2_BLUE_DOWN - jac_affine_inv_2_2_BLUE_DOWN;
+       const real_t tmp_moved_constant_6 = -jac_affine_inv_0_0_BLUE_DOWN - jac_affine_inv_1_0_BLUE_DOWN - jac_affine_inv_2_0_BLUE_DOWN;
+       const real_t tmp_moved_constant_7 = -jac_affine_inv_0_1_BLUE_DOWN - jac_affine_inv_1_1_BLUE_DOWN - jac_affine_inv_2_1_BLUE_DOWN;
+       const real_t tmp_moved_constant_8 = -jac_affine_inv_0_2_BLUE_DOWN - jac_affine_inv_1_2_BLUE_DOWN - jac_affine_inv_2_2_BLUE_DOWN;
        {
           /* CellType.BLUE_DOWN */
           for (int64_t ctr_2 = 0; ctr_2 < micro_edges_per_macro_edge; ctr_2 += 1)
@@ -582,10 +582,10 @@ void P1ElementwiseDivKGrad::toMatrix_macro_3D( idx_t * RESTRICT  _data_dst, real
              for (int64_t q = 0; q < 4; q += 1)
              {
                 const real_t tmp_qloop_3 = abs_det_jac_affine_BLUE_DOWN*(k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q])*_data_q_w[q];
-                const real_t q_tmp_0_0 = tmp_qloop_3*((Dummy_315*Dummy_315) + (Dummy_316*Dummy_316) + (Dummy_317*Dummy_317));
-                const real_t q_tmp_0_1 = tmp_qloop_3*(Dummy_315*jac_affine_inv_0_0_BLUE_DOWN + Dummy_316*jac_affine_inv_0_1_BLUE_DOWN + Dummy_317*jac_affine_inv_0_2_BLUE_DOWN);
-                const real_t q_tmp_0_2 = tmp_qloop_3*(Dummy_315*jac_affine_inv_1_0_BLUE_DOWN + Dummy_316*jac_affine_inv_1_1_BLUE_DOWN + Dummy_317*jac_affine_inv_1_2_BLUE_DOWN);
-                const real_t q_tmp_0_3 = tmp_qloop_3*(Dummy_315*jac_affine_inv_2_0_BLUE_DOWN + Dummy_316*jac_affine_inv_2_1_BLUE_DOWN + Dummy_317*jac_affine_inv_2_2_BLUE_DOWN);
+                const real_t q_tmp_0_0 = tmp_qloop_3*((tmp_moved_constant_6*tmp_moved_constant_6) + (tmp_moved_constant_7*tmp_moved_constant_7) + (tmp_moved_constant_8*tmp_moved_constant_8));
+                const real_t q_tmp_0_1 = tmp_qloop_3*(jac_affine_inv_0_0_BLUE_DOWN*tmp_moved_constant_6 + jac_affine_inv_0_1_BLUE_DOWN*tmp_moved_constant_7 + jac_affine_inv_0_2_BLUE_DOWN*tmp_moved_constant_8);
+                const real_t q_tmp_0_2 = tmp_qloop_3*(jac_affine_inv_1_0_BLUE_DOWN*tmp_moved_constant_6 + jac_affine_inv_1_1_BLUE_DOWN*tmp_moved_constant_7 + jac_affine_inv_1_2_BLUE_DOWN*tmp_moved_constant_8);
+                const real_t q_tmp_0_3 = tmp_qloop_3*(jac_affine_inv_2_0_BLUE_DOWN*tmp_moved_constant_6 + jac_affine_inv_2_1_BLUE_DOWN*tmp_moved_constant_7 + jac_affine_inv_2_2_BLUE_DOWN*tmp_moved_constant_8);
                 const real_t q_tmp_1_1 = tmp_qloop_3*((jac_affine_inv_0_0_BLUE_DOWN*jac_affine_inv_0_0_BLUE_DOWN) + (jac_affine_inv_0_1_BLUE_DOWN*jac_affine_inv_0_1_BLUE_DOWN) + (jac_affine_inv_0_2_BLUE_DOWN*jac_affine_inv_0_2_BLUE_DOWN));
                 const real_t q_tmp_1_2 = tmp_qloop_3*(jac_affine_inv_0_0_BLUE_DOWN*jac_affine_inv_1_0_BLUE_DOWN + jac_affine_inv_0_1_BLUE_DOWN*jac_affine_inv_1_1_BLUE_DOWN + jac_affine_inv_0_2_BLUE_DOWN*jac_affine_inv_1_2_BLUE_DOWN);
                 const real_t q_tmp_1_3 = tmp_qloop_3*(jac_affine_inv_0_0_BLUE_DOWN*jac_affine_inv_2_0_BLUE_DOWN + jac_affine_inv_0_1_BLUE_DOWN*jac_affine_inv_2_1_BLUE_DOWN + jac_affine_inv_0_2_BLUE_DOWN*jac_affine_inv_2_2_BLUE_DOWN);
@@ -703,9 +703,9 @@ void P1ElementwiseDivKGrad::toMatrix_macro_3D( idx_t * RESTRICT  _data_dst, real
        const real_t jac_affine_inv_2_1_GREEN_UP = tmp_coords_jac_13_GREEN_UP*(-jac_affine_0_0_GREEN_UP*jac_affine_2_1_GREEN_UP + jac_affine_0_1_GREEN_UP*jac_affine_2_0_GREEN_UP);
        const real_t jac_affine_inv_2_2_GREEN_UP = tmp_coords_jac_13_GREEN_UP*(jac_affine_0_0_GREEN_UP*jac_affine_1_1_GREEN_UP - jac_affine_0_1_GREEN_UP*jac_affine_1_0_GREEN_UP);
        const real_t abs_det_jac_affine_GREEN_UP = abs(tmp_coords_jac_12_GREEN_UP);
-       const real_t Dummy_318 = -jac_affine_inv_0_0_GREEN_UP - jac_affine_inv_1_0_GREEN_UP - jac_affine_inv_2_0_GREEN_UP;
-       const real_t Dummy_319 = -jac_affine_inv_0_1_GREEN_UP - jac_affine_inv_1_1_GREEN_UP - jac_affine_inv_2_1_GREEN_UP;
-       const real_t Dummy_320 = -jac_affine_inv_0_2_GREEN_UP - jac_affine_inv_1_2_GREEN_UP - jac_affine_inv_2_2_GREEN_UP;
+       const real_t tmp_moved_constant_9 = -jac_affine_inv_0_0_GREEN_UP - jac_affine_inv_1_0_GREEN_UP - jac_affine_inv_2_0_GREEN_UP;
+       const real_t tmp_moved_constant_10 = -jac_affine_inv_0_1_GREEN_UP - jac_affine_inv_1_1_GREEN_UP - jac_affine_inv_2_1_GREEN_UP;
+       const real_t tmp_moved_constant_11 = -jac_affine_inv_0_2_GREEN_UP - jac_affine_inv_1_2_GREEN_UP - jac_affine_inv_2_2_GREEN_UP;
        {
           /* CellType.GREEN_UP */
           for (int64_t ctr_2 = 0; ctr_2 < micro_edges_per_macro_edge; ctr_2 += 1)
@@ -729,10 +729,10 @@ void P1ElementwiseDivKGrad::toMatrix_macro_3D( idx_t * RESTRICT  _data_dst, real
              for (int64_t q = 0; q < 4; q += 1)
              {
                 const real_t tmp_qloop_3 = abs_det_jac_affine_GREEN_UP*(k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q])*_data_q_w[q];
-                const real_t q_tmp_0_0 = tmp_qloop_3*((Dummy_318*Dummy_318) + (Dummy_319*Dummy_319) + (Dummy_320*Dummy_320));
-                const real_t q_tmp_0_1 = tmp_qloop_3*(Dummy_318*jac_affine_inv_0_0_GREEN_UP + Dummy_319*jac_affine_inv_0_1_GREEN_UP + Dummy_320*jac_affine_inv_0_2_GREEN_UP);
-                const real_t q_tmp_0_2 = tmp_qloop_3*(Dummy_318*jac_affine_inv_1_0_GREEN_UP + Dummy_319*jac_affine_inv_1_1_GREEN_UP + Dummy_320*jac_affine_inv_1_2_GREEN_UP);
-                const real_t q_tmp_0_3 = tmp_qloop_3*(Dummy_318*jac_affine_inv_2_0_GREEN_UP + Dummy_319*jac_affine_inv_2_1_GREEN_UP + Dummy_320*jac_affine_inv_2_2_GREEN_UP);
+                const real_t q_tmp_0_0 = tmp_qloop_3*((tmp_moved_constant_10*tmp_moved_constant_10) + (tmp_moved_constant_11*tmp_moved_constant_11) + (tmp_moved_constant_9*tmp_moved_constant_9));
+                const real_t q_tmp_0_1 = tmp_qloop_3*(jac_affine_inv_0_0_GREEN_UP*tmp_moved_constant_9 + jac_affine_inv_0_1_GREEN_UP*tmp_moved_constant_10 + jac_affine_inv_0_2_GREEN_UP*tmp_moved_constant_11);
+                const real_t q_tmp_0_2 = tmp_qloop_3*(jac_affine_inv_1_0_GREEN_UP*tmp_moved_constant_9 + jac_affine_inv_1_1_GREEN_UP*tmp_moved_constant_10 + jac_affine_inv_1_2_GREEN_UP*tmp_moved_constant_11);
+                const real_t q_tmp_0_3 = tmp_qloop_3*(jac_affine_inv_2_0_GREEN_UP*tmp_moved_constant_9 + jac_affine_inv_2_1_GREEN_UP*tmp_moved_constant_10 + jac_affine_inv_2_2_GREEN_UP*tmp_moved_constant_11);
                 const real_t q_tmp_1_1 = tmp_qloop_3*((jac_affine_inv_0_0_GREEN_UP*jac_affine_inv_0_0_GREEN_UP) + (jac_affine_inv_0_1_GREEN_UP*jac_affine_inv_0_1_GREEN_UP) + (jac_affine_inv_0_2_GREEN_UP*jac_affine_inv_0_2_GREEN_UP));
                 const real_t q_tmp_1_2 = tmp_qloop_3*(jac_affine_inv_0_0_GREEN_UP*jac_affine_inv_1_0_GREEN_UP + jac_affine_inv_0_1_GREEN_UP*jac_affine_inv_1_1_GREEN_UP + jac_affine_inv_0_2_GREEN_UP*jac_affine_inv_1_2_GREEN_UP);
                 const real_t q_tmp_1_3 = tmp_qloop_3*(jac_affine_inv_0_0_GREEN_UP*jac_affine_inv_2_0_GREEN_UP + jac_affine_inv_0_1_GREEN_UP*jac_affine_inv_2_1_GREEN_UP + jac_affine_inv_0_2_GREEN_UP*jac_affine_inv_2_2_GREEN_UP);
@@ -853,9 +853,9 @@ void P1ElementwiseDivKGrad::toMatrix_macro_3D( idx_t * RESTRICT  _data_dst, real
        const real_t jac_affine_inv_2_1_GREEN_DOWN = tmp_coords_jac_16_GREEN_DOWN*(-jac_affine_0_0_GREEN_DOWN*jac_affine_2_1_GREEN_DOWN + jac_affine_0_1_GREEN_DOWN*jac_affine_2_0_GREEN_DOWN);
        const real_t jac_affine_inv_2_2_GREEN_DOWN = tmp_coords_jac_16_GREEN_DOWN*(jac_affine_0_0_GREEN_DOWN*jac_affine_1_1_GREEN_DOWN - jac_affine_0_1_GREEN_DOWN*jac_affine_1_0_GREEN_DOWN);
        const real_t abs_det_jac_affine_GREEN_DOWN = abs(tmp_coords_jac_15_GREEN_DOWN);
-       const real_t Dummy_321 = -jac_affine_inv_0_0_GREEN_DOWN - jac_affine_inv_1_0_GREEN_DOWN - jac_affine_inv_2_0_GREEN_DOWN;
-       const real_t Dummy_322 = -jac_affine_inv_0_1_GREEN_DOWN - jac_affine_inv_1_1_GREEN_DOWN - jac_affine_inv_2_1_GREEN_DOWN;
-       const real_t Dummy_323 = -jac_affine_inv_0_2_GREEN_DOWN - jac_affine_inv_1_2_GREEN_DOWN - jac_affine_inv_2_2_GREEN_DOWN;
+       const real_t tmp_moved_constant_12 = -jac_affine_inv_0_0_GREEN_DOWN - jac_affine_inv_1_0_GREEN_DOWN - jac_affine_inv_2_0_GREEN_DOWN;
+       const real_t tmp_moved_constant_13 = -jac_affine_inv_0_1_GREEN_DOWN - jac_affine_inv_1_1_GREEN_DOWN - jac_affine_inv_2_1_GREEN_DOWN;
+       const real_t tmp_moved_constant_14 = -jac_affine_inv_0_2_GREEN_DOWN - jac_affine_inv_1_2_GREEN_DOWN - jac_affine_inv_2_2_GREEN_DOWN;
        {
           /* CellType.GREEN_DOWN */
           for (int64_t ctr_2 = 0; ctr_2 < micro_edges_per_macro_edge; ctr_2 += 1)
@@ -879,10 +879,10 @@ void P1ElementwiseDivKGrad::toMatrix_macro_3D( idx_t * RESTRICT  _data_dst, real
              for (int64_t q = 0; q < 4; q += 1)
              {
                 const real_t tmp_qloop_3 = abs_det_jac_affine_GREEN_DOWN*(k_dof_0*(1.0 - _data_q_p_0[q] - _data_q_p_1[q] - _data_q_p_2[q]) + k_dof_1*_data_q_p_0[q] + k_dof_2*_data_q_p_1[q] + k_dof_3*_data_q_p_2[q])*_data_q_w[q];
-                const real_t q_tmp_0_0 = tmp_qloop_3*((Dummy_321*Dummy_321) + (Dummy_322*Dummy_322) + (Dummy_323*Dummy_323));
-                const real_t q_tmp_0_1 = tmp_qloop_3*(Dummy_321*jac_affine_inv_0_0_GREEN_DOWN + Dummy_322*jac_affine_inv_0_1_GREEN_DOWN + Dummy_323*jac_affine_inv_0_2_GREEN_DOWN);
-                const real_t q_tmp_0_2 = tmp_qloop_3*(Dummy_321*jac_affine_inv_1_0_GREEN_DOWN + Dummy_322*jac_affine_inv_1_1_GREEN_DOWN + Dummy_323*jac_affine_inv_1_2_GREEN_DOWN);
-                const real_t q_tmp_0_3 = tmp_qloop_3*(Dummy_321*jac_affine_inv_2_0_GREEN_DOWN + Dummy_322*jac_affine_inv_2_1_GREEN_DOWN + Dummy_323*jac_affine_inv_2_2_GREEN_DOWN);
+                const real_t q_tmp_0_0 = tmp_qloop_3*((tmp_moved_constant_12*tmp_moved_constant_12) + (tmp_moved_constant_13*tmp_moved_constant_13) + (tmp_moved_constant_14*tmp_moved_constant_14));
+                const real_t q_tmp_0_1 = tmp_qloop_3*(jac_affine_inv_0_0_GREEN_DOWN*tmp_moved_constant_12 + jac_affine_inv_0_1_GREEN_DOWN*tmp_moved_constant_13 + jac_affine_inv_0_2_GREEN_DOWN*tmp_moved_constant_14);
+                const real_t q_tmp_0_2 = tmp_qloop_3*(jac_affine_inv_1_0_GREEN_DOWN*tmp_moved_constant_12 + jac_affine_inv_1_1_GREEN_DOWN*tmp_moved_constant_13 + jac_affine_inv_1_2_GREEN_DOWN*tmp_moved_constant_14);
+                const real_t q_tmp_0_3 = tmp_qloop_3*(jac_affine_inv_2_0_GREEN_DOWN*tmp_moved_constant_12 + jac_affine_inv_2_1_GREEN_DOWN*tmp_moved_constant_13 + jac_affine_inv_2_2_GREEN_DOWN*tmp_moved_constant_14);
                 const real_t q_tmp_1_1 = tmp_qloop_3*((jac_affine_inv_0_0_GREEN_DOWN*jac_affine_inv_0_0_GREEN_DOWN) + (jac_affine_inv_0_1_GREEN_DOWN*jac_affine_inv_0_1_GREEN_DOWN) + (jac_affine_inv_0_2_GREEN_DOWN*jac_affine_inv_0_2_GREEN_DOWN));
                 const real_t q_tmp_1_2 = tmp_qloop_3*(jac_affine_inv_0_0_GREEN_DOWN*jac_affine_inv_1_0_GREEN_DOWN + jac_affine_inv_0_1_GREEN_DOWN*jac_affine_inv_1_1_GREEN_DOWN + jac_affine_inv_0_2_GREEN_DOWN*jac_affine_inv_1_2_GREEN_DOWN);
                 const real_t q_tmp_1_3 = tmp_qloop_3*(jac_affine_inv_0_0_GREEN_DOWN*jac_affine_inv_2_0_GREEN_DOWN + jac_affine_inv_0_1_GREEN_DOWN*jac_affine_inv_2_1_GREEN_DOWN + jac_affine_inv_0_2_GREEN_DOWN*jac_affine_inv_2_2_GREEN_DOWN);

@@ -143,42 +143,42 @@ void P1ToP2ElementwiseGradient_1_0::apply_macro_2D( real_t * RESTRICT  _data_dst
        const real_t tmp_kernel_op_45 = tmp_kernel_op_3*(-jac_affine_inv_0_1_GRAY*(-tmp_kernel_op_1 + 2.666666666666667) + tmp_kernel_op_34);
        const real_t tmp_kernel_op_46 = tmp_kernel_op_8*(-jac_affine_inv_0_1_GRAY*(-tmp_kernel_op_6 - 1.333333333333333) + tmp_kernel_op_37);
        const real_t tmp_kernel_op_47 = tmp_kernel_op_13*(-jac_affine_inv_0_1_GRAY*(-tmp_kernel_op_11 + 2.666666666666667) + tmp_kernel_op_40);
-       const real_t Dummy_461 = abs_det_jac_affine_BLUE*0.16666666666666666;
-       const real_t Dummy_462 = Dummy_461*(-jac_affine_inv_0_1_BLUE*tmp_kernel_op_2 - jac_affine_inv_1_1_BLUE*tmp_kernel_op_2);
-       const real_t Dummy_463 = abs_det_jac_affine_BLUE*0.16666666666666666;
-       const real_t Dummy_464 = Dummy_463*(-jac_affine_inv_0_1_BLUE*tmp_kernel_op_7 - jac_affine_inv_1_1_BLUE*tmp_kernel_op_7);
-       const real_t Dummy_465 = abs_det_jac_affine_BLUE*0.16666666666666666;
-       const real_t Dummy_466 = Dummy_465*(-jac_affine_inv_0_1_BLUE*tmp_kernel_op_12 - jac_affine_inv_1_1_BLUE*tmp_kernel_op_12);
-       const real_t Dummy_467 = jac_affine_inv_0_1_BLUE*(tmp_kernel_op_0 - 1.0);
-       const real_t Dummy_468 = Dummy_461*Dummy_467;
-       const real_t Dummy_469 = jac_affine_inv_0_1_BLUE*(tmp_kernel_op_5 - 1.0);
-       const real_t Dummy_470 = Dummy_463*Dummy_469;
-       const real_t Dummy_471 = jac_affine_inv_0_1_BLUE*(tmp_kernel_op_10 - 1.0);
-       const real_t Dummy_472 = Dummy_465*Dummy_471;
-       const real_t Dummy_473 = Dummy_461*tmp_kernel_op_15;
-       const real_t Dummy_474 = Dummy_463*tmp_kernel_op_16;
-       const real_t Dummy_475 = Dummy_465*tmp_kernel_op_17;
-       const real_t Dummy_476 = jac_affine_inv_1_1_BLUE*(tmp_kernel_op_1 - 1.0);
-       const real_t Dummy_477 = Dummy_461*Dummy_476;
-       const real_t Dummy_478 = jac_affine_inv_1_1_BLUE*(tmp_kernel_op_6 - 1.0);
-       const real_t Dummy_479 = Dummy_463*Dummy_478;
-       const real_t Dummy_480 = jac_affine_inv_1_1_BLUE*(tmp_kernel_op_11 - 1.0);
-       const real_t Dummy_481 = Dummy_465*Dummy_480;
-       const real_t Dummy_482 = jac_affine_inv_0_1_BLUE*tmp_kernel_op_1;
-       const real_t Dummy_483 = jac_affine_inv_1_1_BLUE*tmp_kernel_op_0;
-       const real_t Dummy_484 = Dummy_461*(-Dummy_482 - Dummy_483);
-       const real_t Dummy_485 = jac_affine_inv_0_1_BLUE*tmp_kernel_op_6;
-       const real_t Dummy_486 = jac_affine_inv_1_1_BLUE*tmp_kernel_op_5;
-       const real_t Dummy_487 = Dummy_463*(-Dummy_485 - Dummy_486);
-       const real_t Dummy_488 = jac_affine_inv_0_1_BLUE*tmp_kernel_op_11;
-       const real_t Dummy_489 = jac_affine_inv_1_1_BLUE*tmp_kernel_op_10;
-       const real_t Dummy_490 = Dummy_465*(-Dummy_488 - Dummy_489);
-       const real_t Dummy_491 = Dummy_461*(Dummy_482 - jac_affine_inv_1_1_BLUE*(-tmp_kernel_op_0 - 1.333333333333333));
-       const real_t Dummy_492 = Dummy_463*(Dummy_485 - jac_affine_inv_1_1_BLUE*(-tmp_kernel_op_5 + 2.666666666666667));
-       const real_t Dummy_493 = Dummy_465*(Dummy_488 - jac_affine_inv_1_1_BLUE*(-tmp_kernel_op_10 + 2.666666666666667));
-       const real_t Dummy_494 = Dummy_461*(Dummy_483 - jac_affine_inv_0_1_BLUE*(-tmp_kernel_op_1 + 2.666666666666667));
-       const real_t Dummy_495 = Dummy_463*(Dummy_486 - jac_affine_inv_0_1_BLUE*(-tmp_kernel_op_6 - 1.333333333333333));
-       const real_t Dummy_496 = Dummy_465*(Dummy_489 - jac_affine_inv_0_1_BLUE*(-tmp_kernel_op_11 + 2.666666666666667));
+       const real_t tmp_moved_constant_3 = abs_det_jac_affine_BLUE*0.16666666666666666;
+       const real_t tmp_moved_constant_4 = tmp_moved_constant_3*(-jac_affine_inv_0_1_BLUE*tmp_kernel_op_2 - jac_affine_inv_1_1_BLUE*tmp_kernel_op_2);
+       const real_t tmp_moved_constant_5 = abs_det_jac_affine_BLUE*0.16666666666666666;
+       const real_t tmp_moved_constant_6 = tmp_moved_constant_5*(-jac_affine_inv_0_1_BLUE*tmp_kernel_op_7 - jac_affine_inv_1_1_BLUE*tmp_kernel_op_7);
+       const real_t tmp_moved_constant_7 = abs_det_jac_affine_BLUE*0.16666666666666666;
+       const real_t tmp_moved_constant_8 = tmp_moved_constant_7*(-jac_affine_inv_0_1_BLUE*tmp_kernel_op_12 - jac_affine_inv_1_1_BLUE*tmp_kernel_op_12);
+       const real_t tmp_moved_constant_9 = jac_affine_inv_0_1_BLUE*(tmp_kernel_op_0 - 1.0);
+       const real_t tmp_moved_constant_10 = tmp_moved_constant_3*tmp_moved_constant_9;
+       const real_t tmp_moved_constant_11 = jac_affine_inv_0_1_BLUE*(tmp_kernel_op_5 - 1.0);
+       const real_t tmp_moved_constant_12 = tmp_moved_constant_11*tmp_moved_constant_5;
+       const real_t tmp_moved_constant_13 = jac_affine_inv_0_1_BLUE*(tmp_kernel_op_10 - 1.0);
+       const real_t tmp_moved_constant_14 = tmp_moved_constant_13*tmp_moved_constant_7;
+       const real_t tmp_moved_constant_15 = tmp_kernel_op_15*tmp_moved_constant_3;
+       const real_t tmp_moved_constant_16 = tmp_kernel_op_16*tmp_moved_constant_5;
+       const real_t tmp_moved_constant_17 = tmp_kernel_op_17*tmp_moved_constant_7;
+       const real_t tmp_moved_constant_18 = jac_affine_inv_1_1_BLUE*(tmp_kernel_op_1 - 1.0);
+       const real_t tmp_moved_constant_19 = tmp_moved_constant_18*tmp_moved_constant_3;
+       const real_t tmp_moved_constant_20 = jac_affine_inv_1_1_BLUE*(tmp_kernel_op_6 - 1.0);
+       const real_t tmp_moved_constant_21 = tmp_moved_constant_20*tmp_moved_constant_5;
+       const real_t tmp_moved_constant_22 = jac_affine_inv_1_1_BLUE*(tmp_kernel_op_11 - 1.0);
+       const real_t tmp_moved_constant_23 = tmp_moved_constant_22*tmp_moved_constant_7;
+       const real_t tmp_moved_constant_24 = jac_affine_inv_0_1_BLUE*tmp_kernel_op_1;
+       const real_t tmp_moved_constant_25 = jac_affine_inv_1_1_BLUE*tmp_kernel_op_0;
+       const real_t tmp_moved_constant_26 = tmp_moved_constant_3*(-tmp_moved_constant_24 - tmp_moved_constant_25);
+       const real_t tmp_moved_constant_27 = jac_affine_inv_0_1_BLUE*tmp_kernel_op_6;
+       const real_t tmp_moved_constant_28 = jac_affine_inv_1_1_BLUE*tmp_kernel_op_5;
+       const real_t tmp_moved_constant_29 = tmp_moved_constant_5*(-tmp_moved_constant_27 - tmp_moved_constant_28);
+       const real_t tmp_moved_constant_30 = jac_affine_inv_0_1_BLUE*tmp_kernel_op_11;
+       const real_t tmp_moved_constant_31 = jac_affine_inv_1_1_BLUE*tmp_kernel_op_10;
+       const real_t tmp_moved_constant_32 = tmp_moved_constant_7*(-tmp_moved_constant_30 - tmp_moved_constant_31);
+       const real_t tmp_moved_constant_33 = tmp_moved_constant_3*(-jac_affine_inv_1_1_BLUE*(-tmp_kernel_op_0 - 1.333333333333333) + tmp_moved_constant_24);
+       const real_t tmp_moved_constant_34 = tmp_moved_constant_5*(-jac_affine_inv_1_1_BLUE*(-tmp_kernel_op_5 + 2.666666666666667) + tmp_moved_constant_27);
+       const real_t tmp_moved_constant_35 = tmp_moved_constant_7*(-jac_affine_inv_1_1_BLUE*(-tmp_kernel_op_10 + 2.666666666666667) + tmp_moved_constant_30);
+       const real_t tmp_moved_constant_36 = tmp_moved_constant_3*(-jac_affine_inv_0_1_BLUE*(-tmp_kernel_op_1 + 2.666666666666667) + tmp_moved_constant_25);
+       const real_t tmp_moved_constant_37 = tmp_moved_constant_5*(-jac_affine_inv_0_1_BLUE*(-tmp_kernel_op_6 - 1.333333333333333) + tmp_moved_constant_28);
+       const real_t tmp_moved_constant_38 = tmp_moved_constant_7*(-jac_affine_inv_0_1_BLUE*(-tmp_kernel_op_11 + 2.666666666666667) + tmp_moved_constant_31);
        for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
        {
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
@@ -202,23 +202,23 @@ void P1ToP2ElementwiseGradient_1_0::apply_macro_2D( real_t * RESTRICT  _data_dst
                    _data_dstEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))] = elMatVec_5 + _data_dstEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))];
                 }
              }
-             const real_t Dummy_458 = _data_src[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-             const real_t Dummy_459 = _data_src[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-             const real_t Dummy_460 = _data_src[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
-             const real_t Dummy_497 = Dummy_458*(Dummy_462*tmp_kernel_op_15 + Dummy_464*tmp_kernel_op_16 + Dummy_466*tmp_kernel_op_17) + Dummy_459*(Dummy_462*0.16666666666666666 + Dummy_464*0.66666666666666663 + Dummy_466*0.16666666666666666) + Dummy_460*(Dummy_462*0.66666666666666663 + Dummy_464*0.16666666666666666 + Dummy_466*0.16666666666666666);
-             const real_t Dummy_498 = Dummy_458*(-Dummy_467*Dummy_473 - Dummy_469*Dummy_474 - Dummy_471*Dummy_475) + Dummy_459*(Dummy_468*-0.16666666666666666 + Dummy_470*-0.66666666666666663 + Dummy_472*-0.16666666666666666) + Dummy_460*(Dummy_468*-0.66666666666666663 + Dummy_470*-0.16666666666666666 + Dummy_472*-0.16666666666666666);
-             const real_t Dummy_499 = Dummy_458*(-Dummy_473*Dummy_476 - Dummy_474*Dummy_478 - Dummy_475*Dummy_480) + Dummy_459*(Dummy_477*-0.16666666666666666 + Dummy_479*-0.66666666666666663 + Dummy_481*-0.16666666666666666) + Dummy_460*(Dummy_477*-0.66666666666666663 + Dummy_479*-0.16666666666666666 + Dummy_481*-0.16666666666666666);
-             const real_t Dummy_500 = Dummy_458*(Dummy_484*tmp_kernel_op_15 + Dummy_487*tmp_kernel_op_16 + Dummy_490*tmp_kernel_op_17) + Dummy_459*(Dummy_484*0.16666666666666666 + Dummy_487*0.66666666666666663 + Dummy_490*0.16666666666666666) + Dummy_460*(Dummy_484*0.66666666666666663 + Dummy_487*0.16666666666666666 + Dummy_490*0.16666666666666666);
-             const real_t Dummy_501 = Dummy_458*(Dummy_491*tmp_kernel_op_15 + Dummy_492*tmp_kernel_op_16 + Dummy_493*tmp_kernel_op_17) + Dummy_459*(Dummy_491*0.16666666666666666 + Dummy_492*0.66666666666666663 + Dummy_493*0.16666666666666666) + Dummy_460*(Dummy_491*0.66666666666666663 + Dummy_492*0.16666666666666666 + Dummy_493*0.16666666666666666);
-             const real_t Dummy_502 = Dummy_458*(Dummy_494*tmp_kernel_op_15 + Dummy_495*tmp_kernel_op_16 + Dummy_496*tmp_kernel_op_17) + Dummy_459*(Dummy_494*0.16666666666666666 + Dummy_495*0.66666666666666663 + Dummy_496*0.16666666666666666) + Dummy_460*(Dummy_494*0.66666666666666663 + Dummy_495*0.16666666666666666 + Dummy_496*0.16666666666666666);
+             const real_t tmp_moved_constant_0 = _data_src[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+             const real_t tmp_moved_constant_1 = _data_src[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+             const real_t tmp_moved_constant_2 = _data_src[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
+             const real_t tmp_moved_constant_39 = tmp_moved_constant_0*(tmp_kernel_op_15*tmp_moved_constant_4 + tmp_kernel_op_16*tmp_moved_constant_6 + tmp_kernel_op_17*tmp_moved_constant_8) + tmp_moved_constant_1*(tmp_moved_constant_4*0.16666666666666666 + tmp_moved_constant_6*0.66666666666666663 + tmp_moved_constant_8*0.16666666666666666) + tmp_moved_constant_2*(tmp_moved_constant_4*0.66666666666666663 + tmp_moved_constant_6*0.16666666666666666 + tmp_moved_constant_8*0.16666666666666666);
+             const real_t tmp_moved_constant_40 = tmp_moved_constant_0*(-tmp_moved_constant_11*tmp_moved_constant_16 - tmp_moved_constant_13*tmp_moved_constant_17 - tmp_moved_constant_15*tmp_moved_constant_9) + tmp_moved_constant_1*(tmp_moved_constant_10*-0.16666666666666666 + tmp_moved_constant_12*-0.66666666666666663 + tmp_moved_constant_14*-0.16666666666666666) + tmp_moved_constant_2*(tmp_moved_constant_10*-0.66666666666666663 + tmp_moved_constant_12*-0.16666666666666666 + tmp_moved_constant_14*-0.16666666666666666);
+             const real_t tmp_moved_constant_41 = tmp_moved_constant_0*(-tmp_moved_constant_15*tmp_moved_constant_18 - tmp_moved_constant_16*tmp_moved_constant_20 - tmp_moved_constant_17*tmp_moved_constant_22) + tmp_moved_constant_1*(tmp_moved_constant_19*-0.16666666666666666 + tmp_moved_constant_21*-0.66666666666666663 + tmp_moved_constant_23*-0.16666666666666666) + tmp_moved_constant_2*(tmp_moved_constant_19*-0.66666666666666663 + tmp_moved_constant_21*-0.16666666666666666 + tmp_moved_constant_23*-0.16666666666666666);
+             const real_t tmp_moved_constant_42 = tmp_moved_constant_0*(tmp_kernel_op_15*tmp_moved_constant_26 + tmp_kernel_op_16*tmp_moved_constant_29 + tmp_kernel_op_17*tmp_moved_constant_32) + tmp_moved_constant_1*(tmp_moved_constant_26*0.16666666666666666 + tmp_moved_constant_29*0.66666666666666663 + tmp_moved_constant_32*0.16666666666666666) + tmp_moved_constant_2*(tmp_moved_constant_26*0.66666666666666663 + tmp_moved_constant_29*0.16666666666666666 + tmp_moved_constant_32*0.16666666666666666);
+             const real_t tmp_moved_constant_43 = tmp_moved_constant_0*(tmp_kernel_op_15*tmp_moved_constant_33 + tmp_kernel_op_16*tmp_moved_constant_34 + tmp_kernel_op_17*tmp_moved_constant_35) + tmp_moved_constant_1*(tmp_moved_constant_33*0.16666666666666666 + tmp_moved_constant_34*0.66666666666666663 + tmp_moved_constant_35*0.16666666666666666) + tmp_moved_constant_2*(tmp_moved_constant_33*0.66666666666666663 + tmp_moved_constant_34*0.16666666666666666 + tmp_moved_constant_35*0.16666666666666666);
+             const real_t tmp_moved_constant_44 = tmp_moved_constant_0*(tmp_kernel_op_15*tmp_moved_constant_36 + tmp_kernel_op_16*tmp_moved_constant_37 + tmp_kernel_op_17*tmp_moved_constant_38) + tmp_moved_constant_1*(tmp_moved_constant_36*0.16666666666666666 + tmp_moved_constant_37*0.66666666666666663 + tmp_moved_constant_38*0.16666666666666666) + tmp_moved_constant_2*(tmp_moved_constant_36*0.66666666666666663 + tmp_moved_constant_37*0.16666666666666666 + tmp_moved_constant_38*0.16666666666666666);
              {
                 {
-                   _data_dstVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1] = Dummy_497 + _data_dstVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-                   _data_dstVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))] = Dummy_498 + _data_dstVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-                   _data_dstVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1] = Dummy_499 + _data_dstVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
-                   _data_dstEdge[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))] = Dummy_500 + _data_dstEdge[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-                   _data_dstEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2)) + 1] = Dummy_501 + _data_dstEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2)) + 1];
-                   _data_dstEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))] = Dummy_502 + _data_dstEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
+                   _data_dstVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1] = tmp_moved_constant_39 + _data_dstVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+                   _data_dstVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))] = tmp_moved_constant_40 + _data_dstVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+                   _data_dstVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1] = tmp_moved_constant_41 + _data_dstVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
+                   _data_dstEdge[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))] = tmp_moved_constant_42 + _data_dstEdge[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+                   _data_dstEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2)) + 1] = tmp_moved_constant_43 + _data_dstEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2)) + 1];
+                   _data_dstEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))] = tmp_moved_constant_44 + _data_dstEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
                 }
              }
           }
