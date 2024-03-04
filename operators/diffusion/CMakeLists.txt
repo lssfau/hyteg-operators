@@ -2,6 +2,10 @@ add_library( opgen-diffusion
 
    P1ElementwiseDiffusion.cpp
    P1ElementwiseDiffusion.hpp
+   P2ElementwiseDiffusion.cpp
+   P2ElementwiseDiffusion.hpp
+   P2ElementwiseDiffusionIcosahedralShellMap.cpp
+   P2ElementwiseDiffusionIcosahedralShellMap.hpp
 )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
@@ -11,8 +15,17 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P1ElementwiseDiffusion_apply_macro_3D.cpp
       avx/P1ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_2D.cpp
       avx/P1ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P2ElementwiseDiffusionIcosahedralShellMap_apply_macro_3D.cpp
+      avx/P2ElementwiseDiffusionIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P2ElementwiseDiffusion_apply_macro_2D.cpp
+      avx/P2ElementwiseDiffusion_apply_macro_3D.cpp
+      avx/P2ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      avx/P2ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_3D.cpp
       noarch/P1ElementwiseDiffusion_toMatrix_macro_2D.cpp
       noarch/P1ElementwiseDiffusion_toMatrix_macro_3D.cpp
+      noarch/P2ElementwiseDiffusionIcosahedralShellMap_toMatrix_macro_3D.cpp
+      noarch/P2ElementwiseDiffusion_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseDiffusion_toMatrix_macro_3D.cpp
    )
 
    set_source_files_properties(
@@ -21,6 +34,12 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P1ElementwiseDiffusion_apply_macro_3D.cpp
       avx/P1ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_2D.cpp
       avx/P1ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P2ElementwiseDiffusionIcosahedralShellMap_apply_macro_3D.cpp
+      avx/P2ElementwiseDiffusionIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P2ElementwiseDiffusion_apply_macro_2D.cpp
+      avx/P2ElementwiseDiffusion_apply_macro_3D.cpp
+      avx/P2ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      avx/P2ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_3D.cpp
 
       PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
    )
@@ -33,10 +52,19 @@ else()
 
       noarch/P1ElementwiseDiffusion_apply_macro_2D.cpp
       noarch/P1ElementwiseDiffusion_apply_macro_3D.cpp
-      noarch/P1ElementwiseDiffusion_toMatrix_macro_2D.cpp
-      noarch/P1ElementwiseDiffusion_toMatrix_macro_3D.cpp
       noarch/P1ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_2D.cpp
       noarch/P1ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      noarch/P1ElementwiseDiffusion_toMatrix_macro_2D.cpp
+      noarch/P1ElementwiseDiffusion_toMatrix_macro_3D.cpp
+      noarch/P2ElementwiseDiffusionIcosahedralShellMap_apply_macro_3D.cpp
+      noarch/P2ElementwiseDiffusionIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      noarch/P2ElementwiseDiffusionIcosahedralShellMap_toMatrix_macro_3D.cpp
+      noarch/P2ElementwiseDiffusion_apply_macro_2D.cpp
+      noarch/P2ElementwiseDiffusion_apply_macro_3D.cpp
+      noarch/P2ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      noarch/P2ElementwiseDiffusion_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      noarch/P2ElementwiseDiffusion_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseDiffusion_toMatrix_macro_3D.cpp
    )
 endif()
 

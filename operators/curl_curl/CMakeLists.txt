@@ -27,8 +27,8 @@ else()
    target_sources(opgen-curl_curl PRIVATE
 
       noarch/N1E1ElementwiseCurlCurl_apply_macro_3D.cpp
-      noarch/N1E1ElementwiseCurlCurl_toMatrix_macro_3D.cpp
       noarch/N1E1ElementwiseCurlCurl_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      noarch/N1E1ElementwiseCurlCurl_toMatrix_macro_3D.cpp
    )
 endif()
 

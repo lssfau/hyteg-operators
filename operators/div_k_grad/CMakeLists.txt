@@ -45,16 +45,16 @@ else()
 
       noarch/P1ElementwiseDivKGrad_apply_macro_2D.cpp
       noarch/P1ElementwiseDivKGrad_apply_macro_3D.cpp
-      noarch/P1ElementwiseDivKGrad_toMatrix_macro_2D.cpp
-      noarch/P1ElementwiseDivKGrad_toMatrix_macro_3D.cpp
       noarch/P1ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_2D.cpp
       noarch/P1ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      noarch/P1ElementwiseDivKGrad_toMatrix_macro_2D.cpp
+      noarch/P1ElementwiseDivKGrad_toMatrix_macro_3D.cpp
       noarch/P2ElementwiseDivKGrad_apply_macro_2D.cpp
       noarch/P2ElementwiseDivKGrad_apply_macro_3D.cpp
-      noarch/P2ElementwiseDivKGrad_toMatrix_macro_2D.cpp
-      noarch/P2ElementwiseDivKGrad_toMatrix_macro_3D.cpp
       noarch/P2ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_2D.cpp
       noarch/P2ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      noarch/P2ElementwiseDivKGrad_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseDivKGrad_toMatrix_macro_3D.cpp
    )
 endif()
 

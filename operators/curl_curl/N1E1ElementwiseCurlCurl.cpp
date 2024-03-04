@@ -53,11 +53,11 @@ N1E1ElementwiseCurlCurl::N1E1ElementwiseCurlCurl( const std::shared_ptr< Primiti
 : Operator( storage, minLevel, maxLevel )
 {}
 
-void N1E1ElementwiseCurlCurl::apply( const n1e1::N1E1VectorFunction< walberla::float64 >& src,
-                                     const n1e1::N1E1VectorFunction< walberla::float64 >& dst,
-                                     uint_t                                               level,
-                                     DoFType                                              flag,
-                                     UpdateType                                           updateType ) const
+void N1E1ElementwiseCurlCurl::apply( const n1e1::N1E1VectorFunction< real_t >& src,
+                                     const n1e1::N1E1VectorFunction< real_t >& dst,
+                                     uint_t                                    level,
+                                     DoFType                                   flag,
+                                     UpdateType                                updateType ) const
 {
    this->startTiming( "apply" );
 
@@ -82,7 +82,7 @@ void N1E1ElementwiseCurlCurl::apply( const n1e1::N1E1VectorFunction< walberla::f
       // However, we must not zero out anything that is not flagged with the specified BCs.
       // Therefore, we first zero out everything that flagged, and then, later,
       // the halos of the highest dim primitives.
-      dst.interpolate( walberla::numeric_cast< walberla::float64 >( 0 ), level, flag );
+      dst.interpolate( walberla::numeric_cast< real_t >( 0 ), level, flag );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -92,8 +92,8 @@ void N1E1ElementwiseCurlCurl::apply( const n1e1::N1E1VectorFunction< walberla::f
          Cell& cell = *it.second;
 
          // get hold of the actual numerical data in the functions
-         walberla::float64* _data_src = cell.getData( src.getDoFs()->getCellDataID() )->getPointer( level );
-         walberla::float64* _data_dst = cell.getData( dst.getDoFs()->getCellDataID() )->getPointer( level );
+         real_t* _data_src = cell.getData( src.getDoFs()->getCellDataID() )->getPointer( level );
+         real_t* _data_dst = cell.getData( dst.getDoFs()->getCellDataID() )->getPointer( level );
 
          // Zero out dst halos only
          //
@@ -101,20 +101,20 @@ void N1E1ElementwiseCurlCurl::apply( const n1e1::N1E1VectorFunction< walberla::f
          // During additive comm we then skip zeroing the data on the lower-dim primitives.
          edgedof::macrocell::setBoundaryToZero( level, cell, dst.getDoFs()->getCellDataID() );
 
-         const auto micro_edges_per_macro_edge                = (int64_t) levelinfo::num_microedges_per_edge( level );
-         const auto micro_edges_per_macro_edge_float          = (walberla::float64) levelinfo::num_microedges_per_edge( level );
-         const walberla::float64 macro_vertex_coord_id_0comp0 = (walberla::float64) cell.getCoordinates()[0][0];
-         const walberla::float64 macro_vertex_coord_id_0comp1 = (walberla::float64) cell.getCoordinates()[0][1];
-         const walberla::float64 macro_vertex_coord_id_0comp2 = (walberla::float64) cell.getCoordinates()[0][2];
-         const walberla::float64 macro_vertex_coord_id_1comp0 = (walberla::float64) cell.getCoordinates()[1][0];
-         const walberla::float64 macro_vertex_coord_id_1comp1 = (walberla::float64) cell.getCoordinates()[1][1];
-         const walberla::float64 macro_vertex_coord_id_1comp2 = (walberla::float64) cell.getCoordinates()[1][2];
-         const walberla::float64 macro_vertex_coord_id_2comp0 = (walberla::float64) cell.getCoordinates()[2][0];
-         const walberla::float64 macro_vertex_coord_id_2comp1 = (walberla::float64) cell.getCoordinates()[2][1];
-         const walberla::float64 macro_vertex_coord_id_2comp2 = (walberla::float64) cell.getCoordinates()[2][2];
-         const walberla::float64 macro_vertex_coord_id_3comp0 = (walberla::float64) cell.getCoordinates()[3][0];
-         const walberla::float64 macro_vertex_coord_id_3comp1 = (walberla::float64) cell.getCoordinates()[3][1];
-         const walberla::float64 macro_vertex_coord_id_3comp2 = (walberla::float64) cell.getCoordinates()[3][2];
+         const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
+         const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
+         const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
+         const real_t macro_vertex_coord_id_0comp2     = (real_t) cell.getCoordinates()[0][2];
+         const real_t macro_vertex_coord_id_1comp0     = (real_t) cell.getCoordinates()[1][0];
+         const real_t macro_vertex_coord_id_1comp1     = (real_t) cell.getCoordinates()[1][1];
+         const real_t macro_vertex_coord_id_1comp2     = (real_t) cell.getCoordinates()[1][2];
+         const real_t macro_vertex_coord_id_2comp0     = (real_t) cell.getCoordinates()[2][0];
+         const real_t macro_vertex_coord_id_2comp1     = (real_t) cell.getCoordinates()[2][1];
+         const real_t macro_vertex_coord_id_2comp2     = (real_t) cell.getCoordinates()[2][2];
+         const real_t macro_vertex_coord_id_3comp0     = (real_t) cell.getCoordinates()[3][0];
+         const real_t macro_vertex_coord_id_3comp1     = (real_t) cell.getCoordinates()[3][1];
+         const real_t macro_vertex_coord_id_3comp2     = (real_t) cell.getCoordinates()[3][2];
 
          this->timingTree_->start( "kernel" );
 
@@ -183,20 +183,20 @@ void N1E1ElementwiseCurlCurl::toMatrix( const std::shared_ptr< SparseMatrixProxy
          idx_t* _data_src = cell.getData( src.getDoFs()->getCellDataID() )->getPointer( level );
          idx_t* _data_dst = cell.getData( dst.getDoFs()->getCellDataID() )->getPointer( level );
 
-         const auto micro_edges_per_macro_edge                = (int64_t) levelinfo::num_microedges_per_edge( level );
-         const auto micro_edges_per_macro_edge_float          = (walberla::float64) levelinfo::num_microedges_per_edge( level );
-         const walberla::float64 macro_vertex_coord_id_0comp0 = (walberla::float64) cell.getCoordinates()[0][0];
-         const walberla::float64 macro_vertex_coord_id_0comp1 = (walberla::float64) cell.getCoordinates()[0][1];
-         const walberla::float64 macro_vertex_coord_id_0comp2 = (walberla::float64) cell.getCoordinates()[0][2];
-         const walberla::float64 macro_vertex_coord_id_1comp0 = (walberla::float64) cell.getCoordinates()[1][0];
-         const walberla::float64 macro_vertex_coord_id_1comp1 = (walberla::float64) cell.getCoordinates()[1][1];
-         const walberla::float64 macro_vertex_coord_id_1comp2 = (walberla::float64) cell.getCoordinates()[1][2];
-         const walberla::float64 macro_vertex_coord_id_2comp0 = (walberla::float64) cell.getCoordinates()[2][0];
-         const walberla::float64 macro_vertex_coord_id_2comp1 = (walberla::float64) cell.getCoordinates()[2][1];
-         const walberla::float64 macro_vertex_coord_id_2comp2 = (walberla::float64) cell.getCoordinates()[2][2];
-         const walberla::float64 macro_vertex_coord_id_3comp0 = (walberla::float64) cell.getCoordinates()[3][0];
-         const walberla::float64 macro_vertex_coord_id_3comp1 = (walberla::float64) cell.getCoordinates()[3][1];
-         const walberla::float64 macro_vertex_coord_id_3comp2 = (walberla::float64) cell.getCoordinates()[3][2];
+         const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
+         const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
+         const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
+         const real_t macro_vertex_coord_id_0comp2     = (real_t) cell.getCoordinates()[0][2];
+         const real_t macro_vertex_coord_id_1comp0     = (real_t) cell.getCoordinates()[1][0];
+         const real_t macro_vertex_coord_id_1comp1     = (real_t) cell.getCoordinates()[1][1];
+         const real_t macro_vertex_coord_id_1comp2     = (real_t) cell.getCoordinates()[1][2];
+         const real_t macro_vertex_coord_id_2comp0     = (real_t) cell.getCoordinates()[2][0];
+         const real_t macro_vertex_coord_id_2comp1     = (real_t) cell.getCoordinates()[2][1];
+         const real_t macro_vertex_coord_id_2comp2     = (real_t) cell.getCoordinates()[2][2];
+         const real_t macro_vertex_coord_id_3comp0     = (real_t) cell.getCoordinates()[3][0];
+         const real_t macro_vertex_coord_id_3comp1     = (real_t) cell.getCoordinates()[3][1];
+         const real_t macro_vertex_coord_id_3comp2     = (real_t) cell.getCoordinates()[3][2];
 
          this->timingTree_->start( "kernel" );
 
@@ -240,8 +240,8 @@ void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValues()
 
    if ( invDiag_ == nullptr )
    {
-      invDiag_ = std::make_shared< n1e1::N1E1VectorFunction< walberla::float64 > >(
-          "inverse diagonal entries", storage_, minLevel_, maxLevel_ );
+      invDiag_ =
+          std::make_shared< n1e1::N1E1VectorFunction< real_t > >( "inverse diagonal entries", storage_, minLevel_, maxLevel_ );
    }
 
    for ( uint_t level = minLevel_; level <= maxLevel_; level++ )
@@ -259,22 +259,22 @@ void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValues()
             Cell& cell = *it.second;
 
             // get hold of the actual numerical data
-            walberla::float64* _data_invDiag_ = cell.getData( ( *invDiag_ ).getDoFs()->getCellDataID() )->getPointer( level );
+            real_t* _data_invDiag_ = cell.getData( ( *invDiag_ ).getDoFs()->getCellDataID() )->getPointer( level );
 
-            const auto micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
-            const auto micro_edges_per_macro_edge_float = (walberla::float64) levelinfo::num_microedges_per_edge( level );
-            const walberla::float64 macro_vertex_coord_id_0comp0 = (walberla::float64) cell.getCoordinates()[0][0];
-            const walberla::float64 macro_vertex_coord_id_0comp1 = (walberla::float64) cell.getCoordinates()[0][1];
-            const walberla::float64 macro_vertex_coord_id_0comp2 = (walberla::float64) cell.getCoordinates()[0][2];
-            const walberla::float64 macro_vertex_coord_id_1comp0 = (walberla::float64) cell.getCoordinates()[1][0];
-            const walberla::float64 macro_vertex_coord_id_1comp1 = (walberla::float64) cell.getCoordinates()[1][1];
-            const walberla::float64 macro_vertex_coord_id_1comp2 = (walberla::float64) cell.getCoordinates()[1][2];
-            const walberla::float64 macro_vertex_coord_id_2comp0 = (walberla::float64) cell.getCoordinates()[2][0];
-            const walberla::float64 macro_vertex_coord_id_2comp1 = (walberla::float64) cell.getCoordinates()[2][1];
-            const walberla::float64 macro_vertex_coord_id_2comp2 = (walberla::float64) cell.getCoordinates()[2][2];
-            const walberla::float64 macro_vertex_coord_id_3comp0 = (walberla::float64) cell.getCoordinates()[3][0];
-            const walberla::float64 macro_vertex_coord_id_3comp1 = (walberla::float64) cell.getCoordinates()[3][1];
-            const walberla::float64 macro_vertex_coord_id_3comp2 = (walberla::float64) cell.getCoordinates()[3][2];
+            const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+            const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
+            const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
+            const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
+            const real_t macro_vertex_coord_id_0comp2     = (real_t) cell.getCoordinates()[0][2];
+            const real_t macro_vertex_coord_id_1comp0     = (real_t) cell.getCoordinates()[1][0];
+            const real_t macro_vertex_coord_id_1comp1     = (real_t) cell.getCoordinates()[1][1];
+            const real_t macro_vertex_coord_id_1comp2     = (real_t) cell.getCoordinates()[1][2];
+            const real_t macro_vertex_coord_id_2comp0     = (real_t) cell.getCoordinates()[2][0];
+            const real_t macro_vertex_coord_id_2comp1     = (real_t) cell.getCoordinates()[2][1];
+            const real_t macro_vertex_coord_id_2comp2     = (real_t) cell.getCoordinates()[2][2];
+            const real_t macro_vertex_coord_id_3comp0     = (real_t) cell.getCoordinates()[3][0];
+            const real_t macro_vertex_coord_id_3comp1     = (real_t) cell.getCoordinates()[3][1];
+            const real_t macro_vertex_coord_id_3comp2     = (real_t) cell.getCoordinates()[3][2];
 
             this->timingTree_->start( "kernel" );
 
@@ -321,7 +321,7 @@ void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValues()
 
    this->stopTiming( "computeInverseDiagonalOperatorValues" );
 }
-std::shared_ptr< n1e1::N1E1VectorFunction< walberla::float64 > > N1E1ElementwiseCurlCurl::getInverseDiagonalValues() const
+std::shared_ptr< n1e1::N1E1VectorFunction< real_t > > N1E1ElementwiseCurlCurl::getInverseDiagonalValues() const
 {
    return invDiag_;
 }

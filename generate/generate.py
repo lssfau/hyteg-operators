@@ -3,7 +3,7 @@ from functools import partial
 import os
 import sys
 from typing import Any, Dict, List, Union
-
+from multiprocessing import Pool
 if sys.version_info >= (3, 11):
     import tomllib
 else:
@@ -31,137 +31,218 @@ def parse_args() -> argparse.Namespace:
         f" By default 'clang-format' will be used.",
     )
 
+    parser.add_argument(
+        "--cmake-only",
+        action="store_true",
+        help="Generates cmake files from existing source and header files and quits.",
+    )
+
+    parser.add_argument(
+        "--processes",
+        action="store",
+        type=int,
+        default=1,
+        help="Generates kernels in parallel with the specified number of processes.",
+    )
+
     return parser.parse_args()
+
+
+def unfold_toml_dict(toml_dict):
+    toml_dict_unfolded = {}
+
+    for form_str, operators in toml_dict.items():
+        operators_unfolded = []
+        for operator in operators:
+            if "components-trial" in operator and "components-test" in operator:
+                for comp_test in operator["components-test"]:
+                    for comp_trial in operator["components-trial"]:
+                        operator_cleared = operator.copy()
+                        operator_cleared.pop("components-trial")
+                        operator_cleared.pop("components-test")
+                        if "form-args" not in operator_cleared:
+                            operator_cleared["form-args"] = {}
+                        operator_cleared["form-args"].update(
+                            {"component_test": comp_test}
+                        )
+                        operator_cleared["form-args"].update(
+                            {"component_trial": comp_trial}
+                        )
+                        operators_unfolded.append(operator_cleared)
+            elif "components" in operator:
+                for comp in operator["components"]:
+                    operator_cleared = operator.copy()
+                    operator_cleared.pop("components")
+                    if "form-args" not in operator_cleared:
+                        operator_cleared["form-args"] = {}
+                    operator_cleared["form-args"].update({"component_index": comp})
+                    operators_unfolded.append(operator_cleared)
+            else:
+                operators_unfolded.append(operator)
+        toml_dict_unfolded[form_str] = operators_unfolded
+    return toml_dict_unfolded
 
 
 def main() -> None:
     args = parse_args()
 
-    with open(args.filename, "rb") as f:
-        toml_dict = tomllib.load(f)
-        # print(f"{toml_dict = }")
-
-        generate_toplevel_cmake(args, toml_dict)
-        for form_str, operators in toml_dict.items():
-            kernel_implementations = {}
-            for spec in operators:
-                op_kernel_impls = generate_operator(args, form_str, spec)
-
-                for platform, impls in op_kernel_impls.items():
-                    if not platform in kernel_implementations:
-                        kernel_implementations[platform] = []
-                    kernel_implementations[platform].extend(impls)
-
-            generate_cmake(args, form_str, operators, kernel_implementations)
-
-
-def generate_toplevel_cmake(
-        args: argparse.Namespace, toml_dict: Dict[str, Any]
-) -> None:
     os.makedirs(args.output, exist_ok=True)
-    output_path = os.path.join(args.output, "CMakeLists.txt")
 
-    with open(output_path, "w") as f:
+    if not args.cmake_only:
+        with (open(args.filename, "rb") as f):
+            toml_dict = tomllib.load(f)
+            toml_dict = unfold_toml_dict(toml_dict)
+
+            with Pool(args.processes) as pool:
+                for form_str, operators in toml_dict.items():
+                    for spec in operators:
+                        pool.apply_async(generate_operator, (args, form_str, spec))
+                pool.close()
+                pool.join()
+
+    generate_cmake_from_cpp_files(args.output)
+
+
+def generate_cmake_from_cpp_files(output_dir_path: str):
+    """Generates all required cmake files just from the present files and folder structure."""
+    toplevel_cmake_output_path = os.path.join(output_dir_path, "CMakeLists.txt")
+
+    def list_subdirectories(directory) -> List[str]:
+        subdirectories = []
+        for item in os.listdir(directory):
+            item_path = os.path.join(directory, item)
+            if os.path.isdir(item_path):
+                subdirectories.append(item_path)
+        return sorted(subdirectories)
+
+    subdirs = list_subdirectories(output_dir_path)
+
+    with open(toplevel_cmake_output_path, "w") as f:
         print(f'add_compile_options( "-Wno-shadow" )', file=f)
         print(f"", file=f)
         print(f"if(NOT WALBERLA_DOUBLE_ACCURACY)", file=f)
         print(f'   add_compile_options( "-Wno-float-conversion" )', file=f)
+        print(f'   add_compile_options( "-Wno-implicit-float-conversion" )', file=f)
         print(f"endif()", file=f)
         print(f"", file=f)
 
-        for form_str in toml_dict:
-            print(f"add_subdirectory({form_str})", file=f)
+        for subdir in subdirs:
+            print(f"add_subdirectory({os.path.basename(subdir)})", file=f)
 
+    for subdir in subdirs:
+        lib_name = f"opgen-{os.path.basename(subdir)}"
 
-def generate_cmake(
-        args: argparse.Namespace,
-        form_str: str,
-        operators: List[Dict[str, Any]],
-        kernel_implementations: Dict[str, List[str]],
-) -> None:
-    dir_path = os.path.join(args.output, form_str)
-    os.makedirs(dir_path, exist_ok=True)
-    output_path = os.path.join(dir_path, "CMakeLists.txt")
-
-    lib_name = f"opgen-{form_str}"
-
-    with open(output_path, "w") as f:
-        print(f"add_library( {lib_name}", file=f)
-        print(f"", file=f)
-
-        for spec in operators:
-            name = elementwise_operator_name(form_str, spec)
-            print(f"   {name}.cpp", file=f)
-            print(f"   {name}.hpp", file=f)
-
-        print(f")", file=f)
-        print(f"", file=f)
-
-        def print_noarch_targets(avx_exists: bool):
-            indent_noarch_source_file = "   " if avx_exists else ""
-            print(f"{indent_noarch_source_file}target_sources({lib_name} PRIVATE", file=f)
+        with open(os.path.join(subdir, "CMakeLists.txt"), "w") as f:
+            print(f"add_library( {lib_name}", file=f)
             print(f"", file=f)
 
-            for source_file_inner in kernel_implementations["noarch"]:
-                print(f"{indent_noarch_source_file}   noarch/{source_file_inner}", file=f)
+            for xpp_file in sorted(
+                [x for x in os.listdir(subdir) if x.endswith((".hpp", ".cpp"))]
+            ):
+                print(f"   {xpp_file}", file=f)
 
-            print(f"{indent_noarch_source_file})", file=f)
-
-        if "avx" in kernel_implementations:
-
-            print(f"if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)", file=f)
-            print(f"   target_sources({lib_name} PRIVATE", file=f)
+            print(f")", file=f)
             print(f"", file=f)
 
-            for source_file in kernel_implementations["avx"]:
-                print(f"      avx/{source_file}", file=f)
+            noarch_dir = os.path.join(subdir, "noarch")
+            if not os.path.isdir(noarch_dir):
+                raise FileNotFoundError(f"noarch dir not found under {noarch_dir}")
 
-            for source_file in kernel_implementations["noarch"]:
-                if not source_file in kernel_implementations["avx"]:
-                    print(f"      noarch/{source_file}", file=f)
+            noarch_cpp_files = sorted(
+                [
+                    cppfile
+                    for cppfile in os.listdir(noarch_dir)
+                    if cppfile.endswith(".cpp")
+                ]
+            )
 
-            print(f"   )", file=f)
+            def print_noarch_targets(avx_exists: bool):
+                indent_noarch_source_file = "   " if avx_exists else ""
+                print(
+                    f"{indent_noarch_source_file}target_sources({lib_name} PRIVATE",
+                    file=f,
+                )
+                print(f"", file=f)
+
+                for source_file_inner in noarch_cpp_files:
+                    print(
+                        f"{indent_noarch_source_file}   noarch/{source_file_inner}",
+                        file=f,
+                    )
+
+                print(f"{indent_noarch_source_file})", file=f)
+
+            if os.path.isdir(os.path.join(subdir, "avx")):
+                avx_cpp_files = sorted(
+                    [
+                        cppfile
+                        for cppfile in os.listdir(os.path.join(subdir, "avx"))
+                        if cppfile.endswith(".cpp")
+                    ]
+                )
+
+                print(f"if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)", file=f)
+                print(f"   target_sources({lib_name} PRIVATE", file=f)
+                print(f"", file=f)
+
+                for source_file in avx_cpp_files:
+                    print(f"      avx/{source_file}", file=f)
+
+                for source_file in noarch_cpp_files:
+                    if not source_file in avx_cpp_files:
+                        print(f"      noarch/{source_file}", file=f)
+
+                print(f"   )", file=f)
+                print(f"", file=f)
+
+                print(f"   set_source_files_properties(", file=f)
+                print(f"", file=f)
+
+                for source_file in avx_cpp_files:
+                    print(f"      avx/{source_file}", file=f)
+                print(f"", file=f)
+                print(
+                    "      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}",
+                    file=f,
+                )
+
+                print(f"   )", file=f)
+                print(f"else()", file=f)
+                print(
+                    f"   if(HYTEG_BUILD_WITH_AVX AND NOT WALBERLA_DOUBLE_ACCURACY)",
+                    file=f,
+                )
+                print(
+                    f'      message(WARNING "AVX vectorization only available in double precision. Using scalar kernels.")',
+                    file=f,
+                )
+                print(f"   endif()", file=f)
+                print(f"", file=f)
+
+                print_noarch_targets(avx_exists=True)
+
+                print(f"endif()", file=f)
+            else:
+                print_noarch_targets(avx_exists=False)
+
             print(f"", file=f)
 
-            print(f"   set_source_files_properties(", file=f)
-            print(f"", file=f)
+            print(f"if (HYTEG_BUILD_WITH_PETSC)", file=f)
+            print(f"   target_link_libraries({lib_name} PUBLIC PETSc::PETSc)", file=f)
+            print(f"endif ()", file=f)
 
-            for source_file in kernel_implementations["avx"]:
-                print(f"      avx/{source_file}", file=f)
-            print(f"", file=f)
-            print("      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}", file=f)
-
-            print(f"   )", file=f)
-            print(f"else()", file=f)
-            print(f"   if(HYTEG_BUILD_WITH_AVX AND NOT WALBERLA_DOUBLE_ACCURACY)", file=f)
             print(
-                f'      message(WARNING "AVX vectorization only available in double precision. Using scalar kernels.")',
+                f"if (WALBERLA_BUILD_WITH_HALF_PRECISION_SUPPORT)\n"
+                f"    target_compile_features({lib_name} PUBLIC cxx_std_23)\n"
+                f"else ()\n"
+                f"    target_compile_features({lib_name} PUBLIC cxx_std_17)\n"
+                f"endif ()",
                 file=f,
             )
-            print(f"   endif()", file=f)
-            print(f"", file=f)
-
-            print_noarch_targets(avx_exists=True)
-
-            print(f"endif()", file=f)
-        else:
-            print_noarch_targets(avx_exists=False)
-
-        print(f"", file=f)
-
-        print(f"if (HYTEG_BUILD_WITH_PETSC)", file=f)
-        print(f"   target_link_libraries({lib_name} PUBLIC PETSc::PETSc)", file=f)
-        print(f"endif ()", file=f)
-        print(f"if (WALBERLA_BUILD_WITH_HALF_PRECISION_SUPPORT)\n"
-              f"    target_compile_features({lib_name} PUBLIC cxx_std_23)\n"
-              f"else ()\n"
-              f"    target_compile_features({lib_name} PUBLIC cxx_std_17)\n"
-              f"endif ()"
-              , file=f)
 
 
 def generate_operator(
-        args: argparse.Namespace, form_str: str, spec: Dict[str, Any]
+    args: argparse.Namespace, form_str: str, spec: Dict[str, Any]
 ) -> Dict[str, List[str]]:
     symbolizer = hfg.symbolizer.Symbolizer()
     fe_spaces = {
@@ -181,6 +262,7 @@ def generate_operator(
         "fp16": types.hyteg_type(types.HFGPrecision.FP16),
         "fp32": types.hyteg_type(types.HFGPrecision.FP32),
         "fp64": types.hyteg_type(types.HFGPrecision.FP64),
+        "real_t": types.hyteg_type(types.HFGPrecision.REAL_T),
     }
     blending_maps = {
         "IdentityMap": hfg.blending.IdentityMap(),
@@ -224,7 +306,7 @@ def generate_operator(
         for opt in spec["optimizations"]
     }
 
-    type_descriptor = precisions["fp64"]  # set default precision
+    type_descriptor = precisions["real_t"]  # set default precision
     if "precision" in spec:
         if spec["precision"] in precisions:
             type_descriptor = precisions[spec["precision"]]
@@ -238,27 +320,50 @@ def generate_operator(
         else:
             raise_exception("blending")
 
+    dims = spec["dimensions"]
+    components_equal = True
+    if "form-args" in spec:
+        if (
+            "component_test" in spec["form-args"]
+            and "component_trial" in spec["form-args"]
+        ):
+            if (
+                spec["form-args"]["component_test"] == 2
+                or spec["form-args"]["component_trial"] == 2
+            ):
+                dims = [d for d in spec["dimensions"] if d >= 3]
+            components_equal = (
+                spec["form-args"]["component_test"]
+                == spec["form-args"]["component_trial"]
+            )
+
+    if "form-args" in spec:
+        if "component_index" in spec["form-args"]:
+            if spec["form-args"]["component_index"] == 2:
+                dims = [d for d in spec["dimensions"] if d >= 3]
+            components_equal = False
+
     kernel_types = [
         operator_generation.kernel_types.Apply(
-            test_space,
             trial_space,
+            test_space,
             type_descriptor=type_descriptor,
-            dims=spec["dimensions"],
+            dims=dims,
         ),
         operator_generation.kernel_types.Assemble(
-            test_space,
             trial_space,
+            test_space,
             type_descriptor=type_descriptor,
-            dims=spec["dimensions"],
+            dims=dims,
         ),
     ]
 
-    if trial_space == test_space:
+    if trial_space == test_space and components_equal:
         kernel_types.append(
             operator_generation.kernel_types.AssembleDiagonal(
                 trial_space,
                 type_descriptor=type_descriptor,
-                dims=spec["dimensions"],
+                dims=dims,
             )
         )
 
@@ -271,14 +376,14 @@ def generate_operator(
             type_descriptor=type_descriptor,
         )
 
-        for geometry in [geometries[dim] for dim in spec["dimensions"]]:
+        for geometry in [geometries[dim] for dim in dims]:
             quad = quadrature.Quadrature(
                 quadrature.select_quadrule(spec["quadrature"], geometry), geometry
             )
 
             form = get_form(
-                test_space,
                 trial_space,
+                test_space,
                 geometry,
                 symbolizer,
                 blending=blending,  # type: ignore[call-arg] # kw-args are not supported by Callable
@@ -296,10 +401,9 @@ def generate_operator(
         dir_path = os.path.join(args.output, form_str)
         operator.generate_class_code(
             dir_path,
-            args.clang_format_binary,
             loop_strategies[spec["loop-strategy"]],
             class_files=operators.CppClassFiles.HEADER_IMPL_AND_VARIANTS,
-            clang_format=True,
+            clang_format_binary=args.clang_format_binary,
         )
 
         kernel_implementations = {}
@@ -321,9 +425,29 @@ def elementwise_operator_name(form_str: str, spec: Dict[str, Any]) -> str:
     if spec["trial-space"] == spec["test-space"]:
         space_mapping = spec["trial-space"]
     else:
-        space_mapping = f"{spec['test-space']}To{spec['trial-space']}"
+        space_mapping = f"{spec['trial-space']}To{spec['test-space']}"
 
-    return f"{space_mapping}Elementwise{operator_name}"
+    component = ""
+    if "form-args" in spec:
+        if (
+            "component_test" in spec["form-args"]
+            and "component_trial" in spec["form-args"]
+        ):
+            component = f"_{spec['form-args']['component_test']}_{spec['form-args']['component_trial']}"
+
+    # I do not like this, but should do the trick until we have actual vector function spaces in the HFG.
+    if "form-args" in spec:
+        if "component_index" in spec["form-args"]:
+            if "divergence" == form_str.lower():
+                component = f"_0_{spec['form-args']['component_index']}"
+            elif "gradient" == form_str.lower():
+                component = f"_{spec['form-args']['component_index']}_0"
+
+    blending = ""
+    if spec.get("blending", "IdentityMap") != "IdentityMap":
+        blending = spec["blending"]
+
+    return f"{space_mapping}Elementwise{operator_name}{blending}{component}"
 
 
 if __name__ == "__main__":

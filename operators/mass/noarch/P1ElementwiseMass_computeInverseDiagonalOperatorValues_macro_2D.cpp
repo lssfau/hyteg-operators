@@ -56,88 +56,88 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-void P1ElementwiseMass::computeInverseDiagonalOperatorValues_macro_2D( walberla::float64 * RESTRICT  _data_invDiag_, walberla::float64 macro_vertex_coord_id_0comp0, walberla::float64 macro_vertex_coord_id_0comp1, walberla::float64 macro_vertex_coord_id_1comp0, walberla::float64 macro_vertex_coord_id_1comp1, walberla::float64 macro_vertex_coord_id_2comp0, walberla::float64 macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge, walberla::float64 micro_edges_per_macro_edge_float ) const
+void P1ElementwiseMass::computeInverseDiagonalOperatorValues_macro_2D( real_t * RESTRICT  _data_invDiag_, real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge, real_t micro_edges_per_macro_edge_float ) const
 {
     {
-       const walberla::float64 _data_q_w [] = {0.16666666666666666, 0.16666666666666666, 0.16666666666666666};
+       const real_t _data_q_w [] = {0.16666666666666666, 0.16666666666666666, 0.16666666666666666};
    
-       const walberla::float64 tmp_coords_jac_0_GRAY = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
-       const walberla::float64 p_affine_const_0_0_GRAY = macro_vertex_coord_id_0comp0;
-       const walberla::float64 p_affine_const_0_1_GRAY = macro_vertex_coord_id_0comp1;
-       const walberla::float64 p_affine_const_1_0_GRAY = macro_vertex_coord_id_0comp0 + tmp_coords_jac_0_GRAY*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
-       const walberla::float64 p_affine_const_1_1_GRAY = macro_vertex_coord_id_0comp1 + tmp_coords_jac_0_GRAY*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
-       const walberla::float64 p_affine_const_2_0_GRAY = macro_vertex_coord_id_0comp0 + tmp_coords_jac_0_GRAY*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
-       const walberla::float64 p_affine_const_2_1_GRAY = macro_vertex_coord_id_0comp1 + tmp_coords_jac_0_GRAY*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
-       const walberla::float64 jac_affine_0_0_GRAY = -p_affine_const_0_0_GRAY + p_affine_const_1_0_GRAY;
-       const walberla::float64 jac_affine_0_1_GRAY = -p_affine_const_0_0_GRAY + p_affine_const_2_0_GRAY;
-       const walberla::float64 jac_affine_1_0_GRAY = -p_affine_const_0_1_GRAY + p_affine_const_1_1_GRAY;
-       const walberla::float64 jac_affine_1_1_GRAY = -p_affine_const_0_1_GRAY + p_affine_const_2_1_GRAY;
-       const walberla::float64 abs_det_jac_affine_GRAY = abs(jac_affine_0_0_GRAY*jac_affine_1_1_GRAY - jac_affine_0_1_GRAY*jac_affine_1_0_GRAY);
+       const real_t tmp_coords_jac_0_GRAY = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
+       const real_t p_affine_const_0_0_GRAY = macro_vertex_coord_id_0comp0;
+       const real_t p_affine_const_0_1_GRAY = macro_vertex_coord_id_0comp1;
+       const real_t p_affine_const_1_0_GRAY = macro_vertex_coord_id_0comp0 + tmp_coords_jac_0_GRAY*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
+       const real_t p_affine_const_1_1_GRAY = macro_vertex_coord_id_0comp1 + tmp_coords_jac_0_GRAY*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
+       const real_t p_affine_const_2_0_GRAY = macro_vertex_coord_id_0comp0 + tmp_coords_jac_0_GRAY*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
+       const real_t p_affine_const_2_1_GRAY = macro_vertex_coord_id_0comp1 + tmp_coords_jac_0_GRAY*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
+       const real_t jac_affine_0_0_GRAY = -p_affine_const_0_0_GRAY + p_affine_const_1_0_GRAY;
+       const real_t jac_affine_0_1_GRAY = -p_affine_const_0_0_GRAY + p_affine_const_2_0_GRAY;
+       const real_t jac_affine_1_0_GRAY = -p_affine_const_0_1_GRAY + p_affine_const_1_1_GRAY;
+       const real_t jac_affine_1_1_GRAY = -p_affine_const_0_1_GRAY + p_affine_const_2_1_GRAY;
+       const real_t abs_det_jac_affine_GRAY = abs(jac_affine_0_0_GRAY*jac_affine_1_1_GRAY - jac_affine_0_1_GRAY*jac_affine_1_0_GRAY);
        {
           /* FaceType.GRAY */
-          const walberla::float64 _data_phi_psi_det_jac_aff_0_0_GRAY [] = {abs_det_jac_affine_GRAY*0.027777777777777804, abs_det_jac_affine_GRAY*0.02777777777777779, abs_det_jac_affine_GRAY*0.11111111111111116, abs_det_jac_affine_GRAY*0.027777777777777776, abs_det_jac_affine_GRAY*0.1111111111111111, abs_det_jac_affine_GRAY*0.44444444444444442, abs_det_jac_affine_GRAY*0.027777777777777794, abs_det_jac_affine_GRAY*0.11111111111111113, abs_det_jac_affine_GRAY*0.027777777777777783, abs_det_jac_affine_GRAY*0.44444444444444442, abs_det_jac_affine_GRAY*0.1111111111111111, abs_det_jac_affine_GRAY*0.027777777777777776, abs_det_jac_affine_GRAY*0.44444444444444453, abs_det_jac_affine_GRAY*0.11111111111111112, abs_det_jac_affine_GRAY*0.11111111111111112, abs_det_jac_affine_GRAY*0.027777777777777776, abs_det_jac_affine_GRAY*0.027777777777777776, abs_det_jac_affine_GRAY*0.027777777777777776};
+          const real_t _data_phi_psi_det_jac_aff_0_0_GRAY [] = {((real_t)(abs_det_jac_affine_GRAY*0.027777777777777804)), ((real_t)(abs_det_jac_affine_GRAY*0.02777777777777779)), ((real_t)(abs_det_jac_affine_GRAY*0.11111111111111116)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776)), ((real_t)(abs_det_jac_affine_GRAY*0.1111111111111111)), ((real_t)(abs_det_jac_affine_GRAY*0.44444444444444442)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777794)), ((real_t)(abs_det_jac_affine_GRAY*0.11111111111111113)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777783)), ((real_t)(abs_det_jac_affine_GRAY*0.44444444444444442)), ((real_t)(abs_det_jac_affine_GRAY*0.1111111111111111)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776)), ((real_t)(abs_det_jac_affine_GRAY*0.44444444444444453)), ((real_t)(abs_det_jac_affine_GRAY*0.11111111111111112)), ((real_t)(abs_det_jac_affine_GRAY*0.11111111111111112)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776))};
       
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge; ctr_0 += 1)
           {
-             walberla::float64 q_acc_0_0 = 0.0;
-             walberla::float64 q_acc_1_1 = 0.0;
-             walberla::float64 q_acc_2_2 = 0.0;
+             real_t q_acc_0_0 = 0.0;
+             real_t q_acc_1_1 = 0.0;
+             real_t q_acc_2_2 = 0.0;
              for (int64_t q = 0; q < 3; q += 1)
              {
-                const walberla::float64 q_tmp_0_0 = _data_phi_psi_det_jac_aff_0_0_GRAY[6*q]*_data_q_w[q];
-                const walberla::float64 q_tmp_1_1 = _data_phi_psi_det_jac_aff_0_0_GRAY[6*q + 3]*_data_q_w[q];
-                const walberla::float64 q_tmp_2_2 = _data_phi_psi_det_jac_aff_0_0_GRAY[6*q + 5]*_data_q_w[q];
+                const real_t q_tmp_0_0 = _data_phi_psi_det_jac_aff_0_0_GRAY[6*q]*_data_q_w[q];
+                const real_t q_tmp_1_1 = _data_phi_psi_det_jac_aff_0_0_GRAY[6*q + 3]*_data_q_w[q];
+                const real_t q_tmp_2_2 = _data_phi_psi_det_jac_aff_0_0_GRAY[6*q + 5]*_data_q_w[q];
                 q_acc_0_0 = q_acc_0_0 + q_tmp_0_0;
                 q_acc_1_1 = q_acc_1_1 + q_tmp_1_1;
                 q_acc_2_2 = q_acc_2_2 + q_tmp_2_2;
              }
-             const walberla::float64 elMatDiag_0 = q_acc_0_0;
-             const walberla::float64 elMatDiag_1 = q_acc_1_1;
-             const walberla::float64 elMatDiag_2 = q_acc_2_2;
+             const real_t elMatDiag_0 = q_acc_0_0;
+             const real_t elMatDiag_1 = q_acc_1_1;
+             const real_t elMatDiag_2 = q_acc_2_2;
              _data_invDiag_[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))] = elMatDiag_0 + _data_invDiag_[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
              _data_invDiag_[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1] = elMatDiag_1 + _data_invDiag_[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
              _data_invDiag_[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))] = elMatDiag_2 + _data_invDiag_[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
           }
        }
-       const walberla::float64 tmp_coords_jac_0_BLUE = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
-       const walberla::float64 tmp_coords_jac_1_BLUE = macro_vertex_coord_id_0comp0 + tmp_coords_jac_0_BLUE*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
-       const walberla::float64 tmp_coords_jac_2_BLUE = macro_vertex_coord_id_0comp1 + tmp_coords_jac_0_BLUE*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
-       const walberla::float64 tmp_coords_jac_3_BLUE = tmp_coords_jac_0_BLUE*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
-       const walberla::float64 tmp_coords_jac_4_BLUE = tmp_coords_jac_0_BLUE*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
-       const walberla::float64 p_affine_const_0_0_BLUE = tmp_coords_jac_1_BLUE;
-       const walberla::float64 p_affine_const_0_1_BLUE = tmp_coords_jac_2_BLUE;
-       const walberla::float64 p_affine_const_1_0_BLUE = macro_vertex_coord_id_0comp0 + tmp_coords_jac_3_BLUE;
-       const walberla::float64 p_affine_const_1_1_BLUE = macro_vertex_coord_id_0comp1 + tmp_coords_jac_4_BLUE;
-       const walberla::float64 p_affine_const_2_0_BLUE = tmp_coords_jac_1_BLUE + tmp_coords_jac_3_BLUE;
-       const walberla::float64 p_affine_const_2_1_BLUE = tmp_coords_jac_2_BLUE + tmp_coords_jac_4_BLUE;
-       const walberla::float64 jac_affine_0_0_BLUE = -p_affine_const_0_0_BLUE + p_affine_const_1_0_BLUE;
-       const walberla::float64 jac_affine_0_1_BLUE = -p_affine_const_0_0_BLUE + p_affine_const_2_0_BLUE;
-       const walberla::float64 jac_affine_1_0_BLUE = -p_affine_const_0_1_BLUE + p_affine_const_1_1_BLUE;
-       const walberla::float64 jac_affine_1_1_BLUE = -p_affine_const_0_1_BLUE + p_affine_const_2_1_BLUE;
-       const walberla::float64 abs_det_jac_affine_BLUE = abs(jac_affine_0_0_BLUE*jac_affine_1_1_BLUE - jac_affine_0_1_BLUE*jac_affine_1_0_BLUE);
+       const real_t tmp_coords_jac_0_BLUE = 1.0 / (micro_edges_per_macro_edge_float)*1.0;
+       const real_t tmp_coords_jac_1_BLUE = macro_vertex_coord_id_0comp0 + tmp_coords_jac_0_BLUE*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_1comp0);
+       const real_t tmp_coords_jac_2_BLUE = macro_vertex_coord_id_0comp1 + tmp_coords_jac_0_BLUE*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_1comp1);
+       const real_t tmp_coords_jac_3_BLUE = tmp_coords_jac_0_BLUE*(-macro_vertex_coord_id_0comp0 + macro_vertex_coord_id_2comp0);
+       const real_t tmp_coords_jac_4_BLUE = tmp_coords_jac_0_BLUE*(-macro_vertex_coord_id_0comp1 + macro_vertex_coord_id_2comp1);
+       const real_t p_affine_const_0_0_BLUE = tmp_coords_jac_1_BLUE;
+       const real_t p_affine_const_0_1_BLUE = tmp_coords_jac_2_BLUE;
+       const real_t p_affine_const_1_0_BLUE = macro_vertex_coord_id_0comp0 + tmp_coords_jac_3_BLUE;
+       const real_t p_affine_const_1_1_BLUE = macro_vertex_coord_id_0comp1 + tmp_coords_jac_4_BLUE;
+       const real_t p_affine_const_2_0_BLUE = tmp_coords_jac_1_BLUE + tmp_coords_jac_3_BLUE;
+       const real_t p_affine_const_2_1_BLUE = tmp_coords_jac_2_BLUE + tmp_coords_jac_4_BLUE;
+       const real_t jac_affine_0_0_BLUE = -p_affine_const_0_0_BLUE + p_affine_const_1_0_BLUE;
+       const real_t jac_affine_0_1_BLUE = -p_affine_const_0_0_BLUE + p_affine_const_2_0_BLUE;
+       const real_t jac_affine_1_0_BLUE = -p_affine_const_0_1_BLUE + p_affine_const_1_1_BLUE;
+       const real_t jac_affine_1_1_BLUE = -p_affine_const_0_1_BLUE + p_affine_const_2_1_BLUE;
+       const real_t abs_det_jac_affine_BLUE = abs(jac_affine_0_0_BLUE*jac_affine_1_1_BLUE - jac_affine_0_1_BLUE*jac_affine_1_0_BLUE);
        {
           /* FaceType.BLUE */
-          const walberla::float64 _data_phi_psi_det_jac_aff_0_0_BLUE [] = {abs_det_jac_affine_BLUE*0.027777777777777804, abs_det_jac_affine_BLUE*0.02777777777777779, abs_det_jac_affine_BLUE*0.11111111111111116, abs_det_jac_affine_BLUE*0.027777777777777776, abs_det_jac_affine_BLUE*0.1111111111111111, abs_det_jac_affine_BLUE*0.44444444444444442, abs_det_jac_affine_BLUE*0.027777777777777794, abs_det_jac_affine_BLUE*0.11111111111111113, abs_det_jac_affine_BLUE*0.027777777777777783, abs_det_jac_affine_BLUE*0.44444444444444442, abs_det_jac_affine_BLUE*0.1111111111111111, abs_det_jac_affine_BLUE*0.027777777777777776, abs_det_jac_affine_BLUE*0.44444444444444453, abs_det_jac_affine_BLUE*0.11111111111111112, abs_det_jac_affine_BLUE*0.11111111111111112, abs_det_jac_affine_BLUE*0.027777777777777776, abs_det_jac_affine_BLUE*0.027777777777777776, abs_det_jac_affine_BLUE*0.027777777777777776};
+          const real_t _data_phi_psi_det_jac_aff_0_0_BLUE [] = {((real_t)(abs_det_jac_affine_BLUE*0.027777777777777804)), ((real_t)(abs_det_jac_affine_BLUE*0.02777777777777779)), ((real_t)(abs_det_jac_affine_BLUE*0.11111111111111116)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776)), ((real_t)(abs_det_jac_affine_BLUE*0.1111111111111111)), ((real_t)(abs_det_jac_affine_BLUE*0.44444444444444442)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777794)), ((real_t)(abs_det_jac_affine_BLUE*0.11111111111111113)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777783)), ((real_t)(abs_det_jac_affine_BLUE*0.44444444444444442)), ((real_t)(abs_det_jac_affine_BLUE*0.1111111111111111)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776)), ((real_t)(abs_det_jac_affine_BLUE*0.44444444444444453)), ((real_t)(abs_det_jac_affine_BLUE*0.11111111111111112)), ((real_t)(abs_det_jac_affine_BLUE*0.11111111111111112)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776))};
       
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
           {
-             walberla::float64 q_acc_0_0 = 0.0;
-             walberla::float64 q_acc_1_1 = 0.0;
-             walberla::float64 q_acc_2_2 = 0.0;
+             real_t q_acc_0_0 = 0.0;
+             real_t q_acc_1_1 = 0.0;
+             real_t q_acc_2_2 = 0.0;
              for (int64_t q = 0; q < 3; q += 1)
              {
-                const walberla::float64 q_tmp_0_0 = _data_phi_psi_det_jac_aff_0_0_BLUE[6*q]*_data_q_w[q];
-                const walberla::float64 q_tmp_1_1 = _data_phi_psi_det_jac_aff_0_0_BLUE[6*q + 3]*_data_q_w[q];
-                const walberla::float64 q_tmp_2_2 = _data_phi_psi_det_jac_aff_0_0_BLUE[6*q + 5]*_data_q_w[q];
+                const real_t q_tmp_0_0 = _data_phi_psi_det_jac_aff_0_0_BLUE[6*q]*_data_q_w[q];
+                const real_t q_tmp_1_1 = _data_phi_psi_det_jac_aff_0_0_BLUE[6*q + 3]*_data_q_w[q];
+                const real_t q_tmp_2_2 = _data_phi_psi_det_jac_aff_0_0_BLUE[6*q + 5]*_data_q_w[q];
                 q_acc_0_0 = q_acc_0_0 + q_tmp_0_0;
                 q_acc_1_1 = q_acc_1_1 + q_tmp_1_1;
                 q_acc_2_2 = q_acc_2_2 + q_tmp_2_2;
              }
-             const walberla::float64 elMatDiag_0 = q_acc_0_0;
-             const walberla::float64 elMatDiag_1 = q_acc_1_1;
-             const walberla::float64 elMatDiag_2 = q_acc_2_2;
+             const real_t elMatDiag_0 = q_acc_0_0;
+             const real_t elMatDiag_1 = q_acc_1_1;
+             const real_t elMatDiag_2 = q_acc_2_2;
              _data_invDiag_[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1] = elMatDiag_0 + _data_invDiag_[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
              _data_invDiag_[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))] = elMatDiag_1 + _data_invDiag_[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
              _data_invDiag_[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1] = elMatDiag_2 + _data_invDiag_[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
