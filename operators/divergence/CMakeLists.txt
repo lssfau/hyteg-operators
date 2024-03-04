@@ -1,5 +1,11 @@
 add_library( opgen-divergence
 
+   P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0.cpp
+   P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0.hpp
+   P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1.cpp
+   P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1.hpp
+   P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2.cpp
+   P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2.hpp
    P2ToP1ElementwiseDivergence_0_0.cpp
    P2ToP1ElementwiseDivergence_0_0.hpp
    P2ToP1ElementwiseDivergence_0_1.cpp
@@ -11,11 +17,17 @@ add_library( opgen-divergence
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-divergence PRIVATE
 
+      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_apply_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_apply_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_apply_macro_3D.cpp
       avx/P2ToP1ElementwiseDivergence_0_0_apply_macro_2D.cpp
       avx/P2ToP1ElementwiseDivergence_0_0_apply_macro_3D.cpp
       avx/P2ToP1ElementwiseDivergence_0_1_apply_macro_2D.cpp
       avx/P2ToP1ElementwiseDivergence_0_1_apply_macro_3D.cpp
       avx/P2ToP1ElementwiseDivergence_0_2_apply_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_toMatrix_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_toMatrix_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_toMatrix_macro_3D.cpp
       noarch/P2ToP1ElementwiseDivergence_0_0_toMatrix_macro_2D.cpp
       noarch/P2ToP1ElementwiseDivergence_0_0_toMatrix_macro_3D.cpp
       noarch/P2ToP1ElementwiseDivergence_0_1_toMatrix_macro_2D.cpp
@@ -25,6 +37,9 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
 
    set_source_files_properties(
 
+      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_apply_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_apply_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_apply_macro_3D.cpp
       avx/P2ToP1ElementwiseDivergence_0_0_apply_macro_2D.cpp
       avx/P2ToP1ElementwiseDivergence_0_0_apply_macro_3D.cpp
       avx/P2ToP1ElementwiseDivergence_0_1_apply_macro_2D.cpp
@@ -40,6 +55,12 @@ else()
 
    target_sources(opgen-divergence PRIVATE
 
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_apply_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_toMatrix_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_apply_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_toMatrix_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_apply_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_toMatrix_macro_3D.cpp
       noarch/P2ToP1ElementwiseDivergence_0_0_apply_macro_2D.cpp
       noarch/P2ToP1ElementwiseDivergence_0_0_apply_macro_3D.cpp
       noarch/P2ToP1ElementwiseDivergence_0_0_toMatrix_macro_2D.cpp
