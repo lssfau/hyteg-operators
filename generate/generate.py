@@ -96,7 +96,8 @@ def main() -> None:
             with Pool(args.processes) as pool:
                 for form_str, operators in toml_dict.items():
                     for spec in operators:
-                        pool.apply_async(generate_operator, (args, form_str, spec))
+                        ret = pool.apply_async(generate_operator, (args, form_str, spec))
+                        ret.get()
                 pool.close()
                 pool.join()
 

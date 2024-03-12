@@ -57,6 +57,25 @@ quadrature    = 2
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 
+[[k_mass]]
+trial-space   = "P1"
+test-space    = "P1"
+form-space-args.coefficient_function_space = "P1"
+dimensions    = [2, 3]
+quadrature    = 3
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+
+[[k_mass]]
+trial-space   = "P1"
+test-space    = "P1"
+form-space-args.coefficient_function_space = "P1"
+dimensions    = [3]
+quadrature    = 4
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "IcosahedralShellMap"
+
 [[divergence]]
 trial-space   = "P2"
 test-space    = "P1"
