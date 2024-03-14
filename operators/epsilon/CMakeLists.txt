@@ -1,5 +1,13 @@
 add_library( opgen-epsilon
 
+   P2ElementwiseEpsilonAnnulusMap_0_0.cpp
+   P2ElementwiseEpsilonAnnulusMap_0_0.hpp
+   P2ElementwiseEpsilonAnnulusMap_0_1.cpp
+   P2ElementwiseEpsilonAnnulusMap_0_1.hpp
+   P2ElementwiseEpsilonAnnulusMap_1_0.cpp
+   P2ElementwiseEpsilonAnnulusMap_1_0.hpp
+   P2ElementwiseEpsilonAnnulusMap_1_1.cpp
+   P2ElementwiseEpsilonAnnulusMap_1_1.hpp
    P2ElementwiseEpsilonIcosahedralShellMap_0_0.cpp
    P2ElementwiseEpsilonIcosahedralShellMap_0_0.hpp
    P2ElementwiseEpsilonIcosahedralShellMap_0_1.cpp
@@ -41,6 +49,12 @@ add_library( opgen-epsilon
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-epsilon PRIVATE
 
+      avx/P2ElementwiseEpsilonAnnulusMap_0_0_apply_macro_2D.cpp
+      avx/P2ElementwiseEpsilonAnnulusMap_0_0_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      avx/P2ElementwiseEpsilonAnnulusMap_0_1_apply_macro_2D.cpp
+      avx/P2ElementwiseEpsilonAnnulusMap_1_0_apply_macro_2D.cpp
+      avx/P2ElementwiseEpsilonAnnulusMap_1_1_apply_macro_2D.cpp
+      avx/P2ElementwiseEpsilonAnnulusMap_1_1_computeInverseDiagonalOperatorValues_macro_2D.cpp
       avx/P2ElementwiseEpsilonIcosahedralShellMap_0_0_apply_macro_3D.cpp
       avx/P2ElementwiseEpsilonIcosahedralShellMap_0_0_computeInverseDiagonalOperatorValues_macro_3D.cpp
       avx/P2ElementwiseEpsilonIcosahedralShellMap_0_1_apply_macro_3D.cpp
@@ -71,6 +85,10 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P2ElementwiseEpsilon_2_1_apply_macro_3D.cpp
       avx/P2ElementwiseEpsilon_2_2_apply_macro_3D.cpp
       avx/P2ElementwiseEpsilon_2_2_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      noarch/P2ElementwiseEpsilonAnnulusMap_0_0_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseEpsilonAnnulusMap_0_1_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseEpsilonAnnulusMap_1_0_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseEpsilonAnnulusMap_1_1_toMatrix_macro_2D.cpp
       noarch/P2ElementwiseEpsilonIcosahedralShellMap_0_0_toMatrix_macro_3D.cpp
       noarch/P2ElementwiseEpsilonIcosahedralShellMap_0_1_toMatrix_macro_3D.cpp
       noarch/P2ElementwiseEpsilonIcosahedralShellMap_0_2_toMatrix_macro_3D.cpp
@@ -97,6 +115,12 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
 
    set_source_files_properties(
 
+      avx/P2ElementwiseEpsilonAnnulusMap_0_0_apply_macro_2D.cpp
+      avx/P2ElementwiseEpsilonAnnulusMap_0_0_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      avx/P2ElementwiseEpsilonAnnulusMap_0_1_apply_macro_2D.cpp
+      avx/P2ElementwiseEpsilonAnnulusMap_1_0_apply_macro_2D.cpp
+      avx/P2ElementwiseEpsilonAnnulusMap_1_1_apply_macro_2D.cpp
+      avx/P2ElementwiseEpsilonAnnulusMap_1_1_computeInverseDiagonalOperatorValues_macro_2D.cpp
       avx/P2ElementwiseEpsilonIcosahedralShellMap_0_0_apply_macro_3D.cpp
       avx/P2ElementwiseEpsilonIcosahedralShellMap_0_0_computeInverseDiagonalOperatorValues_macro_3D.cpp
       avx/P2ElementwiseEpsilonIcosahedralShellMap_0_1_apply_macro_3D.cpp
@@ -137,6 +161,16 @@ else()
 
    target_sources(opgen-epsilon PRIVATE
 
+      noarch/P2ElementwiseEpsilonAnnulusMap_0_0_apply_macro_2D.cpp
+      noarch/P2ElementwiseEpsilonAnnulusMap_0_0_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      noarch/P2ElementwiseEpsilonAnnulusMap_0_0_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseEpsilonAnnulusMap_0_1_apply_macro_2D.cpp
+      noarch/P2ElementwiseEpsilonAnnulusMap_0_1_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseEpsilonAnnulusMap_1_0_apply_macro_2D.cpp
+      noarch/P2ElementwiseEpsilonAnnulusMap_1_0_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseEpsilonAnnulusMap_1_1_apply_macro_2D.cpp
+      noarch/P2ElementwiseEpsilonAnnulusMap_1_1_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      noarch/P2ElementwiseEpsilonAnnulusMap_1_1_toMatrix_macro_2D.cpp
       noarch/P2ElementwiseEpsilonIcosahedralShellMap_0_0_apply_macro_3D.cpp
       noarch/P2ElementwiseEpsilonIcosahedralShellMap_0_0_computeInverseDiagonalOperatorValues_macro_3D.cpp
       noarch/P2ElementwiseEpsilonIcosahedralShellMap_0_0_toMatrix_macro_3D.cpp
