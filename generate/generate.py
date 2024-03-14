@@ -4,6 +4,7 @@ import os
 import sys
 from typing import Any, Dict, List, Union
 from multiprocessing import Pool
+
 if sys.version_info >= (3, 11):
     import tomllib
 else:
@@ -89,15 +90,21 @@ def main() -> None:
     os.makedirs(args.output, exist_ok=True)
 
     if not args.cmake_only:
-        with (open(args.filename, "rb") as f):
+        with open(args.filename, "rb") as f:
             toml_dict = tomllib.load(f)
             toml_dict = unfold_toml_dict(toml_dict)
 
             with Pool(args.processes) as pool:
+                async_results = []
                 for form_str, operators in toml_dict.items():
                     for spec in operators:
-                        ret = pool.apply_async(generate_operator, (args, form_str, spec))
-                        ret.get()
+                        ret = pool.apply_async(
+                            generate_operator, (args, form_str, spec)
+                        )
+                        async_results.append(ret)
+                # Getting exceptions
+                for ar in async_results:
+                    ar.get()
                 pool.close()
                 pool.join()
 

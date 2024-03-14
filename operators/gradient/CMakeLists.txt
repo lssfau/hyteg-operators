@@ -1,5 +1,9 @@
 add_library( opgen-gradient
 
+   P1ToP2ElementwiseGradientAnnulusMap_0_0.cpp
+   P1ToP2ElementwiseGradientAnnulusMap_0_0.hpp
+   P1ToP2ElementwiseGradientAnnulusMap_1_0.cpp
+   P1ToP2ElementwiseGradientAnnulusMap_1_0.hpp
    P1ToP2ElementwiseGradientIcosahedralShellMap_0_0.cpp
    P1ToP2ElementwiseGradientIcosahedralShellMap_0_0.hpp
    P1ToP2ElementwiseGradientIcosahedralShellMap_1_0.cpp
@@ -17,6 +21,8 @@ add_library( opgen-gradient
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-gradient PRIVATE
 
+      avx/P1ToP2ElementwiseGradientAnnulusMap_0_0_apply_macro_2D.cpp
+      avx/P1ToP2ElementwiseGradientAnnulusMap_1_0_apply_macro_2D.cpp
       avx/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_apply_macro_3D.cpp
       avx/P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_apply_macro_3D.cpp
       avx/P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_apply_macro_3D.cpp
@@ -25,6 +31,8 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P1ToP2ElementwiseGradient_1_0_apply_macro_2D.cpp
       avx/P1ToP2ElementwiseGradient_1_0_apply_macro_3D.cpp
       avx/P1ToP2ElementwiseGradient_2_0_apply_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradientAnnulusMap_0_0_toMatrix_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradientAnnulusMap_1_0_toMatrix_macro_2D.cpp
       noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_toMatrix_macro_3D.cpp
       noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_toMatrix_macro_3D.cpp
       noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_toMatrix_macro_3D.cpp
@@ -37,6 +45,8 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
 
    set_source_files_properties(
 
+      avx/P1ToP2ElementwiseGradientAnnulusMap_0_0_apply_macro_2D.cpp
+      avx/P1ToP2ElementwiseGradientAnnulusMap_1_0_apply_macro_2D.cpp
       avx/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_apply_macro_3D.cpp
       avx/P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_apply_macro_3D.cpp
       avx/P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_apply_macro_3D.cpp
@@ -55,6 +65,10 @@ else()
 
    target_sources(opgen-gradient PRIVATE
 
+      noarch/P1ToP2ElementwiseGradientAnnulusMap_0_0_apply_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradientAnnulusMap_0_0_toMatrix_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradientAnnulusMap_1_0_apply_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradientAnnulusMap_1_0_toMatrix_macro_2D.cpp
       noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_apply_macro_3D.cpp
       noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_toMatrix_macro_3D.cpp
       noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_apply_macro_3D.cpp
