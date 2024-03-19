@@ -6,6 +6,12 @@ add_library( opgen-k_mass
    P1ElementwiseKMassAnnulusMap.hpp
    P1ElementwiseKMassIcosahedralShellMap.cpp
    P1ElementwiseKMassIcosahedralShellMap.hpp
+   P2ToP1ElementwiseKMass.cpp
+   P2ToP1ElementwiseKMass.hpp
+   P2ToP1ElementwiseKMassAnnulusMap.cpp
+   P2ToP1ElementwiseKMassAnnulusMap.hpp
+   P2ToP1ElementwiseKMassIcosahedralShellMap.cpp
+   P2ToP1ElementwiseKMassIcosahedralShellMap.hpp
 )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
@@ -19,10 +25,18 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P1ElementwiseKMass_apply_macro_3D.cpp
       avx/P1ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_2D.cpp
       avx/P1ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P2ToP1ElementwiseKMassAnnulusMap_apply_macro_2D.cpp
+      avx/P2ToP1ElementwiseKMassIcosahedralShellMap_apply_macro_3D.cpp
+      avx/P2ToP1ElementwiseKMass_apply_macro_2D.cpp
+      avx/P2ToP1ElementwiseKMass_apply_macro_3D.cpp
       noarch/P1ElementwiseKMassAnnulusMap_toMatrix_macro_2D.cpp
       noarch/P1ElementwiseKMassIcosahedralShellMap_toMatrix_macro_3D.cpp
       noarch/P1ElementwiseKMass_toMatrix_macro_2D.cpp
       noarch/P1ElementwiseKMass_toMatrix_macro_3D.cpp
+      noarch/P2ToP1ElementwiseKMassAnnulusMap_toMatrix_macro_2D.cpp
+      noarch/P2ToP1ElementwiseKMassIcosahedralShellMap_toMatrix_macro_3D.cpp
+      noarch/P2ToP1ElementwiseKMass_toMatrix_macro_2D.cpp
+      noarch/P2ToP1ElementwiseKMass_toMatrix_macro_3D.cpp
    )
 
    set_source_files_properties(
@@ -35,6 +49,10 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P1ElementwiseKMass_apply_macro_3D.cpp
       avx/P1ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_2D.cpp
       avx/P1ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P2ToP1ElementwiseKMassAnnulusMap_apply_macro_2D.cpp
+      avx/P2ToP1ElementwiseKMassIcosahedralShellMap_apply_macro_3D.cpp
+      avx/P2ToP1ElementwiseKMass_apply_macro_2D.cpp
+      avx/P2ToP1ElementwiseKMass_apply_macro_3D.cpp
 
       PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
    )
@@ -57,6 +75,14 @@ else()
       noarch/P1ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
       noarch/P1ElementwiseKMass_toMatrix_macro_2D.cpp
       noarch/P1ElementwiseKMass_toMatrix_macro_3D.cpp
+      noarch/P2ToP1ElementwiseKMassAnnulusMap_apply_macro_2D.cpp
+      noarch/P2ToP1ElementwiseKMassAnnulusMap_toMatrix_macro_2D.cpp
+      noarch/P2ToP1ElementwiseKMassIcosahedralShellMap_apply_macro_3D.cpp
+      noarch/P2ToP1ElementwiseKMassIcosahedralShellMap_toMatrix_macro_3D.cpp
+      noarch/P2ToP1ElementwiseKMass_apply_macro_2D.cpp
+      noarch/P2ToP1ElementwiseKMass_apply_macro_3D.cpp
+      noarch/P2ToP1ElementwiseKMass_toMatrix_macro_2D.cpp
+      noarch/P2ToP1ElementwiseKMass_toMatrix_macro_3D.cpp
    )
 endif()
 
