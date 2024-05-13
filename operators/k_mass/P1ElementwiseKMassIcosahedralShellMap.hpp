@@ -84,11 +84,11 @@ class P1ElementwiseKMassIcosahedralShellMap : public Operator< P1Function< real_
  protected:
  private:
    /// Kernel type: apply
-   /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
+   /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    945    1177      47      11     11              0                 0              1
+   ///    489     583      41       5      5              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_k,
                         real_t* RESTRICT _data_src,
@@ -121,11 +121,11 @@ class P1ElementwiseKMassIcosahedralShellMap : public Operator< P1Function< real_
                         real_t           thrVertex_1,
                         real_t           thrVertex_2 ) const;
    /// Kernel type: toMatrix
-   /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
+   /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    929    1161      47      11     11              0                 0              4
+   ///    473     567      41       5      5              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dst,
                            real_t* RESTRICT                     _data_k,
                            idx_t* RESTRICT                      _data_src,
@@ -159,11 +159,11 @@ class P1ElementwiseKMassIcosahedralShellMap : public Operator< P1Function< real_
                            real_t                               thrVertex_1,
                            real_t                               thrVertex_2 ) const;
    /// Kernel type: computeInverseDiagonalOperatorValues
-   /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
+   /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    867    1095      47      11     11              0                 0              1
+   ///    447     537      41       5      5              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_3D( real_t* RESTRICT _data_invDiag_,
                                                        real_t* RESTRICT _data_k,
                                                        real_t           forVertex_0,

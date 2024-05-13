@@ -31,6 +31,7 @@
 #include "hyteg/LikwidWrapper.hpp"
 #include "hyteg/communication/Syncing.hpp"
 #include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
+#include "hyteg/geometry/IcosahedralShellMap.hpp"
 #include "hyteg/operators/Operator.hpp"
 #include "hyteg/p2functionspace/P2Function.hpp"
 #include "hyteg/primitivestorage/PrimitiveStorage.hpp"
@@ -43,26 +44,22 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-/// Diffusion operator with a scalar coefficient.
+/// Mass operator.
 ///
-/// Geometry map: IdentityMap
+/// Geometry map: IcosahedralShellMap
 ///
 /// Weak formulation
 ///
 ///     u: trial function (space: Lagrange, degree: 2)
 ///     v: test function  (space: Lagrange, degree: 2)
-///     k: coefficient    (space: Lagrange, degree: 2)
 ///
-///     ∫ k uv
+///     ∫ uv
 
-class P2ElementwiseKMass : public Operator< P2Function< real_t >, P2Function< real_t > >,
-                           public OperatorWithInverseDiagonal< P2Function< real_t > >
+class P2ElementwiseMassIcosahedralShellMap : public Operator< P2Function< real_t >, P2Function< real_t > >,
+                                             public OperatorWithInverseDiagonal< P2Function< real_t > >
 {
  public:
-   P2ElementwiseKMass( const std::shared_ptr< PrimitiveStorage >& storage,
-                       size_t                                     minLevel,
-                       size_t                                     maxLevel,
-                       const P2Function< real_t >&                _k );
+   P2ElementwiseMassIcosahedralShellMap( const std::shared_ptr< PrimitiveStorage >& storage, size_t minLevel, size_t maxLevel );
 
    void apply( const P2Function< real_t >& src,
                const P2Function< real_t >& dst,
@@ -83,37 +80,18 @@ class P2ElementwiseKMass : public Operator< P2Function< real_t >, P2Function< re
  protected:
  private:
    /// Kernel type: apply
-   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
-   /// - operations per element:
-   ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
-   /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    258     276       0       0      0              0                 0              0
-   void apply_macro_2D( real_t* RESTRICT _data_dstEdge,
-                        real_t* RESTRICT _data_dstVertex,
-                        real_t* RESTRICT _data_kEdge,
-                        real_t* RESTRICT _data_kVertex,
-                        real_t* RESTRICT _data_srcEdge,
-                        real_t* RESTRICT _data_srcVertex,
-                        real_t           macro_vertex_coord_id_0comp0,
-                        real_t           macro_vertex_coord_id_0comp1,
-                        real_t           macro_vertex_coord_id_1comp0,
-                        real_t           macro_vertex_coord_id_1comp1,
-                        real_t           macro_vertex_coord_id_2comp0,
-                        real_t           macro_vertex_coord_id_2comp1,
-                        int64_t          micro_edges_per_macro_edge,
-                        real_t           micro_edges_per_macro_edge_float ) const;
-   /// Kernel type: apply
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1024    1046       0       0      0              0                 0              0
+   ///   1898    2251      47      11     11              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
-                        real_t* RESTRICT _data_kEdge,
-                        real_t* RESTRICT _data_kVertex,
                         real_t* RESTRICT _data_srcEdge,
                         real_t* RESTRICT _data_srcVertex,
+                        real_t           forVertex_0,
+                        real_t           forVertex_1,
+                        real_t           forVertex_2,
                         real_t           macro_vertex_coord_id_0comp0,
                         real_t           macro_vertex_coord_id_0comp1,
                         real_t           macro_vertex_coord_id_0comp2,
@@ -127,40 +105,31 @@ class P2ElementwiseKMass : public Operator< P2Function< real_t >, P2Function< re
                         real_t           macro_vertex_coord_id_3comp1,
                         real_t           macro_vertex_coord_id_3comp2,
                         int64_t          micro_edges_per_macro_edge,
-                        real_t           micro_edges_per_macro_edge_float ) const;
-   /// Kernel type: toMatrix
-   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
-   /// - operations per element:
-   ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
-   /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    222     240       0       0      0              0                 0              3
-   void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
-                           idx_t* RESTRICT                      _data_dstVertex,
-                           real_t* RESTRICT                     _data_kEdge,
-                           real_t* RESTRICT                     _data_kVertex,
-                           idx_t* RESTRICT                      _data_srcEdge,
-                           idx_t* RESTRICT                      _data_srcVertex,
-                           real_t                               macro_vertex_coord_id_0comp0,
-                           real_t                               macro_vertex_coord_id_0comp1,
-                           real_t                               macro_vertex_coord_id_1comp0,
-                           real_t                               macro_vertex_coord_id_1comp1,
-                           real_t                               macro_vertex_coord_id_2comp0,
-                           real_t                               macro_vertex_coord_id_2comp1,
-                           std::shared_ptr< SparseMatrixProxy > mat,
-                           int64_t                              micro_edges_per_macro_edge,
-                           real_t                               micro_edges_per_macro_edge_float ) const;
+                        real_t           micro_edges_per_macro_edge_float,
+                        real_t           radRayVertex,
+                        real_t           radRefVertex,
+                        real_t           rayVertex_0,
+                        real_t           rayVertex_1,
+                        real_t           rayVertex_2,
+                        real_t           refVertex_0,
+                        real_t           refVertex_1,
+                        real_t           refVertex_2,
+                        real_t           thrVertex_0,
+                        real_t           thrVertex_1,
+                        real_t           thrVertex_2 ) const;
    /// Kernel type: toMatrix
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    924     946       0       0      0              0                 0              3
+   ///   1798    2151      47      11     11              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
-                           real_t* RESTRICT                     _data_kEdge,
-                           real_t* RESTRICT                     _data_kVertex,
                            idx_t* RESTRICT                      _data_srcEdge,
                            idx_t* RESTRICT                      _data_srcVertex,
+                           real_t                               forVertex_0,
+                           real_t                               forVertex_1,
+                           real_t                               forVertex_2,
                            real_t                               macro_vertex_coord_id_0comp0,
                            real_t                               macro_vertex_coord_id_0comp1,
                            real_t                               macro_vertex_coord_id_0comp2,
@@ -175,35 +144,29 @@ class P2ElementwiseKMass : public Operator< P2Function< real_t >, P2Function< re
                            real_t                               macro_vertex_coord_id_3comp2,
                            std::shared_ptr< SparseMatrixProxy > mat,
                            int64_t                              micro_edges_per_macro_edge,
-                           real_t                               micro_edges_per_macro_edge_float ) const;
-   /// Kernel type: computeInverseDiagonalOperatorValues
-   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
-   /// - operations per element:
-   ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
-   /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    138     150       0       0      0              0                 0              0
-   void computeInverseDiagonalOperatorValues_macro_2D( real_t* RESTRICT _data_invDiag_Edge,
-                                                       real_t* RESTRICT _data_invDiag_Vertex,
-                                                       real_t* RESTRICT _data_kEdge,
-                                                       real_t* RESTRICT _data_kVertex,
-                                                       real_t           macro_vertex_coord_id_0comp0,
-                                                       real_t           macro_vertex_coord_id_0comp1,
-                                                       real_t           macro_vertex_coord_id_1comp0,
-                                                       real_t           macro_vertex_coord_id_1comp1,
-                                                       real_t           macro_vertex_coord_id_2comp0,
-                                                       real_t           macro_vertex_coord_id_2comp1,
-                                                       int64_t          micro_edges_per_macro_edge,
-                                                       real_t           micro_edges_per_macro_edge_float ) const;
+                           real_t                               micro_edges_per_macro_edge_float,
+                           real_t                               radRayVertex,
+                           real_t                               radRefVertex,
+                           real_t                               rayVertex_0,
+                           real_t                               rayVertex_1,
+                           real_t                               rayVertex_2,
+                           real_t                               refVertex_0,
+                           real_t                               refVertex_1,
+                           real_t                               refVertex_2,
+                           real_t                               thrVertex_0,
+                           real_t                               thrVertex_1,
+                           real_t                               thrVertex_2 ) const;
    /// Kernel type: computeInverseDiagonalOperatorValues
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    439     451       0       0      0              0                 0              0
+   ///   1093    1403      47      11     11              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_3D( real_t* RESTRICT _data_invDiag_Edge,
                                                        real_t* RESTRICT _data_invDiag_Vertex,
-                                                       real_t* RESTRICT _data_kEdge,
-                                                       real_t* RESTRICT _data_kVertex,
+                                                       real_t           forVertex_0,
+                                                       real_t           forVertex_1,
+                                                       real_t           forVertex_2,
                                                        real_t           macro_vertex_coord_id_0comp0,
                                                        real_t           macro_vertex_coord_id_0comp1,
                                                        real_t           macro_vertex_coord_id_0comp2,
@@ -217,10 +180,20 @@ class P2ElementwiseKMass : public Operator< P2Function< real_t >, P2Function< re
                                                        real_t           macro_vertex_coord_id_3comp1,
                                                        real_t           macro_vertex_coord_id_3comp2,
                                                        int64_t          micro_edges_per_macro_edge,
-                                                       real_t           micro_edges_per_macro_edge_float ) const;
+                                                       real_t           micro_edges_per_macro_edge_float,
+                                                       real_t           radRayVertex,
+                                                       real_t           radRefVertex,
+                                                       real_t           rayVertex_0,
+                                                       real_t           rayVertex_1,
+                                                       real_t           rayVertex_2,
+                                                       real_t           refVertex_0,
+                                                       real_t           refVertex_1,
+                                                       real_t           refVertex_2,
+                                                       real_t           thrVertex_0,
+                                                       real_t           thrVertex_1,
+                                                       real_t           thrVertex_2 ) const;
 
    std::shared_ptr< P2Function< real_t > > invDiag_;
-   P2Function< real_t >                    k;
 };
 
 } // namespace operatorgeneration

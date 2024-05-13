@@ -66,6 +66,32 @@ quadrature    = 2
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 
+[[mass]]
+trial-space   = "P2"
+test-space    = "P2"
+dimensions    = [2, 3]
+quadrature    = 4
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+
+[[mass]]
+trial-space   = "P2"
+test-space    = "P2"
+dimensions    = [2]
+quadrature    = 4
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "AnnulusMap"
+
+[[mass]]
+trial-space   = "P2"
+test-space    = "P2"
+dimensions    = [3]
+quadrature    = 4
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "IcosahedralShellMap"
+
 [[divergence]]
 trial-space   = "P2"
 test-space    = "P1"
@@ -89,7 +115,7 @@ trial-space   = "P1"
 test-space    = "P1"
 form-space-args.coefficient_function_space = "P1"
 dimensions    = [2]
-quadrature    = 4
+quadrature    = 3
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 blending      = "AnnulusMap"
@@ -99,7 +125,7 @@ trial-space   = "P1"
 test-space    = "P1"
 form-space-args.coefficient_function_space = "P1"
 dimensions    = [3]
-quadrature    = 4
+quadrature    = 3
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 blending      = "IcosahedralShellMap"
@@ -109,7 +135,7 @@ trial-space   = "P2"
 test-space    = "P1"
 form-space-args.coefficient_function_space = "P2"
 dimensions    = [2, 3]
-quadrature    = 3
+quadrature    = 4
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 
@@ -138,7 +164,7 @@ trial-space   = "P2"
 test-space    = "P2"
 form-space-args.coefficient_function_space = "P2"
 dimensions    = [2, 3]
-quadrature    = 3
+quadrature    = 4
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 

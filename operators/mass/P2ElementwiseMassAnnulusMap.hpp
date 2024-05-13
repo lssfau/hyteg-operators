@@ -33,7 +33,7 @@
 #include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
 #include "hyteg/geometry/AnnulusMap.hpp"
 #include "hyteg/operators/Operator.hpp"
-#include "hyteg/p1functionspace/P1Function.hpp"
+#include "hyteg/p2functionspace/P2Function.hpp"
 #include "hyteg/primitivestorage/PrimitiveStorage.hpp"
 #include "hyteg/solvers/Smoothables.hpp"
 #include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
@@ -44,54 +44,51 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-/// Diffusion operator with a scalar coefficient.
+/// Mass operator.
 ///
 /// Geometry map: AnnulusMap
 ///
 /// Weak formulation
 ///
-///     u: trial function (space: Lagrange, degree: 1)
-///     v: test function  (space: Lagrange, degree: 1)
-///     k: coefficient    (space: Lagrange, degree: 1)
+///     u: trial function (space: Lagrange, degree: 2)
+///     v: test function  (space: Lagrange, degree: 2)
 ///
-///     ∫ k uv
+///     ∫ uv
 
-class P1ElementwiseKMassAnnulusMap : public Operator< P1Function< real_t >, P1Function< real_t > >,
-                                     public OperatorWithInverseDiagonal< P1Function< real_t > >
+class P2ElementwiseMassAnnulusMap : public Operator< P2Function< real_t >, P2Function< real_t > >,
+                                    public OperatorWithInverseDiagonal< P2Function< real_t > >
 {
  public:
-   P1ElementwiseKMassAnnulusMap( const std::shared_ptr< PrimitiveStorage >& storage,
-                                 size_t                                     minLevel,
-                                 size_t                                     maxLevel,
-                                 const P1Function< real_t >&                _k );
+   P2ElementwiseMassAnnulusMap( const std::shared_ptr< PrimitiveStorage >& storage, size_t minLevel, size_t maxLevel );
 
-   void apply( const P1Function< real_t >& src,
-               const P1Function< real_t >& dst,
+   void apply( const P2Function< real_t >& src,
+               const P2Function< real_t >& dst,
                uint_t                      level,
                DoFType                     flag,
                UpdateType                  updateType = Replace ) const;
 
    void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                  const P1Function< idx_t >&                  src,
-                  const P1Function< idx_t >&                  dst,
+                  const P2Function< idx_t >&                  src,
+                  const P2Function< idx_t >&                  dst,
                   uint_t                                      level,
                   DoFType                                     flag ) const;
 
    void computeInverseDiagonalOperatorValues();
 
-   std::shared_ptr< P1Function< real_t > > getInverseDiagonalValues() const;
+   std::shared_ptr< P2Function< real_t > > getInverseDiagonalValues() const;
 
  protected:
  private:
    /// Kernel type: apply
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    181     193      16       8      4              0                 0              1
-   void apply_macro_2D( real_t* RESTRICT _data_dst,
-                        real_t* RESTRICT _data_k,
-                        real_t* RESTRICT _data_src,
+   ///    410     516      18      12      6              0                 0              1
+   void apply_macro_2D( real_t* RESTRICT _data_dstEdge,
+                        real_t* RESTRICT _data_dstVertex,
+                        real_t* RESTRICT _data_srcEdge,
+                        real_t* RESTRICT _data_srcVertex,
                         real_t           macro_vertex_coord_id_0comp0,
                         real_t           macro_vertex_coord_id_0comp1,
                         real_t           macro_vertex_coord_id_1comp0,
@@ -109,14 +106,15 @@ class P1ElementwiseKMassAnnulusMap : public Operator< P1Function< real_t >, P1Fu
                         real_t           thrVertex_0,
                         real_t           thrVertex_1 ) const;
    /// Kernel type: toMatrix
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    172     184      16       8      4              0                 0              4
-   void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dst,
-                           real_t* RESTRICT                     _data_k,
-                           idx_t* RESTRICT                      _data_src,
+   ///    374     480      18      12      6              0                 0              4
+   void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
+                           idx_t* RESTRICT                      _data_dstVertex,
+                           idx_t* RESTRICT                      _data_srcEdge,
+                           idx_t* RESTRICT                      _data_srcVertex,
                            real_t                               macro_vertex_coord_id_0comp0,
                            real_t                               macro_vertex_coord_id_0comp1,
                            real_t                               macro_vertex_coord_id_1comp0,
@@ -135,13 +133,13 @@ class P1ElementwiseKMassAnnulusMap : public Operator< P1Function< real_t >, P1Fu
                            real_t                               thrVertex_0,
                            real_t                               thrVertex_1 ) const;
    /// Kernel type: computeInverseDiagonalOperatorValues
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    163     172      16       8      4              0                 0              1
-   void computeInverseDiagonalOperatorValues_macro_2D( real_t* RESTRICT _data_invDiag_,
-                                                       real_t* RESTRICT _data_k,
+   ///    290     360      18      12      6              0                 0              1
+   void computeInverseDiagonalOperatorValues_macro_2D( real_t* RESTRICT _data_invDiag_Edge,
+                                                       real_t* RESTRICT _data_invDiag_Vertex,
                                                        real_t           macro_vertex_coord_id_0comp0,
                                                        real_t           macro_vertex_coord_id_0comp1,
                                                        real_t           macro_vertex_coord_id_1comp0,
@@ -159,8 +157,7 @@ class P1ElementwiseKMassAnnulusMap : public Operator< P1Function< real_t >, P1Fu
                                                        real_t           thrVertex_0,
                                                        real_t           thrVertex_1 ) const;
 
-   std::shared_ptr< P1Function< real_t > > invDiag_;
-   P1Function< real_t >                    k;
+   std::shared_ptr< P2Function< real_t > > invDiag_;
 };
 
 } // namespace operatorgeneration

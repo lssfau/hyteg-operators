@@ -78,11 +78,11 @@ class P2ToP1ElementwiseKMass : public Operator< P2Function< real_t >, P1Function
  protected:
  private:
    /// Kernel type: apply
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    154     166       0       0      0              0                 0              0
+   ///    222     240       0       0      0              0                 0              0
    void apply_macro_2D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_kEdge,
                         real_t* RESTRICT _data_kVertex,
@@ -97,11 +97,11 @@ class P2ToP1ElementwiseKMass : public Operator< P2Function< real_t >, P1Function
                         int64_t          micro_edges_per_macro_edge,
                         real_t           micro_edges_per_macro_edge_float ) const;
    /// Kernel type: apply
-   /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
+   /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    385     385       0       0      0              0                 0              0
+   ///    799     799       0       0      0              0                 0              0
    void apply_macro_3D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_kEdge,
                         real_t* RESTRICT _data_kVertex,
@@ -122,11 +122,11 @@ class P2ToP1ElementwiseKMass : public Operator< P2Function< real_t >, P1Function
                         int64_t          micro_edges_per_macro_edge,
                         real_t           micro_edges_per_macro_edge_float ) const;
    /// Kernel type: toMatrix
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    136     148       0       0      0              0                 0              3
+   ///    204     222       0       0      0              0                 0              3
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dst,
                            real_t* RESTRICT                     _data_kEdge,
                            real_t* RESTRICT                     _data_kVertex,
@@ -142,11 +142,11 @@ class P2ToP1ElementwiseKMass : public Operator< P2Function< real_t >, P1Function
                            int64_t                              micro_edges_per_macro_edge,
                            real_t                               micro_edges_per_macro_edge_float ) const;
    /// Kernel type: toMatrix
-   /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
+   /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    345     345       0       0      0              0                 0              3
+   ///    759     759       0       0      0              0                 0              3
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dst,
                            real_t* RESTRICT                     _data_kEdge,
                            real_t* RESTRICT                     _data_kVertex,
