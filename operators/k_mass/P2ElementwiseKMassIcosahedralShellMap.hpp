@@ -19,7 +19,7 @@
 */
 
 /*
-* The entire file was generated with the HyTeG form generator.
+* The entire file was generated with the HyTeG Operator Generator.
 *
 * Avoid modifying this file. If buggy, consider fixing the generator itself.
 */
@@ -88,7 +88,7 @@ class P2ElementwiseKMassIcosahedralShellMap : public Operator< P2Function< real_
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1777    2042      47      11     11              0                 0              1
+   ///   1931    2559      69      22     11              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_kEdge,
@@ -128,7 +128,7 @@ class P2ElementwiseKMassIcosahedralShellMap : public Operator< P2Function< real_
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1677    1942      47      11     11              0                 0              4
+   ///   1831    2459      69      22     11              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            real_t* RESTRICT                     _data_kEdge,
@@ -169,7 +169,7 @@ class P2ElementwiseKMassIcosahedralShellMap : public Operator< P2Function< real_
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1192    1447      47      11     11              0                 0              1
+   ///   1346    1964      69      22     11              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_3D( real_t* RESTRICT _data_invDiag_Edge,
                                                        real_t* RESTRICT _data_invDiag_Vertex,
                                                        real_t* RESTRICT _data_kEdge,

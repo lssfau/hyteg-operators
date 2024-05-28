@@ -10,9 +10,9 @@ if sys.version_info >= (3, 11):
 else:
     import tomli as tomllib
 
-import hfg
-from hfg import *
-from hfg.operator_generation import *
+import hog
+from hog import *
+from hog.operator_generation import *
 
 
 def parse_args() -> argparse.Namespace:
@@ -252,7 +252,7 @@ def generate_cmake_from_cpp_files(output_dir_path: str):
 def generate_operator(
     args: argparse.Namespace, form_str: str, spec: Dict[str, Any]
 ) -> Dict[str, List[str]]:
-    symbolizer = hfg.symbolizer.Symbolizer()
+    symbolizer = hog.symbolizer.Symbolizer()
     fe_spaces = {
         "P1": function_space.LagrangianFunctionSpace(1, symbolizer),
         "P2": function_space.LagrangianFunctionSpace(2, symbolizer),
@@ -267,15 +267,15 @@ def generate_operator(
         "sawtooth": operator_generation.loop_strategies.SAWTOOTH(),
     }
     precisions = {
-        "fp16": types.hyteg_type(types.HFGPrecision.FP16),
-        "fp32": types.hyteg_type(types.HFGPrecision.FP32),
-        "fp64": types.hyteg_type(types.HFGPrecision.FP64),
-        "real_t": types.hyteg_type(types.HFGPrecision.REAL_T),
+        "fp16": types.hyteg_type(types.HOGPrecision.FP16),
+        "fp32": types.hyteg_type(types.HOGPrecision.FP32),
+        "fp64": types.hyteg_type(types.HOGPrecision.FP64),
+        "real_t": types.hyteg_type(types.HOGPrecision.REAL_T),
     }
     blending_maps = {
-        "IdentityMap": hfg.blending.IdentityMap(),
-        "AnnulusMap": hfg.blending.AnnulusMap(),
-        "IcosahedralShellMap": hfg.blending.IcosahedralShellMap(),
+        "IdentityMap": hog.blending.IdentityMap(),
+        "AnnulusMap": hog.blending.AnnulusMap(),
+        "IcosahedralShellMap": hog.blending.IcosahedralShellMap(),
     }
 
     def raise_exception(dict_key: Union[str, int]) -> None:
@@ -443,7 +443,7 @@ def elementwise_operator_name(form_str: str, spec: Dict[str, Any]) -> str:
         ):
             component = f"_{spec['form-args']['component_test']}_{spec['form-args']['component_trial']}"
 
-    # I do not like this, but should do the trick until we have actual vector function spaces in the HFG.
+    # I do not like this, but should do the trick until we have actual vector function spaces in the HOG.
     if "form-args" in spec:
         if "component_index" in spec["form-args"]:
             if "divergence" == form_str.lower():
