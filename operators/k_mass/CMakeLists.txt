@@ -6,6 +6,12 @@ add_library( opgen-k_mass
    P1ElementwiseKMassAnnulusMap.hpp
    P1ElementwiseKMassIcosahedralShellMap.cpp
    P1ElementwiseKMassIcosahedralShellMap.hpp
+   P2ElementwiseKMass.cpp
+   P2ElementwiseKMass.hpp
+   P2ElementwiseKMassAnnulusMap.cpp
+   P2ElementwiseKMassAnnulusMap.hpp
+   P2ElementwiseKMassIcosahedralShellMap.cpp
+   P2ElementwiseKMassIcosahedralShellMap.hpp
    P2ToP1ElementwiseKMass.cpp
    P2ToP1ElementwiseKMass.hpp
    P2ToP1ElementwiseKMassAnnulusMap.cpp
@@ -25,6 +31,14 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P1ElementwiseKMass_apply_macro_3D.cpp
       avx/P1ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_2D.cpp
       avx/P1ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P2ElementwiseKMassAnnulusMap_apply_macro_2D.cpp
+      avx/P2ElementwiseKMassAnnulusMap_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      avx/P2ElementwiseKMassIcosahedralShellMap_apply_macro_3D.cpp
+      avx/P2ElementwiseKMassIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P2ElementwiseKMass_apply_macro_2D.cpp
+      avx/P2ElementwiseKMass_apply_macro_3D.cpp
+      avx/P2ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      avx/P2ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
       avx/P2ToP1ElementwiseKMassAnnulusMap_apply_macro_2D.cpp
       avx/P2ToP1ElementwiseKMassIcosahedralShellMap_apply_macro_3D.cpp
       avx/P2ToP1ElementwiseKMass_apply_macro_2D.cpp
@@ -33,6 +47,10 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       noarch/P1ElementwiseKMassIcosahedralShellMap_toMatrix_macro_3D.cpp
       noarch/P1ElementwiseKMass_toMatrix_macro_2D.cpp
       noarch/P1ElementwiseKMass_toMatrix_macro_3D.cpp
+      noarch/P2ElementwiseKMassAnnulusMap_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseKMassIcosahedralShellMap_toMatrix_macro_3D.cpp
+      noarch/P2ElementwiseKMass_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseKMass_toMatrix_macro_3D.cpp
       noarch/P2ToP1ElementwiseKMassAnnulusMap_toMatrix_macro_2D.cpp
       noarch/P2ToP1ElementwiseKMassIcosahedralShellMap_toMatrix_macro_3D.cpp
       noarch/P2ToP1ElementwiseKMass_toMatrix_macro_2D.cpp
@@ -49,6 +67,14 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P1ElementwiseKMass_apply_macro_3D.cpp
       avx/P1ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_2D.cpp
       avx/P1ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P2ElementwiseKMassAnnulusMap_apply_macro_2D.cpp
+      avx/P2ElementwiseKMassAnnulusMap_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      avx/P2ElementwiseKMassIcosahedralShellMap_apply_macro_3D.cpp
+      avx/P2ElementwiseKMassIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P2ElementwiseKMass_apply_macro_2D.cpp
+      avx/P2ElementwiseKMass_apply_macro_3D.cpp
+      avx/P2ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      avx/P2ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
       avx/P2ToP1ElementwiseKMassAnnulusMap_apply_macro_2D.cpp
       avx/P2ToP1ElementwiseKMassIcosahedralShellMap_apply_macro_3D.cpp
       avx/P2ToP1ElementwiseKMass_apply_macro_2D.cpp
@@ -75,6 +101,18 @@ else()
       noarch/P1ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
       noarch/P1ElementwiseKMass_toMatrix_macro_2D.cpp
       noarch/P1ElementwiseKMass_toMatrix_macro_3D.cpp
+      noarch/P2ElementwiseKMassAnnulusMap_apply_macro_2D.cpp
+      noarch/P2ElementwiseKMassAnnulusMap_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      noarch/P2ElementwiseKMassAnnulusMap_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseKMassIcosahedralShellMap_apply_macro_3D.cpp
+      noarch/P2ElementwiseKMassIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      noarch/P2ElementwiseKMassIcosahedralShellMap_toMatrix_macro_3D.cpp
+      noarch/P2ElementwiseKMass_apply_macro_2D.cpp
+      noarch/P2ElementwiseKMass_apply_macro_3D.cpp
+      noarch/P2ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      noarch/P2ElementwiseKMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      noarch/P2ElementwiseKMass_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseKMass_toMatrix_macro_3D.cpp
       noarch/P2ToP1ElementwiseKMassAnnulusMap_apply_macro_2D.cpp
       noarch/P2ToP1ElementwiseKMassAnnulusMap_toMatrix_macro_2D.cpp
       noarch/P2ToP1ElementwiseKMassIcosahedralShellMap_apply_macro_3D.cpp

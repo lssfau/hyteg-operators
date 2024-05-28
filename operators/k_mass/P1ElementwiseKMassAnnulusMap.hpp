@@ -84,11 +84,11 @@ class P1ElementwiseKMassAnnulusMap : public Operator< P1Function< real_t >, P1Fu
  protected:
  private:
    /// Kernel type: apply
-   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
+   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    251     273      18      12      6              0                 0              1
+   ///    181     193      16       8      4              0                 0              1
    void apply_macro_2D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_k,
                         real_t* RESTRICT _data_src,
@@ -109,11 +109,11 @@ class P1ElementwiseKMassAnnulusMap : public Operator< P1Function< real_t >, P1Fu
                         real_t           thrVertex_0,
                         real_t           thrVertex_1 ) const;
    /// Kernel type: toMatrix
-   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
+   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    242     264      18      12      6              0                 0              4
+   ///    172     184      16       8      4              0                 0              4
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dst,
                            real_t* RESTRICT                     _data_k,
                            idx_t* RESTRICT                      _data_src,
@@ -135,11 +135,11 @@ class P1ElementwiseKMassAnnulusMap : public Operator< P1Function< real_t >, P1Fu
                            real_t                               thrVertex_0,
                            real_t                               thrVertex_1 ) const;
    /// Kernel type: computeInverseDiagonalOperatorValues
-   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
+   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    227     246      18      12      6              0                 0              1
+   ///    163     172      16       8      4              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_2D( real_t* RESTRICT _data_invDiag_,
                                                        real_t* RESTRICT _data_k,
                                                        real_t           macro_vertex_coord_id_0comp0,
