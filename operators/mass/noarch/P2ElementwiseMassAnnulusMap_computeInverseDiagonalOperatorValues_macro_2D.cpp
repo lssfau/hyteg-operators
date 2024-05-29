@@ -19,7 +19,7 @@
 */
 
 /*
-* The entire file was generated with the HyTeG form generator.
+* The entire file was generated with the HyTeG Operator Generator.
 *
 * Avoid modifying this file. If buggy, consider fixing the generator itself.
 */
@@ -79,9 +79,15 @@ void P2ElementwiseMassAnnulusMap::computeInverseDiagonalOperatorValues_macro_2D(
        const real_t jac_affine_1_0_GRAY = -p_affine_const_0_1_GRAY + p_affine_const_1_1_GRAY;
        const real_t jac_affine_1_1_GRAY = -p_affine_const_0_1_GRAY + p_affine_const_2_1_GRAY;
        const real_t abs_det_jac_affine_GRAY = abs(jac_affine_0_0_GRAY*jac_affine_1_1_GRAY - jac_affine_0_1_GRAY*jac_affine_1_0_GRAY);
-       const real_t tmp_qloop_5 = rayVertex_1 - thrVertex_1;
-       const real_t tmp_qloop_11 = rayVertex_0 - thrVertex_0;
-       const real_t tmp_qloop_12 = (radRayVertex - radRefVertex)*1.0 / (-tmp_qloop_11*(rayVertex_1 - refVertex_1) + tmp_qloop_5*(rayVertex_0 - refVertex_0));
+       const real_t tmp_qloop_0 = rayVertex_1 - thrVertex_1;
+       const real_t tmp_qloop_1 = -tmp_qloop_0;
+       const real_t tmp_qloop_11 = rayVertex_0 - refVertex_0;
+       const real_t tmp_qloop_12 = rayVertex_0 - thrVertex_0;
+       const real_t tmp_qloop_13 = -tmp_qloop_12;
+       const real_t tmp_qloop_14 = rayVertex_1 - refVertex_1;
+       const real_t tmp_qloop_15 = radRayVertex - radRefVertex;
+       const real_t tmp_qloop_16 = -tmp_qloop_15*1.0 / (-tmp_qloop_1*tmp_qloop_11 + tmp_qloop_13*tmp_qloop_14);
+       const real_t tmp_qloop_35 = tmp_qloop_15*1.0 / (tmp_qloop_0*tmp_qloop_11 - tmp_qloop_12*tmp_qloop_14);
        {
           /* FaceType.GRAY */
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
@@ -112,33 +118,59 @@ void P2ElementwiseMassAnnulusMap::computeInverseDiagonalOperatorValues_macro_2D(
              real_t q_acc_3_3 = 0.0;
              real_t q_acc_4_4 = 0.0;
              real_t q_acc_5_5 = 0.0;
+             const real_t tmp_qloop_2 = p_affine_0_0 - p_affine_1_0;
+             const real_t tmp_qloop_3 = p_affine_0_0 - p_affine_2_0;
+             const real_t tmp_qloop_6 = p_affine_0_1 - p_affine_1_1;
+             const real_t tmp_qloop_7 = p_affine_0_1 - p_affine_2_1;
              for (int64_t q = 0; q < 6; q += 1)
              {
-                const real_t tmp_qloop_0 = 4.0*_data_q_p_0[q]*_data_q_p_1[q];
-                const real_t tmp_qloop_1 = (_data_q_p_0[q]*_data_q_p_0[q]);
-                const real_t tmp_qloop_2 = tmp_qloop_1*2.0;
-                const real_t tmp_qloop_3 = (_data_q_p_1[q]*_data_q_p_1[q]);
-                const real_t tmp_qloop_4 = tmp_qloop_3*2.0;
-                const real_t tmp_qloop_6 = -p_affine_0_0 + (p_affine_0_0 - p_affine_1_0)*_data_q_p_0[q] + (p_affine_0_0 - p_affine_2_0)*_data_q_p_1[q];
-                const real_t tmp_qloop_7 = (tmp_qloop_6*tmp_qloop_6);
-                const real_t tmp_qloop_8 = -p_affine_0_1 + (p_affine_0_1 - p_affine_1_1)*_data_q_p_0[q] + (p_affine_0_1 - p_affine_2_1)*_data_q_p_1[q];
+                const real_t tmp_qloop_4 = p_affine_0_0 - tmp_qloop_2*_data_q_p_0[q] - tmp_qloop_3*_data_q_p_1[q];
+                const real_t tmp_qloop_5 = (tmp_qloop_4*tmp_qloop_4);
+                const real_t tmp_qloop_8 = p_affine_0_1 - tmp_qloop_6*_data_q_p_0[q] - tmp_qloop_7*_data_q_p_1[q];
                 const real_t tmp_qloop_9 = (tmp_qloop_8*tmp_qloop_8);
-                const real_t tmp_qloop_10 = tmp_qloop_7 + tmp_qloop_9;
-                const real_t tmp_qloop_13 = pow(tmp_qloop_10, -0.50000000000000000)*tmp_qloop_12*1.0;
-                const real_t tmp_qloop_14 = tmp_qloop_13*tmp_qloop_6;
-                const real_t tmp_qloop_15 = tmp_qloop_11*(rayVertex_1 + tmp_qloop_8) - tmp_qloop_5*(rayVertex_0 + tmp_qloop_6);
-                const real_t tmp_qloop_16 = pow(tmp_qloop_10, -1.5000000000000000)*1.0;
-                const real_t tmp_qloop_17 = tmp_qloop_16*(radRayVertex + tmp_qloop_12*tmp_qloop_15);
-                const real_t tmp_qloop_18 = tmp_qloop_13*tmp_qloop_8;
-                const real_t tmp_qloop_19 = tmp_qloop_16*(radRayVertex + tmp_qloop_12*tmp_qloop_15);
-                const real_t tmp_qloop_20 = tmp_qloop_6*tmp_qloop_8;
-                const real_t tmp_qloop_21 = abs_det_jac_affine_GRAY*abs((tmp_qloop_11*tmp_qloop_14 - tmp_qloop_19*tmp_qloop_20)*(tmp_qloop_17*tmp_qloop_20 + tmp_qloop_18*tmp_qloop_5) - (tmp_qloop_11*tmp_qloop_18 + tmp_qloop_19*tmp_qloop_7)*(tmp_qloop_14*tmp_qloop_5 - tmp_qloop_17*tmp_qloop_9))*_data_q_w[q];
-                const real_t q_tmp_0_0 = tmp_qloop_21*((tmp_qloop_0 + tmp_qloop_2 + tmp_qloop_4 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0)*(tmp_qloop_0 + tmp_qloop_2 + tmp_qloop_4 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0));
-                const real_t q_tmp_1_1 = tmp_qloop_21*((tmp_qloop_2 - _data_q_p_0[q])*(tmp_qloop_2 - _data_q_p_0[q]));
-                const real_t q_tmp_2_2 = tmp_qloop_21*((tmp_qloop_4 - _data_q_p_1[q])*(tmp_qloop_4 - _data_q_p_1[q]));
-                const real_t q_tmp_3_3 = tmp_qloop_1*tmp_qloop_21*tmp_qloop_3*16.0;
-                const real_t q_tmp_4_4 = tmp_qloop_21*((-tmp_qloop_0 + tmp_qloop_3*-4.0 + 4.0*_data_q_p_1[q])*(-tmp_qloop_0 + tmp_qloop_3*-4.0 + 4.0*_data_q_p_1[q]));
-                const real_t q_tmp_5_5 = tmp_qloop_21*((-tmp_qloop_0 + tmp_qloop_1*-4.0 + 4.0*_data_q_p_0[q])*(-tmp_qloop_0 + tmp_qloop_1*-4.0 + 4.0*_data_q_p_0[q]));
+                const real_t tmp_qloop_10 = tmp_qloop_5 + tmp_qloop_9;
+                const real_t tmp_qloop_17 = pow(tmp_qloop_10, -0.50000000000000000)*tmp_qloop_16*1.0;
+                const real_t tmp_qloop_18 = tmp_qloop_17*tmp_qloop_4;
+                const real_t tmp_qloop_19 = pow(tmp_qloop_10, -1.5000000000000000);
+                const real_t tmp_qloop_20 = radRayVertex + tmp_qloop_16*(tmp_qloop_1*(-rayVertex_0 + tmp_qloop_4) - tmp_qloop_13*(-rayVertex_1 + tmp_qloop_8));
+                const real_t tmp_qloop_21 = tmp_qloop_19*tmp_qloop_20*1.0;
+                const real_t tmp_qloop_22 = tmp_qloop_17*tmp_qloop_8;
+                const real_t tmp_qloop_25 = 4.0*_data_q_p_0[q]*_data_q_p_1[q];
+                const real_t tmp_qloop_26 = (_data_q_p_0[q]*_data_q_p_0[q]);
+                const real_t tmp_qloop_27 = tmp_qloop_26*2.0;
+                const real_t tmp_qloop_28 = (_data_q_p_1[q]*_data_q_p_1[q]);
+                const real_t tmp_qloop_29 = tmp_qloop_28*2.0;
+                const real_t tmp_qloop_30 = -p_affine_0_0 + tmp_qloop_2*_data_q_p_0[q] + tmp_qloop_3*_data_q_p_1[q];
+                const real_t tmp_qloop_31 = (tmp_qloop_30*tmp_qloop_30);
+                const real_t tmp_qloop_32 = -p_affine_0_1 + tmp_qloop_6*_data_q_p_0[q] + tmp_qloop_7*_data_q_p_1[q];
+                const real_t tmp_qloop_33 = (tmp_qloop_32*tmp_qloop_32);
+                const real_t tmp_qloop_34 = tmp_qloop_31 + tmp_qloop_33;
+                const real_t tmp_qloop_36 = pow(tmp_qloop_34, -0.50000000000000000)*tmp_qloop_35*1.0;
+                const real_t tmp_qloop_37 = tmp_qloop_30*tmp_qloop_36;
+                const real_t tmp_qloop_38 = -tmp_qloop_0*(rayVertex_0 + tmp_qloop_30) + tmp_qloop_12*(rayVertex_1 + tmp_qloop_32);
+                const real_t tmp_qloop_39 = pow(tmp_qloop_34, -1.5000000000000000)*1.0;
+                const real_t tmp_qloop_40 = tmp_qloop_39*(radRayVertex + tmp_qloop_35*tmp_qloop_38);
+                const real_t tmp_qloop_41 = tmp_qloop_32*tmp_qloop_36;
+                const real_t tmp_qloop_42 = tmp_qloop_39*(radRayVertex + tmp_qloop_35*tmp_qloop_38);
+                const real_t tmp_qloop_43 = tmp_qloop_30*tmp_qloop_32;
+                const real_t tmp_qloop_44 = abs_det_jac_affine_GRAY*abs((tmp_qloop_0*tmp_qloop_37 - tmp_qloop_33*tmp_qloop_40)*(tmp_qloop_12*tmp_qloop_41 + tmp_qloop_31*tmp_qloop_42) - (tmp_qloop_0*tmp_qloop_41 + tmp_qloop_40*tmp_qloop_43)*(tmp_qloop_12*tmp_qloop_37 - tmp_qloop_42*tmp_qloop_43))*_data_q_w[q];
+                const real_t jac_blending_0_0 = tmp_qloop_1*tmp_qloop_18 + tmp_qloop_21*tmp_qloop_9;
+                const real_t jac_blending_0_1 = -tmp_qloop_13*tmp_qloop_18 - tmp_qloop_19*tmp_qloop_20*tmp_qloop_4*tmp_qloop_8;
+                const real_t jac_blending_1_0 = tmp_qloop_1*tmp_qloop_22 - tmp_qloop_21*tmp_qloop_4*tmp_qloop_8;
+                const real_t jac_blending_1_1 = -tmp_qloop_13*tmp_qloop_22 + tmp_qloop_19*tmp_qloop_20*tmp_qloop_5*1.0;
+                const real_t tmp_qloop_23 = jac_blending_0_0*jac_blending_1_1 - jac_blending_0_1*jac_blending_1_0;
+                const real_t tmp_qloop_24 = 1.0 / (tmp_qloop_23);
+                const real_t abs_det_jac_blending = tmp_qloop_23;
+                const real_t jac_blending_inv_0_0 = jac_blending_1_1*tmp_qloop_24;
+                const real_t jac_blending_inv_0_1 = -jac_blending_0_1*tmp_qloop_24;
+                const real_t jac_blending_inv_1_0 = -jac_blending_1_0*tmp_qloop_24;
+                const real_t jac_blending_inv_1_1 = jac_blending_0_0*tmp_qloop_24;
+                const real_t q_tmp_0_0 = tmp_qloop_44*((tmp_qloop_25 + tmp_qloop_27 + tmp_qloop_29 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0)*(tmp_qloop_25 + tmp_qloop_27 + tmp_qloop_29 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0));
+                const real_t q_tmp_1_1 = tmp_qloop_44*((tmp_qloop_27 - _data_q_p_0[q])*(tmp_qloop_27 - _data_q_p_0[q]));
+                const real_t q_tmp_2_2 = tmp_qloop_44*((tmp_qloop_29 - _data_q_p_1[q])*(tmp_qloop_29 - _data_q_p_1[q]));
+                const real_t q_tmp_3_3 = tmp_qloop_26*tmp_qloop_28*tmp_qloop_44*16.0;
+                const real_t q_tmp_4_4 = tmp_qloop_44*((-tmp_qloop_25 + tmp_qloop_28*-4.0 + 4.0*_data_q_p_1[q])*(-tmp_qloop_25 + tmp_qloop_28*-4.0 + 4.0*_data_q_p_1[q]));
+                const real_t q_tmp_5_5 = tmp_qloop_44*((-tmp_qloop_25 + tmp_qloop_26*-4.0 + 4.0*_data_q_p_0[q])*(-tmp_qloop_25 + tmp_qloop_26*-4.0 + 4.0*_data_q_p_0[q]));
                 q_acc_0_0 = q_acc_0_0 + q_tmp_0_0;
                 q_acc_1_1 = q_acc_1_1 + q_tmp_1_1;
                 q_acc_2_2 = q_acc_2_2 + q_tmp_2_2;
@@ -206,33 +238,59 @@ void P2ElementwiseMassAnnulusMap::computeInverseDiagonalOperatorValues_macro_2D(
              real_t q_acc_3_3 = 0.0;
              real_t q_acc_4_4 = 0.0;
              real_t q_acc_5_5 = 0.0;
+             const real_t tmp_qloop_2 = p_affine_0_0 - p_affine_1_0;
+             const real_t tmp_qloop_3 = p_affine_0_0 - p_affine_2_0;
+             const real_t tmp_qloop_6 = p_affine_0_1 - p_affine_1_1;
+             const real_t tmp_qloop_7 = p_affine_0_1 - p_affine_2_1;
              for (int64_t q = 0; q < 6; q += 1)
              {
-                const real_t tmp_qloop_0 = 4.0*_data_q_p_0[q]*_data_q_p_1[q];
-                const real_t tmp_qloop_1 = (_data_q_p_0[q]*_data_q_p_0[q]);
-                const real_t tmp_qloop_2 = tmp_qloop_1*2.0;
-                const real_t tmp_qloop_3 = (_data_q_p_1[q]*_data_q_p_1[q]);
-                const real_t tmp_qloop_4 = tmp_qloop_3*2.0;
-                const real_t tmp_qloop_6 = -p_affine_0_0 + (p_affine_0_0 - p_affine_1_0)*_data_q_p_0[q] + (p_affine_0_0 - p_affine_2_0)*_data_q_p_1[q];
-                const real_t tmp_qloop_7 = (tmp_qloop_6*tmp_qloop_6);
-                const real_t tmp_qloop_8 = -p_affine_0_1 + (p_affine_0_1 - p_affine_1_1)*_data_q_p_0[q] + (p_affine_0_1 - p_affine_2_1)*_data_q_p_1[q];
+                const real_t tmp_qloop_4 = p_affine_0_0 - tmp_qloop_2*_data_q_p_0[q] - tmp_qloop_3*_data_q_p_1[q];
+                const real_t tmp_qloop_5 = (tmp_qloop_4*tmp_qloop_4);
+                const real_t tmp_qloop_8 = p_affine_0_1 - tmp_qloop_6*_data_q_p_0[q] - tmp_qloop_7*_data_q_p_1[q];
                 const real_t tmp_qloop_9 = (tmp_qloop_8*tmp_qloop_8);
-                const real_t tmp_qloop_10 = tmp_qloop_7 + tmp_qloop_9;
-                const real_t tmp_qloop_13 = pow(tmp_qloop_10, -0.50000000000000000)*tmp_qloop_12*1.0;
-                const real_t tmp_qloop_14 = tmp_qloop_13*tmp_qloop_6;
-                const real_t tmp_qloop_15 = tmp_qloop_11*(rayVertex_1 + tmp_qloop_8) - tmp_qloop_5*(rayVertex_0 + tmp_qloop_6);
-                const real_t tmp_qloop_16 = pow(tmp_qloop_10, -1.5000000000000000)*1.0;
-                const real_t tmp_qloop_17 = tmp_qloop_16*(radRayVertex + tmp_qloop_12*tmp_qloop_15);
-                const real_t tmp_qloop_18 = tmp_qloop_13*tmp_qloop_8;
-                const real_t tmp_qloop_19 = tmp_qloop_16*(radRayVertex + tmp_qloop_12*tmp_qloop_15);
-                const real_t tmp_qloop_20 = tmp_qloop_6*tmp_qloop_8;
-                const real_t tmp_qloop_21 = abs_det_jac_affine_BLUE*abs((tmp_qloop_11*tmp_qloop_14 - tmp_qloop_19*tmp_qloop_20)*(tmp_qloop_17*tmp_qloop_20 + tmp_qloop_18*tmp_qloop_5) - (tmp_qloop_11*tmp_qloop_18 + tmp_qloop_19*tmp_qloop_7)*(tmp_qloop_14*tmp_qloop_5 - tmp_qloop_17*tmp_qloop_9))*_data_q_w[q];
-                const real_t q_tmp_0_0 = tmp_qloop_21*((tmp_qloop_0 + tmp_qloop_2 + tmp_qloop_4 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0)*(tmp_qloop_0 + tmp_qloop_2 + tmp_qloop_4 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0));
-                const real_t q_tmp_1_1 = tmp_qloop_21*((tmp_qloop_2 - _data_q_p_0[q])*(tmp_qloop_2 - _data_q_p_0[q]));
-                const real_t q_tmp_2_2 = tmp_qloop_21*((tmp_qloop_4 - _data_q_p_1[q])*(tmp_qloop_4 - _data_q_p_1[q]));
-                const real_t q_tmp_3_3 = tmp_qloop_1*tmp_qloop_21*tmp_qloop_3*16.0;
-                const real_t q_tmp_4_4 = tmp_qloop_21*((-tmp_qloop_0 + tmp_qloop_3*-4.0 + 4.0*_data_q_p_1[q])*(-tmp_qloop_0 + tmp_qloop_3*-4.0 + 4.0*_data_q_p_1[q]));
-                const real_t q_tmp_5_5 = tmp_qloop_21*((-tmp_qloop_0 + tmp_qloop_1*-4.0 + 4.0*_data_q_p_0[q])*(-tmp_qloop_0 + tmp_qloop_1*-4.0 + 4.0*_data_q_p_0[q]));
+                const real_t tmp_qloop_10 = tmp_qloop_5 + tmp_qloop_9;
+                const real_t tmp_qloop_17 = pow(tmp_qloop_10, -0.50000000000000000)*tmp_qloop_16*1.0;
+                const real_t tmp_qloop_18 = tmp_qloop_17*tmp_qloop_4;
+                const real_t tmp_qloop_19 = pow(tmp_qloop_10, -1.5000000000000000);
+                const real_t tmp_qloop_20 = radRayVertex + tmp_qloop_16*(tmp_qloop_1*(-rayVertex_0 + tmp_qloop_4) - tmp_qloop_13*(-rayVertex_1 + tmp_qloop_8));
+                const real_t tmp_qloop_21 = tmp_qloop_19*tmp_qloop_20*1.0;
+                const real_t tmp_qloop_22 = tmp_qloop_17*tmp_qloop_8;
+                const real_t tmp_qloop_25 = 4.0*_data_q_p_0[q]*_data_q_p_1[q];
+                const real_t tmp_qloop_26 = (_data_q_p_0[q]*_data_q_p_0[q]);
+                const real_t tmp_qloop_27 = tmp_qloop_26*2.0;
+                const real_t tmp_qloop_28 = (_data_q_p_1[q]*_data_q_p_1[q]);
+                const real_t tmp_qloop_29 = tmp_qloop_28*2.0;
+                const real_t tmp_qloop_30 = -p_affine_0_0 + tmp_qloop_2*_data_q_p_0[q] + tmp_qloop_3*_data_q_p_1[q];
+                const real_t tmp_qloop_31 = (tmp_qloop_30*tmp_qloop_30);
+                const real_t tmp_qloop_32 = -p_affine_0_1 + tmp_qloop_6*_data_q_p_0[q] + tmp_qloop_7*_data_q_p_1[q];
+                const real_t tmp_qloop_33 = (tmp_qloop_32*tmp_qloop_32);
+                const real_t tmp_qloop_34 = tmp_qloop_31 + tmp_qloop_33;
+                const real_t tmp_qloop_36 = pow(tmp_qloop_34, -0.50000000000000000)*tmp_qloop_35*1.0;
+                const real_t tmp_qloop_37 = tmp_qloop_30*tmp_qloop_36;
+                const real_t tmp_qloop_38 = -tmp_qloop_0*(rayVertex_0 + tmp_qloop_30) + tmp_qloop_12*(rayVertex_1 + tmp_qloop_32);
+                const real_t tmp_qloop_39 = pow(tmp_qloop_34, -1.5000000000000000)*1.0;
+                const real_t tmp_qloop_40 = tmp_qloop_39*(radRayVertex + tmp_qloop_35*tmp_qloop_38);
+                const real_t tmp_qloop_41 = tmp_qloop_32*tmp_qloop_36;
+                const real_t tmp_qloop_42 = tmp_qloop_39*(radRayVertex + tmp_qloop_35*tmp_qloop_38);
+                const real_t tmp_qloop_43 = tmp_qloop_30*tmp_qloop_32;
+                const real_t tmp_qloop_44 = abs_det_jac_affine_BLUE*abs((tmp_qloop_0*tmp_qloop_37 - tmp_qloop_33*tmp_qloop_40)*(tmp_qloop_12*tmp_qloop_41 + tmp_qloop_31*tmp_qloop_42) - (tmp_qloop_0*tmp_qloop_41 + tmp_qloop_40*tmp_qloop_43)*(tmp_qloop_12*tmp_qloop_37 - tmp_qloop_42*tmp_qloop_43))*_data_q_w[q];
+                const real_t jac_blending_0_0 = tmp_qloop_1*tmp_qloop_18 + tmp_qloop_21*tmp_qloop_9;
+                const real_t jac_blending_0_1 = -tmp_qloop_13*tmp_qloop_18 - tmp_qloop_19*tmp_qloop_20*tmp_qloop_4*tmp_qloop_8;
+                const real_t jac_blending_1_0 = tmp_qloop_1*tmp_qloop_22 - tmp_qloop_21*tmp_qloop_4*tmp_qloop_8;
+                const real_t jac_blending_1_1 = -tmp_qloop_13*tmp_qloop_22 + tmp_qloop_19*tmp_qloop_20*tmp_qloop_5*1.0;
+                const real_t tmp_qloop_23 = jac_blending_0_0*jac_blending_1_1 - jac_blending_0_1*jac_blending_1_0;
+                const real_t tmp_qloop_24 = 1.0 / (tmp_qloop_23);
+                const real_t abs_det_jac_blending = tmp_qloop_23;
+                const real_t jac_blending_inv_0_0 = jac_blending_1_1*tmp_qloop_24;
+                const real_t jac_blending_inv_0_1 = -jac_blending_0_1*tmp_qloop_24;
+                const real_t jac_blending_inv_1_0 = -jac_blending_1_0*tmp_qloop_24;
+                const real_t jac_blending_inv_1_1 = jac_blending_0_0*tmp_qloop_24;
+                const real_t q_tmp_0_0 = tmp_qloop_44*((tmp_qloop_25 + tmp_qloop_27 + tmp_qloop_29 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0)*(tmp_qloop_25 + tmp_qloop_27 + tmp_qloop_29 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0));
+                const real_t q_tmp_1_1 = tmp_qloop_44*((tmp_qloop_27 - _data_q_p_0[q])*(tmp_qloop_27 - _data_q_p_0[q]));
+                const real_t q_tmp_2_2 = tmp_qloop_44*((tmp_qloop_29 - _data_q_p_1[q])*(tmp_qloop_29 - _data_q_p_1[q]));
+                const real_t q_tmp_3_3 = tmp_qloop_26*tmp_qloop_28*tmp_qloop_44*16.0;
+                const real_t q_tmp_4_4 = tmp_qloop_44*((-tmp_qloop_25 + tmp_qloop_28*-4.0 + 4.0*_data_q_p_1[q])*(-tmp_qloop_25 + tmp_qloop_28*-4.0 + 4.0*_data_q_p_1[q]));
+                const real_t q_tmp_5_5 = tmp_qloop_44*((-tmp_qloop_25 + tmp_qloop_26*-4.0 + 4.0*_data_q_p_0[q])*(-tmp_qloop_25 + tmp_qloop_26*-4.0 + 4.0*_data_q_p_0[q]));
                 q_acc_0_0 = q_acc_0_0 + q_tmp_0_0;
                 q_acc_1_1 = q_acc_1_1 + q_tmp_1_1;
                 q_acc_2_2 = q_acc_2_2 + q_tmp_2_2;

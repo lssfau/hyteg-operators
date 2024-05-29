@@ -19,7 +19,7 @@
 */
 
 /*
-* The entire file was generated with the HyTeG form generator.
+* The entire file was generated with the HyTeG Operator Generator.
 *
 * Avoid modifying this file. If buggy, consider fixing the generator itself.
 */
@@ -83,7 +83,7 @@ class P2ToP1ElementwiseKMassAnnulusMap : public Operator< P2Function< real_t >, 
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    404     444      18      12      6              0                 0              1
+   ///    494     648      30      24      6              0                 0              1
    void apply_macro_2D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_kEdge,
                         real_t* RESTRICT _data_kVertex,
@@ -110,7 +110,7 @@ class P2ToP1ElementwiseKMassAnnulusMap : public Operator< P2Function< real_t >, 
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    386     426      18      12      6              0                 0              4
+   ///    476     630      30      24      6              0                 0              4
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dst,
                            real_t* RESTRICT                     _data_kEdge,
                            real_t* RESTRICT                     _data_kVertex,

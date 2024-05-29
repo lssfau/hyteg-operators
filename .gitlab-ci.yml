@@ -1,4 +1,4 @@
-hyteg-hfg-integration-test:
+hyteg-hog-integration-test:
   stage: test
   image: i10git.cs.fau.de:5005/pycodegen/pycodegen/full
   script:

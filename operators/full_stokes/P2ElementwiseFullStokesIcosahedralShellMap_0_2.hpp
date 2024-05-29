@@ -19,7 +19,7 @@
 */
 
 /*
-* The entire file was generated with the HyTeG form generator.
+* The entire file was generated with the HyTeG Operator Generator.
 *
 * Avoid modifying this file. If buggy, consider fixing the generator itself.
 */
@@ -98,7 +98,7 @@ class P2ElementwiseFullStokesIcosahedralShellMap_0_2 : public Operator< P2Functi
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   3868    4437      56       5      5              0                 0              1
+   ///   3938    4672      66      10      5              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_muEdge,
@@ -138,7 +138,7 @@ class P2ElementwiseFullStokesIcosahedralShellMap_0_2 : public Operator< P2Functi
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   3768    4337      56       5      5              0                 0              4
+   ///   3838    4572      66      10      5              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            real_t* RESTRICT                     _data_muEdge,

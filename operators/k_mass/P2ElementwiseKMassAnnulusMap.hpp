@@ -19,7 +19,7 @@
 */
 
 /*
-* The entire file was generated with the HyTeG form generator.
+* The entire file was generated with the HyTeG Operator Generator.
 *
 * Avoid modifying this file. If buggy, consider fixing the generator itself.
 */
@@ -88,7 +88,7 @@ class P2ElementwiseKMassAnnulusMap : public Operator< P2Function< real_t >, P2Fu
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    440     480      18      12      6              0                 0              1
+   ///    530     684      30      24      6              0                 0              1
    void apply_macro_2D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_kEdge,
@@ -116,7 +116,7 @@ class P2ElementwiseKMassAnnulusMap : public Operator< P2Function< real_t >, P2Fu
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    404     444      18      12      6              0                 0              4
+   ///    494     648      30      24      6              0                 0              4
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            real_t* RESTRICT                     _data_kEdge,
@@ -145,7 +145,7 @@ class P2ElementwiseKMassAnnulusMap : public Operator< P2Function< real_t >, P2Fu
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    320     354      18      12      6              0                 0              1
+   ///    410     558      30      24      6              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_2D( real_t* RESTRICT _data_invDiag_Edge,
                                                        real_t* RESTRICT _data_invDiag_Vertex,
                                                        real_t* RESTRICT _data_kEdge,

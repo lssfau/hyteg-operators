@@ -19,7 +19,7 @@
 */
 
 /*
-* The entire file was generated with the HyTeG form generator.
+* The entire file was generated with the HyTeG Operator Generator.
 *
 * Avoid modifying this file. If buggy, consider fixing the generator itself.
 */
@@ -83,7 +83,7 @@ class P2ToP1ElementwiseKMassIcosahedralShellMap : public Operator< P2Function< r
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1552    1795      47      11     11              0                 0              1
+   ///   1706    2312      69      22     11              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_kEdge,
                         real_t* RESTRICT _data_kVertex,
@@ -122,7 +122,7 @@ class P2ToP1ElementwiseKMassIcosahedralShellMap : public Operator< P2Function< r
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1512    1755      47      11     11              0                 0              4
+   ///   1666    2272      69      22     11              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dst,
                            real_t* RESTRICT                     _data_kEdge,
                            real_t* RESTRICT                     _data_kVertex,

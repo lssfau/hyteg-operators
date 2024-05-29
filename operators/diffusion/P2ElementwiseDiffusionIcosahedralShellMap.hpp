@@ -19,7 +19,7 @@
 */
 
 /*
-* The entire file was generated with the HyTeG form generator.
+* The entire file was generated with the HyTeG Operator Generator.
 *
 * Avoid modifying this file. If buggy, consider fixing the generator itself.
 */
@@ -86,7 +86,7 @@ class P2ElementwiseDiffusionIcosahedralShellMap : public Operator< P2Function< r
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1724    2685      48       5      5              0                 0              1
+   ///   1729    2398      42       5      0              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_srcEdge,
@@ -124,7 +124,7 @@ class P2ElementwiseDiffusionIcosahedralShellMap : public Operator< P2Function< r
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1624    2585      48       5      5              0                 0              4
+   ///   1629    2298      42       5      0              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            idx_t* RESTRICT                      _data_srcEdge,
@@ -163,7 +163,7 @@ class P2ElementwiseDiffusionIcosahedralShellMap : public Operator< P2Function< r
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1004    1685      48       5      5              0                 0              1
+   ///   1009    1398      42       5      0              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_3D( real_t* RESTRICT _data_invDiag_Edge,
                                                        real_t* RESTRICT _data_invDiag_Vertex,
                                                        real_t           forVertex_0,
