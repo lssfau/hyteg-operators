@@ -52,6 +52,10 @@ namespace operatorgeneration {
 ///     u: trial function (space: Lagrange, degree: 1)
 ///     v: test function  (space: Lagrange, degree: 1)
 ///
+///     ∫ ∇u : ∇v
+///
+///     Note that the double contraction (:) reduces to the dot product for scalar function spaces, i.e. the form becomes
+///
 ///     ∫ ∇u · ∇v
 
 class P1ElementwiseDiffusion : public Operator< P1Function< real_t >, P1Function< real_t > >,

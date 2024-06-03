@@ -246,7 +246,7 @@ void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValues()
 
    for ( uint_t level = minLevel_; level <= maxLevel_; level++ )
    {
-      invDiag_->setToZero( level );
+      invDiag_->interpolate( 0, level );
 
       if ( storage_->hasGlobalCells() )
       {
@@ -306,6 +306,7 @@ void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValues()
          ( *invDiag_ ).getDoFs()->communicateAdditively< Cell, Face >( level );
          ( *invDiag_ ).getDoFs()->communicateAdditively< Cell, Edge >( level );
          this->timingTree_->stop( "post-communication" );
+         ( *invDiag_ ).getDoFs()->invertElementwise( level );
       }
       else
       {
@@ -314,9 +315,8 @@ void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValues()
          this->timingTree_->stop( "pre-communication" );
 
          WALBERLA_ABORT( "Not implemented." );
+         ( *invDiag_ ).getDoFs()->invertElementwise( level );
       }
-
-      ( *invDiag_ ).getDoFs()->invertElementwise( level );
    }
 
    this->stopTiming( "computeInverseDiagonalOperatorValues" );

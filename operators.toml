@@ -58,6 +58,26 @@ quadrature    = 2
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops"]
 
+[[div_k_grad]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P2"
+dimensions    = [2]
+quadrature    = 3
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "AnnulusMap"
+
+[[div_k_grad]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P2"
+dimensions    = [3]
+quadrature    = 3
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "IcosahedralShellMap"
+
 [[mass]]
 trial-space   = "P1"
 test-space    = "P1"
@@ -306,3 +326,35 @@ quadrature      = 3
 loop-strategy   = "sawtooth"
 optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 blending        = "IcosahedralShellMap"
+
+[[shear_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.viscosity_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+dimensions    = [2, 3]
+quadrature    = 3
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+
+[[shear_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.viscosity_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+dimensions    = [2]
+quadrature    = 3
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "AnnulusMap"
+
+[[shear_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.viscosity_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+dimensions    = [3]
+quadrature    = 3
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "IcosahedralShellMap"

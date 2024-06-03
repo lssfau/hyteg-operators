@@ -4,6 +4,10 @@ add_library( opgen-div_k_grad
    P1ElementwiseDivKGrad.hpp
    P2ElementwiseDivKGrad.cpp
    P2ElementwiseDivKGrad.hpp
+   P2ElementwiseDivKGradAnnulusMap.cpp
+   P2ElementwiseDivKGradAnnulusMap.hpp
+   P2ElementwiseDivKGradIcosahedralShellMap.cpp
+   P2ElementwiseDivKGradIcosahedralShellMap.hpp
 )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
@@ -13,12 +17,18 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P1ElementwiseDivKGrad_apply_macro_3D.cpp
       avx/P1ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_2D.cpp
       avx/P1ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P2ElementwiseDivKGradAnnulusMap_apply_macro_2D.cpp
+      avx/P2ElementwiseDivKGradAnnulusMap_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      avx/P2ElementwiseDivKGradIcosahedralShellMap_apply_macro_3D.cpp
+      avx/P2ElementwiseDivKGradIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
       avx/P2ElementwiseDivKGrad_apply_macro_2D.cpp
       avx/P2ElementwiseDivKGrad_apply_macro_3D.cpp
       avx/P2ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_2D.cpp
       avx/P2ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_3D.cpp
       noarch/P1ElementwiseDivKGrad_toMatrix_macro_2D.cpp
       noarch/P1ElementwiseDivKGrad_toMatrix_macro_3D.cpp
+      noarch/P2ElementwiseDivKGradAnnulusMap_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseDivKGradIcosahedralShellMap_toMatrix_macro_3D.cpp
       noarch/P2ElementwiseDivKGrad_toMatrix_macro_2D.cpp
       noarch/P2ElementwiseDivKGrad_toMatrix_macro_3D.cpp
    )
@@ -29,6 +39,10 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P1ElementwiseDivKGrad_apply_macro_3D.cpp
       avx/P1ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_2D.cpp
       avx/P1ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P2ElementwiseDivKGradAnnulusMap_apply_macro_2D.cpp
+      avx/P2ElementwiseDivKGradAnnulusMap_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      avx/P2ElementwiseDivKGradIcosahedralShellMap_apply_macro_3D.cpp
+      avx/P2ElementwiseDivKGradIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
       avx/P2ElementwiseDivKGrad_apply_macro_2D.cpp
       avx/P2ElementwiseDivKGrad_apply_macro_3D.cpp
       avx/P2ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_2D.cpp
@@ -49,6 +63,12 @@ else()
       noarch/P1ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_3D.cpp
       noarch/P1ElementwiseDivKGrad_toMatrix_macro_2D.cpp
       noarch/P1ElementwiseDivKGrad_toMatrix_macro_3D.cpp
+      noarch/P2ElementwiseDivKGradAnnulusMap_apply_macro_2D.cpp
+      noarch/P2ElementwiseDivKGradAnnulusMap_computeInverseDiagonalOperatorValues_macro_2D.cpp
+      noarch/P2ElementwiseDivKGradAnnulusMap_toMatrix_macro_2D.cpp
+      noarch/P2ElementwiseDivKGradIcosahedralShellMap_apply_macro_3D.cpp
+      noarch/P2ElementwiseDivKGradIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      noarch/P2ElementwiseDivKGradIcosahedralShellMap_toMatrix_macro_3D.cpp
       noarch/P2ElementwiseDivKGrad_apply_macro_2D.cpp
       noarch/P2ElementwiseDivKGrad_apply_macro_3D.cpp
       noarch/P2ElementwiseDivKGrad_computeInverseDiagonalOperatorValues_macro_2D.cpp

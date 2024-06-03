@@ -1,0 +1,286 @@
+/*
+* Copyright (c) 2017-2024 Nils Kohl, Daniel Bauer, Fabian Böhm.
+*
+* This file is part of HyTeG
+* (see https://i10git.cs.fau.de/hyteg/hyteg).
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/*
+* The entire file was generated with the HyTeG Operator Generator.
+*
+* Avoid modifying this file. If buggy, consider fixing the generator itself.
+*/
+
+#pragma once
+
+#include "core/DataTypes.h"
+
+#include "hyteg/LikwidWrapper.hpp"
+#include "hyteg/communication/Syncing.hpp"
+#include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
+#include "hyteg/operators/Operator.hpp"
+#include "hyteg/p2functionspace/P2Function.hpp"
+#include "hyteg/primitivestorage/PrimitiveStorage.hpp"
+#include "hyteg/solvers/Smoothables.hpp"
+#include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
+
+#define FUNC_PREFIX
+
+namespace hyteg {
+
+namespace operatorgeneration {
+
+/// Implements the fully coupled viscous operator for the shear heating term.
+/// The latter is the extension of the Epsilon operator to the case where
+/// the velocity field need not be divergence-free. This is e.g. the case
+/// in the (truncated) anelastic liquid approximation of mantle convection.
+///
+/// https://doi.org/10.1111/j.1365-246X.2009.04413.x
+/// (3) and (5)
+///
+/// https://doi.org/10.5194/gmd-15-5127-2022
+/// Listing 2
+///
+/// The strong representation of the operator is given by:
+///
+///     𝜏(u) : grad(u)
+///     2 {[ μ (grad(u)+grad(u)ᵀ) / 2 ] - 1/dim [ μ div(u) ]I} : grad(u)
+///
+/// Note that the factor 1/dim means that for 2D this is the pseudo-3D form
+/// of the operator.
+///
+/// Component trial: 0
+/// Component test:  0
+/// Geometry map:    IdentityMap
+///
+/// Weak formulation
+///
+///     T: trial function (scalar space:    Lagrange, degree: 2)
+///     s: test function  (scalar space:    Lagrange, degree: 2)
+///     μ: coefficient    (scalar space:    Lagrange, degree: 2)
+///     u: velocity       (vectorial space: Lagrange, degree: 2)
+///
+///     ∫ { 2 {[ μ (grad(u)+grad(u)ᵀ) / 2 ] - 1/3 [ μ div(u) ]I} : grad(u) } T_h s_h
+///
+/// The resulting matrix must be multiplied with a vector of ones to be used as the shear heating term in the RHS
+
+class P2ElementwiseShearHeating : public Operator< P2Function< real_t >, P2Function< real_t > >,
+                                  public OperatorWithInverseDiagonal< P2Function< real_t > >
+{
+ public:
+   P2ElementwiseShearHeating( const std::shared_ptr< PrimitiveStorage >& storage,
+                              size_t                                     minLevel,
+                              size_t                                     maxLevel,
+                              const P2Function< real_t >&                _mu,
+                              const P2Function< real_t >&                _ux,
+                              const P2Function< real_t >&                _uy,
+                              const P2Function< real_t >&                _uz );
+
+   void apply( const P2Function< real_t >& src,
+               const P2Function< real_t >& dst,
+               uint_t                      level,
+               DoFType                     flag,
+               UpdateType                  updateType = Replace ) const;
+
+   void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                  const P2Function< idx_t >&                  src,
+                  const P2Function< idx_t >&                  dst,
+                  uint_t                                      level,
+                  DoFType                                     flag ) const;
+
+   void computeInverseDiagonalOperatorValues();
+
+   std::shared_ptr< P2Function< real_t > > getInverseDiagonalValues() const;
+
+ protected:
+ private:
+   /// Kernel type: apply
+   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - operations per element:
+   ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
+   /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
+   ///    320     376       0       0      0              0                 0              0
+   void apply_macro_2D( real_t* RESTRICT _data_dstEdge,
+                        real_t* RESTRICT _data_dstVertex,
+                        real_t* RESTRICT _data_muEdge,
+                        real_t* RESTRICT _data_muVertex,
+                        real_t* RESTRICT _data_srcEdge,
+                        real_t* RESTRICT _data_srcVertex,
+                        real_t* RESTRICT _data_uxEdge,
+                        real_t* RESTRICT _data_uxVertex,
+                        real_t* RESTRICT _data_uyEdge,
+                        real_t* RESTRICT _data_uyVertex,
+                        real_t           macro_vertex_coord_id_0comp0,
+                        real_t           macro_vertex_coord_id_0comp1,
+                        real_t           macro_vertex_coord_id_1comp0,
+                        real_t           macro_vertex_coord_id_1comp1,
+                        real_t           macro_vertex_coord_id_2comp0,
+                        real_t           macro_vertex_coord_id_2comp1,
+                        int64_t          micro_edges_per_macro_edge,
+                        real_t           micro_edges_per_macro_edge_float ) const;
+   /// Kernel type: apply
+   /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
+   /// - operations per element:
+   ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
+   /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
+   ///   1175    1255       0       0      0              0                 0              0
+   void apply_macro_3D( real_t* RESTRICT _data_dstEdge,
+                        real_t* RESTRICT _data_dstVertex,
+                        real_t* RESTRICT _data_muEdge,
+                        real_t* RESTRICT _data_muVertex,
+                        real_t* RESTRICT _data_srcEdge,
+                        real_t* RESTRICT _data_srcVertex,
+                        real_t* RESTRICT _data_uxEdge,
+                        real_t* RESTRICT _data_uxVertex,
+                        real_t* RESTRICT _data_uyEdge,
+                        real_t* RESTRICT _data_uyVertex,
+                        real_t* RESTRICT _data_uzEdge,
+                        real_t* RESTRICT _data_uzVertex,
+                        real_t           macro_vertex_coord_id_0comp0,
+                        real_t           macro_vertex_coord_id_0comp1,
+                        real_t           macro_vertex_coord_id_0comp2,
+                        real_t           macro_vertex_coord_id_1comp0,
+                        real_t           macro_vertex_coord_id_1comp1,
+                        real_t           macro_vertex_coord_id_1comp2,
+                        real_t           macro_vertex_coord_id_2comp0,
+                        real_t           macro_vertex_coord_id_2comp1,
+                        real_t           macro_vertex_coord_id_2comp2,
+                        real_t           macro_vertex_coord_id_3comp0,
+                        real_t           macro_vertex_coord_id_3comp1,
+                        real_t           macro_vertex_coord_id_3comp2,
+                        int64_t          micro_edges_per_macro_edge,
+                        real_t           micro_edges_per_macro_edge_float ) const;
+   /// Kernel type: toMatrix
+   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - operations per element:
+   ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
+   /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
+   ///    284     340       0       0      0              0                 0              3
+   void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
+                           idx_t* RESTRICT                      _data_dstVertex,
+                           real_t* RESTRICT                     _data_muEdge,
+                           real_t* RESTRICT                     _data_muVertex,
+                           idx_t* RESTRICT                      _data_srcEdge,
+                           idx_t* RESTRICT                      _data_srcVertex,
+                           real_t* RESTRICT                     _data_uxEdge,
+                           real_t* RESTRICT                     _data_uxVertex,
+                           real_t* RESTRICT                     _data_uyEdge,
+                           real_t* RESTRICT                     _data_uyVertex,
+                           real_t                               macro_vertex_coord_id_0comp0,
+                           real_t                               macro_vertex_coord_id_0comp1,
+                           real_t                               macro_vertex_coord_id_1comp0,
+                           real_t                               macro_vertex_coord_id_1comp1,
+                           real_t                               macro_vertex_coord_id_2comp0,
+                           real_t                               macro_vertex_coord_id_2comp1,
+                           std::shared_ptr< SparseMatrixProxy > mat,
+                           int64_t                              micro_edges_per_macro_edge,
+                           real_t                               micro_edges_per_macro_edge_float ) const;
+   /// Kernel type: toMatrix
+   /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
+   /// - operations per element:
+   ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
+   /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
+   ///   1075    1155       0       0      0              0                 0              3
+   void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
+                           idx_t* RESTRICT                      _data_dstVertex,
+                           real_t* RESTRICT                     _data_muEdge,
+                           real_t* RESTRICT                     _data_muVertex,
+                           idx_t* RESTRICT                      _data_srcEdge,
+                           idx_t* RESTRICT                      _data_srcVertex,
+                           real_t* RESTRICT                     _data_uxEdge,
+                           real_t* RESTRICT                     _data_uxVertex,
+                           real_t* RESTRICT                     _data_uyEdge,
+                           real_t* RESTRICT                     _data_uyVertex,
+                           real_t* RESTRICT                     _data_uzEdge,
+                           real_t* RESTRICT                     _data_uzVertex,
+                           real_t                               macro_vertex_coord_id_0comp0,
+                           real_t                               macro_vertex_coord_id_0comp1,
+                           real_t                               macro_vertex_coord_id_0comp2,
+                           real_t                               macro_vertex_coord_id_1comp0,
+                           real_t                               macro_vertex_coord_id_1comp1,
+                           real_t                               macro_vertex_coord_id_1comp2,
+                           real_t                               macro_vertex_coord_id_2comp0,
+                           real_t                               macro_vertex_coord_id_2comp1,
+                           real_t                               macro_vertex_coord_id_2comp2,
+                           real_t                               macro_vertex_coord_id_3comp0,
+                           real_t                               macro_vertex_coord_id_3comp1,
+                           real_t                               macro_vertex_coord_id_3comp2,
+                           std::shared_ptr< SparseMatrixProxy > mat,
+                           int64_t                              micro_edges_per_macro_edge,
+                           real_t                               micro_edges_per_macro_edge_float ) const;
+   /// Kernel type: computeInverseDiagonalOperatorValues
+   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - operations per element:
+   ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
+   /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
+   ///    230     260       0       0      0              0                 0              0
+   void computeInverseDiagonalOperatorValues_macro_2D( real_t* RESTRICT _data_invDiag_Edge,
+                                                       real_t* RESTRICT _data_invDiag_Vertex,
+                                                       real_t* RESTRICT _data_muEdge,
+                                                       real_t* RESTRICT _data_muVertex,
+                                                       real_t* RESTRICT _data_uxEdge,
+                                                       real_t* RESTRICT _data_uxVertex,
+                                                       real_t* RESTRICT _data_uyEdge,
+                                                       real_t* RESTRICT _data_uyVertex,
+                                                       real_t           macro_vertex_coord_id_0comp0,
+                                                       real_t           macro_vertex_coord_id_0comp1,
+                                                       real_t           macro_vertex_coord_id_1comp0,
+                                                       real_t           macro_vertex_coord_id_1comp1,
+                                                       real_t           macro_vertex_coord_id_2comp0,
+                                                       real_t           macro_vertex_coord_id_2comp1,
+                                                       int64_t          micro_edges_per_macro_edge,
+                                                       real_t           micro_edges_per_macro_edge_float ) const;
+   /// Kernel type: computeInverseDiagonalOperatorValues
+   /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
+   /// - operations per element:
+   ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
+   /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
+   ///    860     890       0       0      0              0                 0              0
+   void computeInverseDiagonalOperatorValues_macro_3D( real_t* RESTRICT _data_invDiag_Edge,
+                                                       real_t* RESTRICT _data_invDiag_Vertex,
+                                                       real_t* RESTRICT _data_muEdge,
+                                                       real_t* RESTRICT _data_muVertex,
+                                                       real_t* RESTRICT _data_uxEdge,
+                                                       real_t* RESTRICT _data_uxVertex,
+                                                       real_t* RESTRICT _data_uyEdge,
+                                                       real_t* RESTRICT _data_uyVertex,
+                                                       real_t* RESTRICT _data_uzEdge,
+                                                       real_t* RESTRICT _data_uzVertex,
+                                                       real_t           macro_vertex_coord_id_0comp0,
+                                                       real_t           macro_vertex_coord_id_0comp1,
+                                                       real_t           macro_vertex_coord_id_0comp2,
+                                                       real_t           macro_vertex_coord_id_1comp0,
+                                                       real_t           macro_vertex_coord_id_1comp1,
+                                                       real_t           macro_vertex_coord_id_1comp2,
+                                                       real_t           macro_vertex_coord_id_2comp0,
+                                                       real_t           macro_vertex_coord_id_2comp1,
+                                                       real_t           macro_vertex_coord_id_2comp2,
+                                                       real_t           macro_vertex_coord_id_3comp0,
+                                                       real_t           macro_vertex_coord_id_3comp1,
+                                                       real_t           macro_vertex_coord_id_3comp2,
+                                                       int64_t          micro_edges_per_macro_edge,
+                                                       real_t           micro_edges_per_macro_edge_float ) const;
+
+   std::shared_ptr< P2Function< real_t > > invDiag_;
+   P2Function< real_t >                    mu;
+   P2Function< real_t >                    ux;
+   P2Function< real_t >                    uy;
+   P2Function< real_t >                    uz;
+};
+
+} // namespace operatorgeneration
+
+} // namespace hyteg
