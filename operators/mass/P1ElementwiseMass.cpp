@@ -337,7 +337,7 @@ void P1ElementwiseMass::computeInverseDiagonalOperatorValues()
 
    for ( uint_t level = minLevel_; level <= maxLevel_; level++ )
    {
-      invDiag_->setToZero( level );
+      invDiag_->interpolate( 0, level );
 
       if ( storage_->hasGlobalCells() )
       {
@@ -398,6 +398,7 @@ void P1ElementwiseMass::computeInverseDiagonalOperatorValues()
          ( *invDiag_ ).communicateAdditively< Cell, Edge >( level );
          ( *invDiag_ ).communicateAdditively< Cell, Vertex >( level );
          this->timingTree_->stop( "post-communication" );
+         ( *invDiag_ ).invertElementwise( level );
       }
       else
       {
@@ -445,9 +446,8 @@ void P1ElementwiseMass::computeInverseDiagonalOperatorValues()
          ( *invDiag_ ).communicateAdditively< Face, Edge >( level );
          ( *invDiag_ ).communicateAdditively< Face, Vertex >( level );
          this->timingTree_->stop( "post-communication" );
+         ( *invDiag_ ).invertElementwise( level );
       }
-
-      ( *invDiag_ ).invertElementwise( level );
    }
 
    this->stopTiming( "computeInverseDiagonalOperatorValues" );

@@ -133,6 +133,8 @@ def generate_cmake_from_cpp_files(output_dir_path: str):
         print(f'   add_compile_options( "-Wno-implicit-float-conversion" )', file=f)
         print(f"endif()", file=f)
         print(f"", file=f)
+        print(f'add_compile_options( "-Wno-unused-variable" )', file=f)
+        print(f"", file=f)
 
         for subdir in subdirs:
             print(f"add_subdirectory({os.path.basename(subdir)})", file=f)

@@ -330,7 +330,7 @@ void P2ElementwiseMassIcosahedralShellMap::computeInverseDiagonalOperatorValues(
 
    for ( uint_t level = minLevel_; level <= maxLevel_; level++ )
    {
-      invDiag_->setToZero( level );
+      invDiag_->interpolate( 0, level );
 
       if ( storage_->hasGlobalCells() )
       {
@@ -427,6 +427,7 @@ void P2ElementwiseMassIcosahedralShellMap::computeInverseDiagonalOperatorValues(
          ( *invDiag_ ).getEdgeDoFFunction().communicateAdditively< Cell, Face >( level );
          ( *invDiag_ ).getEdgeDoFFunction().communicateAdditively< Cell, Edge >( level );
          this->timingTree_->stop( "post-communication" );
+         ( *invDiag_ ).invertElementwise( level );
       }
       else
       {
@@ -435,9 +436,8 @@ void P2ElementwiseMassIcosahedralShellMap::computeInverseDiagonalOperatorValues(
          this->timingTree_->stop( "pre-communication" );
 
          WALBERLA_ABORT( "Not implemented." );
+         ( *invDiag_ ).invertElementwise( level );
       }
-
-      ( *invDiag_ ).invertElementwise( level );
    }
 
    this->stopTiming( "computeInverseDiagonalOperatorValues" );
