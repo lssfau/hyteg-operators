@@ -258,6 +258,7 @@ def generate_operator(
     fe_spaces = {
         "P1": function_space.LagrangianFunctionSpace(1, symbolizer),
         "P2": function_space.LagrangianFunctionSpace(2, symbolizer),
+        "P2Vector": function_space.TensorialVectorFunctionSpace(function_space.LagrangianFunctionSpace(2, symbolizer)),
         "N1E1": function_space.N1E1Space(symbolizer),
     }
     geometries = {
