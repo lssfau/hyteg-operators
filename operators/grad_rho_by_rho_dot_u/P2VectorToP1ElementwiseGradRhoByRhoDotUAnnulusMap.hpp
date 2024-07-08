@@ -55,6 +55,7 @@ namespace operatorgeneration {
 ///     v: test function  (space: Lagrange, degree: 1)
 ///     rho: coefficient    (space: Lagrange, degree: 2)
 ///
+///     ∫ ((∇ρ / ρ) · u) v
 
 class P2VectorToP1ElementwiseGradRhoByRhoDotUAnnulusMap : public Operator< P2VectorFunction< real_t >, P1Function< real_t > >
 {
