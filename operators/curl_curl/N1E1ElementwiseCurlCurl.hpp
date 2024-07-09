@@ -73,7 +73,7 @@ class N1E1ElementwiseCurlCurl : public Operator< n1e1::N1E1VectorFunction< real_
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     87     130       1       0      0              0                 0              0
+   ///    180     202      37       0      0              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_src,
                         real_t           macro_vertex_coord_id_0comp0,
@@ -95,7 +95,7 @@ class N1E1ElementwiseCurlCurl : public Operator< n1e1::N1E1VectorFunction< real_
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     51     181       1       0      0              0                 0              3
+   ///    144     253      37       0      0              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dst,
                            idx_t* RESTRICT                      _data_src,
                            const Cell&                          cell,
@@ -120,7 +120,7 @@ class N1E1ElementwiseCurlCurl : public Operator< n1e1::N1E1VectorFunction< real_
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     27      43       1       0      0              0                 0              0
+   ///    120     115      37       0      0              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_3D( real_t* RESTRICT _data_invDiag_,
                                                        real_t           macro_vertex_coord_id_0comp0,
                                                        real_t           macro_vertex_coord_id_0comp1,

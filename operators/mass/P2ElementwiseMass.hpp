@@ -83,7 +83,7 @@ class P2ElementwiseMass : public Operator< P2Function< real_t >, P2Function< rea
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    228     312       0       0      0              0                 0              0
+   ///    260     336      12       0      0              0                 0              1
    void apply_macro_2D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_srcEdge,
@@ -101,7 +101,7 @@ class P2ElementwiseMass : public Operator< P2Function< real_t >, P2Function< rea
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1145    1255       0       0      0              0                 0              0
+   ///   1238    1327      36       0      0              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_srcEdge,
@@ -125,7 +125,7 @@ class P2ElementwiseMass : public Operator< P2Function< real_t >, P2Function< rea
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    192     276       0       0      0              0                 0              3
+   ///    224     300      12       0      0              0                 0              4
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            idx_t* RESTRICT                      _data_srcEdge,
@@ -144,7 +144,7 @@ class P2ElementwiseMass : public Operator< P2Function< real_t >, P2Function< rea
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1045    1155       0       0      0              0                 0              3
+   ///   1138    1227      36       0      0              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            idx_t* RESTRICT                      _data_srcEdge,
@@ -169,7 +169,7 @@ class P2ElementwiseMass : public Operator< P2Function< real_t >, P2Function< rea
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    108     156       0       0      0              0                 0              0
+   ///    140     180      12       0      0              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_2D( real_t* RESTRICT _data_invDiag_Edge,
                                                        real_t* RESTRICT _data_invDiag_Vertex,
                                                        real_t           macro_vertex_coord_id_0comp0,
@@ -185,7 +185,7 @@ class P2ElementwiseMass : public Operator< P2Function< real_t >, P2Function< rea
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    340     407       0       0      0              0                 0              0
+   ///    433     479      36       0      0              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_3D( real_t* RESTRICT _data_invDiag_Edge,
                                                        real_t* RESTRICT _data_invDiag_Vertex,
                                                        real_t           macro_vertex_coord_id_0comp0,

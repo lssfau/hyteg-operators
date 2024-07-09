@@ -88,7 +88,7 @@ class P2ElementwiseDivKGradIcosahedralShellMap : public Operator< P2Function< re
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2108    3172      66      10      5              0                 0              1
+   ///   2453    3892      66      15      5              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_kEdge,
@@ -128,7 +128,7 @@ class P2ElementwiseDivKGradIcosahedralShellMap : public Operator< P2Function< re
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2008    3072      66      10      5              0                 0              4
+   ///   2353    3792      66      15      5              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            real_t* RESTRICT                     _data_kEdge,
@@ -169,7 +169,7 @@ class P2ElementwiseDivKGradIcosahedralShellMap : public Operator< P2Function< re
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1343    2172      66      10      5              0                 0              1
+   ///   1688    2892      66      15      5              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_3D( real_t* RESTRICT _data_invDiag_Edge,
                                                        real_t* RESTRICT _data_invDiag_Vertex,
                                                        real_t* RESTRICT _data_kEdge,

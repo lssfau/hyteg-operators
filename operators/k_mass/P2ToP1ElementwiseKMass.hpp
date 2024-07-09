@@ -82,7 +82,7 @@ class P2ToP1ElementwiseKMass : public Operator< P2Function< real_t >, P1Function
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    222     240       0       0      0              0                 0              0
+   ///    254     264      12       0      0              0                 0              1
    void apply_macro_2D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_kEdge,
                         real_t* RESTRICT _data_kVertex,
@@ -101,7 +101,7 @@ class P2ToP1ElementwiseKMass : public Operator< P2Function< real_t >, P1Function
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    799     799       0       0      0              0                 0              0
+   ///    892     871      36       0      0              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_kEdge,
                         real_t* RESTRICT _data_kVertex,
@@ -126,7 +126,7 @@ class P2ToP1ElementwiseKMass : public Operator< P2Function< real_t >, P1Function
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    204     222       0       0      0              0                 0              3
+   ///    236     246      12       0      0              0                 0              4
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dst,
                            real_t* RESTRICT                     _data_kEdge,
                            real_t* RESTRICT                     _data_kVertex,
@@ -146,7 +146,7 @@ class P2ToP1ElementwiseKMass : public Operator< P2Function< real_t >, P1Function
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    759     759       0       0      0              0                 0              3
+   ///    852     831      36       0      0              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dst,
                            real_t* RESTRICT                     _data_kEdge,
                            real_t* RESTRICT                     _data_kVertex,

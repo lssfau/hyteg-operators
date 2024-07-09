@@ -87,7 +87,7 @@ class P2ElementwiseDiffusion : public Operator< P2Function< real_t >, P2Function
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    183     286       0       0      0              0                 0              0
+   ///    215     310      12       0      0              0                 0              1
    void apply_macro_2D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_srcEdge,
@@ -105,7 +105,7 @@ class P2ElementwiseDiffusion : public Operator< P2Function< real_t >, P2Function
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    993    1389       0       0      0              0                 0              0
+   ///   1086    1461      36       0      0              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_srcEdge,
@@ -129,7 +129,7 @@ class P2ElementwiseDiffusion : public Operator< P2Function< real_t >, P2Function
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    147     250       0       0      0              0                 0              3
+   ///    179     274      12       0      0              0                 0              4
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            idx_t* RESTRICT                      _data_srcEdge,
@@ -148,7 +148,7 @@ class P2ElementwiseDiffusion : public Operator< P2Function< real_t >, P2Function
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    893    1289       0       0      0              0                 0              3
+   ///    986    1361      36       0      0              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            idx_t* RESTRICT                      _data_srcEdge,
@@ -173,7 +173,7 @@ class P2ElementwiseDiffusion : public Operator< P2Function< real_t >, P2Function
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     78     103       0       0      0              0                 0              0
+   ///    110     127      12       0      0              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_2D( real_t* RESTRICT _data_invDiag_Edge,
                                                        real_t* RESTRICT _data_invDiag_Vertex,
                                                        real_t           macro_vertex_coord_id_0comp0,
@@ -189,7 +189,7 @@ class P2ElementwiseDiffusion : public Operator< P2Function< real_t >, P2Function
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    288     425       0       0      0              0                 0              0
+   ///    381     497      36       0      0              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_3D( real_t* RESTRICT _data_invDiag_Edge,
                                                        real_t* RESTRICT _data_invDiag_Vertex,
                                                        real_t           macro_vertex_coord_id_0comp0,

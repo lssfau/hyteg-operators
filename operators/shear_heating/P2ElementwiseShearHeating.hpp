@@ -112,7 +112,7 @@ class P2ElementwiseShearHeating : public Operator< P2Function< real_t >, P2Funct
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    320     376       0       0      0              0                 0              0
+   ///    352     400      12       0      0              0                 0              1
    void apply_macro_2D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_muEdge,
@@ -136,7 +136,7 @@ class P2ElementwiseShearHeating : public Operator< P2Function< real_t >, P2Funct
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1175    1255       0       0      0              0                 0              0
+   ///   1268    1327      36       0      0              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_muEdge,
@@ -168,7 +168,7 @@ class P2ElementwiseShearHeating : public Operator< P2Function< real_t >, P2Funct
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    284     340       0       0      0              0                 0              3
+   ///    316     364      12       0      0              0                 0              4
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            real_t* RESTRICT                     _data_muEdge,
@@ -193,7 +193,7 @@ class P2ElementwiseShearHeating : public Operator< P2Function< real_t >, P2Funct
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1075    1155       0       0      0              0                 0              3
+   ///   1168    1227      36       0      0              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            real_t* RESTRICT                     _data_muEdge,
@@ -226,7 +226,7 @@ class P2ElementwiseShearHeating : public Operator< P2Function< real_t >, P2Funct
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    230     260       0       0      0              0                 0              0
+   ///    262     284      12       0      0              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_2D( real_t* RESTRICT _data_invDiag_Edge,
                                                        real_t* RESTRICT _data_invDiag_Vertex,
                                                        real_t* RESTRICT _data_muEdge,
@@ -248,7 +248,7 @@ class P2ElementwiseShearHeating : public Operator< P2Function< real_t >, P2Funct
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    860     890       0       0      0              0                 0              0
+   ///    953     962      36       0      0              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_3D( real_t* RESTRICT _data_invDiag_Edge,
                                                        real_t* RESTRICT _data_invDiag_Vertex,
                                                        real_t* RESTRICT _data_muEdge,

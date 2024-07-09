@@ -98,7 +98,7 @@ class P2ElementwiseFullStokesIcosahedralShellMap_0_1 : public Operator< P2Functi
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   3938    4677      66      10      5              0                 0              1
+   ///   4283    5397      66      15      5              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_muEdge,
@@ -138,7 +138,7 @@ class P2ElementwiseFullStokesIcosahedralShellMap_0_1 : public Operator< P2Functi
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   3838    4577      66      10      5              0                 0              4
+   ///   4183    5297      66      15      5              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            real_t* RESTRICT                     _data_muEdge,

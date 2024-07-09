@@ -87,7 +87,7 @@ class P2ElementwiseEpsilon_1_0 : public Operator< P2Function< real_t >, P2Functi
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    159     165       0       0      0              0                 0              0
+   ///    191     189      12       0      0              0                 0              1
    void apply_macro_2D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_muEdge,
@@ -107,7 +107,7 @@ class P2ElementwiseEpsilon_1_0 : public Operator< P2Function< real_t >, P2Functi
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    536     544       0       0      0              0                 0              0
+   ///    629     616      36       0      0              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_muEdge,
@@ -133,7 +133,7 @@ class P2ElementwiseEpsilon_1_0 : public Operator< P2Function< real_t >, P2Functi
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    123     129       0       0      0              0                 0              3
+   ///    155     153      12       0      0              0                 0              4
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            real_t* RESTRICT                     _data_muEdge,
@@ -154,7 +154,7 @@ class P2ElementwiseEpsilon_1_0 : public Operator< P2Function< real_t >, P2Functi
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    436     444       0       0      0              0                 0              3
+   ///    529     516      36       0      0              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            real_t* RESTRICT                     _data_muEdge,

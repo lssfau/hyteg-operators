@@ -79,7 +79,7 @@ class P2ToP1ElementwiseDivergence_0_0 : public Operator< P2Function< real_t >, P
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     84     108       0       0      0              0                 0              0
+   ///    116     132      12       0      0              0                 0              1
    void apply_macro_2D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_srcEdge,
                         real_t* RESTRICT _data_srcVertex,
@@ -96,7 +96,7 @@ class P2ToP1ElementwiseDivergence_0_0 : public Operator< P2Function< real_t >, P
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    252     280       0       0      0              0                 0              0
+   ///    345     352      36       0      0              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_srcEdge,
                         real_t* RESTRICT _data_srcVertex,
@@ -119,7 +119,7 @@ class P2ToP1ElementwiseDivergence_0_0 : public Operator< P2Function< real_t >, P
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     66      90       0       0      0              0                 0              3
+   ///     98     114      12       0      0              0                 0              4
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dst,
                            idx_t* RESTRICT                      _data_srcEdge,
                            idx_t* RESTRICT                      _data_srcVertex,
@@ -137,7 +137,7 @@ class P2ToP1ElementwiseDivergence_0_0 : public Operator< P2Function< real_t >, P
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    212     240       0       0      0              0                 0              3
+   ///    305     312      36       0      0              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dst,
                            idx_t* RESTRICT                      _data_srcEdge,
                            idx_t* RESTRICT                      _data_srcVertex,

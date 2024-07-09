@@ -83,7 +83,7 @@ class P2ToP1ElementwiseKMassIcosahedralShellMap : public Operator< P2Function< r
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1706    2312      69      22     11              0                 0              1
+   ///   2465    3907      69      33     11              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_kEdge,
                         real_t* RESTRICT _data_kVertex,
@@ -122,7 +122,7 @@ class P2ToP1ElementwiseKMassIcosahedralShellMap : public Operator< P2Function< r
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1666    2272      69      22     11              0                 0              4
+   ///   2425    3867      69      33     11              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dst,
                            real_t* RESTRICT                     _data_kEdge,
                            real_t* RESTRICT                     _data_kVertex,

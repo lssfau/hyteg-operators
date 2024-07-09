@@ -88,7 +88,7 @@ class P2ElementwiseEpsilonAnnulusMap_1_0 : public Operator< P2Function< real_t >
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    844    1008      28      16      4              0                 0              1
+   ///    936    1192      28      20      4              0                 0              1
    void apply_macro_2D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_muEdge,
@@ -116,7 +116,7 @@ class P2ElementwiseEpsilonAnnulusMap_1_0 : public Operator< P2Function< real_t >
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    808     972      28      16      4              0                 0              4
+   ///    900    1156      28      20      4              0                 0              4
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            real_t* RESTRICT                     _data_muEdge,

@@ -79,7 +79,7 @@ class P1ToP2ElementwiseGradient_2_0 : public Operator< P1Function< real_t >, P2F
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    252     308       0       0      0              0                 0              0
+   ///    345     380      36       0      0              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_src,
@@ -102,7 +102,7 @@ class P1ToP2ElementwiseGradient_2_0 : public Operator< P1Function< real_t >, P2F
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    212     268       0       0      0              0                 0              3
+   ///    305     340      36       0      0              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            idx_t* RESTRICT                      _data_src,

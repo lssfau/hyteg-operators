@@ -83,7 +83,7 @@ class P2ToP1ElementwiseKMassAnnulusMap : public Operator< P2Function< real_t >, 
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    494     648      30      24      6              0                 0              1
+   ///    632     924      30      30      6              0                 0              1
    void apply_macro_2D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_kEdge,
                         real_t* RESTRICT _data_kVertex,
@@ -110,7 +110,7 @@ class P2ToP1ElementwiseKMassAnnulusMap : public Operator< P2Function< real_t >, 
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    476     630      30      24      6              0                 0              4
+   ///    614     906      30      30      6              0                 0              4
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dst,
                            real_t* RESTRICT                     _data_kEdge,
                            real_t* RESTRICT                     _data_kVertex,

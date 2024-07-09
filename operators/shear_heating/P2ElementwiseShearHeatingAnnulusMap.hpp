@@ -112,7 +112,7 @@ class P2ElementwiseShearHeatingAnnulusMap : public Operator< P2Function< real_t 
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    464     572      20       8      0              0                 0              1
+   ///    556     756      20      12      0              0                 0              1
    void apply_macro_2D( real_t* RESTRICT _data_dstEdge,
                         real_t* RESTRICT _data_dstVertex,
                         real_t* RESTRICT _data_muEdge,
@@ -144,7 +144,7 @@ class P2ElementwiseShearHeatingAnnulusMap : public Operator< P2Function< real_t 
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    428     536      20       8      0              0                 0              4
+   ///    520     720      20      12      0              0                 0              4
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
                            idx_t* RESTRICT                      _data_dstVertex,
                            real_t* RESTRICT                     _data_muEdge,
@@ -177,7 +177,7 @@ class P2ElementwiseShearHeatingAnnulusMap : public Operator< P2Function< real_t 
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    374     456      20       8      0              0                 0              1
+   ///    466     640      20      12      0              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_2D( real_t* RESTRICT _data_invDiag_Edge,
                                                        real_t* RESTRICT _data_invDiag_Vertex,
                                                        real_t* RESTRICT _data_muEdge,

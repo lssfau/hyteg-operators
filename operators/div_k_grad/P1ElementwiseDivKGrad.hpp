@@ -87,7 +87,7 @@ class P1ElementwiseDivKGrad : public Operator< P1Function< real_t >, P1Function<
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     63      78       0       0      0              0                 0              0
+   ///     95     102      12       0      0              0                 0              1
    void apply_macro_2D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_k,
                         real_t* RESTRICT _data_src,
@@ -104,7 +104,7 @@ class P1ElementwiseDivKGrad : public Operator< P1Function< real_t >, P1Function<
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    184     200       0       0      0              0                 0              0
+   ///    277     272      36       0      0              0                 0              1
    void apply_macro_3D( real_t* RESTRICT _data_dst,
                         real_t* RESTRICT _data_k,
                         real_t* RESTRICT _data_src,
@@ -127,7 +127,7 @@ class P1ElementwiseDivKGrad : public Operator< P1Function< real_t >, P1Function<
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     54      69       0       0      0              0                 0              3
+   ///     86      93      12       0      0              0                 0              4
    void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dst,
                            real_t* RESTRICT                     _data_k,
                            idx_t* RESTRICT                      _data_src,
@@ -145,7 +145,7 @@ class P1ElementwiseDivKGrad : public Operator< P1Function< real_t >, P1Function<
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    168     184       0       0      0              0                 0              3
+   ///    261     256      36       0      0              0                 0              4
    void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dst,
                            real_t* RESTRICT                     _data_k,
                            idx_t* RESTRICT                      _data_src,
@@ -169,7 +169,7 @@ class P1ElementwiseDivKGrad : public Operator< P1Function< real_t >, P1Function<
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     39      42       0       0      0              0                 0              0
+   ///     71      66      12       0      0              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_2D( real_t* RESTRICT _data_invDiag_,
                                                        real_t* RESTRICT _data_k,
                                                        real_t           macro_vertex_coord_id_0comp0,
@@ -185,7 +185,7 @@ class P1ElementwiseDivKGrad : public Operator< P1Function< real_t >, P1Function<
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    100      88       0       0      0              0                 0              0
+   ///    193     160      36       0      0              0                 0              1
    void computeInverseDiagonalOperatorValues_macro_3D( real_t* RESTRICT _data_invDiag_,
                                                        real_t* RESTRICT _data_k,
                                                        real_t           macro_vertex_coord_id_0comp0,
