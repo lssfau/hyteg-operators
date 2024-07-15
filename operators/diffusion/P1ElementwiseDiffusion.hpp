@@ -29,6 +29,7 @@
 #include "core/DataTypes.h"
 
 #include "hyteg/LikwidWrapper.hpp"
+#include "hyteg/boundary/BoundaryConditions.hpp"
 #include "hyteg/communication/Syncing.hpp"
 #include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
 #include "hyteg/operators/Operator.hpp"
@@ -36,6 +37,7 @@
 #include "hyteg/primitivestorage/PrimitiveStorage.hpp"
 #include "hyteg/solvers/Smoothables.hpp"
 #include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
+#include "hyteg/types/types.hpp"
 
 #define FUNC_PREFIX
 
@@ -82,120 +84,149 @@ class P1ElementwiseDiffusion : public Operator< P1Function< real_t >, P1Function
 
  protected:
  private:
-   /// Kernel type: apply
+   /// Integral: P1ElementwiseDiffusion
+   /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
+   /// - kernel type:     apply
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Centroid rule | points: 1, degree: 1
+   /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///     49      49      12       0      0              0                 0              1
-   void apply_macro_2D( real_t* RESTRICT _data_dst,
-                        real_t* RESTRICT _data_src,
-                        real_t           macro_vertex_coord_id_0comp0,
-                        real_t           macro_vertex_coord_id_0comp1,
-                        real_t           macro_vertex_coord_id_1comp0,
-                        real_t           macro_vertex_coord_id_1comp1,
-                        real_t           macro_vertex_coord_id_2comp0,
-                        real_t           macro_vertex_coord_id_2comp1,
-                        int64_t          micro_edges_per_macro_edge,
-                        real_t           micro_edges_per_macro_edge_float ) const;
-   /// Kernel type: apply
+   void apply_P1ElementwiseDiffusion_macro_2D( real_t* RESTRICT _data_dst,
+                                               real_t* RESTRICT _data_src,
+                                               real_t           macro_vertex_coord_id_0comp0,
+                                               real_t           macro_vertex_coord_id_0comp1,
+                                               real_t           macro_vertex_coord_id_1comp0,
+                                               real_t           macro_vertex_coord_id_1comp1,
+                                               real_t           macro_vertex_coord_id_2comp0,
+                                               real_t           macro_vertex_coord_id_2comp1,
+                                               int64_t          micro_edges_per_macro_edge,
+                                               real_t           micro_edges_per_macro_edge_float ) const;
+
+   /// Integral: P1ElementwiseDiffusion
+   /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
+   /// - kernel type:     apply
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Keast 0 | points: 1, degree: 1
+   /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///    135     123      36       0      0              0                 0              1
-   void apply_macro_3D( real_t* RESTRICT _data_dst,
-                        real_t* RESTRICT _data_src,
-                        real_t           macro_vertex_coord_id_0comp0,
-                        real_t           macro_vertex_coord_id_0comp1,
-                        real_t           macro_vertex_coord_id_0comp2,
-                        real_t           macro_vertex_coord_id_1comp0,
-                        real_t           macro_vertex_coord_id_1comp1,
-                        real_t           macro_vertex_coord_id_1comp2,
-                        real_t           macro_vertex_coord_id_2comp0,
-                        real_t           macro_vertex_coord_id_2comp1,
-                        real_t           macro_vertex_coord_id_2comp2,
-                        real_t           macro_vertex_coord_id_3comp0,
-                        real_t           macro_vertex_coord_id_3comp1,
-                        real_t           macro_vertex_coord_id_3comp2,
-                        int64_t          micro_edges_per_macro_edge,
-                        real_t           micro_edges_per_macro_edge_float ) const;
-   /// Kernel type: toMatrix
+   void apply_P1ElementwiseDiffusion_macro_3D( real_t* RESTRICT _data_dst,
+                                               real_t* RESTRICT _data_src,
+                                               real_t           macro_vertex_coord_id_0comp0,
+                                               real_t           macro_vertex_coord_id_0comp1,
+                                               real_t           macro_vertex_coord_id_0comp2,
+                                               real_t           macro_vertex_coord_id_1comp0,
+                                               real_t           macro_vertex_coord_id_1comp1,
+                                               real_t           macro_vertex_coord_id_1comp2,
+                                               real_t           macro_vertex_coord_id_2comp0,
+                                               real_t           macro_vertex_coord_id_2comp1,
+                                               real_t           macro_vertex_coord_id_2comp2,
+                                               real_t           macro_vertex_coord_id_3comp0,
+                                               real_t           macro_vertex_coord_id_3comp1,
+                                               real_t           macro_vertex_coord_id_3comp2,
+                                               int64_t          micro_edges_per_macro_edge,
+                                               real_t           micro_edges_per_macro_edge_float ) const;
+
+   /// Integral: P1ElementwiseDiffusion
+   /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
+   /// - kernel type:     toMatrix
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Centroid rule | points: 1, degree: 1
+   /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///     40      43      12       0      0              0                 0              4
-   void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dst,
-                           idx_t* RESTRICT                      _data_src,
-                           real_t                               macro_vertex_coord_id_0comp0,
-                           real_t                               macro_vertex_coord_id_0comp1,
-                           real_t                               macro_vertex_coord_id_1comp0,
-                           real_t                               macro_vertex_coord_id_1comp1,
-                           real_t                               macro_vertex_coord_id_2comp0,
-                           real_t                               macro_vertex_coord_id_2comp1,
-                           std::shared_ptr< SparseMatrixProxy > mat,
-                           int64_t                              micro_edges_per_macro_edge,
-                           real_t                               micro_edges_per_macro_edge_float ) const;
-   /// Kernel type: toMatrix
+   void toMatrix_P1ElementwiseDiffusion_macro_2D( idx_t* RESTRICT                      _data_dst,
+                                                  idx_t* RESTRICT                      _data_src,
+                                                  real_t                               macro_vertex_coord_id_0comp0,
+                                                  real_t                               macro_vertex_coord_id_0comp1,
+                                                  real_t                               macro_vertex_coord_id_1comp0,
+                                                  real_t                               macro_vertex_coord_id_1comp1,
+                                                  real_t                               macro_vertex_coord_id_2comp0,
+                                                  real_t                               macro_vertex_coord_id_2comp1,
+                                                  std::shared_ptr< SparseMatrixProxy > mat,
+                                                  int64_t                              micro_edges_per_macro_edge,
+                                                  real_t                               micro_edges_per_macro_edge_float ) const;
+
+   /// Integral: P1ElementwiseDiffusion
+   /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
+   /// - kernel type:     toMatrix
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Keast 0 | points: 1, degree: 1
+   /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///    119     113      36       0      0              0                 0              4
-   void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dst,
-                           idx_t* RESTRICT                      _data_src,
-                           real_t                               macro_vertex_coord_id_0comp0,
-                           real_t                               macro_vertex_coord_id_0comp1,
-                           real_t                               macro_vertex_coord_id_0comp2,
-                           real_t                               macro_vertex_coord_id_1comp0,
-                           real_t                               macro_vertex_coord_id_1comp1,
-                           real_t                               macro_vertex_coord_id_1comp2,
-                           real_t                               macro_vertex_coord_id_2comp0,
-                           real_t                               macro_vertex_coord_id_2comp1,
-                           real_t                               macro_vertex_coord_id_2comp2,
-                           real_t                               macro_vertex_coord_id_3comp0,
-                           real_t                               macro_vertex_coord_id_3comp1,
-                           real_t                               macro_vertex_coord_id_3comp2,
-                           std::shared_ptr< SparseMatrixProxy > mat,
-                           int64_t                              micro_edges_per_macro_edge,
-                           real_t                               micro_edges_per_macro_edge_float ) const;
-   /// Kernel type: computeInverseDiagonalOperatorValues
+   void toMatrix_P1ElementwiseDiffusion_macro_3D( idx_t* RESTRICT                      _data_dst,
+                                                  idx_t* RESTRICT                      _data_src,
+                                                  real_t                               macro_vertex_coord_id_0comp0,
+                                                  real_t                               macro_vertex_coord_id_0comp1,
+                                                  real_t                               macro_vertex_coord_id_0comp2,
+                                                  real_t                               macro_vertex_coord_id_1comp0,
+                                                  real_t                               macro_vertex_coord_id_1comp1,
+                                                  real_t                               macro_vertex_coord_id_1comp2,
+                                                  real_t                               macro_vertex_coord_id_2comp0,
+                                                  real_t                               macro_vertex_coord_id_2comp1,
+                                                  real_t                               macro_vertex_coord_id_2comp2,
+                                                  real_t                               macro_vertex_coord_id_3comp0,
+                                                  real_t                               macro_vertex_coord_id_3comp1,
+                                                  real_t                               macro_vertex_coord_id_3comp2,
+                                                  std::shared_ptr< SparseMatrixProxy > mat,
+                                                  int64_t                              micro_edges_per_macro_edge,
+                                                  real_t                               micro_edges_per_macro_edge_float ) const;
+
+   /// Integral: P1ElementwiseDiffusion
+   /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
+   /// - kernel type:     computeInverseDiagonalOperatorValues
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Centroid rule | points: 1, degree: 1
+   /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///     40      34      12       0      0              0                 0              1
-   void computeInverseDiagonalOperatorValues_macro_2D( real_t* RESTRICT _data_invDiag_,
-                                                       real_t           macro_vertex_coord_id_0comp0,
-                                                       real_t           macro_vertex_coord_id_0comp1,
-                                                       real_t           macro_vertex_coord_id_1comp0,
-                                                       real_t           macro_vertex_coord_id_1comp1,
-                                                       real_t           macro_vertex_coord_id_2comp0,
-                                                       real_t           macro_vertex_coord_id_2comp1,
-                                                       int64_t          micro_edges_per_macro_edge,
-                                                       real_t           micro_edges_per_macro_edge_float ) const;
-   /// Kernel type: computeInverseDiagonalOperatorValues
+   void computeInverseDiagonalOperatorValues_P1ElementwiseDiffusion_macro_2D( real_t* RESTRICT _data_invDiag_,
+                                                                              real_t           macro_vertex_coord_id_0comp0,
+                                                                              real_t           macro_vertex_coord_id_0comp1,
+                                                                              real_t           macro_vertex_coord_id_1comp0,
+                                                                              real_t           macro_vertex_coord_id_1comp1,
+                                                                              real_t           macro_vertex_coord_id_2comp0,
+                                                                              real_t           macro_vertex_coord_id_2comp1,
+                                                                              int64_t          micro_edges_per_macro_edge,
+                                                                              real_t micro_edges_per_macro_edge_float ) const;
+
+   /// Integral: P1ElementwiseDiffusion
+   /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
+   /// - kernel type:     computeInverseDiagonalOperatorValues
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Keast 0 | points: 1, degree: 1
+   /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///    111      89      36       0      0              0                 0              1
-   void computeInverseDiagonalOperatorValues_macro_3D( real_t* RESTRICT _data_invDiag_,
-                                                       real_t           macro_vertex_coord_id_0comp0,
-                                                       real_t           macro_vertex_coord_id_0comp1,
-                                                       real_t           macro_vertex_coord_id_0comp2,
-                                                       real_t           macro_vertex_coord_id_1comp0,
-                                                       real_t           macro_vertex_coord_id_1comp1,
-                                                       real_t           macro_vertex_coord_id_1comp2,
-                                                       real_t           macro_vertex_coord_id_2comp0,
-                                                       real_t           macro_vertex_coord_id_2comp1,
-                                                       real_t           macro_vertex_coord_id_2comp2,
-                                                       real_t           macro_vertex_coord_id_3comp0,
-                                                       real_t           macro_vertex_coord_id_3comp1,
-                                                       real_t           macro_vertex_coord_id_3comp2,
-                                                       int64_t          micro_edges_per_macro_edge,
-                                                       real_t           micro_edges_per_macro_edge_float ) const;
+   void computeInverseDiagonalOperatorValues_P1ElementwiseDiffusion_macro_3D( real_t* RESTRICT _data_invDiag_,
+                                                                              real_t           macro_vertex_coord_id_0comp0,
+                                                                              real_t           macro_vertex_coord_id_0comp1,
+                                                                              real_t           macro_vertex_coord_id_0comp2,
+                                                                              real_t           macro_vertex_coord_id_1comp0,
+                                                                              real_t           macro_vertex_coord_id_1comp1,
+                                                                              real_t           macro_vertex_coord_id_1comp2,
+                                                                              real_t           macro_vertex_coord_id_2comp0,
+                                                                              real_t           macro_vertex_coord_id_2comp1,
+                                                                              real_t           macro_vertex_coord_id_2comp2,
+                                                                              real_t           macro_vertex_coord_id_3comp0,
+                                                                              real_t           macro_vertex_coord_id_3comp1,
+                                                                              real_t           macro_vertex_coord_id_3comp2,
+                                                                              int64_t          micro_edges_per_macro_edge,
+                                                                              real_t micro_edges_per_macro_edge_float ) const;
 
    std::shared_ptr< P1Function< real_t > > invDiag_;
 };

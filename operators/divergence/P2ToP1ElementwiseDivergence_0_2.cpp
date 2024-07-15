@@ -127,7 +127,7 @@ void P2ToP1ElementwiseDivergence_0_2::apply( const P2Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_3D(
+         apply_P2ToP1ElementwiseDivergence_0_2_macro_3D(
 
              _data_dst,
              _data_srcEdge,
@@ -146,6 +146,7 @@ void P2ToP1ElementwiseDivergence_0_2::apply( const P2Function< real_t >& src,
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -212,7 +213,7 @@ void P2ToP1ElementwiseDivergence_0_2::toMatrix( const std::shared_ptr< SparseMat
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_3D(
+         toMatrix_P2ToP1ElementwiseDivergence_0_2_macro_3D(
 
              _data_dst,
              _data_srcEdge,
@@ -232,6 +233,7 @@ void P2ToP1ElementwiseDivergence_0_2::toMatrix( const std::shared_ptr< SparseMat
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
    }

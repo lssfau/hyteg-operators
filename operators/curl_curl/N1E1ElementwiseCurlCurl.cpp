@@ -118,7 +118,7 @@ void N1E1ElementwiseCurlCurl::apply( const n1e1::N1E1VectorFunction< real_t >& s
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_3D(
+         apply_N1E1ElementwiseCurlCurl_macro_3D(
 
              _data_dst,
              _data_src,
@@ -136,6 +136,7 @@ void N1E1ElementwiseCurlCurl::apply( const n1e1::N1E1VectorFunction< real_t >& s
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -200,7 +201,7 @@ void N1E1ElementwiseCurlCurl::toMatrix( const std::shared_ptr< SparseMatrixProxy
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_3D(
+         toMatrix_N1E1ElementwiseCurlCurl_macro_3D(
 
              _data_dst,
              _data_src,
@@ -221,6 +222,7 @@ void N1E1ElementwiseCurlCurl::toMatrix( const std::shared_ptr< SparseMatrixProxy
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
    }
@@ -278,7 +280,7 @@ void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValues()
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_macro_3D(
+            computeInverseDiagonalOperatorValues_N1E1ElementwiseCurlCurl_macro_3D(
 
                 _data_invDiag_,
                 macro_vertex_coord_id_0comp0,
@@ -295,6 +297,7 @@ void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValues()
                 macro_vertex_coord_id_3comp2,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float );
+
             this->timingTree_->stop( "kernel" );
          }
 

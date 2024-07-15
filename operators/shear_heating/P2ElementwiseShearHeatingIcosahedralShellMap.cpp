@@ -175,7 +175,7 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::apply( const P2Function< real
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_3D(
+         apply_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -217,6 +217,7 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::apply( const P2Function< real
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -327,7 +328,7 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::toMatrix( const std::shared_p
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_3D(
+         toMatrix_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -370,6 +371,7 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::toMatrix( const std::shared_p
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
+
          this->timingTree_->stop( "kernel" );
       }
    }
@@ -467,7 +469,7 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::computeInverseDiagonalOperato
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_macro_3D(
+            computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D(
 
                 _data_invDiag_Edge,
                 _data_invDiag_Vertex,
@@ -507,6 +509,7 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::computeInverseDiagonalOperato
                 thrVertex_0,
                 thrVertex_1,
                 thrVertex_2 );
+
             this->timingTree_->stop( "kernel" );
          }
 

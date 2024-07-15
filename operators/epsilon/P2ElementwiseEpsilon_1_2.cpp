@@ -136,7 +136,7 @@ void P2ElementwiseEpsilon_1_2::apply( const P2Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_3D(
+         apply_P2ElementwiseEpsilon_1_2_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -158,6 +158,7 @@ void P2ElementwiseEpsilon_1_2::apply( const P2Function< real_t >& src,
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -236,7 +237,7 @@ void P2ElementwiseEpsilon_1_2::toMatrix( const std::shared_ptr< SparseMatrixProx
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_3D(
+         toMatrix_P2ElementwiseEpsilon_1_2_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -259,6 +260,7 @@ void P2ElementwiseEpsilon_1_2::toMatrix( const std::shared_ptr< SparseMatrixProx
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
    }

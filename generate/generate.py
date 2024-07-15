@@ -382,7 +382,6 @@ def generate_operator(
         operator = operator_generation.operators.HyTeGElementwiseOperator(
             name,
             symbolizer,
-            opts=optimizations,
             kernel_wrapper_types=kernel_types,
             type_descriptor=type_descriptor,
         )
@@ -400,20 +399,20 @@ def generate_operator(
                 blending=blending,  # type: ignore[call-arg] # kw-args are not supported by Callable
             )
 
-            operator.add_integral(
+            operator.add_volume_integral(
                 name="".join(name.split()),
-                dim=geometry.dimensions,
-                geometry=geometry,
-                integration_domain=operator_generation.operators.MacroIntegrationDomain.VOLUME,
+                volume_geometry=geometry,
                 quad=quad,
                 blending=blending,
                 form=form,
                 loop_strategy=loop_strategies[spec["loop-strategy"]],
+                optimizations=optimizations,
             )
 
         dir_path = os.path.join(args.output, form_str)
         operator.generate_class_code(
             dir_path,
+            class_files=operator_generation.operators.CppClassFiles.HEADER_IMPL_AND_VARIANTS,
             clang_format_binary=args.clang_format_binary,
         )
 

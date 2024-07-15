@@ -29,6 +29,7 @@
 #include "core/DataTypes.h"
 
 #include "hyteg/LikwidWrapper.hpp"
+#include "hyteg/boundary/BoundaryConditions.hpp"
 #include "hyteg/communication/Syncing.hpp"
 #include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
 #include "hyteg/operators/Operator.hpp"
@@ -37,6 +38,7 @@
 #include "hyteg/p2functionspace/P2VectorFunction.hpp"
 #include "hyteg/primitivestorage/PrimitiveStorage.hpp"
 #include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
+#include "hyteg/types/types.hpp"
 
 #define FUNC_PREFIX
 
@@ -50,7 +52,7 @@ namespace operatorgeneration {
 ///
 /// Weak formulation
 ///
-///     u: trial function (space: TensorialVectorSpace(Lagrange, degree: 2))
+///     u: trial function (vectorial space: TensorialVectorSpace(Lagrange, degree: 2))
 ///     v: test function  (space: Lagrange, degree: 1)
 ///     rho: coefficient    (space: Lagrange, degree: 2)
 ///
@@ -78,108 +80,127 @@ class P2VectorToP1ElementwiseGradRhoByRhoDotU : public Operator< P2VectorFunctio
 
  protected:
  private:
-   /// Kernel type: apply
+   /// Integral: P2VectorToP1ElementwiseGradRhoByRhoDotU
+   /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
+   /// - kernel type:     apply
+   /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    356     380      16       0      0              0                 0              0
-   void apply_macro_2D( real_t* RESTRICT _data_dst,
-                        real_t* RESTRICT _data_rhoEdge,
-                        real_t* RESTRICT _data_rhoVertex,
-                        real_t* RESTRICT _data_src_edge_0,
-                        real_t* RESTRICT _data_src_edge_1,
-                        real_t* RESTRICT _data_src_vertex_0,
-                        real_t* RESTRICT _data_src_vertex_1,
-                        real_t           macro_vertex_coord_id_0comp0,
-                        real_t           macro_vertex_coord_id_0comp1,
-                        real_t           macro_vertex_coord_id_1comp0,
-                        real_t           macro_vertex_coord_id_1comp1,
-                        real_t           macro_vertex_coord_id_2comp0,
-                        real_t           macro_vertex_coord_id_2comp1,
-                        int64_t          micro_edges_per_macro_edge,
-                        real_t           micro_edges_per_macro_edge_float ) const;
-   /// Kernel type: apply
+   ///    356     384      16       0      0              0                 0              1
+   void apply_P2VectorToP1ElementwiseGradRhoByRhoDotU_macro_2D( real_t* RESTRICT _data_dst,
+                                                                real_t* RESTRICT _data_rhoEdge,
+                                                                real_t* RESTRICT _data_rhoVertex,
+                                                                real_t* RESTRICT _data_src_edge_0,
+                                                                real_t* RESTRICT _data_src_edge_1,
+                                                                real_t* RESTRICT _data_src_vertex_0,
+                                                                real_t* RESTRICT _data_src_vertex_1,
+                                                                real_t           macro_vertex_coord_id_0comp0,
+                                                                real_t           macro_vertex_coord_id_0comp1,
+                                                                real_t           macro_vertex_coord_id_1comp0,
+                                                                real_t           macro_vertex_coord_id_1comp1,
+                                                                real_t           macro_vertex_coord_id_2comp0,
+                                                                real_t           macro_vertex_coord_id_2comp1,
+                                                                int64_t          micro_edges_per_macro_edge,
+                                                                real_t           micro_edges_per_macro_edge_float ) const;
+
+   /// Integral: P2VectorToP1ElementwiseGradRhoByRhoDotU
+   /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
+   /// - kernel type:     apply
+   /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
+   /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1153    1162      41       0      0              0                 0              0
-   void apply_macro_3D( real_t* RESTRICT _data_dst,
-                        real_t* RESTRICT _data_rhoEdge,
-                        real_t* RESTRICT _data_rhoVertex,
-                        real_t* RESTRICT _data_src_edge_0,
-                        real_t* RESTRICT _data_src_edge_1,
-                        real_t* RESTRICT _data_src_edge_2,
-                        real_t* RESTRICT _data_src_vertex_0,
-                        real_t* RESTRICT _data_src_vertex_1,
-                        real_t* RESTRICT _data_src_vertex_2,
-                        real_t           macro_vertex_coord_id_0comp0,
-                        real_t           macro_vertex_coord_id_0comp1,
-                        real_t           macro_vertex_coord_id_0comp2,
-                        real_t           macro_vertex_coord_id_1comp0,
-                        real_t           macro_vertex_coord_id_1comp1,
-                        real_t           macro_vertex_coord_id_1comp2,
-                        real_t           macro_vertex_coord_id_2comp0,
-                        real_t           macro_vertex_coord_id_2comp1,
-                        real_t           macro_vertex_coord_id_2comp2,
-                        real_t           macro_vertex_coord_id_3comp0,
-                        real_t           macro_vertex_coord_id_3comp1,
-                        real_t           macro_vertex_coord_id_3comp2,
-                        int64_t          micro_edges_per_macro_edge,
-                        real_t           micro_edges_per_macro_edge_float ) const;
-   /// Kernel type: toMatrix
+   ///   1153    1167      41       0      0              0                 0              1
+   void apply_P2VectorToP1ElementwiseGradRhoByRhoDotU_macro_3D( real_t* RESTRICT _data_dst,
+                                                                real_t* RESTRICT _data_rhoEdge,
+                                                                real_t* RESTRICT _data_rhoVertex,
+                                                                real_t* RESTRICT _data_src_edge_0,
+                                                                real_t* RESTRICT _data_src_edge_1,
+                                                                real_t* RESTRICT _data_src_edge_2,
+                                                                real_t* RESTRICT _data_src_vertex_0,
+                                                                real_t* RESTRICT _data_src_vertex_1,
+                                                                real_t* RESTRICT _data_src_vertex_2,
+                                                                real_t           macro_vertex_coord_id_0comp0,
+                                                                real_t           macro_vertex_coord_id_0comp1,
+                                                                real_t           macro_vertex_coord_id_0comp2,
+                                                                real_t           macro_vertex_coord_id_1comp0,
+                                                                real_t           macro_vertex_coord_id_1comp1,
+                                                                real_t           macro_vertex_coord_id_1comp2,
+                                                                real_t           macro_vertex_coord_id_2comp0,
+                                                                real_t           macro_vertex_coord_id_2comp1,
+                                                                real_t           macro_vertex_coord_id_2comp2,
+                                                                real_t           macro_vertex_coord_id_3comp0,
+                                                                real_t           macro_vertex_coord_id_3comp1,
+                                                                real_t           macro_vertex_coord_id_3comp2,
+                                                                int64_t          micro_edges_per_macro_edge,
+                                                                real_t           micro_edges_per_macro_edge_float ) const;
+
+   /// Integral: P2VectorToP1ElementwiseGradRhoByRhoDotU
+   /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
+   /// - kernel type:     toMatrix
+   /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    320     344      16       0      0              0                 0              3
-   void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dst,
-                           real_t* RESTRICT                     _data_rhoEdge,
-                           real_t* RESTRICT                     _data_rhoVertex,
-                           idx_t* RESTRICT                      _data_src_edge_0,
-                           idx_t* RESTRICT                      _data_src_edge_1,
-                           idx_t* RESTRICT                      _data_src_vertex_0,
-                           idx_t* RESTRICT                      _data_src_vertex_1,
-                           real_t                               macro_vertex_coord_id_0comp0,
-                           real_t                               macro_vertex_coord_id_0comp1,
-                           real_t                               macro_vertex_coord_id_1comp0,
-                           real_t                               macro_vertex_coord_id_1comp1,
-                           real_t                               macro_vertex_coord_id_2comp0,
-                           real_t                               macro_vertex_coord_id_2comp1,
-                           std::shared_ptr< SparseMatrixProxy > mat,
-                           int64_t                              micro_edges_per_macro_edge,
-                           real_t                               micro_edges_per_macro_edge_float ) const;
-   /// Kernel type: toMatrix
+   ///    320     348      16       0      0              0                 0              4
+   void toMatrix_P2VectorToP1ElementwiseGradRhoByRhoDotU_macro_2D( idx_t* RESTRICT  _data_dst,
+                                                                   real_t* RESTRICT _data_rhoEdge,
+                                                                   real_t* RESTRICT _data_rhoVertex,
+                                                                   idx_t* RESTRICT  _data_src_edge_0,
+                                                                   idx_t* RESTRICT  _data_src_edge_1,
+                                                                   idx_t* RESTRICT  _data_src_vertex_0,
+                                                                   idx_t* RESTRICT  _data_src_vertex_1,
+                                                                   real_t           macro_vertex_coord_id_0comp0,
+                                                                   real_t           macro_vertex_coord_id_0comp1,
+                                                                   real_t           macro_vertex_coord_id_1comp0,
+                                                                   real_t           macro_vertex_coord_id_1comp1,
+                                                                   real_t           macro_vertex_coord_id_2comp0,
+                                                                   real_t           macro_vertex_coord_id_2comp1,
+                                                                   std::shared_ptr< SparseMatrixProxy > mat,
+                                                                   int64_t micro_edges_per_macro_edge,
+                                                                   real_t  micro_edges_per_macro_edge_float ) const;
+
+   /// Integral: P2VectorToP1ElementwiseGradRhoByRhoDotU
+   /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
+   /// - kernel type:     toMatrix
+   /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
+   /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1033    1042      41       0      0              0                 0              3
-   void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dst,
-                           real_t* RESTRICT                     _data_rhoEdge,
-                           real_t* RESTRICT                     _data_rhoVertex,
-                           idx_t* RESTRICT                      _data_src_edge_0,
-                           idx_t* RESTRICT                      _data_src_edge_1,
-                           idx_t* RESTRICT                      _data_src_edge_2,
-                           idx_t* RESTRICT                      _data_src_vertex_0,
-                           idx_t* RESTRICT                      _data_src_vertex_1,
-                           idx_t* RESTRICT                      _data_src_vertex_2,
-                           real_t                               macro_vertex_coord_id_0comp0,
-                           real_t                               macro_vertex_coord_id_0comp1,
-                           real_t                               macro_vertex_coord_id_0comp2,
-                           real_t                               macro_vertex_coord_id_1comp0,
-                           real_t                               macro_vertex_coord_id_1comp1,
-                           real_t                               macro_vertex_coord_id_1comp2,
-                           real_t                               macro_vertex_coord_id_2comp0,
-                           real_t                               macro_vertex_coord_id_2comp1,
-                           real_t                               macro_vertex_coord_id_2comp2,
-                           real_t                               macro_vertex_coord_id_3comp0,
-                           real_t                               macro_vertex_coord_id_3comp1,
-                           real_t                               macro_vertex_coord_id_3comp2,
-                           std::shared_ptr< SparseMatrixProxy > mat,
-                           int64_t                              micro_edges_per_macro_edge,
-                           real_t                               micro_edges_per_macro_edge_float ) const;
+   ///   1033    1047      41       0      0              0                 0              4
+   void toMatrix_P2VectorToP1ElementwiseGradRhoByRhoDotU_macro_3D( idx_t* RESTRICT  _data_dst,
+                                                                   real_t* RESTRICT _data_rhoEdge,
+                                                                   real_t* RESTRICT _data_rhoVertex,
+                                                                   idx_t* RESTRICT  _data_src_edge_0,
+                                                                   idx_t* RESTRICT  _data_src_edge_1,
+                                                                   idx_t* RESTRICT  _data_src_edge_2,
+                                                                   idx_t* RESTRICT  _data_src_vertex_0,
+                                                                   idx_t* RESTRICT  _data_src_vertex_1,
+                                                                   idx_t* RESTRICT  _data_src_vertex_2,
+                                                                   real_t           macro_vertex_coord_id_0comp0,
+                                                                   real_t           macro_vertex_coord_id_0comp1,
+                                                                   real_t           macro_vertex_coord_id_0comp2,
+                                                                   real_t           macro_vertex_coord_id_1comp0,
+                                                                   real_t           macro_vertex_coord_id_1comp1,
+                                                                   real_t           macro_vertex_coord_id_1comp2,
+                                                                   real_t           macro_vertex_coord_id_2comp0,
+                                                                   real_t           macro_vertex_coord_id_2comp1,
+                                                                   real_t           macro_vertex_coord_id_2comp2,
+                                                                   real_t           macro_vertex_coord_id_3comp0,
+                                                                   real_t           macro_vertex_coord_id_3comp1,
+                                                                   real_t           macro_vertex_coord_id_3comp2,
+                                                                   std::shared_ptr< SparseMatrixProxy > mat,
+                                                                   int64_t micro_edges_per_macro_edge,
+                                                                   real_t  micro_edges_per_macro_edge_float ) const;
 
    P2Function< real_t > rho;
 };

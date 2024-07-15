@@ -147,7 +147,7 @@ void P2VectorToP1ElementwiseGradRhoByRhoDotU::apply( const P2VectorFunction< rea
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_3D(
+         apply_P2VectorToP1ElementwiseGradRhoByRhoDotU_macro_3D(
 
              _data_dst,
              _data_rhoEdge,
@@ -172,6 +172,7 @@ void P2VectorToP1ElementwiseGradRhoByRhoDotU::apply( const P2VectorFunction< rea
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -225,7 +226,7 @@ void P2VectorToP1ElementwiseGradRhoByRhoDotU::apply( const P2VectorFunction< rea
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_2D(
+         apply_P2VectorToP1ElementwiseGradRhoByRhoDotU_macro_2D(
 
              _data_dst,
              _data_rhoEdge,
@@ -242,6 +243,7 @@ void P2VectorToP1ElementwiseGradRhoByRhoDotU::apply( const P2VectorFunction< rea
              macro_vertex_coord_id_2comp1,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -312,7 +314,7 @@ void P2VectorToP1ElementwiseGradRhoByRhoDotU::toMatrix( const std::shared_ptr< S
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_3D(
+         toMatrix_P2VectorToP1ElementwiseGradRhoByRhoDotU_macro_3D(
 
              _data_dst,
              _data_rhoEdge,
@@ -338,6 +340,7 @@ void P2VectorToP1ElementwiseGradRhoByRhoDotU::toMatrix( const std::shared_ptr< S
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
    }
@@ -372,7 +375,7 @@ void P2VectorToP1ElementwiseGradRhoByRhoDotU::toMatrix( const std::shared_ptr< S
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_2D(
+         toMatrix_P2VectorToP1ElementwiseGradRhoByRhoDotU_macro_2D(
 
              _data_dst,
              _data_rhoEdge,
@@ -390,6 +393,7 @@ void P2VectorToP1ElementwiseGradRhoByRhoDotU::toMatrix( const std::shared_ptr< S
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
    }

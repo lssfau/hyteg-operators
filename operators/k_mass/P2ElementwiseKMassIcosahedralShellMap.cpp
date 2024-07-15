@@ -153,7 +153,7 @@ void P2ElementwiseKMassIcosahedralShellMap::apply( const P2Function< real_t >& s
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_3D(
+         apply_P2ElementwiseKMassIcosahedralShellMap_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -189,6 +189,7 @@ void P2ElementwiseKMassIcosahedralShellMap::apply( const P2Function< real_t >& s
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -284,7 +285,7 @@ void P2ElementwiseKMassIcosahedralShellMap::toMatrix( const std::shared_ptr< Spa
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_3D(
+         toMatrix_P2ElementwiseKMassIcosahedralShellMap_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -321,6 +322,7 @@ void P2ElementwiseKMassIcosahedralShellMap::toMatrix( const std::shared_ptr< Spa
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
+
          this->timingTree_->stop( "kernel" );
       }
    }
@@ -400,7 +402,7 @@ void P2ElementwiseKMassIcosahedralShellMap::computeInverseDiagonalOperatorValues
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_macro_3D(
+            computeInverseDiagonalOperatorValues_P2ElementwiseKMassIcosahedralShellMap_macro_3D(
 
                 _data_invDiag_Edge,
                 _data_invDiag_Vertex,
@@ -434,6 +436,7 @@ void P2ElementwiseKMassIcosahedralShellMap::computeInverseDiagonalOperatorValues
                 thrVertex_0,
                 thrVertex_1,
                 thrVertex_2 );
+
             this->timingTree_->stop( "kernel" );
          }
 

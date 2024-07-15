@@ -154,7 +154,7 @@ void P2ElementwiseEpsilonIcosahedralShellMap_0_2::apply( const P2Function< real_
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_3D(
+         apply_P2ElementwiseEpsilonIcosahedralShellMap_0_2_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -190,6 +190,7 @@ void P2ElementwiseEpsilonIcosahedralShellMap_0_2::apply( const P2Function< real_
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -285,7 +286,7 @@ void P2ElementwiseEpsilonIcosahedralShellMap_0_2::toMatrix( const std::shared_pt
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_3D(
+         toMatrix_P2ElementwiseEpsilonIcosahedralShellMap_0_2_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -322,6 +323,7 @@ void P2ElementwiseEpsilonIcosahedralShellMap_0_2::toMatrix( const std::shared_pt
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
+
          this->timingTree_->stop( "kernel" );
       }
    }

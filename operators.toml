@@ -367,7 +367,7 @@ dimensions    = [2, 3]
 quadrature    = 3
 blending      = "IdentityMap"
 loop-strategy = "sawtooth"
-optimizations = ["quadloops"]
+optimizations = ["moveconstants", "vectorize", "quadloops"]
 
 [[grad_rho_by_rho_dot_u]]
 trial-space   = "P2Vector"
@@ -377,7 +377,7 @@ dimensions    = [2]
 quadrature    = 3
 blending      = "AnnulusMap"
 loop-strategy = "sawtooth"
-optimizations = ["quadloops"]
+optimizations = ["moveconstants", "vectorize", "quadloops"]
 
 [[grad_rho_by_rho_dot_u]]
 trial-space   = "P2Vector"
@@ -387,4 +387,4 @@ dimensions    = [3]
 quadrature    = 3
 blending      = "IcosahedralShellMap"
 loop-strategy = "sawtooth"
-optimizations = ["quadloops"]
+optimizations = ["moveconstants", "vectorize", "quadloops"]

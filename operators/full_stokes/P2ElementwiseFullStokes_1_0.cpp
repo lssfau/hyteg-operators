@@ -137,7 +137,7 @@ void P2ElementwiseFullStokes_1_0::apply( const P2Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_3D(
+         apply_P2ElementwiseFullStokes_1_0_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -159,6 +159,7 @@ void P2ElementwiseFullStokes_1_0::apply( const P2Function< real_t >& src,
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -228,7 +229,7 @@ void P2ElementwiseFullStokes_1_0::apply( const P2Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_2D(
+         apply_P2ElementwiseFullStokes_1_0_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -244,6 +245,7 @@ void P2ElementwiseFullStokes_1_0::apply( const P2Function< real_t >& src,
              macro_vertex_coord_id_2comp1,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -314,7 +316,7 @@ void P2ElementwiseFullStokes_1_0::toMatrix( const std::shared_ptr< SparseMatrixP
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_3D(
+         toMatrix_P2ElementwiseFullStokes_1_0_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -337,6 +339,7 @@ void P2ElementwiseFullStokes_1_0::toMatrix( const std::shared_ptr< SparseMatrixP
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
    }
@@ -369,7 +372,7 @@ void P2ElementwiseFullStokes_1_0::toMatrix( const std::shared_ptr< SparseMatrixP
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_2D(
+         toMatrix_P2ElementwiseFullStokes_1_0_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -386,6 +389,7 @@ void P2ElementwiseFullStokes_1_0::toMatrix( const std::shared_ptr< SparseMatrixP
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
    }
