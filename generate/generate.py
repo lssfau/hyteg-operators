@@ -355,13 +355,13 @@ def generate_operator(
             components_equal = False
 
     kernel_types = [
-        operator_generation.kernel_types.Apply(
+        operator_generation.kernel_types.ApplyWrapper(
             trial_space,
             test_space,
             type_descriptor=type_descriptor,
             dims=dims,
         ),
-        operator_generation.kernel_types.Assemble(
+        operator_generation.kernel_types.AssembleWrapper(
             trial_space,
             test_space,
             type_descriptor=type_descriptor,
@@ -371,7 +371,7 @@ def generate_operator(
 
     if trial_space == test_space and components_equal:
         kernel_types.append(
-            operator_generation.kernel_types.AssembleDiagonal(
+            operator_generation.kernel_types.AssembleDiagonalWrapper(
                 trial_space,
                 type_descriptor=type_descriptor,
                 dims=dims,
@@ -383,7 +383,7 @@ def generate_operator(
             name,
             symbolizer,
             opts=optimizations,
-            kernel_types=kernel_types,
+            kernel_wrapper_types=kernel_types,
             type_descriptor=type_descriptor,
         )
 
@@ -400,32 +400,33 @@ def generate_operator(
                 blending=blending,  # type: ignore[call-arg] # kw-args are not supported by Callable
             )
 
-            operator.set_element_matrix(
+            operator.add_integral(
+                name="".join(name.split()),
                 dim=geometry.dimensions,
                 geometry=geometry,
                 integration_domain=operator_generation.operators.MacroIntegrationDomain.VOLUME,
                 quad=quad,
                 blending=blending,
                 form=form,
+                loop_strategy=loop_strategies[spec["loop-strategy"]],
             )
 
         dir_path = os.path.join(args.output, form_str)
         operator.generate_class_code(
             dir_path,
-            loop_strategies[spec["loop-strategy"]],
-            class_files=operators.CppClassFiles.HEADER_IMPL_AND_VARIANTS,
             clang_format_binary=args.clang_format_binary,
         )
 
         kernel_implementations = {}
-        for kernel in operator.kernels:
-            for platform, function in kernel.platform_dependent_funcs.items():
-                if not platform in kernel_implementations:
-                    kernel_implementations[platform] = []
+        for kernels in operator.operator_methods:
+            for kernel in kernels.platform_dependent_funcs:
+                for platform, function in kernel.items():
+                    if not platform in kernel_implementations:
+                        kernel_implementations[platform] = []
 
-                kernel_implementations[platform].append(
-                    f"{operator.name}_{function.function_name}.cpp"
-                )
+                    kernel_implementations[platform].append(
+                        f"{operator.name}_{function.function_name}.cpp"
+                    )
 
         return kernel_implementations
 
