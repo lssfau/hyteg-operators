@@ -159,7 +159,7 @@ void P2ElementwiseShearHeatingAnnulusMap::apply( const P2Function< real_t >& src
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_2D(
+         apply_P2ElementwiseShearHeatingAnnulusMap_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -187,6 +187,7 @@ void P2ElementwiseShearHeatingAnnulusMap::apply( const P2Function< real_t >& src
              refVertex_1,
              thrVertex_0,
              thrVertex_1 );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -282,7 +283,7 @@ void P2ElementwiseShearHeatingAnnulusMap::toMatrix( const std::shared_ptr< Spars
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_2D(
+         toMatrix_P2ElementwiseShearHeatingAnnulusMap_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -311,6 +312,7 @@ void P2ElementwiseShearHeatingAnnulusMap::toMatrix( const std::shared_ptr< Spars
              refVertex_1,
              thrVertex_0,
              thrVertex_1 );
+
          this->timingTree_->stop( "kernel" );
       }
    }
@@ -391,7 +393,7 @@ void P2ElementwiseShearHeatingAnnulusMap::computeInverseDiagonalOperatorValues()
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_macro_2D(
+            computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingAnnulusMap_macro_2D(
 
                 _data_invDiag_Edge,
                 _data_invDiag_Vertex,
@@ -417,6 +419,7 @@ void P2ElementwiseShearHeatingAnnulusMap::computeInverseDiagonalOperatorValues()
                 refVertex_1,
                 thrVertex_0,
                 thrVertex_1 );
+
             this->timingTree_->stop( "kernel" );
          }
 

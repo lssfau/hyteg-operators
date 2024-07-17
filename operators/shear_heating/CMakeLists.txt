@@ -11,30 +11,30 @@ add_library( opgen-shear_heating
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-shear_heating PRIVATE
 
-      avx/P2ElementwiseShearHeatingAnnulusMap_apply_macro_2D.cpp
-      avx/P2ElementwiseShearHeatingAnnulusMap_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      avx/P2ElementwiseShearHeatingIcosahedralShellMap_apply_macro_3D.cpp
-      avx/P2ElementwiseShearHeatingIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
-      avx/P2ElementwiseShearHeating_apply_macro_2D.cpp
-      avx/P2ElementwiseShearHeating_apply_macro_3D.cpp
-      avx/P2ElementwiseShearHeating_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      avx/P2ElementwiseShearHeating_computeInverseDiagonalOperatorValues_macro_3D.cpp
-      noarch/P2ElementwiseShearHeatingAnnulusMap_toMatrix_macro_2D.cpp
-      noarch/P2ElementwiseShearHeatingIcosahedralShellMap_toMatrix_macro_3D.cpp
-      noarch/P2ElementwiseShearHeating_toMatrix_macro_2D.cpp
-      noarch/P2ElementwiseShearHeating_toMatrix_macro_3D.cpp
+      avx/P2ElementwiseShearHeatingAnnulusMap_apply_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseShearHeatingAnnulusMap_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseShearHeatingIcosahedralShellMap_apply_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseShearHeatingIcosahedralShellMap_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseShearHeating_apply_P2ElementwiseShearHeating_macro_2D.cpp
+      avx/P2ElementwiseShearHeating_apply_P2ElementwiseShearHeating_macro_3D.cpp
+      avx/P2ElementwiseShearHeating_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeating_macro_2D.cpp
+      avx/P2ElementwiseShearHeating_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeating_macro_3D.cpp
+      noarch/P2ElementwiseShearHeatingAnnulusMap_toMatrix_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseShearHeatingIcosahedralShellMap_toMatrix_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseShearHeating_toMatrix_P2ElementwiseShearHeating_macro_2D.cpp
+      noarch/P2ElementwiseShearHeating_toMatrix_P2ElementwiseShearHeating_macro_3D.cpp
    )
 
    set_source_files_properties(
 
-      avx/P2ElementwiseShearHeatingAnnulusMap_apply_macro_2D.cpp
-      avx/P2ElementwiseShearHeatingAnnulusMap_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      avx/P2ElementwiseShearHeatingIcosahedralShellMap_apply_macro_3D.cpp
-      avx/P2ElementwiseShearHeatingIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
-      avx/P2ElementwiseShearHeating_apply_macro_2D.cpp
-      avx/P2ElementwiseShearHeating_apply_macro_3D.cpp
-      avx/P2ElementwiseShearHeating_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      avx/P2ElementwiseShearHeating_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P2ElementwiseShearHeatingAnnulusMap_apply_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseShearHeatingAnnulusMap_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseShearHeatingIcosahedralShellMap_apply_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseShearHeatingIcosahedralShellMap_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseShearHeating_apply_P2ElementwiseShearHeating_macro_2D.cpp
+      avx/P2ElementwiseShearHeating_apply_P2ElementwiseShearHeating_macro_3D.cpp
+      avx/P2ElementwiseShearHeating_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeating_macro_2D.cpp
+      avx/P2ElementwiseShearHeating_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeating_macro_3D.cpp
 
       PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
    )
@@ -45,18 +45,18 @@ else()
 
    target_sources(opgen-shear_heating PRIVATE
 
-      noarch/P2ElementwiseShearHeatingAnnulusMap_apply_macro_2D.cpp
-      noarch/P2ElementwiseShearHeatingAnnulusMap_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      noarch/P2ElementwiseShearHeatingAnnulusMap_toMatrix_macro_2D.cpp
-      noarch/P2ElementwiseShearHeatingIcosahedralShellMap_apply_macro_3D.cpp
-      noarch/P2ElementwiseShearHeatingIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
-      noarch/P2ElementwiseShearHeatingIcosahedralShellMap_toMatrix_macro_3D.cpp
-      noarch/P2ElementwiseShearHeating_apply_macro_2D.cpp
-      noarch/P2ElementwiseShearHeating_apply_macro_3D.cpp
-      noarch/P2ElementwiseShearHeating_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      noarch/P2ElementwiseShearHeating_computeInverseDiagonalOperatorValues_macro_3D.cpp
-      noarch/P2ElementwiseShearHeating_toMatrix_macro_2D.cpp
-      noarch/P2ElementwiseShearHeating_toMatrix_macro_3D.cpp
+      noarch/P2ElementwiseShearHeatingAnnulusMap_apply_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseShearHeatingAnnulusMap_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseShearHeatingAnnulusMap_toMatrix_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseShearHeatingIcosahedralShellMap_apply_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseShearHeatingIcosahedralShellMap_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseShearHeatingIcosahedralShellMap_toMatrix_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseShearHeating_apply_P2ElementwiseShearHeating_macro_2D.cpp
+      noarch/P2ElementwiseShearHeating_apply_P2ElementwiseShearHeating_macro_3D.cpp
+      noarch/P2ElementwiseShearHeating_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeating_macro_2D.cpp
+      noarch/P2ElementwiseShearHeating_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeating_macro_3D.cpp
+      noarch/P2ElementwiseShearHeating_toMatrix_P2ElementwiseShearHeating_macro_2D.cpp
+      noarch/P2ElementwiseShearHeating_toMatrix_P2ElementwiseShearHeating_macro_3D.cpp
    )
 endif()
 

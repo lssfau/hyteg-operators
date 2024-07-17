@@ -126,7 +126,7 @@ void P1ElementwiseDiffusion::apply( const P1Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_3D(
+         apply_P1ElementwiseDiffusion_macro_3D(
 
              _data_dst,
              _data_src,
@@ -144,6 +144,7 @@ void P1ElementwiseDiffusion::apply( const P1Function< real_t >& src,
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -191,7 +192,7 @@ void P1ElementwiseDiffusion::apply( const P1Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_2D(
+         apply_P1ElementwiseDiffusion_macro_2D(
 
              _data_dst,
              _data_src,
@@ -203,6 +204,7 @@ void P1ElementwiseDiffusion::apply( const P1Function< real_t >& src,
              macro_vertex_coord_id_2comp1,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -263,7 +265,7 @@ void P1ElementwiseDiffusion::toMatrix( const std::shared_ptr< SparseMatrixProxy 
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_3D(
+         toMatrix_P1ElementwiseDiffusion_macro_3D(
 
              _data_dst,
              _data_src,
@@ -282,6 +284,7 @@ void P1ElementwiseDiffusion::toMatrix( const std::shared_ptr< SparseMatrixProxy 
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
    }
@@ -310,7 +313,7 @@ void P1ElementwiseDiffusion::toMatrix( const std::shared_ptr< SparseMatrixProxy 
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_2D(
+         toMatrix_P1ElementwiseDiffusion_macro_2D(
 
              _data_dst,
              _data_src,
@@ -323,6 +326,7 @@ void P1ElementwiseDiffusion::toMatrix( const std::shared_ptr< SparseMatrixProxy 
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
    }
@@ -371,7 +375,7 @@ void P1ElementwiseDiffusion::computeInverseDiagonalOperatorValues()
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_macro_3D(
+            computeInverseDiagonalOperatorValues_P1ElementwiseDiffusion_macro_3D(
 
                 _data_invDiag_,
                 macro_vertex_coord_id_0comp0,
@@ -388,6 +392,7 @@ void P1ElementwiseDiffusion::computeInverseDiagonalOperatorValues()
                 macro_vertex_coord_id_3comp2,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float );
+
             this->timingTree_->stop( "kernel" );
          }
 
@@ -426,7 +431,7 @@ void P1ElementwiseDiffusion::computeInverseDiagonalOperatorValues()
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_macro_2D(
+            computeInverseDiagonalOperatorValues_P1ElementwiseDiffusion_macro_2D(
 
                 _data_invDiag_,
                 macro_vertex_coord_id_0comp0,
@@ -437,6 +442,7 @@ void P1ElementwiseDiffusion::computeInverseDiagonalOperatorValues()
                 macro_vertex_coord_id_2comp1,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float );
+
             this->timingTree_->stop( "kernel" );
          }
 

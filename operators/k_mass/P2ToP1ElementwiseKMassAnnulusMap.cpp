@@ -137,7 +137,7 @@ void P2ToP1ElementwiseKMassAnnulusMap::apply( const P2Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_2D(
+         apply_P2ToP1ElementwiseKMassAnnulusMap_macro_2D(
 
              _data_dst,
              _data_kEdge,
@@ -160,6 +160,7 @@ void P2ToP1ElementwiseKMassAnnulusMap::apply( const P2Function< real_t >& src,
              refVertex_1,
              thrVertex_0,
              thrVertex_1 );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -238,7 +239,7 @@ void P2ToP1ElementwiseKMassAnnulusMap::toMatrix( const std::shared_ptr< SparseMa
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_2D(
+         toMatrix_P2ToP1ElementwiseKMassAnnulusMap_macro_2D(
 
              _data_dst,
              _data_kEdge,
@@ -262,6 +263,7 @@ void P2ToP1ElementwiseKMassAnnulusMap::toMatrix( const std::shared_ptr< SparseMa
              refVertex_1,
              thrVertex_0,
              thrVertex_1 );
+
          this->timingTree_->stop( "kernel" );
       }
    }

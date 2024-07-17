@@ -146,7 +146,7 @@ void P1ToP2ElementwiseGradientIcosahedralShellMap_0_0::apply( const P1Function< 
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_3D(
+         apply_P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -179,6 +179,7 @@ void P1ToP2ElementwiseGradientIcosahedralShellMap_0_0::apply( const P1Function< 
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -269,7 +270,7 @@ void P1ToP2ElementwiseGradientIcosahedralShellMap_0_0::toMatrix( const std::shar
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_3D(
+         toMatrix_P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -303,6 +304,7 @@ void P1ToP2ElementwiseGradientIcosahedralShellMap_0_0::toMatrix( const std::shar
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
+
          this->timingTree_->stop( "kernel" );
       }
    }

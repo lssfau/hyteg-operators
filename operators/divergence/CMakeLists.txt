@@ -21,40 +21,40 @@ add_library( opgen-divergence
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-divergence PRIVATE
 
-      avx/P2ToP1ElementwiseDivergenceAnnulusMap_0_0_apply_macro_2D.cpp
-      avx/P2ToP1ElementwiseDivergenceAnnulusMap_0_1_apply_macro_2D.cpp
-      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_apply_macro_3D.cpp
-      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_apply_macro_3D.cpp
-      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_apply_macro_3D.cpp
-      avx/P2ToP1ElementwiseDivergence_0_0_apply_macro_2D.cpp
-      avx/P2ToP1ElementwiseDivergence_0_0_apply_macro_3D.cpp
-      avx/P2ToP1ElementwiseDivergence_0_1_apply_macro_2D.cpp
-      avx/P2ToP1ElementwiseDivergence_0_1_apply_macro_3D.cpp
-      avx/P2ToP1ElementwiseDivergence_0_2_apply_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergenceAnnulusMap_0_0_toMatrix_macro_2D.cpp
-      noarch/P2ToP1ElementwiseDivergenceAnnulusMap_0_1_toMatrix_macro_2D.cpp
-      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_toMatrix_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_toMatrix_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_toMatrix_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_0_toMatrix_macro_2D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_0_toMatrix_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_1_toMatrix_macro_2D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_1_toMatrix_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_2_toMatrix_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergenceAnnulusMap_0_0_apply_P2ToP1ElementwiseDivergenceAnnulusMap_0_0_macro_2D.cpp
+      avx/P2ToP1ElementwiseDivergenceAnnulusMap_0_1_apply_P2ToP1ElementwiseDivergenceAnnulusMap_0_1_macro_2D.cpp
+      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_apply_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_apply_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_apply_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergence_0_0_apply_P2ToP1ElementwiseDivergence_0_0_macro_2D.cpp
+      avx/P2ToP1ElementwiseDivergence_0_0_apply_P2ToP1ElementwiseDivergence_0_0_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergence_0_1_apply_P2ToP1ElementwiseDivergence_0_1_macro_2D.cpp
+      avx/P2ToP1ElementwiseDivergence_0_1_apply_P2ToP1ElementwiseDivergence_0_1_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergence_0_2_apply_P2ToP1ElementwiseDivergence_0_2_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceAnnulusMap_0_0_toMatrix_P2ToP1ElementwiseDivergenceAnnulusMap_0_0_macro_2D.cpp
+      noarch/P2ToP1ElementwiseDivergenceAnnulusMap_0_1_toMatrix_P2ToP1ElementwiseDivergenceAnnulusMap_0_1_macro_2D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_toMatrix_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_toMatrix_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_toMatrix_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_0_toMatrix_P2ToP1ElementwiseDivergence_0_0_macro_2D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_0_toMatrix_P2ToP1ElementwiseDivergence_0_0_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_1_toMatrix_P2ToP1ElementwiseDivergence_0_1_macro_2D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_1_toMatrix_P2ToP1ElementwiseDivergence_0_1_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_2_toMatrix_P2ToP1ElementwiseDivergence_0_2_macro_3D.cpp
    )
 
    set_source_files_properties(
 
-      avx/P2ToP1ElementwiseDivergenceAnnulusMap_0_0_apply_macro_2D.cpp
-      avx/P2ToP1ElementwiseDivergenceAnnulusMap_0_1_apply_macro_2D.cpp
-      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_apply_macro_3D.cpp
-      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_apply_macro_3D.cpp
-      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_apply_macro_3D.cpp
-      avx/P2ToP1ElementwiseDivergence_0_0_apply_macro_2D.cpp
-      avx/P2ToP1ElementwiseDivergence_0_0_apply_macro_3D.cpp
-      avx/P2ToP1ElementwiseDivergence_0_1_apply_macro_2D.cpp
-      avx/P2ToP1ElementwiseDivergence_0_1_apply_macro_3D.cpp
-      avx/P2ToP1ElementwiseDivergence_0_2_apply_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergenceAnnulusMap_0_0_apply_P2ToP1ElementwiseDivergenceAnnulusMap_0_0_macro_2D.cpp
+      avx/P2ToP1ElementwiseDivergenceAnnulusMap_0_1_apply_P2ToP1ElementwiseDivergenceAnnulusMap_0_1_macro_2D.cpp
+      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_apply_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_apply_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_apply_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergence_0_0_apply_P2ToP1ElementwiseDivergence_0_0_macro_2D.cpp
+      avx/P2ToP1ElementwiseDivergence_0_0_apply_P2ToP1ElementwiseDivergence_0_0_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergence_0_1_apply_P2ToP1ElementwiseDivergence_0_1_macro_2D.cpp
+      avx/P2ToP1ElementwiseDivergence_0_1_apply_P2ToP1ElementwiseDivergence_0_1_macro_3D.cpp
+      avx/P2ToP1ElementwiseDivergence_0_2_apply_P2ToP1ElementwiseDivergence_0_2_macro_3D.cpp
 
       PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
    )
@@ -65,26 +65,26 @@ else()
 
    target_sources(opgen-divergence PRIVATE
 
-      noarch/P2ToP1ElementwiseDivergenceAnnulusMap_0_0_apply_macro_2D.cpp
-      noarch/P2ToP1ElementwiseDivergenceAnnulusMap_0_0_toMatrix_macro_2D.cpp
-      noarch/P2ToP1ElementwiseDivergenceAnnulusMap_0_1_apply_macro_2D.cpp
-      noarch/P2ToP1ElementwiseDivergenceAnnulusMap_0_1_toMatrix_macro_2D.cpp
-      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_apply_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_toMatrix_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_apply_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_toMatrix_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_apply_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_toMatrix_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_0_apply_macro_2D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_0_apply_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_0_toMatrix_macro_2D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_0_toMatrix_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_1_apply_macro_2D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_1_apply_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_1_toMatrix_macro_2D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_1_toMatrix_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_2_apply_macro_3D.cpp
-      noarch/P2ToP1ElementwiseDivergence_0_2_toMatrix_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceAnnulusMap_0_0_apply_P2ToP1ElementwiseDivergenceAnnulusMap_0_0_macro_2D.cpp
+      noarch/P2ToP1ElementwiseDivergenceAnnulusMap_0_0_toMatrix_P2ToP1ElementwiseDivergenceAnnulusMap_0_0_macro_2D.cpp
+      noarch/P2ToP1ElementwiseDivergenceAnnulusMap_0_1_apply_P2ToP1ElementwiseDivergenceAnnulusMap_0_1_macro_2D.cpp
+      noarch/P2ToP1ElementwiseDivergenceAnnulusMap_0_1_toMatrix_P2ToP1ElementwiseDivergenceAnnulusMap_0_1_macro_2D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_apply_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_toMatrix_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_0_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_apply_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_toMatrix_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_1_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_apply_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_toMatrix_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_0_apply_P2ToP1ElementwiseDivergence_0_0_macro_2D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_0_apply_P2ToP1ElementwiseDivergence_0_0_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_0_toMatrix_P2ToP1ElementwiseDivergence_0_0_macro_2D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_0_toMatrix_P2ToP1ElementwiseDivergence_0_0_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_1_apply_P2ToP1ElementwiseDivergence_0_1_macro_2D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_1_apply_P2ToP1ElementwiseDivergence_0_1_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_1_toMatrix_P2ToP1ElementwiseDivergence_0_1_macro_2D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_1_toMatrix_P2ToP1ElementwiseDivergence_0_1_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_2_apply_P2ToP1ElementwiseDivergence_0_2_macro_3D.cpp
+      noarch/P2ToP1ElementwiseDivergence_0_2_toMatrix_P2ToP1ElementwiseDivergence_0_2_macro_3D.cpp
    )
 endif()
 

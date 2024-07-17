@@ -21,40 +21,40 @@ add_library( opgen-gradient
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-gradient PRIVATE
 
-      avx/P1ToP2ElementwiseGradientAnnulusMap_0_0_apply_macro_2D.cpp
-      avx/P1ToP2ElementwiseGradientAnnulusMap_1_0_apply_macro_2D.cpp
-      avx/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_apply_macro_3D.cpp
-      avx/P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_apply_macro_3D.cpp
-      avx/P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_apply_macro_3D.cpp
-      avx/P1ToP2ElementwiseGradient_0_0_apply_macro_2D.cpp
-      avx/P1ToP2ElementwiseGradient_0_0_apply_macro_3D.cpp
-      avx/P1ToP2ElementwiseGradient_1_0_apply_macro_2D.cpp
-      avx/P1ToP2ElementwiseGradient_1_0_apply_macro_3D.cpp
-      avx/P1ToP2ElementwiseGradient_2_0_apply_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradientAnnulusMap_0_0_toMatrix_macro_2D.cpp
-      noarch/P1ToP2ElementwiseGradientAnnulusMap_1_0_toMatrix_macro_2D.cpp
-      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_toMatrix_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_toMatrix_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_toMatrix_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradient_0_0_toMatrix_macro_2D.cpp
-      noarch/P1ToP2ElementwiseGradient_0_0_toMatrix_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradient_1_0_toMatrix_macro_2D.cpp
-      noarch/P1ToP2ElementwiseGradient_1_0_toMatrix_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradient_2_0_toMatrix_macro_3D.cpp
+      avx/P1ToP2ElementwiseGradientAnnulusMap_0_0_apply_P1ToP2ElementwiseGradientAnnulusMap_0_0_macro_2D.cpp
+      avx/P1ToP2ElementwiseGradientAnnulusMap_1_0_apply_P1ToP2ElementwiseGradientAnnulusMap_1_0_macro_2D.cpp
+      avx/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_apply_P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_macro_3D.cpp
+      avx/P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_apply_P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_macro_3D.cpp
+      avx/P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_apply_P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_macro_3D.cpp
+      avx/P1ToP2ElementwiseGradient_0_0_apply_P1ToP2ElementwiseGradient_0_0_macro_2D.cpp
+      avx/P1ToP2ElementwiseGradient_0_0_apply_P1ToP2ElementwiseGradient_0_0_macro_3D.cpp
+      avx/P1ToP2ElementwiseGradient_1_0_apply_P1ToP2ElementwiseGradient_1_0_macro_2D.cpp
+      avx/P1ToP2ElementwiseGradient_1_0_apply_P1ToP2ElementwiseGradient_1_0_macro_3D.cpp
+      avx/P1ToP2ElementwiseGradient_2_0_apply_P1ToP2ElementwiseGradient_2_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradientAnnulusMap_0_0_toMatrix_P1ToP2ElementwiseGradientAnnulusMap_0_0_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradientAnnulusMap_1_0_toMatrix_P1ToP2ElementwiseGradientAnnulusMap_1_0_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_toMatrix_P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_toMatrix_P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_toMatrix_P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradient_0_0_toMatrix_P1ToP2ElementwiseGradient_0_0_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradient_0_0_toMatrix_P1ToP2ElementwiseGradient_0_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradient_1_0_toMatrix_P1ToP2ElementwiseGradient_1_0_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradient_1_0_toMatrix_P1ToP2ElementwiseGradient_1_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradient_2_0_toMatrix_P1ToP2ElementwiseGradient_2_0_macro_3D.cpp
    )
 
    set_source_files_properties(
 
-      avx/P1ToP2ElementwiseGradientAnnulusMap_0_0_apply_macro_2D.cpp
-      avx/P1ToP2ElementwiseGradientAnnulusMap_1_0_apply_macro_2D.cpp
-      avx/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_apply_macro_3D.cpp
-      avx/P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_apply_macro_3D.cpp
-      avx/P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_apply_macro_3D.cpp
-      avx/P1ToP2ElementwiseGradient_0_0_apply_macro_2D.cpp
-      avx/P1ToP2ElementwiseGradient_0_0_apply_macro_3D.cpp
-      avx/P1ToP2ElementwiseGradient_1_0_apply_macro_2D.cpp
-      avx/P1ToP2ElementwiseGradient_1_0_apply_macro_3D.cpp
-      avx/P1ToP2ElementwiseGradient_2_0_apply_macro_3D.cpp
+      avx/P1ToP2ElementwiseGradientAnnulusMap_0_0_apply_P1ToP2ElementwiseGradientAnnulusMap_0_0_macro_2D.cpp
+      avx/P1ToP2ElementwiseGradientAnnulusMap_1_0_apply_P1ToP2ElementwiseGradientAnnulusMap_1_0_macro_2D.cpp
+      avx/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_apply_P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_macro_3D.cpp
+      avx/P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_apply_P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_macro_3D.cpp
+      avx/P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_apply_P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_macro_3D.cpp
+      avx/P1ToP2ElementwiseGradient_0_0_apply_P1ToP2ElementwiseGradient_0_0_macro_2D.cpp
+      avx/P1ToP2ElementwiseGradient_0_0_apply_P1ToP2ElementwiseGradient_0_0_macro_3D.cpp
+      avx/P1ToP2ElementwiseGradient_1_0_apply_P1ToP2ElementwiseGradient_1_0_macro_2D.cpp
+      avx/P1ToP2ElementwiseGradient_1_0_apply_P1ToP2ElementwiseGradient_1_0_macro_3D.cpp
+      avx/P1ToP2ElementwiseGradient_2_0_apply_P1ToP2ElementwiseGradient_2_0_macro_3D.cpp
 
       PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
    )
@@ -65,26 +65,26 @@ else()
 
    target_sources(opgen-gradient PRIVATE
 
-      noarch/P1ToP2ElementwiseGradientAnnulusMap_0_0_apply_macro_2D.cpp
-      noarch/P1ToP2ElementwiseGradientAnnulusMap_0_0_toMatrix_macro_2D.cpp
-      noarch/P1ToP2ElementwiseGradientAnnulusMap_1_0_apply_macro_2D.cpp
-      noarch/P1ToP2ElementwiseGradientAnnulusMap_1_0_toMatrix_macro_2D.cpp
-      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_apply_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_toMatrix_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_apply_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_toMatrix_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_apply_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_toMatrix_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradient_0_0_apply_macro_2D.cpp
-      noarch/P1ToP2ElementwiseGradient_0_0_apply_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradient_0_0_toMatrix_macro_2D.cpp
-      noarch/P1ToP2ElementwiseGradient_0_0_toMatrix_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradient_1_0_apply_macro_2D.cpp
-      noarch/P1ToP2ElementwiseGradient_1_0_apply_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradient_1_0_toMatrix_macro_2D.cpp
-      noarch/P1ToP2ElementwiseGradient_1_0_toMatrix_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradient_2_0_apply_macro_3D.cpp
-      noarch/P1ToP2ElementwiseGradient_2_0_toMatrix_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradientAnnulusMap_0_0_apply_P1ToP2ElementwiseGradientAnnulusMap_0_0_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradientAnnulusMap_0_0_toMatrix_P1ToP2ElementwiseGradientAnnulusMap_0_0_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradientAnnulusMap_1_0_apply_P1ToP2ElementwiseGradientAnnulusMap_1_0_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradientAnnulusMap_1_0_toMatrix_P1ToP2ElementwiseGradientAnnulusMap_1_0_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_apply_P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_toMatrix_P1ToP2ElementwiseGradientIcosahedralShellMap_0_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_apply_P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_toMatrix_P1ToP2ElementwiseGradientIcosahedralShellMap_1_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_apply_P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_toMatrix_P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradient_0_0_apply_P1ToP2ElementwiseGradient_0_0_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradient_0_0_apply_P1ToP2ElementwiseGradient_0_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradient_0_0_toMatrix_P1ToP2ElementwiseGradient_0_0_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradient_0_0_toMatrix_P1ToP2ElementwiseGradient_0_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradient_1_0_apply_P1ToP2ElementwiseGradient_1_0_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradient_1_0_apply_P1ToP2ElementwiseGradient_1_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradient_1_0_toMatrix_P1ToP2ElementwiseGradient_1_0_macro_2D.cpp
+      noarch/P1ToP2ElementwiseGradient_1_0_toMatrix_P1ToP2ElementwiseGradient_1_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradient_2_0_apply_P1ToP2ElementwiseGradient_2_0_macro_3D.cpp
+      noarch/P1ToP2ElementwiseGradient_2_0_toMatrix_P1ToP2ElementwiseGradient_2_0_macro_3D.cpp
    )
 endif()
 

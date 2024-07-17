@@ -149,7 +149,7 @@ void P2ElementwiseFullStokesAnnulusMap_0_0::apply( const P2Function< real_t >& s
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_2D(
+         apply_P2ElementwiseFullStokesAnnulusMap_0_0_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -173,6 +173,7 @@ void P2ElementwiseFullStokesAnnulusMap_0_0::apply( const P2Function< real_t >& s
              refVertex_1,
              thrVertex_0,
              thrVertex_1 );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -256,7 +257,7 @@ void P2ElementwiseFullStokesAnnulusMap_0_0::toMatrix( const std::shared_ptr< Spa
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_2D(
+         toMatrix_P2ElementwiseFullStokesAnnulusMap_0_0_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -281,6 +282,7 @@ void P2ElementwiseFullStokesAnnulusMap_0_0::toMatrix( const std::shared_ptr< Spa
              refVertex_1,
              thrVertex_0,
              thrVertex_1 );
+
          this->timingTree_->stop( "kernel" );
       }
    }
@@ -349,7 +351,7 @@ void P2ElementwiseFullStokesAnnulusMap_0_0::computeInverseDiagonalOperatorValues
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_macro_2D(
+            computeInverseDiagonalOperatorValues_P2ElementwiseFullStokesAnnulusMap_0_0_macro_2D(
 
                 _data_invDiag_Edge,
                 _data_invDiag_Vertex,
@@ -371,6 +373,7 @@ void P2ElementwiseFullStokesAnnulusMap_0_0::computeInverseDiagonalOperatorValues
                 refVertex_1,
                 thrVertex_0,
                 thrVertex_1 );
+
             this->timingTree_->stop( "kernel" );
          }
 

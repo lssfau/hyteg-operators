@@ -29,6 +29,7 @@
 #include "core/DataTypes.h"
 
 #include "hyteg/LikwidWrapper.hpp"
+#include "hyteg/boundary/BoundaryConditions.hpp"
 #include "hyteg/communication/Syncing.hpp"
 #include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
 #include "hyteg/operators/Operator.hpp"
@@ -36,6 +37,7 @@
 #include "hyteg/p2functionspace/P2Function.hpp"
 #include "hyteg/primitivestorage/PrimitiveStorage.hpp"
 #include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
+#include "hyteg/types/types.hpp"
 
 #define FUNC_PREFIX
 
@@ -74,88 +76,107 @@ class P2ToP1ElementwiseDivergence_0_1 : public Operator< P2Function< real_t >, P
 
  protected:
  private:
-   /// Kernel type: apply
+   /// Integral: P2ToP1ElementwiseDivergence_0_1
+   /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
+   /// - kernel type:     apply
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
+   /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     84     108       0       0      0              0                 0              0
-   void apply_macro_2D( real_t* RESTRICT _data_dst,
-                        real_t* RESTRICT _data_srcEdge,
-                        real_t* RESTRICT _data_srcVertex,
-                        real_t           macro_vertex_coord_id_0comp0,
-                        real_t           macro_vertex_coord_id_0comp1,
-                        real_t           macro_vertex_coord_id_1comp0,
-                        real_t           macro_vertex_coord_id_1comp1,
-                        real_t           macro_vertex_coord_id_2comp0,
-                        real_t           macro_vertex_coord_id_2comp1,
-                        int64_t          micro_edges_per_macro_edge,
-                        real_t           micro_edges_per_macro_edge_float ) const;
-   /// Kernel type: apply
+   ///    116     132      12       0      0              0                 0              1
+   void apply_P2ToP1ElementwiseDivergence_0_1_macro_2D( real_t* RESTRICT _data_dst,
+                                                        real_t* RESTRICT _data_srcEdge,
+                                                        real_t* RESTRICT _data_srcVertex,
+                                                        real_t           macro_vertex_coord_id_0comp0,
+                                                        real_t           macro_vertex_coord_id_0comp1,
+                                                        real_t           macro_vertex_coord_id_1comp0,
+                                                        real_t           macro_vertex_coord_id_1comp1,
+                                                        real_t           macro_vertex_coord_id_2comp0,
+                                                        real_t           macro_vertex_coord_id_2comp1,
+                                                        int64_t          micro_edges_per_macro_edge,
+                                                        real_t           micro_edges_per_macro_edge_float ) const;
+
+   /// Integral: P2ToP1ElementwiseDivergence_0_1
+   /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
+   /// - kernel type:     apply
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
+   /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    252     280       0       0      0              0                 0              0
-   void apply_macro_3D( real_t* RESTRICT _data_dst,
-                        real_t* RESTRICT _data_srcEdge,
-                        real_t* RESTRICT _data_srcVertex,
-                        real_t           macro_vertex_coord_id_0comp0,
-                        real_t           macro_vertex_coord_id_0comp1,
-                        real_t           macro_vertex_coord_id_0comp2,
-                        real_t           macro_vertex_coord_id_1comp0,
-                        real_t           macro_vertex_coord_id_1comp1,
-                        real_t           macro_vertex_coord_id_1comp2,
-                        real_t           macro_vertex_coord_id_2comp0,
-                        real_t           macro_vertex_coord_id_2comp1,
-                        real_t           macro_vertex_coord_id_2comp2,
-                        real_t           macro_vertex_coord_id_3comp0,
-                        real_t           macro_vertex_coord_id_3comp1,
-                        real_t           macro_vertex_coord_id_3comp2,
-                        int64_t          micro_edges_per_macro_edge,
-                        real_t           micro_edges_per_macro_edge_float ) const;
-   /// Kernel type: toMatrix
+   ///    345     352      36       0      0              0                 0              1
+   void apply_P2ToP1ElementwiseDivergence_0_1_macro_3D( real_t* RESTRICT _data_dst,
+                                                        real_t* RESTRICT _data_srcEdge,
+                                                        real_t* RESTRICT _data_srcVertex,
+                                                        real_t           macro_vertex_coord_id_0comp0,
+                                                        real_t           macro_vertex_coord_id_0comp1,
+                                                        real_t           macro_vertex_coord_id_0comp2,
+                                                        real_t           macro_vertex_coord_id_1comp0,
+                                                        real_t           macro_vertex_coord_id_1comp1,
+                                                        real_t           macro_vertex_coord_id_1comp2,
+                                                        real_t           macro_vertex_coord_id_2comp0,
+                                                        real_t           macro_vertex_coord_id_2comp1,
+                                                        real_t           macro_vertex_coord_id_2comp2,
+                                                        real_t           macro_vertex_coord_id_3comp0,
+                                                        real_t           macro_vertex_coord_id_3comp1,
+                                                        real_t           macro_vertex_coord_id_3comp2,
+                                                        int64_t          micro_edges_per_macro_edge,
+                                                        real_t           micro_edges_per_macro_edge_float ) const;
+
+   /// Integral: P2ToP1ElementwiseDivergence_0_1
+   /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
+   /// - kernel type:     toMatrix
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
+   /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     66      90       0       0      0              0                 0              3
-   void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dst,
-                           idx_t* RESTRICT                      _data_srcEdge,
-                           idx_t* RESTRICT                      _data_srcVertex,
-                           real_t                               macro_vertex_coord_id_0comp0,
-                           real_t                               macro_vertex_coord_id_0comp1,
-                           real_t                               macro_vertex_coord_id_1comp0,
-                           real_t                               macro_vertex_coord_id_1comp1,
-                           real_t                               macro_vertex_coord_id_2comp0,
-                           real_t                               macro_vertex_coord_id_2comp1,
-                           std::shared_ptr< SparseMatrixProxy > mat,
-                           int64_t                              micro_edges_per_macro_edge,
-                           real_t                               micro_edges_per_macro_edge_float ) const;
-   /// Kernel type: toMatrix
+   ///     98     114      12       0      0              0                 0              4
+   void toMatrix_P2ToP1ElementwiseDivergence_0_1_macro_2D( idx_t* RESTRICT                      _data_dst,
+                                                           idx_t* RESTRICT                      _data_srcEdge,
+                                                           idx_t* RESTRICT                      _data_srcVertex,
+                                                           real_t                               macro_vertex_coord_id_0comp0,
+                                                           real_t                               macro_vertex_coord_id_0comp1,
+                                                           real_t                               macro_vertex_coord_id_1comp0,
+                                                           real_t                               macro_vertex_coord_id_1comp1,
+                                                           real_t                               macro_vertex_coord_id_2comp0,
+                                                           real_t                               macro_vertex_coord_id_2comp1,
+                                                           std::shared_ptr< SparseMatrixProxy > mat,
+                                                           int64_t                              micro_edges_per_macro_edge,
+                                                           real_t micro_edges_per_macro_edge_float ) const;
+
+   /// Integral: P2ToP1ElementwiseDivergence_0_1
+   /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
+   /// - kernel type:     toMatrix
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
+   /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    212     240       0       0      0              0                 0              3
-   void toMatrix_macro_3D( idx_t* RESTRICT                      _data_dst,
-                           idx_t* RESTRICT                      _data_srcEdge,
-                           idx_t* RESTRICT                      _data_srcVertex,
-                           real_t                               macro_vertex_coord_id_0comp0,
-                           real_t                               macro_vertex_coord_id_0comp1,
-                           real_t                               macro_vertex_coord_id_0comp2,
-                           real_t                               macro_vertex_coord_id_1comp0,
-                           real_t                               macro_vertex_coord_id_1comp1,
-                           real_t                               macro_vertex_coord_id_1comp2,
-                           real_t                               macro_vertex_coord_id_2comp0,
-                           real_t                               macro_vertex_coord_id_2comp1,
-                           real_t                               macro_vertex_coord_id_2comp2,
-                           real_t                               macro_vertex_coord_id_3comp0,
-                           real_t                               macro_vertex_coord_id_3comp1,
-                           real_t                               macro_vertex_coord_id_3comp2,
-                           std::shared_ptr< SparseMatrixProxy > mat,
-                           int64_t                              micro_edges_per_macro_edge,
-                           real_t                               micro_edges_per_macro_edge_float ) const;
+   ///    305     312      36       0      0              0                 0              4
+   void toMatrix_P2ToP1ElementwiseDivergence_0_1_macro_3D( idx_t* RESTRICT                      _data_dst,
+                                                           idx_t* RESTRICT                      _data_srcEdge,
+                                                           idx_t* RESTRICT                      _data_srcVertex,
+                                                           real_t                               macro_vertex_coord_id_0comp0,
+                                                           real_t                               macro_vertex_coord_id_0comp1,
+                                                           real_t                               macro_vertex_coord_id_0comp2,
+                                                           real_t                               macro_vertex_coord_id_1comp0,
+                                                           real_t                               macro_vertex_coord_id_1comp1,
+                                                           real_t                               macro_vertex_coord_id_1comp2,
+                                                           real_t                               macro_vertex_coord_id_2comp0,
+                                                           real_t                               macro_vertex_coord_id_2comp1,
+                                                           real_t                               macro_vertex_coord_id_2comp2,
+                                                           real_t                               macro_vertex_coord_id_3comp0,
+                                                           real_t                               macro_vertex_coord_id_3comp1,
+                                                           real_t                               macro_vertex_coord_id_3comp2,
+                                                           std::shared_ptr< SparseMatrixProxy > mat,
+                                                           int64_t                              micro_edges_per_macro_edge,
+                                                           real_t micro_edges_per_macro_edge_float ) const;
 };
 
 } // namespace operatorgeneration

@@ -161,7 +161,7 @@ void P2ElementwiseShearHeating::apply( const P2Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_3D(
+         apply_P2ElementwiseShearHeating_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -189,6 +189,7 @@ void P2ElementwiseShearHeating::apply( const P2Function< real_t >& src,
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -262,7 +263,7 @@ void P2ElementwiseShearHeating::apply( const P2Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_2D(
+         apply_P2ElementwiseShearHeating_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -282,6 +283,7 @@ void P2ElementwiseShearHeating::apply( const P2Function< real_t >& src,
              macro_vertex_coord_id_2comp1,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -367,7 +369,7 @@ void P2ElementwiseShearHeating::toMatrix( const std::shared_ptr< SparseMatrixPro
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_3D(
+         toMatrix_P2ElementwiseShearHeating_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -396,6 +398,7 @@ void P2ElementwiseShearHeating::toMatrix( const std::shared_ptr< SparseMatrixPro
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
    }
@@ -437,7 +440,7 @@ void P2ElementwiseShearHeating::toMatrix( const std::shared_ptr< SparseMatrixPro
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_2D(
+         toMatrix_P2ElementwiseShearHeating_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -458,6 +461,7 @@ void P2ElementwiseShearHeating::toMatrix( const std::shared_ptr< SparseMatrixPro
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float );
+
          this->timingTree_->stop( "kernel" );
       }
    }
@@ -527,7 +531,7 @@ void P2ElementwiseShearHeating::computeInverseDiagonalOperatorValues()
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_macro_3D(
+            computeInverseDiagonalOperatorValues_P2ElementwiseShearHeating_macro_3D(
 
                 _data_invDiag_Edge,
                 _data_invDiag_Vertex,
@@ -553,6 +557,7 @@ void P2ElementwiseShearHeating::computeInverseDiagonalOperatorValues()
                 macro_vertex_coord_id_3comp2,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float );
+
             this->timingTree_->stop( "kernel" );
          }
 
@@ -606,7 +611,7 @@ void P2ElementwiseShearHeating::computeInverseDiagonalOperatorValues()
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_macro_2D(
+            computeInverseDiagonalOperatorValues_P2ElementwiseShearHeating_macro_2D(
 
                 _data_invDiag_Edge,
                 _data_invDiag_Vertex,
@@ -624,6 +629,7 @@ void P2ElementwiseShearHeating::computeInverseDiagonalOperatorValues()
                 macro_vertex_coord_id_2comp1,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float );
+
             this->timingTree_->stop( "kernel" );
          }
 

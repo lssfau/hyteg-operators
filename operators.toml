@@ -358,3 +358,33 @@ quadrature    = 3
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops"]
 blending      = "IcosahedralShellMap"
+
+[[grad_rho_by_rho_dot_u]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P2"
+dimensions    = [2, 3]
+quadrature    = 3
+blending      = "IdentityMap"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+
+[[grad_rho_by_rho_dot_u]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P2"
+dimensions    = [2]
+quadrature    = 3
+blending      = "AnnulusMap"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+
+[[grad_rho_by_rho_dot_u]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P2"
+dimensions    = [3]
+quadrature    = 3
+blending      = "IcosahedralShellMap"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]

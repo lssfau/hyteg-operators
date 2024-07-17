@@ -152,7 +152,7 @@ void P2ToP1ElementwiseKMassIcosahedralShellMap::apply( const P2Function< real_t 
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_3D(
+         apply_P2ToP1ElementwiseKMassIcosahedralShellMap_macro_3D(
 
              _data_dst,
              _data_kEdge,
@@ -187,6 +187,7 @@ void P2ToP1ElementwiseKMassIcosahedralShellMap::apply( const P2Function< real_t 
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -274,7 +275,7 @@ void P2ToP1ElementwiseKMassIcosahedralShellMap::toMatrix( const std::shared_ptr<
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_3D(
+         toMatrix_P2ToP1ElementwiseKMassIcosahedralShellMap_macro_3D(
 
              _data_dst,
              _data_kEdge,
@@ -310,6 +311,7 @@ void P2ToP1ElementwiseKMassIcosahedralShellMap::toMatrix( const std::shared_ptr<
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
+
          this->timingTree_->stop( "kernel" );
       }
    }

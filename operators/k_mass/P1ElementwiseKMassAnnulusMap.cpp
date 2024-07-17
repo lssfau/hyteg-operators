@@ -135,7 +135,7 @@ void P1ElementwiseKMassAnnulusMap::apply( const P1Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_2D(
+         apply_P1ElementwiseKMassAnnulusMap_macro_2D(
 
              _data_dst,
              _data_k,
@@ -156,6 +156,7 @@ void P1ElementwiseKMassAnnulusMap::apply( const P1Function< real_t >& src,
              refVertex_1,
              thrVertex_0,
              thrVertex_1 );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -232,7 +233,7 @@ void P1ElementwiseKMassAnnulusMap::toMatrix( const std::shared_ptr< SparseMatrix
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_2D(
+         toMatrix_P1ElementwiseKMassAnnulusMap_macro_2D(
 
              _data_dst,
              _data_k,
@@ -254,6 +255,7 @@ void P1ElementwiseKMassAnnulusMap::toMatrix( const std::shared_ptr< SparseMatrix
              refVertex_1,
              thrVertex_0,
              thrVertex_1 );
+
          this->timingTree_->stop( "kernel" );
       }
    }
@@ -319,7 +321,7 @@ void P1ElementwiseKMassAnnulusMap::computeInverseDiagonalOperatorValues()
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_macro_2D(
+            computeInverseDiagonalOperatorValues_P1ElementwiseKMassAnnulusMap_macro_2D(
 
                 _data_invDiag_,
                 _data_k,
@@ -339,6 +341,7 @@ void P1ElementwiseKMassAnnulusMap::computeInverseDiagonalOperatorValues()
                 refVertex_1,
                 thrVertex_0,
                 thrVertex_1 );
+
             this->timingTree_->stop( "kernel" );
          }
 

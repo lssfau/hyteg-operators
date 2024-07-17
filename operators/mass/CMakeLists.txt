@@ -13,40 +13,40 @@ add_library( opgen-mass
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-mass PRIVATE
 
-      avx/P1ElementwiseMass_apply_macro_2D.cpp
-      avx/P1ElementwiseMass_apply_macro_3D.cpp
-      avx/P1ElementwiseMass_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      avx/P1ElementwiseMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
-      avx/P2ElementwiseMassAnnulusMap_apply_macro_2D.cpp
-      avx/P2ElementwiseMassAnnulusMap_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      avx/P2ElementwiseMassIcosahedralShellMap_apply_macro_3D.cpp
-      avx/P2ElementwiseMassIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
-      avx/P2ElementwiseMass_apply_macro_2D.cpp
-      avx/P2ElementwiseMass_apply_macro_3D.cpp
-      avx/P2ElementwiseMass_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      avx/P2ElementwiseMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
-      noarch/P1ElementwiseMass_toMatrix_macro_2D.cpp
-      noarch/P1ElementwiseMass_toMatrix_macro_3D.cpp
-      noarch/P2ElementwiseMassAnnulusMap_toMatrix_macro_2D.cpp
-      noarch/P2ElementwiseMassIcosahedralShellMap_toMatrix_macro_3D.cpp
-      noarch/P2ElementwiseMass_toMatrix_macro_2D.cpp
-      noarch/P2ElementwiseMass_toMatrix_macro_3D.cpp
+      avx/P1ElementwiseMass_apply_P1ElementwiseMass_macro_2D.cpp
+      avx/P1ElementwiseMass_apply_P1ElementwiseMass_macro_3D.cpp
+      avx/P1ElementwiseMass_computeInverseDiagonalOperatorValues_P1ElementwiseMass_macro_2D.cpp
+      avx/P1ElementwiseMass_computeInverseDiagonalOperatorValues_P1ElementwiseMass_macro_3D.cpp
+      avx/P2ElementwiseMassAnnulusMap_apply_P2ElementwiseMassAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseMassAnnulusMap_computeInverseDiagonalOperatorValues_P2ElementwiseMassAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseMassIcosahedralShellMap_apply_P2ElementwiseMassIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseMassIcosahedralShellMap_computeInverseDiagonalOperatorValues_P2ElementwiseMassIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseMass_apply_P2ElementwiseMass_macro_2D.cpp
+      avx/P2ElementwiseMass_apply_P2ElementwiseMass_macro_3D.cpp
+      avx/P2ElementwiseMass_computeInverseDiagonalOperatorValues_P2ElementwiseMass_macro_2D.cpp
+      avx/P2ElementwiseMass_computeInverseDiagonalOperatorValues_P2ElementwiseMass_macro_3D.cpp
+      noarch/P1ElementwiseMass_toMatrix_P1ElementwiseMass_macro_2D.cpp
+      noarch/P1ElementwiseMass_toMatrix_P1ElementwiseMass_macro_3D.cpp
+      noarch/P2ElementwiseMassAnnulusMap_toMatrix_P2ElementwiseMassAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseMassIcosahedralShellMap_toMatrix_P2ElementwiseMassIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseMass_toMatrix_P2ElementwiseMass_macro_2D.cpp
+      noarch/P2ElementwiseMass_toMatrix_P2ElementwiseMass_macro_3D.cpp
    )
 
    set_source_files_properties(
 
-      avx/P1ElementwiseMass_apply_macro_2D.cpp
-      avx/P1ElementwiseMass_apply_macro_3D.cpp
-      avx/P1ElementwiseMass_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      avx/P1ElementwiseMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
-      avx/P2ElementwiseMassAnnulusMap_apply_macro_2D.cpp
-      avx/P2ElementwiseMassAnnulusMap_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      avx/P2ElementwiseMassIcosahedralShellMap_apply_macro_3D.cpp
-      avx/P2ElementwiseMassIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
-      avx/P2ElementwiseMass_apply_macro_2D.cpp
-      avx/P2ElementwiseMass_apply_macro_3D.cpp
-      avx/P2ElementwiseMass_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      avx/P2ElementwiseMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
+      avx/P1ElementwiseMass_apply_P1ElementwiseMass_macro_2D.cpp
+      avx/P1ElementwiseMass_apply_P1ElementwiseMass_macro_3D.cpp
+      avx/P1ElementwiseMass_computeInverseDiagonalOperatorValues_P1ElementwiseMass_macro_2D.cpp
+      avx/P1ElementwiseMass_computeInverseDiagonalOperatorValues_P1ElementwiseMass_macro_3D.cpp
+      avx/P2ElementwiseMassAnnulusMap_apply_P2ElementwiseMassAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseMassAnnulusMap_computeInverseDiagonalOperatorValues_P2ElementwiseMassAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseMassIcosahedralShellMap_apply_P2ElementwiseMassIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseMassIcosahedralShellMap_computeInverseDiagonalOperatorValues_P2ElementwiseMassIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseMass_apply_P2ElementwiseMass_macro_2D.cpp
+      avx/P2ElementwiseMass_apply_P2ElementwiseMass_macro_3D.cpp
+      avx/P2ElementwiseMass_computeInverseDiagonalOperatorValues_P2ElementwiseMass_macro_2D.cpp
+      avx/P2ElementwiseMass_computeInverseDiagonalOperatorValues_P2ElementwiseMass_macro_3D.cpp
 
       PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
    )
@@ -57,24 +57,24 @@ else()
 
    target_sources(opgen-mass PRIVATE
 
-      noarch/P1ElementwiseMass_apply_macro_2D.cpp
-      noarch/P1ElementwiseMass_apply_macro_3D.cpp
-      noarch/P1ElementwiseMass_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      noarch/P1ElementwiseMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
-      noarch/P1ElementwiseMass_toMatrix_macro_2D.cpp
-      noarch/P1ElementwiseMass_toMatrix_macro_3D.cpp
-      noarch/P2ElementwiseMassAnnulusMap_apply_macro_2D.cpp
-      noarch/P2ElementwiseMassAnnulusMap_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      noarch/P2ElementwiseMassAnnulusMap_toMatrix_macro_2D.cpp
-      noarch/P2ElementwiseMassIcosahedralShellMap_apply_macro_3D.cpp
-      noarch/P2ElementwiseMassIcosahedralShellMap_computeInverseDiagonalOperatorValues_macro_3D.cpp
-      noarch/P2ElementwiseMassIcosahedralShellMap_toMatrix_macro_3D.cpp
-      noarch/P2ElementwiseMass_apply_macro_2D.cpp
-      noarch/P2ElementwiseMass_apply_macro_3D.cpp
-      noarch/P2ElementwiseMass_computeInverseDiagonalOperatorValues_macro_2D.cpp
-      noarch/P2ElementwiseMass_computeInverseDiagonalOperatorValues_macro_3D.cpp
-      noarch/P2ElementwiseMass_toMatrix_macro_2D.cpp
-      noarch/P2ElementwiseMass_toMatrix_macro_3D.cpp
+      noarch/P1ElementwiseMass_apply_P1ElementwiseMass_macro_2D.cpp
+      noarch/P1ElementwiseMass_apply_P1ElementwiseMass_macro_3D.cpp
+      noarch/P1ElementwiseMass_computeInverseDiagonalOperatorValues_P1ElementwiseMass_macro_2D.cpp
+      noarch/P1ElementwiseMass_computeInverseDiagonalOperatorValues_P1ElementwiseMass_macro_3D.cpp
+      noarch/P1ElementwiseMass_toMatrix_P1ElementwiseMass_macro_2D.cpp
+      noarch/P1ElementwiseMass_toMatrix_P1ElementwiseMass_macro_3D.cpp
+      noarch/P2ElementwiseMassAnnulusMap_apply_P2ElementwiseMassAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseMassAnnulusMap_computeInverseDiagonalOperatorValues_P2ElementwiseMassAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseMassAnnulusMap_toMatrix_P2ElementwiseMassAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseMassIcosahedralShellMap_apply_P2ElementwiseMassIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseMassIcosahedralShellMap_computeInverseDiagonalOperatorValues_P2ElementwiseMassIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseMassIcosahedralShellMap_toMatrix_P2ElementwiseMassIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseMass_apply_P2ElementwiseMass_macro_2D.cpp
+      noarch/P2ElementwiseMass_apply_P2ElementwiseMass_macro_3D.cpp
+      noarch/P2ElementwiseMass_computeInverseDiagonalOperatorValues_P2ElementwiseMass_macro_2D.cpp
+      noarch/P2ElementwiseMass_computeInverseDiagonalOperatorValues_P2ElementwiseMass_macro_3D.cpp
+      noarch/P2ElementwiseMass_toMatrix_P2ElementwiseMass_macro_2D.cpp
+      noarch/P2ElementwiseMass_toMatrix_P2ElementwiseMass_macro_3D.cpp
    )
 endif()
 

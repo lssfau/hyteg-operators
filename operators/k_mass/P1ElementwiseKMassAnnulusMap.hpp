@@ -29,6 +29,7 @@
 #include "core/DataTypes.h"
 
 #include "hyteg/LikwidWrapper.hpp"
+#include "hyteg/boundary/BoundaryConditions.hpp"
 #include "hyteg/communication/Syncing.hpp"
 #include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
 #include "hyteg/geometry/AnnulusMap.hpp"
@@ -37,6 +38,7 @@
 #include "hyteg/primitivestorage/PrimitiveStorage.hpp"
 #include "hyteg/solvers/Smoothables.hpp"
 #include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
+#include "hyteg/types/types.hpp"
 
 #define FUNC_PREFIX
 
@@ -83,81 +85,95 @@ class P1ElementwiseKMassAnnulusMap : public Operator< P1Function< real_t >, P1Fu
 
  protected:
  private:
-   /// Kernel type: apply
+   /// Integral: P1ElementwiseKMassAnnulusMap
+   /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
+   /// - kernel type:     apply
+   /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - blending map:    AnnulusMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    241     329      24      16      4              0                 0              1
-   void apply_macro_2D( real_t* RESTRICT _data_dst,
-                        real_t* RESTRICT _data_k,
-                        real_t* RESTRICT _data_src,
-                        real_t           macro_vertex_coord_id_0comp0,
-                        real_t           macro_vertex_coord_id_0comp1,
-                        real_t           macro_vertex_coord_id_1comp0,
-                        real_t           macro_vertex_coord_id_1comp1,
-                        real_t           macro_vertex_coord_id_2comp0,
-                        real_t           macro_vertex_coord_id_2comp1,
-                        int64_t          micro_edges_per_macro_edge,
-                        real_t           micro_edges_per_macro_edge_float,
-                        real_t           radRayVertex,
-                        real_t           radRefVertex,
-                        real_t           rayVertex_0,
-                        real_t           rayVertex_1,
-                        real_t           refVertex_0,
-                        real_t           refVertex_1,
-                        real_t           thrVertex_0,
-                        real_t           thrVertex_1 ) const;
-   /// Kernel type: toMatrix
+   ///    333     513      24      20      4              0                 0              1
+   void apply_P1ElementwiseKMassAnnulusMap_macro_2D( real_t* RESTRICT _data_dst,
+                                                     real_t* RESTRICT _data_k,
+                                                     real_t* RESTRICT _data_src,
+                                                     real_t           macro_vertex_coord_id_0comp0,
+                                                     real_t           macro_vertex_coord_id_0comp1,
+                                                     real_t           macro_vertex_coord_id_1comp0,
+                                                     real_t           macro_vertex_coord_id_1comp1,
+                                                     real_t           macro_vertex_coord_id_2comp0,
+                                                     real_t           macro_vertex_coord_id_2comp1,
+                                                     int64_t          micro_edges_per_macro_edge,
+                                                     real_t           micro_edges_per_macro_edge_float,
+                                                     real_t           radRayVertex,
+                                                     real_t           radRefVertex,
+                                                     real_t           rayVertex_0,
+                                                     real_t           rayVertex_1,
+                                                     real_t           refVertex_0,
+                                                     real_t           refVertex_1,
+                                                     real_t           thrVertex_0,
+                                                     real_t           thrVertex_1 ) const;
+
+   /// Integral: P1ElementwiseKMassAnnulusMap
+   /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
+   /// - kernel type:     toMatrix
+   /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - blending map:    AnnulusMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    232     320      24      16      4              0                 0              4
-   void toMatrix_macro_2D( idx_t* RESTRICT                      _data_dst,
-                           real_t* RESTRICT                     _data_k,
-                           idx_t* RESTRICT                      _data_src,
-                           real_t                               macro_vertex_coord_id_0comp0,
-                           real_t                               macro_vertex_coord_id_0comp1,
-                           real_t                               macro_vertex_coord_id_1comp0,
-                           real_t                               macro_vertex_coord_id_1comp1,
-                           real_t                               macro_vertex_coord_id_2comp0,
-                           real_t                               macro_vertex_coord_id_2comp1,
-                           std::shared_ptr< SparseMatrixProxy > mat,
-                           int64_t                              micro_edges_per_macro_edge,
-                           real_t                               micro_edges_per_macro_edge_float,
-                           real_t                               radRayVertex,
-                           real_t                               radRefVertex,
-                           real_t                               rayVertex_0,
-                           real_t                               rayVertex_1,
-                           real_t                               refVertex_0,
-                           real_t                               refVertex_1,
-                           real_t                               thrVertex_0,
-                           real_t                               thrVertex_1 ) const;
-   /// Kernel type: computeInverseDiagonalOperatorValues
+   ///    324     504      24      20      4              0                 0              4
+   void toMatrix_P1ElementwiseKMassAnnulusMap_macro_2D( idx_t* RESTRICT                      _data_dst,
+                                                        real_t* RESTRICT                     _data_k,
+                                                        idx_t* RESTRICT                      _data_src,
+                                                        real_t                               macro_vertex_coord_id_0comp0,
+                                                        real_t                               macro_vertex_coord_id_0comp1,
+                                                        real_t                               macro_vertex_coord_id_1comp0,
+                                                        real_t                               macro_vertex_coord_id_1comp1,
+                                                        real_t                               macro_vertex_coord_id_2comp0,
+                                                        real_t                               macro_vertex_coord_id_2comp1,
+                                                        std::shared_ptr< SparseMatrixProxy > mat,
+                                                        int64_t                              micro_edges_per_macro_edge,
+                                                        real_t                               micro_edges_per_macro_edge_float,
+                                                        real_t                               radRayVertex,
+                                                        real_t                               radRefVertex,
+                                                        real_t                               rayVertex_0,
+                                                        real_t                               rayVertex_1,
+                                                        real_t                               refVertex_0,
+                                                        real_t                               refVertex_1,
+                                                        real_t                               thrVertex_0,
+                                                        real_t                               thrVertex_1 ) const;
+
+   /// Integral: P1ElementwiseKMassAnnulusMap
+   /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
+   /// - kernel type:     computeInverseDiagonalOperatorValues
+   /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - blending map:    AnnulusMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    223     308      24      16      4              0                 0              1
-   void computeInverseDiagonalOperatorValues_macro_2D( real_t* RESTRICT _data_invDiag_,
-                                                       real_t* RESTRICT _data_k,
-                                                       real_t           macro_vertex_coord_id_0comp0,
-                                                       real_t           macro_vertex_coord_id_0comp1,
-                                                       real_t           macro_vertex_coord_id_1comp0,
-                                                       real_t           macro_vertex_coord_id_1comp1,
-                                                       real_t           macro_vertex_coord_id_2comp0,
-                                                       real_t           macro_vertex_coord_id_2comp1,
-                                                       int64_t          micro_edges_per_macro_edge,
-                                                       real_t           micro_edges_per_macro_edge_float,
-                                                       real_t           radRayVertex,
-                                                       real_t           radRefVertex,
-                                                       real_t           rayVertex_0,
-                                                       real_t           rayVertex_1,
-                                                       real_t           refVertex_0,
-                                                       real_t           refVertex_1,
-                                                       real_t           thrVertex_0,
-                                                       real_t           thrVertex_1 ) const;
+   ///    315     492      24      20      4              0                 0              1
+   void computeInverseDiagonalOperatorValues_P1ElementwiseKMassAnnulusMap_macro_2D( real_t* RESTRICT _data_invDiag_,
+                                                                                    real_t* RESTRICT _data_k,
+                                                                                    real_t           macro_vertex_coord_id_0comp0,
+                                                                                    real_t           macro_vertex_coord_id_0comp1,
+                                                                                    real_t           macro_vertex_coord_id_1comp0,
+                                                                                    real_t           macro_vertex_coord_id_1comp1,
+                                                                                    real_t           macro_vertex_coord_id_2comp0,
+                                                                                    real_t           macro_vertex_coord_id_2comp1,
+                                                                                    int64_t          micro_edges_per_macro_edge,
+                                                                                    real_t micro_edges_per_macro_edge_float,
+                                                                                    real_t radRayVertex,
+                                                                                    real_t radRefVertex,
+                                                                                    real_t rayVertex_0,
+                                                                                    real_t rayVertex_1,
+                                                                                    real_t refVertex_0,
+                                                                                    real_t refVertex_1,
+                                                                                    real_t thrVertex_0,
+                                                                                    real_t thrVertex_1 ) const;
 
    std::shared_ptr< P1Function< real_t > > invDiag_;
    P1Function< real_t >                    k;

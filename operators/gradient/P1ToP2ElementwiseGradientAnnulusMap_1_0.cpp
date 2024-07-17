@@ -144,7 +144,7 @@ void P1ToP2ElementwiseGradientAnnulusMap_1_0::apply( const P1Function< real_t >&
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_2D(
+         apply_P1ToP2ElementwiseGradientAnnulusMap_1_0_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -165,6 +165,7 @@ void P1ToP2ElementwiseGradientAnnulusMap_1_0::apply( const P1Function< real_t >&
              refVertex_1,
              thrVertex_0,
              thrVertex_1 );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -243,7 +244,7 @@ void P1ToP2ElementwiseGradientAnnulusMap_1_0::toMatrix( const std::shared_ptr< S
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_2D(
+         toMatrix_P1ToP2ElementwiseGradientAnnulusMap_1_0_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -265,6 +266,7 @@ void P1ToP2ElementwiseGradientAnnulusMap_1_0::toMatrix( const std::shared_ptr< S
              refVertex_1,
              thrVertex_0,
              thrVertex_1 );
+
          this->timingTree_->stop( "kernel" );
       }
    }

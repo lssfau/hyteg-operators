@@ -149,7 +149,7 @@ void P1ElementwiseKMassIcosahedralShellMap::apply( const P1Function< real_t >& s
 
          this->timingTree_->start( "kernel" );
 
-         apply_macro_3D(
+         apply_P1ElementwiseKMassIcosahedralShellMap_macro_3D(
 
              _data_dst,
              _data_k,
@@ -182,6 +182,7 @@ void P1ElementwiseKMassIcosahedralShellMap::apply( const P1Function< real_t >& s
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
+
          this->timingTree_->stop( "kernel" );
       }
 
@@ -267,7 +268,7 @@ void P1ElementwiseKMassIcosahedralShellMap::toMatrix( const std::shared_ptr< Spa
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_macro_3D(
+         toMatrix_P1ElementwiseKMassIcosahedralShellMap_macro_3D(
 
              _data_dst,
              _data_k,
@@ -301,6 +302,7 @@ void P1ElementwiseKMassIcosahedralShellMap::toMatrix( const std::shared_ptr< Spa
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
+
          this->timingTree_->stop( "kernel" );
       }
    }
@@ -377,7 +379,7 @@ void P1ElementwiseKMassIcosahedralShellMap::computeInverseDiagonalOperatorValues
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_macro_3D(
+            computeInverseDiagonalOperatorValues_P1ElementwiseKMassIcosahedralShellMap_macro_3D(
 
                 _data_invDiag_,
                 _data_k,
@@ -409,6 +411,7 @@ void P1ElementwiseKMassIcosahedralShellMap::computeInverseDiagonalOperatorValues
                 thrVertex_0,
                 thrVertex_1,
                 thrVertex_2 );
+
             this->timingTree_->stop( "kernel" );
          }
 
