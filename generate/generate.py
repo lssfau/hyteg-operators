@@ -311,7 +311,7 @@ def generate_operator(
     trial_space = fe_spaces[spec["trial-space"]]
     test_space = fe_spaces[spec["test-space"]]
 
-    name = elementwise_operator_name(form_str, spec)
+    name = elementwise_operator_name(form_str, spec) # Will use operator-name from spec if provided
     optimizations = {
         operator_generation.optimizer.opts_arg_mapping[opt.upper()]
         for opt in spec["optimizations"]
@@ -409,7 +409,7 @@ def generate_operator(
                 optimizations=optimizations,
             )
 
-        dir_path = os.path.join(args.output, form_str)
+        dir_path = os.path.join(args.output, spec["folder-name"] if "folder-name" in spec.keys() else form_str)
         operator.generate_class_code(
             dir_path,
             class_files=operator_generation.operators.CppClassFiles.HEADER_IMPL_AND_VARIANTS,
@@ -431,7 +431,7 @@ def generate_operator(
 
 
 def elementwise_operator_name(form_str: str, spec: Dict[str, Any]) -> str:
-    operator_name = form_str.title().replace("_", "")
+    operator_name = spec["operator-name"] if "operator-name" in spec else form_str.title().replace("_", "")
 
     if spec["trial-space"] == spec["test-space"]:
         space_mapping = spec["trial-space"]

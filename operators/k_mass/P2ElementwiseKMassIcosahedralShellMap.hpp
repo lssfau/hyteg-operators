@@ -46,7 +46,7 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-/// Diffusion operator with a scalar coefficient.
+/// Mass operator scaled with a coefficient.
 ///
 /// Geometry map: IcosahedralShellMap
 ///
@@ -94,7 +94,7 @@ class P2ElementwiseKMassIcosahedralShellMap : public Operator< P2Function< real_
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2690    4154      69      33     11              0                 0              1
+   ///   2426    3637      58      22      0              0                 0              1
    void apply_P2ElementwiseKMassIcosahedralShellMap_macro_3D( real_t* RESTRICT _data_dstEdge,
                                                               real_t* RESTRICT _data_dstVertex,
                                                               real_t* RESTRICT _data_kEdge,
@@ -139,7 +139,7 @@ class P2ElementwiseKMassIcosahedralShellMap : public Operator< P2Function< real_
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2590    4054      69      33     11              0                 0              4
+   ///   2326    3537      58      22      0              0                 0              4
    void toMatrix_P2ElementwiseKMassIcosahedralShellMap_macro_3D( idx_t* RESTRICT  _data_dstEdge,
                                                                  idx_t* RESTRICT  _data_dstVertex,
                                                                  real_t* RESTRICT _data_kEdge,
@@ -185,7 +185,7 @@ class P2ElementwiseKMassIcosahedralShellMap : public Operator< P2Function< real_
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2105    3559      69      33     11              0                 0              1
+   ///   1841    3042      58      22      0              0                 0              1
    void computeInverseDiagonalOperatorValues_P2ElementwiseKMassIcosahedralShellMap_macro_3D(
        real_t* RESTRICT _data_invDiag_Edge,
        real_t* RESTRICT _data_invDiag_Vertex,

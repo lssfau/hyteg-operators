@@ -44,6 +44,12 @@ add_library( opgen-epsilon
    P2ElementwiseEpsilon_2_1.hpp
    P2ElementwiseEpsilon_2_2.cpp
    P2ElementwiseEpsilon_2_2.hpp
+   P2VectorElementwiseEpsilon.cpp
+   P2VectorElementwiseEpsilon.hpp
+   P2VectorElementwiseEpsilonAnnulusMap.cpp
+   P2VectorElementwiseEpsilonAnnulusMap.hpp
+   P2VectorElementwiseEpsilonIcosahedralShellMap.cpp
+   P2VectorElementwiseEpsilonIcosahedralShellMap.hpp
 )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
@@ -85,6 +91,14 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P2ElementwiseEpsilon_2_1_apply_P2ElementwiseEpsilon_2_1_macro_3D.cpp
       avx/P2ElementwiseEpsilon_2_2_apply_P2ElementwiseEpsilon_2_2_macro_3D.cpp
       avx/P2ElementwiseEpsilon_2_2_computeInverseDiagonalOperatorValues_P2ElementwiseEpsilon_2_2_macro_3D.cpp
+      avx/P2VectorElementwiseEpsilonAnnulusMap_apply_P2VectorElementwiseEpsilonAnnulusMap_macro_2D.cpp
+      avx/P2VectorElementwiseEpsilonAnnulusMap_computeInverseDiagonalOperatorValues_P2VectorElementwiseEpsilonAnnulusMap_macro_2D.cpp
+      avx/P2VectorElementwiseEpsilonIcosahedralShellMap_apply_P2VectorElementwiseEpsilonIcosahedralShellMap_macro_3D.cpp
+      avx/P2VectorElementwiseEpsilonIcosahedralShellMap_computeInverseDiagonalOperatorValues_P2VectorElementwiseEpsilonIcosahedralShellMap_macro_3D.cpp
+      avx/P2VectorElementwiseEpsilon_apply_P2VectorElementwiseEpsilon_macro_2D.cpp
+      avx/P2VectorElementwiseEpsilon_apply_P2VectorElementwiseEpsilon_macro_3D.cpp
+      avx/P2VectorElementwiseEpsilon_computeInverseDiagonalOperatorValues_P2VectorElementwiseEpsilon_macro_2D.cpp
+      avx/P2VectorElementwiseEpsilon_computeInverseDiagonalOperatorValues_P2VectorElementwiseEpsilon_macro_3D.cpp
       noarch/P2ElementwiseEpsilonAnnulusMap_0_0_toMatrix_P2ElementwiseEpsilonAnnulusMap_0_0_macro_2D.cpp
       noarch/P2ElementwiseEpsilonAnnulusMap_0_1_toMatrix_P2ElementwiseEpsilonAnnulusMap_0_1_macro_2D.cpp
       noarch/P2ElementwiseEpsilonAnnulusMap_1_0_toMatrix_P2ElementwiseEpsilonAnnulusMap_1_0_macro_2D.cpp
@@ -111,6 +125,10 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       noarch/P2ElementwiseEpsilon_2_0_toMatrix_P2ElementwiseEpsilon_2_0_macro_3D.cpp
       noarch/P2ElementwiseEpsilon_2_1_toMatrix_P2ElementwiseEpsilon_2_1_macro_3D.cpp
       noarch/P2ElementwiseEpsilon_2_2_toMatrix_P2ElementwiseEpsilon_2_2_macro_3D.cpp
+      noarch/P2VectorElementwiseEpsilonAnnulusMap_toMatrix_P2VectorElementwiseEpsilonAnnulusMap_macro_2D.cpp
+      noarch/P2VectorElementwiseEpsilonIcosahedralShellMap_toMatrix_P2VectorElementwiseEpsilonIcosahedralShellMap_macro_3D.cpp
+      noarch/P2VectorElementwiseEpsilon_toMatrix_P2VectorElementwiseEpsilon_macro_2D.cpp
+      noarch/P2VectorElementwiseEpsilon_toMatrix_P2VectorElementwiseEpsilon_macro_3D.cpp
    )
 
    set_source_files_properties(
@@ -151,6 +169,14 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P2ElementwiseEpsilon_2_1_apply_P2ElementwiseEpsilon_2_1_macro_3D.cpp
       avx/P2ElementwiseEpsilon_2_2_apply_P2ElementwiseEpsilon_2_2_macro_3D.cpp
       avx/P2ElementwiseEpsilon_2_2_computeInverseDiagonalOperatorValues_P2ElementwiseEpsilon_2_2_macro_3D.cpp
+      avx/P2VectorElementwiseEpsilonAnnulusMap_apply_P2VectorElementwiseEpsilonAnnulusMap_macro_2D.cpp
+      avx/P2VectorElementwiseEpsilonAnnulusMap_computeInverseDiagonalOperatorValues_P2VectorElementwiseEpsilonAnnulusMap_macro_2D.cpp
+      avx/P2VectorElementwiseEpsilonIcosahedralShellMap_apply_P2VectorElementwiseEpsilonIcosahedralShellMap_macro_3D.cpp
+      avx/P2VectorElementwiseEpsilonIcosahedralShellMap_computeInverseDiagonalOperatorValues_P2VectorElementwiseEpsilonIcosahedralShellMap_macro_3D.cpp
+      avx/P2VectorElementwiseEpsilon_apply_P2VectorElementwiseEpsilon_macro_2D.cpp
+      avx/P2VectorElementwiseEpsilon_apply_P2VectorElementwiseEpsilon_macro_3D.cpp
+      avx/P2VectorElementwiseEpsilon_computeInverseDiagonalOperatorValues_P2VectorElementwiseEpsilon_macro_2D.cpp
+      avx/P2VectorElementwiseEpsilon_computeInverseDiagonalOperatorValues_P2VectorElementwiseEpsilon_macro_3D.cpp
 
       PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
    )
@@ -223,6 +249,18 @@ else()
       noarch/P2ElementwiseEpsilon_2_2_apply_P2ElementwiseEpsilon_2_2_macro_3D.cpp
       noarch/P2ElementwiseEpsilon_2_2_computeInverseDiagonalOperatorValues_P2ElementwiseEpsilon_2_2_macro_3D.cpp
       noarch/P2ElementwiseEpsilon_2_2_toMatrix_P2ElementwiseEpsilon_2_2_macro_3D.cpp
+      noarch/P2VectorElementwiseEpsilonAnnulusMap_apply_P2VectorElementwiseEpsilonAnnulusMap_macro_2D.cpp
+      noarch/P2VectorElementwiseEpsilonAnnulusMap_computeInverseDiagonalOperatorValues_P2VectorElementwiseEpsilonAnnulusMap_macro_2D.cpp
+      noarch/P2VectorElementwiseEpsilonAnnulusMap_toMatrix_P2VectorElementwiseEpsilonAnnulusMap_macro_2D.cpp
+      noarch/P2VectorElementwiseEpsilonIcosahedralShellMap_apply_P2VectorElementwiseEpsilonIcosahedralShellMap_macro_3D.cpp
+      noarch/P2VectorElementwiseEpsilonIcosahedralShellMap_computeInverseDiagonalOperatorValues_P2VectorElementwiseEpsilonIcosahedralShellMap_macro_3D.cpp
+      noarch/P2VectorElementwiseEpsilonIcosahedralShellMap_toMatrix_P2VectorElementwiseEpsilonIcosahedralShellMap_macro_3D.cpp
+      noarch/P2VectorElementwiseEpsilon_apply_P2VectorElementwiseEpsilon_macro_2D.cpp
+      noarch/P2VectorElementwiseEpsilon_apply_P2VectorElementwiseEpsilon_macro_3D.cpp
+      noarch/P2VectorElementwiseEpsilon_computeInverseDiagonalOperatorValues_P2VectorElementwiseEpsilon_macro_2D.cpp
+      noarch/P2VectorElementwiseEpsilon_computeInverseDiagonalOperatorValues_P2VectorElementwiseEpsilon_macro_3D.cpp
+      noarch/P2VectorElementwiseEpsilon_toMatrix_P2VectorElementwiseEpsilon_macro_2D.cpp
+      noarch/P2VectorElementwiseEpsilon_toMatrix_P2VectorElementwiseEpsilon_macro_3D.cpp
    )
 endif()
 

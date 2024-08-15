@@ -382,7 +382,7 @@ void P2ElementwiseDiffusion::computeInverseDiagonalOperatorValues()
 
    for ( uint_t level = minLevel_; level <= maxLevel_; level++ )
    {
-      invDiag_->interpolate( 0, level );
+      invDiag_->setToZero( level );
 
       if ( storage_->hasGlobalCells() )
       {

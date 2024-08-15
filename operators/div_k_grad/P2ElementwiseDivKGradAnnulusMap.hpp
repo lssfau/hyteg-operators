@@ -94,7 +94,7 @@ class P2ElementwiseDivKGradAnnulusMap : public Operator< P2Function< real_t >, P
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    668    1044      28      20      4              0                 0              1
+   ///    600     880      20      12      0              0                 0              1
    void apply_P2ElementwiseDivKGradAnnulusMap_macro_2D( real_t* RESTRICT _data_dstEdge,
                                                         real_t* RESTRICT _data_dstVertex,
                                                         real_t* RESTRICT _data_kEdge,
@@ -127,7 +127,7 @@ class P2ElementwiseDivKGradAnnulusMap : public Operator< P2Function< real_t >, P
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    632    1008      28      20      4              0                 0              4
+   ///    564     844      20      12      0              0                 0              4
    void toMatrix_P2ElementwiseDivKGradAnnulusMap_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
                                                            idx_t* RESTRICT                      _data_dstVertex,
                                                            real_t* RESTRICT                     _data_kEdge,
@@ -161,7 +161,7 @@ class P2ElementwiseDivKGradAnnulusMap : public Operator< P2Function< real_t >, P
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    518     828      28      20      4              0                 0              1
+   ///    450     664      20      12      0              0                 0              1
    void computeInverseDiagonalOperatorValues_P2ElementwiseDivKGradAnnulusMap_macro_2D( real_t* RESTRICT _data_invDiag_Edge,
                                                                                        real_t* RESTRICT _data_invDiag_Vertex,
                                                                                        real_t* RESTRICT _data_kEdge,

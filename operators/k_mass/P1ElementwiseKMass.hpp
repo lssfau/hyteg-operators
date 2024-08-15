@@ -45,7 +45,7 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-/// Diffusion operator with a scalar coefficient.
+/// Mass operator scaled with a coefficient.
 ///
 /// Geometry map: IdentityMap
 ///
@@ -93,7 +93,7 @@ class P1ElementwiseKMass : public Operator< P1Function< real_t >, P1Function< re
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     81      73      12       0      0              0                 0              1
+   ///     73      73      12       0      0              0                 0              1
    void apply_P1ElementwiseKMass_macro_2D( real_t* RESTRICT _data_dst,
                                            real_t* RESTRICT _data_k,
                                            real_t* RESTRICT _data_src,
@@ -115,7 +115,7 @@ class P1ElementwiseKMass : public Operator< P1Function< real_t >, P1Function< re
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    189     163      36       0      0              0                 0              1
+   ///    174     163      36       0      0              0                 0              1
    void apply_P1ElementwiseKMass_macro_3D( real_t* RESTRICT _data_dst,
                                            real_t* RESTRICT _data_k,
                                            real_t* RESTRICT _data_src,
@@ -143,7 +143,7 @@ class P1ElementwiseKMass : public Operator< P1Function< real_t >, P1Function< re
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     72      64      12       0      0              0                 0              4
+   ///     64      64      12       0      0              0                 0              4
    void toMatrix_P1ElementwiseKMass_macro_2D( idx_t* RESTRICT                      _data_dst,
                                               real_t* RESTRICT                     _data_k,
                                               idx_t* RESTRICT                      _data_src,
@@ -166,7 +166,7 @@ class P1ElementwiseKMass : public Operator< P1Function< real_t >, P1Function< re
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    173     147      36       0      0              0                 0              4
+   ///    158     147      36       0      0              0                 0              4
    void toMatrix_P1ElementwiseKMass_macro_3D( idx_t* RESTRICT                      _data_dst,
                                               real_t* RESTRICT                     _data_k,
                                               idx_t* RESTRICT                      _data_src,
@@ -195,7 +195,7 @@ class P1ElementwiseKMass : public Operator< P1Function< real_t >, P1Function< re
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///     63      52      12       0      0              0                 0              1
+   ///     55      52      12       0      0              0                 0              1
    void computeInverseDiagonalOperatorValues_P1ElementwiseKMass_macro_2D( real_t* RESTRICT _data_invDiag_,
                                                                           real_t* RESTRICT _data_k,
                                                                           real_t           macro_vertex_coord_id_0comp0,
@@ -216,7 +216,7 @@ class P1ElementwiseKMass : public Operator< P1Function< real_t >, P1Function< re
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    147     117      36       0      0              0                 0              1
+   ///    132     117      36       0      0              0                 0              1
    void computeInverseDiagonalOperatorValues_P1ElementwiseKMass_macro_3D( real_t* RESTRICT _data_invDiag_,
                                                                           real_t* RESTRICT _data_k,
                                                                           real_t           macro_vertex_coord_id_0comp0,

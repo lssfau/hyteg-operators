@@ -79,7 +79,7 @@ void P1ElementwiseMass::computeInverseDiagonalOperatorValues_P1ElementwiseMass_m
        const real_t abs_det_jac_affine_GRAY = abs(jac_affine_0_0_GRAY*jac_affine_1_1_GRAY - jac_affine_0_1_GRAY*jac_affine_1_0_GRAY);
        {
           /* FaceType.GRAY */
-          const real_t _data_phi_psi_det_jac_aff_0_0_GRAY [] = {((real_t)(abs_det_jac_affine_GRAY*0.027777777777777804)), ((real_t)(abs_det_jac_affine_GRAY*0.02777777777777779)), ((real_t)(abs_det_jac_affine_GRAY*0.11111111111111116)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776)), ((real_t)(abs_det_jac_affine_GRAY*0.1111111111111111)), ((real_t)(abs_det_jac_affine_GRAY*0.44444444444444442)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777794)), ((real_t)(abs_det_jac_affine_GRAY*0.11111111111111113)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777783)), ((real_t)(abs_det_jac_affine_GRAY*0.44444444444444442)), ((real_t)(abs_det_jac_affine_GRAY*0.1111111111111111)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776)), ((real_t)(abs_det_jac_affine_GRAY*0.44444444444444453)), ((real_t)(abs_det_jac_affine_GRAY*0.11111111111111112)), ((real_t)(abs_det_jac_affine_GRAY*0.11111111111111112)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776))};
+          const real_t _data_tabulated_and_untitled_0_0_GRAY [] = {((real_t)(abs_det_jac_affine_GRAY*0.027777777777777804)), ((real_t)(abs_det_jac_affine_GRAY*0.02777777777777779)), ((real_t)(abs_det_jac_affine_GRAY*0.11111111111111116)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776)), ((real_t)(abs_det_jac_affine_GRAY*0.1111111111111111)), ((real_t)(abs_det_jac_affine_GRAY*0.44444444444444442)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777794)), ((real_t)(abs_det_jac_affine_GRAY*0.11111111111111113)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777783)), ((real_t)(abs_det_jac_affine_GRAY*0.44444444444444442)), ((real_t)(abs_det_jac_affine_GRAY*0.1111111111111111)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776)), ((real_t)(abs_det_jac_affine_GRAY*0.44444444444444453)), ((real_t)(abs_det_jac_affine_GRAY*0.11111111111111112)), ((real_t)(abs_det_jac_affine_GRAY*0.11111111111111112)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776)), ((real_t)(abs_det_jac_affine_GRAY*0.027777777777777776))};
       
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge; ctr_0 += 1)
@@ -108,9 +108,9 @@ void P1ElementwiseMass::computeInverseDiagonalOperatorValues_P1ElementwiseMass_m
              real_t q_acc_2_2 = 0.0;
              for (int64_t q = 0; q < 3; q += 1)
              {
-                const real_t q_tmp_0_0 = _data_phi_psi_det_jac_aff_0_0_GRAY[6*q]*_data_q_w[q];
-                const real_t q_tmp_1_1 = _data_phi_psi_det_jac_aff_0_0_GRAY[6*q + 3]*_data_q_w[q];
-                const real_t q_tmp_2_2 = _data_phi_psi_det_jac_aff_0_0_GRAY[6*q + 5]*_data_q_w[q];
+                const real_t q_tmp_0_0 = _data_q_w[q]*_data_tabulated_and_untitled_0_0_GRAY[6*q];
+                const real_t q_tmp_1_1 = _data_q_w[q]*_data_tabulated_and_untitled_0_0_GRAY[6*q + 3];
+                const real_t q_tmp_2_2 = _data_q_w[q]*_data_tabulated_and_untitled_0_0_GRAY[6*q + 5];
                 q_acc_0_0 = q_acc_0_0 + q_tmp_0_0;
                 q_acc_1_1 = q_acc_1_1 + q_tmp_1_1;
                 q_acc_2_2 = q_acc_2_2 + q_tmp_2_2;
@@ -141,7 +141,7 @@ void P1ElementwiseMass::computeInverseDiagonalOperatorValues_P1ElementwiseMass_m
        const real_t abs_det_jac_affine_BLUE = abs(jac_affine_0_0_BLUE*jac_affine_1_1_BLUE - jac_affine_0_1_BLUE*jac_affine_1_0_BLUE);
        {
           /* FaceType.BLUE */
-          const real_t _data_phi_psi_det_jac_aff_0_0_BLUE [] = {((real_t)(abs_det_jac_affine_BLUE*0.027777777777777804)), ((real_t)(abs_det_jac_affine_BLUE*0.02777777777777779)), ((real_t)(abs_det_jac_affine_BLUE*0.11111111111111116)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776)), ((real_t)(abs_det_jac_affine_BLUE*0.1111111111111111)), ((real_t)(abs_det_jac_affine_BLUE*0.44444444444444442)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777794)), ((real_t)(abs_det_jac_affine_BLUE*0.11111111111111113)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777783)), ((real_t)(abs_det_jac_affine_BLUE*0.44444444444444442)), ((real_t)(abs_det_jac_affine_BLUE*0.1111111111111111)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776)), ((real_t)(abs_det_jac_affine_BLUE*0.44444444444444453)), ((real_t)(abs_det_jac_affine_BLUE*0.11111111111111112)), ((real_t)(abs_det_jac_affine_BLUE*0.11111111111111112)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776))};
+          const real_t _data_tabulated_and_untitled_0_0_BLUE [] = {((real_t)(abs_det_jac_affine_BLUE*0.027777777777777804)), ((real_t)(abs_det_jac_affine_BLUE*0.02777777777777779)), ((real_t)(abs_det_jac_affine_BLUE*0.11111111111111116)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776)), ((real_t)(abs_det_jac_affine_BLUE*0.1111111111111111)), ((real_t)(abs_det_jac_affine_BLUE*0.44444444444444442)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777794)), ((real_t)(abs_det_jac_affine_BLUE*0.11111111111111113)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777783)), ((real_t)(abs_det_jac_affine_BLUE*0.44444444444444442)), ((real_t)(abs_det_jac_affine_BLUE*0.1111111111111111)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776)), ((real_t)(abs_det_jac_affine_BLUE*0.44444444444444453)), ((real_t)(abs_det_jac_affine_BLUE*0.11111111111111112)), ((real_t)(abs_det_jac_affine_BLUE*0.11111111111111112)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776)), ((real_t)(abs_det_jac_affine_BLUE*0.027777777777777776))};
       
           for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
@@ -170,9 +170,9 @@ void P1ElementwiseMass::computeInverseDiagonalOperatorValues_P1ElementwiseMass_m
              real_t q_acc_2_2 = 0.0;
              for (int64_t q = 0; q < 3; q += 1)
              {
-                const real_t q_tmp_0_0 = _data_phi_psi_det_jac_aff_0_0_BLUE[6*q]*_data_q_w[q];
-                const real_t q_tmp_1_1 = _data_phi_psi_det_jac_aff_0_0_BLUE[6*q + 3]*_data_q_w[q];
-                const real_t q_tmp_2_2 = _data_phi_psi_det_jac_aff_0_0_BLUE[6*q + 5]*_data_q_w[q];
+                const real_t q_tmp_0_0 = _data_q_w[q]*_data_tabulated_and_untitled_0_0_BLUE[6*q];
+                const real_t q_tmp_1_1 = _data_q_w[q]*_data_tabulated_and_untitled_0_0_BLUE[6*q + 3];
+                const real_t q_tmp_2_2 = _data_q_w[q]*_data_tabulated_and_untitled_0_0_BLUE[6*q + 5];
                 q_acc_0_0 = q_acc_0_0 + q_tmp_0_0;
                 q_acc_1_1 = q_acc_1_1 + q_tmp_1_1;
                 q_acc_2_2 = q_acc_2_2 + q_tmp_2_2;

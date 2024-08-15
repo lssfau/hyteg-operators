@@ -46,7 +46,7 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-/// Diffusion operator with a scalar coefficient.
+/// Mass operator scaled with a coefficient.
 ///
 /// Geometry map: AnnulusMap
 ///
@@ -94,7 +94,7 @@ class P1ElementwiseKMassAnnulusMap : public Operator< P1Function< real_t >, P1Fu
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    333     513      24      20      4              0                 0              1
+   ///    261     397      20      12      0              0                 0              1
    void apply_P1ElementwiseKMassAnnulusMap_macro_2D( real_t* RESTRICT _data_dst,
                                                      real_t* RESTRICT _data_k,
                                                      real_t* RESTRICT _data_src,
@@ -124,7 +124,7 @@ class P1ElementwiseKMassAnnulusMap : public Operator< P1Function< real_t >, P1Fu
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    324     504      24      20      4              0                 0              4
+   ///    252     388      20      12      0              0                 0              4
    void toMatrix_P1ElementwiseKMassAnnulusMap_macro_2D( idx_t* RESTRICT                      _data_dst,
                                                         real_t* RESTRICT                     _data_k,
                                                         idx_t* RESTRICT                      _data_src,
@@ -155,7 +155,7 @@ class P1ElementwiseKMassAnnulusMap : public Operator< P1Function< real_t >, P1Fu
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    315     492      24      20      4              0                 0              1
+   ///    243     376      20      12      0              0                 0              1
    void computeInverseDiagonalOperatorValues_P1ElementwiseKMassAnnulusMap_macro_2D( real_t* RESTRICT _data_invDiag_,
                                                                                     real_t* RESTRICT _data_k,
                                                                                     real_t           macro_vertex_coord_id_0comp0,

@@ -46,7 +46,7 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-/// Diffusion operator with a scalar coefficient.
+/// Mass operator scaled with a coefficient.
 ///
 /// Geometry map: IcosahedralShellMap
 ///
@@ -89,7 +89,7 @@ class P2ToP1ElementwiseKMassIcosahedralShellMap : public Operator< P2Function< r
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2465    3907      69      33     11              0                 0              1
+   ///   2201    3390      58      22      0              0                 0              1
    void apply_P2ToP1ElementwiseKMassIcosahedralShellMap_macro_3D( real_t* RESTRICT _data_dst,
                                                                   real_t* RESTRICT _data_kEdge,
                                                                   real_t* RESTRICT _data_kVertex,
@@ -133,7 +133,7 @@ class P2ToP1ElementwiseKMassIcosahedralShellMap : public Operator< P2Function< r
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2425    3867      69      33     11              0                 0              4
+   ///   2161    3350      58      22      0              0                 0              4
    void toMatrix_P2ToP1ElementwiseKMassIcosahedralShellMap_macro_3D( idx_t* RESTRICT  _data_dst,
                                                                      real_t* RESTRICT _data_kEdge,
                                                                      real_t* RESTRICT _data_kVertex,
