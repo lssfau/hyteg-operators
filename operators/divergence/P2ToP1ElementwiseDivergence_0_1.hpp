@@ -47,12 +47,12 @@ namespace operatorgeneration {
 
 /// Divergence.
 ///
-/// Component:    1
+/// Component:    0
 /// Geometry map: IdentityMap
 ///
 /// Weak formulation
 ///
-///     u: trial function (vectorial space: Lagrange, degree: 2)
+///     u: trial function (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 1))
 ///     v: test function  (scalar space:    Lagrange, degree: 1)
 ///
 ///     ∫ - ( ∇ · u ) v

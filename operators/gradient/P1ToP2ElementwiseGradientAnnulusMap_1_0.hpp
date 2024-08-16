@@ -46,18 +46,18 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-/// Gradient.
+///     Gradient.
 ///
-/// Component:    1
-/// Geometry map: AnnulusMap
+///     Component:    0
+///     Geometry map: AnnulusMap
 ///
-/// Weak formulation
+///     Weak formulation
 ///
-///     u: trial function (scalar space:    Lagrange, degree: 1)
-///     v: test function  (vectorial space: Lagrange, degree: 2)
+///         u: trial function (scalar space:    Lagrange, degree: 1)
+///         v: test function  (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 1))
 ///
-///     ∫ - ( ∇ · v ) u
-
+///         ∫ - ( ∇ · v ) u
+///
 class P1ToP2ElementwiseGradientAnnulusMap_1_0 : public Operator< P1Function< real_t >, P2Function< real_t > >
 {
  public:
@@ -88,7 +88,7 @@ class P1ToP2ElementwiseGradientAnnulusMap_1_0 : public Operator< P1Function< rea
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    220     330      17      12      3              0                 0              1
+   ///    198     294      16       6      0              0                 0              1
    void apply_P1ToP2ElementwiseGradientAnnulusMap_1_0_macro_2D( real_t* RESTRICT _data_dstEdge,
                                                                 real_t* RESTRICT _data_dstVertex,
                                                                 real_t* RESTRICT _data_src,
@@ -118,7 +118,7 @@ class P1ToP2ElementwiseGradientAnnulusMap_1_0 : public Operator< P1Function< rea
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    202     312      17      12      3              0                 0              4
+   ///    180     276      16       6      0              0                 0              4
    void toMatrix_P1ToP2ElementwiseGradientAnnulusMap_1_0_macro_2D( idx_t* RESTRICT _data_dstEdge,
                                                                    idx_t* RESTRICT _data_dstVertex,
                                                                    idx_t* RESTRICT _data_src,

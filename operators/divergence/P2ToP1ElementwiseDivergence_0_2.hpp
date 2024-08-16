@@ -47,12 +47,12 @@ namespace operatorgeneration {
 
 /// Divergence.
 ///
-/// Component:    2
+/// Component:    0
 /// Geometry map: IdentityMap
 ///
 /// Weak formulation
 ///
-///     u: trial function (vectorial space: Lagrange, degree: 2)
+///     u: trial function (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 2))
 ///     v: test function  (scalar space:    Lagrange, degree: 1)
 ///
 ///     ∫ - ( ∇ · u ) v
@@ -76,6 +76,28 @@ class P2ToP1ElementwiseDivergence_0_2 : public Operator< P2Function< real_t >, P
 
  protected:
  private:
+   /// Integral: P2ToP1ElementwiseDivergence_0_2
+   /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
+   /// - kernel type:     apply
+   /// - loop strategy:   CUBES
+   /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
+   /// - blending map:    IdentityMap
+   /// - operations per element:
+   ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
+   /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
+   ///     35      24      12       0      0              0                 0              1
+   void apply_P2ToP1ElementwiseDivergence_0_2_macro_2D( real_t* RESTRICT _data_dst,
+                                                        real_t* RESTRICT _data_srcEdge,
+                                                        real_t* RESTRICT _data_srcVertex,
+                                                        real_t           macro_vertex_coord_id_0comp0,
+                                                        real_t           macro_vertex_coord_id_0comp1,
+                                                        real_t           macro_vertex_coord_id_1comp0,
+                                                        real_t           macro_vertex_coord_id_1comp1,
+                                                        real_t           macro_vertex_coord_id_2comp0,
+                                                        real_t           macro_vertex_coord_id_2comp1,
+                                                        int64_t          micro_edges_per_macro_edge,
+                                                        real_t           micro_edges_per_macro_edge_float ) const;
+
    /// Integral: P2ToP1ElementwiseDivergence_0_2
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     apply
@@ -103,6 +125,29 @@ class P2ToP1ElementwiseDivergence_0_2 : public Operator< P2Function< real_t >, P
                                                         real_t           macro_vertex_coord_id_3comp2,
                                                         int64_t          micro_edges_per_macro_edge,
                                                         real_t           micro_edges_per_macro_edge_float ) const;
+
+   /// Integral: P2ToP1ElementwiseDivergence_0_2
+   /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
+   /// - kernel type:     toMatrix
+   /// - loop strategy:   CUBES
+   /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
+   /// - blending map:    IdentityMap
+   /// - operations per element:
+   ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
+   /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
+   ///     32      24      12       0      0              0                 0              4
+   void toMatrix_P2ToP1ElementwiseDivergence_0_2_macro_2D( idx_t* RESTRICT                      _data_dst,
+                                                           idx_t* RESTRICT                      _data_srcEdge,
+                                                           idx_t* RESTRICT                      _data_srcVertex,
+                                                           real_t                               macro_vertex_coord_id_0comp0,
+                                                           real_t                               macro_vertex_coord_id_0comp1,
+                                                           real_t                               macro_vertex_coord_id_1comp0,
+                                                           real_t                               macro_vertex_coord_id_1comp1,
+                                                           real_t                               macro_vertex_coord_id_2comp0,
+                                                           real_t                               macro_vertex_coord_id_2comp1,
+                                                           std::shared_ptr< SparseMatrixProxy > mat,
+                                                           int64_t                              micro_edges_per_macro_edge,
+                                                           real_t micro_edges_per_macro_edge_float ) const;
 
    /// Integral: P2ToP1ElementwiseDivergence_0_2
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3

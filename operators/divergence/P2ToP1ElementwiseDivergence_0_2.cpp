@@ -73,7 +73,7 @@ void P2ToP1ElementwiseDivergence_0_2::apply( const P2Function< real_t >& src,
    }
    else
    {
-      WALBERLA_ABORT( "Not implemented." );
+      communication::syncFunctionBetweenPrimitives( src, level, communication::syncDirection_t::LOW2HIGH );
    }
    this->timingTree_->stop( "pre-communication" );
 
@@ -162,7 +162,64 @@ void P2ToP1ElementwiseDivergence_0_2::apply( const P2Function< real_t >& src,
    }
    else
    {
-      WALBERLA_ABORT( "Not implemented." );
+      for ( auto& it : storage_->getFaces() )
+      {
+         Face& face = *it.second;
+
+         // get hold of the actual numerical data in the functions
+         real_t* _data_srcVertex = face.getData( src.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_srcEdge   = face.getData( src.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_dst       = face.getData( dst.getFaceDataID() )->getPointer( level );
+
+         // Zero out dst halos only
+         //
+         // This is also necessary when using update type == Add.
+         // During additive comm we then skip zeroing the data on the lower-dim primitives.
+         for ( const auto& idx : vertexdof::macroface::Iterator( level ) )
+         {
+            if ( vertexdof::macroface::isVertexOnBoundary( level, idx ) )
+            {
+               auto arrayIdx       = vertexdof::macroface::index( level, idx.x(), idx.y() );
+               _data_dst[arrayIdx] = real_t( 0 );
+            }
+         }
+
+         const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
+         const real_t macro_vertex_coord_id_0comp0     = (real_t) face.getCoordinates()[0][0];
+         const real_t macro_vertex_coord_id_0comp1     = (real_t) face.getCoordinates()[0][1];
+         const real_t macro_vertex_coord_id_1comp0     = (real_t) face.getCoordinates()[1][0];
+         const real_t macro_vertex_coord_id_1comp1     = (real_t) face.getCoordinates()[1][1];
+         const real_t macro_vertex_coord_id_2comp0     = (real_t) face.getCoordinates()[2][0];
+         const real_t macro_vertex_coord_id_2comp1     = (real_t) face.getCoordinates()[2][1];
+
+         this->timingTree_->start( "kernel" );
+
+         apply_P2ToP1ElementwiseDivergence_0_2_macro_2D(
+
+             _data_dst,
+             _data_srcEdge,
+             _data_srcVertex,
+             macro_vertex_coord_id_0comp0,
+             macro_vertex_coord_id_0comp1,
+             macro_vertex_coord_id_1comp0,
+             macro_vertex_coord_id_1comp1,
+             macro_vertex_coord_id_2comp0,
+             macro_vertex_coord_id_2comp1,
+             micro_edges_per_macro_edge,
+             micro_edges_per_macro_edge_float );
+
+         this->timingTree_->stop( "kernel" );
+      }
+
+      // Push result to lower-dimensional primitives
+      //
+      this->timingTree_->start( "post-communication" );
+      // Note: We could avoid communication here by implementing the apply() also for the respective
+      //       lower dimensional primitives!
+      dst.communicateAdditively< Face, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst.communicateAdditively< Face, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      this->timingTree_->stop( "post-communication" );
    }
 
    this->stopTiming( "apply" );
@@ -243,7 +300,43 @@ void P2ToP1ElementwiseDivergence_0_2::toMatrix( const std::shared_ptr< SparseMat
 
       this->timingTree_->stop( "pre-communication" );
 
-      WALBERLA_ABORT( "Not implemented." );
+      for ( auto& it : storage_->getFaces() )
+      {
+         Face& face = *it.second;
+
+         // get hold of the actual numerical data
+         idx_t* _data_srcVertex = face.getData( src.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         idx_t* _data_srcEdge   = face.getData( src.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         idx_t* _data_dst       = face.getData( dst.getFaceDataID() )->getPointer( level );
+
+         const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
+         const real_t macro_vertex_coord_id_0comp0     = (real_t) face.getCoordinates()[0][0];
+         const real_t macro_vertex_coord_id_0comp1     = (real_t) face.getCoordinates()[0][1];
+         const real_t macro_vertex_coord_id_1comp0     = (real_t) face.getCoordinates()[1][0];
+         const real_t macro_vertex_coord_id_1comp1     = (real_t) face.getCoordinates()[1][1];
+         const real_t macro_vertex_coord_id_2comp0     = (real_t) face.getCoordinates()[2][0];
+         const real_t macro_vertex_coord_id_2comp1     = (real_t) face.getCoordinates()[2][1];
+
+         this->timingTree_->start( "kernel" );
+
+         toMatrix_P2ToP1ElementwiseDivergence_0_2_macro_2D(
+
+             _data_dst,
+             _data_srcEdge,
+             _data_srcVertex,
+             macro_vertex_coord_id_0comp0,
+             macro_vertex_coord_id_0comp1,
+             macro_vertex_coord_id_1comp0,
+             macro_vertex_coord_id_1comp1,
+             macro_vertex_coord_id_2comp0,
+             macro_vertex_coord_id_2comp1,
+             mat,
+             micro_edges_per_macro_edge,
+             micro_edges_per_macro_edge_float );
+
+         this->timingTree_->stop( "kernel" );
+      }
    }
    this->stopTiming( "toMatrix" );
 }

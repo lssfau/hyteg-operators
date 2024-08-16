@@ -53,7 +53,7 @@ namespace operatorgeneration {
 ///
 /// Weak formulation
 ///
-///     u: trial function (vectorial space: Lagrange, degree: 2)
+///     u: trial function (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 0))
 ///     v: test function  (scalar space:    Lagrange, degree: 1)
 ///
 ///     ∫ - ( ∇ · u ) v
@@ -88,7 +88,7 @@ class P2ToP1ElementwiseDivergenceAnnulusMap_0_0 : public Operator< P2Function< r
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    220     318      17      12      3              0                 0              1
+   ///    198     285      16       6      0              0                 0              1
    void apply_P2ToP1ElementwiseDivergenceAnnulusMap_0_0_macro_2D( real_t* RESTRICT _data_dst,
                                                                   real_t* RESTRICT _data_srcEdge,
                                                                   real_t* RESTRICT _data_srcVertex,
@@ -118,7 +118,7 @@ class P2ToP1ElementwiseDivergenceAnnulusMap_0_0 : public Operator< P2Function< r
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    202     300      17      12      3              0                 0              4
+   ///    180     267      16       6      0              0                 0              4
    void toMatrix_P2ToP1ElementwiseDivergenceAnnulusMap_0_0_macro_2D( idx_t* RESTRICT _data_dst,
                                                                      idx_t* RESTRICT _data_srcEdge,
                                                                      idx_t* RESTRICT _data_srcVertex,

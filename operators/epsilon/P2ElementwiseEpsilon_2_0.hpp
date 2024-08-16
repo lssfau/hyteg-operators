@@ -46,14 +46,12 @@ namespace operatorgeneration {
 
 /// "Epsilon" operator.
 ///
-/// Component trial: 0
-/// Component test:  2
 /// Geometry map:    IdentityMap
 ///
 /// Weak formulation
 ///
-///     u: trial function (vectorial space: Lagrange, degree: 2)
-///     v: test function  (vectorial space: Lagrange, degree: 2)
+///     u: trial function (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 0))
+///     v: test function  (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 2))
 ///     μ: coefficient    (scalar space:    Lagrange, degree: 2)
 ///
 ///     ∫ 2 μ ε(u) : ε(v)

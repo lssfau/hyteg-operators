@@ -48,12 +48,12 @@ namespace operatorgeneration {
 
 /// Divergence.
 ///
-/// Component:    2
+/// Component:    0
 /// Geometry map: IcosahedralShellMap
 ///
 /// Weak formulation
 ///
-///     u: trial function (vectorial space: Lagrange, degree: 2)
+///     u: trial function (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 2))
 ///     v: test function  (scalar space:    Lagrange, degree: 1)
 ///
 ///     ∫ - ( ∇ · u ) v
@@ -88,7 +88,7 @@ class P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2 : public Operator< P2Fu
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    540     755      46       4      4              0                 0              1
+   ///    688     881      41       4      0              0                 0              1
    void apply_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_macro_3D( real_t* RESTRICT _data_dst,
                                                                            real_t* RESTRICT _data_srcEdge,
                                                                            real_t* RESTRICT _data_srcVertex,
@@ -130,7 +130,7 @@ class P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2 : public Operator< P2Fu
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    500     715      46       4      4              0                 0              4
+   ///    648     841      41       4      0              0                 0              4
    void toMatrix_P2ToP1ElementwiseDivergenceIcosahedralShellMap_0_2_macro_3D( idx_t* RESTRICT _data_dst,
                                                                               idx_t* RESTRICT _data_srcEdge,
                                                                               idx_t* RESTRICT _data_srcVertex,

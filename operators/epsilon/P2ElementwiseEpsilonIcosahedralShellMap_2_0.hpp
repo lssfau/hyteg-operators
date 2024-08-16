@@ -47,14 +47,12 @@ namespace operatorgeneration {
 
 /// "Epsilon" operator.
 ///
-/// Component trial: 0
-/// Component test:  2
 /// Geometry map:    IcosahedralShellMap
 ///
 /// Weak formulation
 ///
-///     u: trial function (vectorial space: Lagrange, degree: 2)
-///     v: test function  (vectorial space: Lagrange, degree: 2)
+///     u: trial function (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 0))
+///     v: test function  (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 2))
 ///     μ: coefficient    (scalar space:    Lagrange, degree: 2)
 ///
 ///     ∫ 2 μ ε(u) : ε(v)
@@ -94,7 +92,7 @@ class P2ElementwiseEpsilonIcosahedralShellMap_2_0 : public Operator< P2Function<
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   3583    4397      66      15      5              0                 0              1
+   ///   3488    3887      46      10      0              0                 0              1
    void apply_P2ElementwiseEpsilonIcosahedralShellMap_2_0_macro_3D( real_t* RESTRICT _data_dstEdge,
                                                                     real_t* RESTRICT _data_dstVertex,
                                                                     real_t* RESTRICT _data_muEdge,
@@ -139,7 +137,7 @@ class P2ElementwiseEpsilonIcosahedralShellMap_2_0 : public Operator< P2Function<
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   3483    4297      66      15      5              0                 0              4
+   ///   3388    3787      46      10      0              0                 0              4
    void toMatrix_P2ElementwiseEpsilonIcosahedralShellMap_2_0_macro_3D( idx_t* RESTRICT  _data_dstEdge,
                                                                        idx_t* RESTRICT  _data_dstVertex,
                                                                        real_t* RESTRICT _data_muEdge,

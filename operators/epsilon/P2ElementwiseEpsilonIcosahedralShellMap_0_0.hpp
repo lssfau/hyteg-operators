@@ -48,14 +48,12 @@ namespace operatorgeneration {
 
 /// "Epsilon" operator.
 ///
-/// Component trial: 0
-/// Component test:  0
 /// Geometry map:    IcosahedralShellMap
 ///
 /// Weak formulation
 ///
-///     u: trial function (vectorial space: Lagrange, degree: 2)
-///     v: test function  (vectorial space: Lagrange, degree: 2)
+///     u: trial function (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 0))
+///     v: test function  (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 0))
 ///     μ: coefficient    (scalar space:    Lagrange, degree: 2)
 ///
 ///     ∫ 2 μ ε(u) : ε(v)
@@ -100,7 +98,7 @@ class P2ElementwiseEpsilonIcosahedralShellMap_0_0 : public Operator< P2Function<
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   3038    4397      66      15      5              0                 0              1
+   ///   2828    3817      46      10      0              0                 0              1
    void apply_P2ElementwiseEpsilonIcosahedralShellMap_0_0_macro_3D( real_t* RESTRICT _data_dstEdge,
                                                                     real_t* RESTRICT _data_dstVertex,
                                                                     real_t* RESTRICT _data_muEdge,
@@ -145,7 +143,7 @@ class P2ElementwiseEpsilonIcosahedralShellMap_0_0 : public Operator< P2Function<
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2938    4297      66      15      5              0                 0              4
+   ///   2728    3717      46      10      0              0                 0              4
    void toMatrix_P2ElementwiseEpsilonIcosahedralShellMap_0_0_macro_3D( idx_t* RESTRICT  _data_dstEdge,
                                                                        idx_t* RESTRICT  _data_dstVertex,
                                                                        real_t* RESTRICT _data_muEdge,
@@ -191,7 +189,7 @@ class P2ElementwiseEpsilonIcosahedralShellMap_0_0 : public Operator< P2Function<
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2048    3397      66      15      5              0                 0              1
+   ///   1518    2347      46      10      0              0                 0              1
    void computeInverseDiagonalOperatorValues_P2ElementwiseEpsilonIcosahedralShellMap_0_0_macro_3D(
        real_t* RESTRICT _data_invDiag_Edge,
        real_t* RESTRICT _data_invDiag_Vertex,

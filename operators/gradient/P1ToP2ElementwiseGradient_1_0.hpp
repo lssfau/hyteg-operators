@@ -45,18 +45,18 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-/// Gradient.
+///     Gradient.
 ///
-/// Component:    1
-/// Geometry map: IdentityMap
+///     Component:    0
+///     Geometry map: IdentityMap
 ///
-/// Weak formulation
+///     Weak formulation
 ///
-///     u: trial function (scalar space:    Lagrange, degree: 1)
-///     v: test function  (vectorial space: Lagrange, degree: 2)
+///         u: trial function (scalar space:    Lagrange, degree: 1)
+///         v: test function  (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 1))
 ///
-///     ∫ - ( ∇ · v ) u
-
+///         ∫ - ( ∇ · v ) u
+///
 class P1ToP2ElementwiseGradient_1_0 : public Operator< P1Function< real_t >, P2Function< real_t > >
 {
  public:

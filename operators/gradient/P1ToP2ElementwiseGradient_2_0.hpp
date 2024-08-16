@@ -45,18 +45,18 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-/// Gradient.
+///     Gradient.
 ///
-/// Component:    2
-/// Geometry map: IdentityMap
+///     Component:    0
+///     Geometry map: IdentityMap
 ///
-/// Weak formulation
+///     Weak formulation
 ///
-///     u: trial function (scalar space:    Lagrange, degree: 1)
-///     v: test function  (vectorial space: Lagrange, degree: 2)
+///         u: trial function (scalar space:    Lagrange, degree: 1)
+///         v: test function  (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 2))
 ///
-///     ∫ - ( ∇ · v ) u
-
+///         ∫ - ( ∇ · v ) u
+///
 class P1ToP2ElementwiseGradient_2_0 : public Operator< P1Function< real_t >, P2Function< real_t > >
 {
  public:
@@ -76,6 +76,28 @@ class P1ToP2ElementwiseGradient_2_0 : public Operator< P1Function< real_t >, P2F
 
  protected:
  private:
+   /// Integral: P1ToP2ElementwiseGradient_2_0
+   /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
+   /// - kernel type:     apply
+   /// - loop strategy:   CUBES
+   /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
+   /// - blending map:    IdentityMap
+   /// - operations per element:
+   ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
+   /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
+   ///     38      24      12       0      0              0                 0              1
+   void apply_P1ToP2ElementwiseGradient_2_0_macro_2D( real_t* RESTRICT _data_dstEdge,
+                                                      real_t* RESTRICT _data_dstVertex,
+                                                      real_t* RESTRICT _data_src,
+                                                      real_t           macro_vertex_coord_id_0comp0,
+                                                      real_t           macro_vertex_coord_id_0comp1,
+                                                      real_t           macro_vertex_coord_id_1comp0,
+                                                      real_t           macro_vertex_coord_id_1comp1,
+                                                      real_t           macro_vertex_coord_id_2comp0,
+                                                      real_t           macro_vertex_coord_id_2comp1,
+                                                      int64_t          micro_edges_per_macro_edge,
+                                                      real_t           micro_edges_per_macro_edge_float ) const;
+
    /// Integral: P1ToP2ElementwiseGradient_2_0
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     apply
@@ -103,6 +125,29 @@ class P1ToP2ElementwiseGradient_2_0 : public Operator< P1Function< real_t >, P2F
                                                       real_t           macro_vertex_coord_id_3comp2,
                                                       int64_t          micro_edges_per_macro_edge,
                                                       real_t           micro_edges_per_macro_edge_float ) const;
+
+   /// Integral: P1ToP2ElementwiseGradient_2_0
+   /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
+   /// - kernel type:     toMatrix
+   /// - loop strategy:   CUBES
+   /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
+   /// - blending map:    IdentityMap
+   /// - operations per element:
+   ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
+   /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
+   ///     32      24      12       0      0              0                 0              4
+   void toMatrix_P1ToP2ElementwiseGradient_2_0_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
+                                                         idx_t* RESTRICT                      _data_dstVertex,
+                                                         idx_t* RESTRICT                      _data_src,
+                                                         real_t                               macro_vertex_coord_id_0comp0,
+                                                         real_t                               macro_vertex_coord_id_0comp1,
+                                                         real_t                               macro_vertex_coord_id_1comp0,
+                                                         real_t                               macro_vertex_coord_id_1comp1,
+                                                         real_t                               macro_vertex_coord_id_2comp0,
+                                                         real_t                               macro_vertex_coord_id_2comp1,
+                                                         std::shared_ptr< SparseMatrixProxy > mat,
+                                                         int64_t                              micro_edges_per_macro_edge,
+                                                         real_t micro_edges_per_macro_edge_float ) const;
 
    /// Integral: P1ToP2ElementwiseGradient_2_0
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3

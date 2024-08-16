@@ -70,14 +70,14 @@ def unfold_toml_dict(toml_dict):
                             {"component_trial": comp_trial}
                         )
                         operators_unfolded.append(operator_cleared)
-            elif "components" in operator:
-                for comp in operator["components"]:
+            elif "components-trial" in operator or "components-test" in operator:
+                comp_str = "components-trial" if "components-trial" in operator else "components-test"
+                for comp in operator[comp_str]:
                     operator_cleared = operator.copy()
-                    operator_cleared.pop("components")
-                    if "form-args" not in operator_cleared:
-                        operator_cleared["form-args"] = {}
-                    operator_cleared["form-args"].update({"component_index": comp})
+                    operator_cleared.pop(comp_str)
+                    operator_cleared.update({comp_str.replace('s-', '_'): comp})
                     operators_unfolded.append(operator_cleared)
+                print(operators_unfolded)
             else:
                 operators_unfolded.append(operator)
         toml_dict_unfolded[form_str] = operators_unfolded
@@ -258,7 +258,9 @@ def generate_operator(
     fe_spaces = {
         "P1": function_space.LagrangianFunctionSpace(1, symbolizer),
         "P2": function_space.LagrangianFunctionSpace(2, symbolizer),
-        "P2Vector": function_space.TensorialVectorFunctionSpace(function_space.LagrangianFunctionSpace(2, symbolizer)),
+        "P2Vector": function_space.TensorialVectorFunctionSpace(
+            function_space.LagrangianFunctionSpace(2, symbolizer)
+        ),
         "N1E1": function_space.N1E1Space(symbolizer),
     }
     geometries = {
@@ -348,11 +350,15 @@ def generate_operator(
                 == spec["form-args"]["component_trial"]
             )
 
-    if "form-args" in spec:
-        if "component_index" in spec["form-args"]:
-            if spec["form-args"]["component_index"] == 2:
-                dims = [d for d in spec["dimensions"] if d >= 3]
-            components_equal = False
+    if "component_test" in spec and "component_trial" not in spec:
+        test_space = function_space.TensorialVectorFunctionSpace(
+            test_space, single_component=spec["component_test"]
+        )
+
+    if "component_trial" in spec and "component_test" not in spec:
+        trial_space = function_space.TensorialVectorFunctionSpace(
+            trial_space, single_component=spec["component_trial"]
+        )
 
     kernel_types = [
         operator_generation.kernel_types.ApplyWrapper(
@@ -447,13 +453,12 @@ def elementwise_operator_name(form_str: str, spec: Dict[str, Any]) -> str:
             component = f"_{spec['form-args']['component_test']}_{spec['form-args']['component_trial']}"
 
     # I do not like this, but should do the trick until we have actual vector function spaces in the HOG.
-    if "form-args" in spec:
-        if "component_index" in spec["form-args"]:
-            if "divergence" == form_str.lower():
-                component = f"_0_{spec['form-args']['component_index']}"
-            elif "gradient" == form_str.lower():
-                component = f"_{spec['form-args']['component_index']}_0"
-
+    if "component_test" in spec and "component_trial" not in spec:
+        component = f"_{spec['component_test']}_0"
+    
+    if "component_trial" in spec and "component_test" not in spec:
+        component = f"_0_{spec['component_trial']}"
+        
     blending = ""
     if spec.get("blending", "IdentityMap") != "IdentityMap":
         blending = spec["blending"]
