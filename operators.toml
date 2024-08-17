@@ -373,6 +373,28 @@ loop-strategy   = "sawtooth"
 optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 blending        = "IcosahedralShellMap"
 
+[[epsilon]]
+trial-space               = "P2Vector"
+test-space                = "P2Vector"
+form-space-args.coefficient_function_space = "P1"
+dimensions      = [2]
+quadrature      = 3
+loop-strategy   = "sawtooth"
+operator-name   = "EpsilonP1Viscosity"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending        = "AnnulusMap"
+
+[[epsilon]]
+trial-space               = "P2Vector"
+test-space                = "P2Vector"
+form-space-args.coefficient_function_space = "P1"
+dimensions      = [3]
+quadrature      = 3
+loop-strategy   = "sawtooth"
+operator-name   = "EpsilonP1Viscosity"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending        = "IcosahedralShellMap"
+
 [[full_stokes]]
 trial-space               = "P2"
 test-space                = "P2"
