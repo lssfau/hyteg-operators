@@ -48,14 +48,12 @@ namespace operatorgeneration {
 
 /// "Epsilon" operator.
 ///
-/// Component trial: 0
-/// Component test:  0
 /// Geometry map:    AnnulusMap
 ///
 /// Weak formulation
 ///
-///     u: trial function (vectorial space: Lagrange, degree: 2)
-///     v: test function  (vectorial space: Lagrange, degree: 2)
+///     u: trial function (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 0))
+///     v: test function  (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 0))
 ///     μ: coefficient    (scalar space:    Lagrange, degree: 2)
 ///
 ///     ∫ 2 μ ε(u) : ε(v)
@@ -100,7 +98,7 @@ class P2ElementwiseEpsilonAnnulusMap_0_0 : public Operator< P2Function< real_t >
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    756    1132      28      20      4              0                 0              1
+   ///    660     960      20      12      0              0                 0              1
    void apply_P2ElementwiseEpsilonAnnulusMap_0_0_macro_2D( real_t* RESTRICT _data_dstEdge,
                                                            real_t* RESTRICT _data_dstVertex,
                                                            real_t* RESTRICT _data_muEdge,
@@ -133,7 +131,7 @@ class P2ElementwiseEpsilonAnnulusMap_0_0 : public Operator< P2Function< real_t >
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    720    1096      28      20      4              0                 0              4
+   ///    624     924      20      12      0              0                 0              4
    void toMatrix_P2ElementwiseEpsilonAnnulusMap_0_0_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
                                                               idx_t* RESTRICT                      _data_dstVertex,
                                                               real_t* RESTRICT                     _data_muEdge,
@@ -167,7 +165,7 @@ class P2ElementwiseEpsilonAnnulusMap_0_0 : public Operator< P2Function< real_t >
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    546     916      28      20      4              0                 0              1
+   ///    398     644      20      12      0              0                 0              1
    void computeInverseDiagonalOperatorValues_P2ElementwiseEpsilonAnnulusMap_0_0_macro_2D( real_t* RESTRICT _data_invDiag_Edge,
                                                                                           real_t* RESTRICT _data_invDiag_Vertex,
                                                                                           real_t* RESTRICT _data_muEdge,

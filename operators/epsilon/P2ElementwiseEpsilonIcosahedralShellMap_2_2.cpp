@@ -348,7 +348,7 @@ void P2ElementwiseEpsilonIcosahedralShellMap_2_2::computeInverseDiagonalOperator
 
    for ( uint_t level = minLevel_; level <= maxLevel_; level++ )
    {
-      invDiag_->interpolate( 0, level );
+      invDiag_->setToZero( level );
 
       if ( storage_->hasGlobalCells() )
       {

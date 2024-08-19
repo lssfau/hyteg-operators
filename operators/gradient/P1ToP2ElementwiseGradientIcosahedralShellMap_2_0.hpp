@@ -46,18 +46,18 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-/// Gradient.
+///     Gradient.
 ///
-/// Component:    2
-/// Geometry map: IcosahedralShellMap
+///     Component:    0
+///     Geometry map: IcosahedralShellMap
 ///
-/// Weak formulation
+///     Weak formulation
 ///
-///     u: trial function (scalar space:    Lagrange, degree: 1)
-///     v: test function  (vectorial space: Lagrange, degree: 2)
+///         u: trial function (scalar space:    Lagrange, degree: 1)
+///         v: test function  (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 2))
 ///
-///     ∫ - ( ∇ · v ) u
-
+///         ∫ - ( ∇ · v ) u
+///
 class P1ToP2ElementwiseGradientIcosahedralShellMap_2_0 : public Operator< P1Function< real_t >, P2Function< real_t > >
 {
  public:
@@ -88,7 +88,7 @@ class P1ToP2ElementwiseGradientIcosahedralShellMap_2_0 : public Operator< P1Func
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    540     783      46       4      4              0                 0              1
+   ///    688     905      41       4      0              0                 0              1
    void apply_P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_macro_3D( real_t* RESTRICT _data_dstEdge,
                                                                          real_t* RESTRICT _data_dstVertex,
                                                                          real_t* RESTRICT _data_src,
@@ -130,7 +130,7 @@ class P1ToP2ElementwiseGradientIcosahedralShellMap_2_0 : public Operator< P1Func
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    500     743      46       4      4              0                 0              4
+   ///    648     865      41       4      0              0                 0              4
    void toMatrix_P1ToP2ElementwiseGradientIcosahedralShellMap_2_0_macro_3D( idx_t* RESTRICT _data_dstEdge,
                                                                             idx_t* RESTRICT _data_dstVertex,
                                                                             idx_t* RESTRICT _data_src,

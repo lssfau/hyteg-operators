@@ -63,8 +63,8 @@ namespace operatorgeneration {
 ///
 /// Weak formulation
 ///
-///     u: trial function (vectorial space: Lagrange, degree: 2)
-///     v: test function  (vectorial space: Lagrange, degree: 2)
+///     u: trial function (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 2))
+///     v: test function  (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 2))
 ///     μ: coefficient    (scalar space:    Lagrange, degree: 2)
 ///
 ///     ∫ μ { ( 2 ε(u) : ε(v) ) - (2/3) [ ( ∇ · u ) · ( ∇ · v ) ] }
@@ -109,7 +109,7 @@ class P2ElementwiseFullStokes_2_2 : public Operator< P2Function< real_t >, P2Fun
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    449     436      36       0      0              0                 0              1
+   ///   1593    1828      36       0      0              0                 0              1
    void apply_P2ElementwiseFullStokes_2_2_macro_3D( real_t* RESTRICT _data_dstEdge,
                                                     real_t* RESTRICT _data_dstVertex,
                                                     real_t* RESTRICT _data_muEdge,
@@ -140,7 +140,7 @@ class P2ElementwiseFullStokes_2_2 : public Operator< P2Function< real_t >, P2Fun
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    349     336      36       0      0              0                 0              4
+   ///   1493    1728      36       0      0              0                 0              4
    void toMatrix_P2ElementwiseFullStokes_2_2_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                                                        idx_t* RESTRICT                      _data_dstVertex,
                                                        real_t* RESTRICT                     _data_muEdge,
@@ -172,7 +172,7 @@ class P2ElementwiseFullStokes_2_2 : public Operator< P2Function< real_t >, P2Fun
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    179     156      36       0      0              0                 0              1
+   ///    603     684      36       0      0              0                 0              1
    void
        computeInverseDiagonalOperatorValues_P2ElementwiseFullStokes_2_2_macro_3D( real_t* RESTRICT _data_invDiag_Edge,
                                                                                   real_t* RESTRICT _data_invDiag_Vertex,

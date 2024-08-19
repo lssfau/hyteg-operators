@@ -44,6 +44,12 @@ add_library( opgen-full_stokes
    P2ElementwiseFullStokes_2_1.hpp
    P2ElementwiseFullStokes_2_2.cpp
    P2ElementwiseFullStokes_2_2.hpp
+   P2VectorElementwiseFullStokes.cpp
+   P2VectorElementwiseFullStokes.hpp
+   P2VectorElementwiseFullStokesAnnulusMap.cpp
+   P2VectorElementwiseFullStokesAnnulusMap.hpp
+   P2VectorElementwiseFullStokesIcosahedralShellMap.cpp
+   P2VectorElementwiseFullStokesIcosahedralShellMap.hpp
 )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
@@ -85,6 +91,14 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P2ElementwiseFullStokes_2_1_apply_P2ElementwiseFullStokes_2_1_macro_3D.cpp
       avx/P2ElementwiseFullStokes_2_2_apply_P2ElementwiseFullStokes_2_2_macro_3D.cpp
       avx/P2ElementwiseFullStokes_2_2_computeInverseDiagonalOperatorValues_P2ElementwiseFullStokes_2_2_macro_3D.cpp
+      avx/P2VectorElementwiseFullStokesAnnulusMap_apply_P2VectorElementwiseFullStokesAnnulusMap_macro_2D.cpp
+      avx/P2VectorElementwiseFullStokesAnnulusMap_computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokesAnnulusMap_macro_2D.cpp
+      avx/P2VectorElementwiseFullStokesIcosahedralShellMap_apply_P2VectorElementwiseFullStokesIcosahedralShellMap_macro_3D.cpp
+      avx/P2VectorElementwiseFullStokesIcosahedralShellMap_computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokesIcosahedralShellMap_macro_3D.cpp
+      avx/P2VectorElementwiseFullStokes_apply_P2VectorElementwiseFullStokes_macro_2D.cpp
+      avx/P2VectorElementwiseFullStokes_apply_P2VectorElementwiseFullStokes_macro_3D.cpp
+      avx/P2VectorElementwiseFullStokes_computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokes_macro_2D.cpp
+      avx/P2VectorElementwiseFullStokes_computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokes_macro_3D.cpp
       noarch/P2ElementwiseFullStokesAnnulusMap_0_0_toMatrix_P2ElementwiseFullStokesAnnulusMap_0_0_macro_2D.cpp
       noarch/P2ElementwiseFullStokesAnnulusMap_0_1_toMatrix_P2ElementwiseFullStokesAnnulusMap_0_1_macro_2D.cpp
       noarch/P2ElementwiseFullStokesAnnulusMap_1_0_toMatrix_P2ElementwiseFullStokesAnnulusMap_1_0_macro_2D.cpp
@@ -111,6 +125,10 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       noarch/P2ElementwiseFullStokes_2_0_toMatrix_P2ElementwiseFullStokes_2_0_macro_3D.cpp
       noarch/P2ElementwiseFullStokes_2_1_toMatrix_P2ElementwiseFullStokes_2_1_macro_3D.cpp
       noarch/P2ElementwiseFullStokes_2_2_toMatrix_P2ElementwiseFullStokes_2_2_macro_3D.cpp
+      noarch/P2VectorElementwiseFullStokesAnnulusMap_toMatrix_P2VectorElementwiseFullStokesAnnulusMap_macro_2D.cpp
+      noarch/P2VectorElementwiseFullStokesIcosahedralShellMap_toMatrix_P2VectorElementwiseFullStokesIcosahedralShellMap_macro_3D.cpp
+      noarch/P2VectorElementwiseFullStokes_toMatrix_P2VectorElementwiseFullStokes_macro_2D.cpp
+      noarch/P2VectorElementwiseFullStokes_toMatrix_P2VectorElementwiseFullStokes_macro_3D.cpp
    )
 
    set_source_files_properties(
@@ -151,6 +169,14 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P2ElementwiseFullStokes_2_1_apply_P2ElementwiseFullStokes_2_1_macro_3D.cpp
       avx/P2ElementwiseFullStokes_2_2_apply_P2ElementwiseFullStokes_2_2_macro_3D.cpp
       avx/P2ElementwiseFullStokes_2_2_computeInverseDiagonalOperatorValues_P2ElementwiseFullStokes_2_2_macro_3D.cpp
+      avx/P2VectorElementwiseFullStokesAnnulusMap_apply_P2VectorElementwiseFullStokesAnnulusMap_macro_2D.cpp
+      avx/P2VectorElementwiseFullStokesAnnulusMap_computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokesAnnulusMap_macro_2D.cpp
+      avx/P2VectorElementwiseFullStokesIcosahedralShellMap_apply_P2VectorElementwiseFullStokesIcosahedralShellMap_macro_3D.cpp
+      avx/P2VectorElementwiseFullStokesIcosahedralShellMap_computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokesIcosahedralShellMap_macro_3D.cpp
+      avx/P2VectorElementwiseFullStokes_apply_P2VectorElementwiseFullStokes_macro_2D.cpp
+      avx/P2VectorElementwiseFullStokes_apply_P2VectorElementwiseFullStokes_macro_3D.cpp
+      avx/P2VectorElementwiseFullStokes_computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokes_macro_2D.cpp
+      avx/P2VectorElementwiseFullStokes_computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokes_macro_3D.cpp
 
       PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
    )
@@ -223,6 +249,18 @@ else()
       noarch/P2ElementwiseFullStokes_2_2_apply_P2ElementwiseFullStokes_2_2_macro_3D.cpp
       noarch/P2ElementwiseFullStokes_2_2_computeInverseDiagonalOperatorValues_P2ElementwiseFullStokes_2_2_macro_3D.cpp
       noarch/P2ElementwiseFullStokes_2_2_toMatrix_P2ElementwiseFullStokes_2_2_macro_3D.cpp
+      noarch/P2VectorElementwiseFullStokesAnnulusMap_apply_P2VectorElementwiseFullStokesAnnulusMap_macro_2D.cpp
+      noarch/P2VectorElementwiseFullStokesAnnulusMap_computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokesAnnulusMap_macro_2D.cpp
+      noarch/P2VectorElementwiseFullStokesAnnulusMap_toMatrix_P2VectorElementwiseFullStokesAnnulusMap_macro_2D.cpp
+      noarch/P2VectorElementwiseFullStokesIcosahedralShellMap_apply_P2VectorElementwiseFullStokesIcosahedralShellMap_macro_3D.cpp
+      noarch/P2VectorElementwiseFullStokesIcosahedralShellMap_computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokesIcosahedralShellMap_macro_3D.cpp
+      noarch/P2VectorElementwiseFullStokesIcosahedralShellMap_toMatrix_P2VectorElementwiseFullStokesIcosahedralShellMap_macro_3D.cpp
+      noarch/P2VectorElementwiseFullStokes_apply_P2VectorElementwiseFullStokes_macro_2D.cpp
+      noarch/P2VectorElementwiseFullStokes_apply_P2VectorElementwiseFullStokes_macro_3D.cpp
+      noarch/P2VectorElementwiseFullStokes_computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokes_macro_2D.cpp
+      noarch/P2VectorElementwiseFullStokes_computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokes_macro_3D.cpp
+      noarch/P2VectorElementwiseFullStokes_toMatrix_P2VectorElementwiseFullStokes_macro_2D.cpp
+      noarch/P2VectorElementwiseFullStokes_toMatrix_P2VectorElementwiseFullStokes_macro_3D.cpp
    )
 endif()
 

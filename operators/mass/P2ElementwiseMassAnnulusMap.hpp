@@ -90,7 +90,7 @@ class P2ElementwiseMassAnnulusMap : public Operator< P2Function< real_t >, P2Fun
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    638     996      30      30      6              0                 0              1
+   ///    542     822      24      18      0              0                 0              1
    void apply_P2ElementwiseMassAnnulusMap_macro_2D( real_t* RESTRICT _data_dstEdge,
                                                     real_t* RESTRICT _data_dstVertex,
                                                     real_t* RESTRICT _data_srcEdge,
@@ -121,7 +121,7 @@ class P2ElementwiseMassAnnulusMap : public Operator< P2Function< real_t >, P2Fun
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    602     960      30      30      6              0                 0              4
+   ///    506     786      24      18      0              0                 0              4
    void toMatrix_P2ElementwiseMassAnnulusMap_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
                                                        idx_t* RESTRICT                      _data_dstVertex,
                                                        idx_t* RESTRICT                      _data_srcEdge,
@@ -153,7 +153,7 @@ class P2ElementwiseMassAnnulusMap : public Operator< P2Function< real_t >, P2Fun
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    518     840      30      30      6              0                 0              1
+   ///    422     666      24      18      0              0                 0              1
    void computeInverseDiagonalOperatorValues_P2ElementwiseMassAnnulusMap_macro_2D( real_t* RESTRICT _data_invDiag_Edge,
                                                                                    real_t* RESTRICT _data_invDiag_Vertex,
                                                                                    real_t           macro_vertex_coord_id_0comp0,

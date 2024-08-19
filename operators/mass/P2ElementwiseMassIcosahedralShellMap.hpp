@@ -90,7 +90,7 @@ class P2ElementwiseMassIcosahedralShellMap : public Operator< P2Function< real_t
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2811    4363      69      33     11              0                 0              1
+   ///   2767    4066      58      22      0              0                 0              1
    void apply_P2ElementwiseMassIcosahedralShellMap_macro_3D( real_t* RESTRICT _data_dstEdge,
                                                              real_t* RESTRICT _data_dstVertex,
                                                              real_t* RESTRICT _data_srcEdge,
@@ -133,7 +133,7 @@ class P2ElementwiseMassIcosahedralShellMap : public Operator< P2Function< real_t
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2711    4263      69      33     11              0                 0              4
+   ///   2667    3966      58      22      0              0                 0              4
    void toMatrix_P2ElementwiseMassIcosahedralShellMap_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
                                                                 idx_t* RESTRICT                      _data_dstVertex,
                                                                 idx_t* RESTRICT                      _data_srcEdge,
@@ -177,7 +177,7 @@ class P2ElementwiseMassIcosahedralShellMap : public Operator< P2Function< real_t
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2006    3515      69      33     11              0                 0              1
+   ///   1962    3218      58      22      0              0                 0              1
    void computeInverseDiagonalOperatorValues_P2ElementwiseMassIcosahedralShellMap_macro_3D(
        real_t* RESTRICT _data_invDiag_Edge,
        real_t* RESTRICT _data_invDiag_Vertex,
