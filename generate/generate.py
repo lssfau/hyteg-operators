@@ -284,6 +284,8 @@ def generate_operator(
         "IdentityMap": hog.blending.IdentityMap(),
         "AnnulusMap": hog.blending.AnnulusMap(),
         "IcosahedralShellMap": hog.blending.IcosahedralShellMap(),
+        "ParametricP1Map": hog.blending.ParametricMap(1),
+        "ParametricP2Map": hog.blending.ParametricMap(2),
     }
 
     def raise_exception(dict_key: Union[str, int]) -> None:
