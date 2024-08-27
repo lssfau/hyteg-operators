@@ -1,0 +1,144 @@
+[[shear_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.viscosity_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+dimensions    = [2, 3]
+quadrature    = 3
+folder-name   = "terraneo"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+
+[[shear_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.viscosity_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+dimensions    = [2]
+quadrature    = 3
+folder-name   = "terraneo"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "AnnulusMap"
+
+[[shear_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.viscosity_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+dimensions    = [3]
+quadrature    = 3
+folder-name   = "terraneo"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "IcosahedralShellMap"
+
+[[shear_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.viscosity_function_space = "P1"
+form-space-args.velocity_function_space = "P2"
+dimensions    = [2, 3]
+quadrature    = 3
+folder-name   = "terraneo"
+operator-name = "ShearHeatingP1Viscosity"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+
+[[shear_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.viscosity_function_space = "P1"
+form-space-args.velocity_function_space = "P2"
+dimensions    = [2]
+quadrature    = 3
+folder-name   = "terraneo"
+operator-name = "ShearHeatingP1Viscosity"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "AnnulusMap"
+
+[[shear_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.viscosity_function_space = "P1"
+form-space-args.velocity_function_space = "P2"
+dimensions    = [3]
+quadrature    = 3
+folder-name   = "terraneo"
+operator-name = "ShearHeatingP1Viscosity"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "IcosahedralShellMap"
+
+[[grad_rho_by_rho_dot_u]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P2"
+dimensions    = [2, 3]
+quadrature    = 3
+operator-name = "FrozenVelocity"
+folder-name   = "terraneo"
+blending      = "IdentityMap"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+
+[[grad_rho_by_rho_dot_u]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P2"
+dimensions    = [2]
+quadrature    = 3
+operator-name = "FrozenVelocity"
+folder-name   = "terraneo"
+blending      = "AnnulusMap"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+
+[[grad_rho_by_rho_dot_u]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P2"
+dimensions    = [3]
+quadrature    = 3
+operator-name = "FrozenVelocity"
+folder-name   = "terraneo"
+blending      = "IcosahedralShellMap"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+
+[[grad_rho_by_rho_dot_u]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P1"
+dimensions    = [2, 3]
+quadrature    = 3
+operator-name = "FrozenVelocityP1Density"
+folder-name   = "terraneo"
+blending      = "IdentityMap"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+
+[[grad_rho_by_rho_dot_u]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P1"
+dimensions    = [2]
+quadrature    = 3
+operator-name = "FrozenVelocityP1Density"
+folder-name   = "terraneo"
+blending      = "AnnulusMap"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+
+[[grad_rho_by_rho_dot_u]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P1"
+dimensions    = [3]
+quadrature    = 3
+operator-name = "FrozenVelocityP1Density"
+folder-name   = "terraneo"
+blending      = "IcosahedralShellMap"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]

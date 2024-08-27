@@ -1,0 +1,7 @@
+[[curl_curl]]
+trial-space   = "N1E1"
+test-space    = "N1E1"
+dimensions    = [3]
+quadrature    = 0
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize"]

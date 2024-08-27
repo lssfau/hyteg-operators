@@ -1,0 +1,54 @@
+[[gradient]]
+trial-space   = "P1"
+test-space    = "P2"
+components-test = [0, 1, 2]
+dimensions    = [2, 3]
+quadrature    = 2
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize"]
+
+[[gradient]]
+trial-space   = "P1"
+test-space    = "P2"
+components-test = [0, 1]
+dimensions    = [2]
+quadrature    = 2
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize"]
+blending      = "AnnulusMap"
+
+[[gradient]]
+trial-space   = "P1"
+test-space    = "P2"
+components-test = [0, 1, 2]
+dimensions    = [3]
+quadrature    = 2
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize"]
+blending      = "IcosahedralShellMap"
+
+[[gradient]]
+trial-space   = "P1"
+test-space    = "P2Vector"
+dimensions    = [2, 3]
+quadrature    = 2
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize"]
+
+[[gradient]]
+trial-space   = "P1"
+test-space    = "P2Vector"
+dimensions    = [2]
+quadrature    = 2
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize"]
+blending      = "AnnulusMap"
+
+[[gradient]]
+trial-space   = "P1"
+test-space    = "P2Vector"
+dimensions    = [3]
+quadrature    = 2
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize"]
+blending      = "IcosahedralShellMap"
