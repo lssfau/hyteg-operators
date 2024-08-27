@@ -19,5 +19,5 @@ python -m pip install -r requirements.txt
 
 python generate.py -o ../operators ../operators-<operator-group>.toml
 
-# To generate all operators you have to run the script with all toml files.
+# To generate all operators you have to run the script repeatedly, each time with a different toml file.
 ```
