@@ -2,6 +2,17 @@ stages:
   - pretest
   - test
 
+compare_number_of_directories_and_toml_files:
+  stage: pretest
+  image: i10git.cs.fau.de:5005/pycodegen/pycodegen/full
+  script:
+    - find operators/* -maxdepth 0 -type d | wc -l > num_directories.txt
+    - find ./*.toml | wc -l > num_toml_files.txt
+    - cat num_directories.txt num_toml_files.txt
+    - diff num_directories.txt num_toml_files.txt
+  tags:
+    - docker
+
 .hyteg-hog-integration-test-template:
   stage: test
   image: i10git.cs.fau.de:5005/pycodegen/pycodegen/full
