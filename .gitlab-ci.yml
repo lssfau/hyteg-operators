@@ -21,19 +21,19 @@ stages:
     - ls -lhta
     - git status
     - git diff .
-    - git diff . --exit-code --stat
+    - git diff --exit-code --stat .
   variables:
     - OPERATOR_BASE_NAME: "OPERATOR_NOT_SPECIFIED"
   tags:
     - docker
 
 curl_curl:
+  stage: pretest                                       # <=== THIS RUNS IN PRETEST STAGE
   extends: .hyteg-hog-integration-test-template
   variables:
     OPERATOR_BASE_NAME: "curl_curl"
 
 diffusion:
-  stage: pretest                                       # <=== THIS RUNS IN PRETEST STAGE
   extends: .hyteg-hog-integration-test-template
   variables:
     OPERATOR_BASE_NAME: "diffusion"
