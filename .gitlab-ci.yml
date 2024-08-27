@@ -1,4 +1,8 @@
-hyteg-hog-integration-test:
+stages:
+  - pretest
+  - test
+
+.hyteg-hog-integration-test-template:
   stage: test
   image: i10git.cs.fau.de:5005/pycodegen/pycodegen/full
   script:
@@ -10,10 +14,66 @@ hyteg-hog-integration-test:
     - GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0="url.https://gitlab-ci-token:${CI_JOB_TOKEN}@i10git.cs.fau.de.insteadOf" GIT_CONFIG_VALUE_0="ssh://git@i10git.cs.fau.de" python -m pip install -r requirements.txt
     - pip freeze
     - rm -rf ../operators/*
-    - python3 generate.py -o ../operators ../operators.toml --processes 8
+    - python3 generate.py -o ../operators ../operators-$OPERATOR_BASE_NAME.toml --processes 8
     - cd ..
+    - cd operators/$OPERATOR_BASE_NAME
+    - pwd
+    - ls -lhta
     - git status
-    - git diff
-    - git diff --exit-code --stat
+    - git diff .
+    - git diff . --exit-code --stat
+  variables:
+    - OPERATOR_BASE_NAME: "OPERATOR_NOT_SPECIFIED"
   tags:
     - docker
+
+curl_curl:
+  extends: .hyteg-hog-integration-test-template
+  variables:
+    OPERATOR_BASE_NAME: "curl_curl"
+
+diffusion:
+  stage: pretest                                       # <=== THIS RUNS IN PRETEST STAGE
+  extends: .hyteg-hog-integration-test-template
+  variables:
+    OPERATOR_BASE_NAME: "diffusion"
+
+div_k_grad:
+  extends: .hyteg-hog-integration-test-template
+  variables:
+    OPERATOR_BASE_NAME: "div_k_grad"
+
+divergence:
+  extends: .hyteg-hog-integration-test-template
+  variables:
+    OPERATOR_BASE_NAME: "divergence"
+
+epsilon:
+  extends: .hyteg-hog-integration-test-template
+  variables:
+    OPERATOR_BASE_NAME: "epsilon"
+
+full_stokes:
+  extends: .hyteg-hog-integration-test-template
+  variables:
+    OPERATOR_BASE_NAME: "full_stokes"
+
+gradient:
+  extends: .hyteg-hog-integration-test-template
+  variables:
+    OPERATOR_BASE_NAME: "gradient"
+
+k_mass:
+  extends: .hyteg-hog-integration-test-template
+  variables:
+    OPERATOR_BASE_NAME: "k_mass"
+
+mass:
+  extends: .hyteg-hog-integration-test-template
+  variables:
+    OPERATOR_BASE_NAME: "mass"
+
+terraneo:
+  extends: .hyteg-hog-integration-test-template
+  variables:
+    OPERATOR_BASE_NAME: "terraneo"

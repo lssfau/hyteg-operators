@@ -5,7 +5,8 @@ The code under [operators](operators) is generated using [HFG](https://i10git.cs
 Each kernel has a platform independent and, where applicable, an AVX-vectorized version.
 The desired variant is configured in CMake.
 
-All operators are described declaratively in [operators.toml](operators.toml).
+All operators are described declaratively in `operators-<operator-group>.toml`.
+They are roughly split into groups for a better overview and faster integration tests.
 
 ## How to generate operators
 
@@ -16,5 +17,7 @@ python -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 
-python generate.py -o ../operators ../operators.toml
+python generate.py -o ../operators ../operators-<operator-group>.toml
+
+# To generate all operators you have to run the script with all toml files.
 ```
