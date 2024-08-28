@@ -74,6 +74,11 @@ gradient:
   variables:
     OPERATOR_BASE_NAME: "gradient"
 
+k_divdiv:
+  extends: .hyteg-hog-integration-test-template
+  variables:
+    OPERATOR_BASE_NAME: "k_divdiv"
+
 k_mass:
   extends: .hyteg-hog-integration-test-template
   variables:
