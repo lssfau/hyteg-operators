@@ -1,0 +1,28 @@
+[[k_divdiv]]
+trial-space   = "P2Vector"
+test-space    = "P2Vector"
+dimensions    = [2, 3]
+quadrature    = 3
+form-space-args.coefficient_function_space = "P1"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+
+[[k_divdiv]]
+trial-space   = "P2Vector"
+test-space    = "P2Vector"
+dimensions    = [2]
+quadrature    = 3
+form-space-args.coefficient_function_space = "P1"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "AnnulusMap"
+
+[[k_divdiv]]
+trial-space   = "P2Vector"
+test-space    = "P2Vector"
+dimensions    = [3]
+quadrature    = 3
+form-space-args.coefficient_function_space = "P1"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "IcosahedralShellMap"

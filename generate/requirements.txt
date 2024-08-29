@@ -1,5 +1,5 @@
 --extra-index-url https://test.pypi.org/simple/
 
-hog @ git+ssh://git@i10git.cs.fau.de/hyteg/hog@82a3d03069a3457fce53d28012112990f75438f4
+hog @ git+ssh://git@i10git.cs.fau.de/hyteg/hog@d66f8012c579978bcb6d8d56b8a71b25465fc561
 tomli >= 1.1.0 ; python_version < "3.11"
 clang-format
