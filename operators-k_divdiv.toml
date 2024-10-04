@@ -35,4 +35,4 @@ quadrature    = 3
 form-space-args.coefficient_function_space = "P1"
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
-blending      = "IcosahedralShellMap"
+blending      = "ParametricP2Map"
