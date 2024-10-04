@@ -83,3 +83,14 @@ loop-strategy   = "sawtooth"
 operator-name   = "EpsilonP1Viscosity"
 optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 blending        = "IcosahedralShellMap"
+
+[[epsilon]]
+trial-space               = "P2Vector"
+test-space                = "P2Vector"
+form-space-args.coefficient_function_space = "P1"
+dimensions      = [2, 3]
+quadrature      = 2
+loop-strategy   = "sawtooth"
+operator-name   = "EpsilonP1Viscosity"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending        = "ParametricP2Map"

@@ -52,3 +52,12 @@ quadrature    = 2
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize"]
 blending      = "IcosahedralShellMap"
+
+[[divergence]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+dimensions    = [2, 3]
+quadrature    = 2
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "ParametricP2Map"

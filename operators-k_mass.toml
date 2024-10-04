@@ -116,3 +116,14 @@ loop-strategy = "sawtooth"
 operator-name = "KMassP1Coefficient"
 optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 blending      = "IcosahedralShellMap"
+
+[[k_mass]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P1"
+dimensions    = [2, 3]
+quadrature    = 4
+loop-strategy = "sawtooth"
+operator-name = "KMassP1Coefficient"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "ParametricP2Map"
