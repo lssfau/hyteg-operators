@@ -53,6 +53,7 @@ add_library( opgen-full_stokes
    P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap.cpp
    P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap.hpp
 )
+target_link_libraries( opgen-full_stokes PRIVATE hyteg )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-full_stokes PRIVATE

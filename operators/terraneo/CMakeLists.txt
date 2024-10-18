@@ -25,6 +25,7 @@ add_library( opgen-terraneo
    P2VectorToP1ElementwiseFrozenVelocityP1DensityIcosahedralShellMap.cpp
    P2VectorToP1ElementwiseFrozenVelocityP1DensityIcosahedralShellMap.hpp
 )
+target_link_libraries( opgen-terraneo PRIVATE hyteg )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-terraneo PRIVATE

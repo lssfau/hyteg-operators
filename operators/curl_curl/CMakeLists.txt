@@ -3,6 +3,7 @@ add_library( opgen-curl_curl
    N1E1ElementwiseCurlCurl.cpp
    N1E1ElementwiseCurlCurl.hpp
 )
+target_link_libraries( opgen-curl_curl PRIVATE hyteg )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-curl_curl PRIVATE

@@ -13,6 +13,7 @@ add_library( opgen-mass
    P2ElementwiseMassParametricP2Map.cpp
    P2ElementwiseMassParametricP2Map.hpp
 )
+target_link_libraries( opgen-mass PRIVATE hyteg )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-mass PRIVATE

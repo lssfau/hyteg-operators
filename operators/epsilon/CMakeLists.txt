@@ -55,6 +55,7 @@ add_library( opgen-epsilon
    P2VectorElementwiseEpsilonP1ViscosityIcosahedralShellMap.cpp
    P2VectorElementwiseEpsilonP1ViscosityIcosahedralShellMap.hpp
 )
+target_link_libraries( opgen-epsilon PRIVATE hyteg )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-epsilon PRIVATE

@@ -23,6 +23,7 @@ add_library( opgen-divergence
    P2VectorToP1ElementwiseDivergenceIcosahedralShellMap.cpp
    P2VectorToP1ElementwiseDivergenceIcosahedralShellMap.hpp
 )
+target_link_libraries( opgen-divergence PRIVATE hyteg )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-divergence PRIVATE

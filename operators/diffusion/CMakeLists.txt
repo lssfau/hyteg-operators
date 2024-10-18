@@ -13,6 +13,7 @@ add_library( opgen-diffusion
    P2ElementwiseDiffusionParametricP2Map.cpp
    P2ElementwiseDiffusionParametricP2Map.hpp
 )
+target_link_libraries( opgen-diffusion PRIVATE hyteg )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-diffusion PRIVATE
