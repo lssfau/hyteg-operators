@@ -1,5 +1,10 @@
 --extra-index-url https://test.pypi.org/simple/
 
-hog @ git+ssh://git@i10git.cs.fau.de/hyteg/hog@5cecb2d0c7cfb2449f80f6069a4fb6b4b3cb312d
+# users with account on i10git.cs.fau.de can use ssh
+# hog @ git+ssh://git@i10git.cs.fau.de/hyteg/hog@5cecb2d0c7cfb2449f80f6069a4fb6b4b3cb312d
+
+# others should prefer https
+hog @ git+https://i10git.cs.fau.de/hyteg/hog@5cecb2d0c7cfb2449f80f6069a4fb6b4b3cb312d
+
 tomli >= 1.1.0 ; python_version < "3.11"
 clang-format
