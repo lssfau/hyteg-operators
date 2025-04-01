@@ -37,6 +37,7 @@ generate-child-pipeline:
         cat >> child-pipeline.yml << EOF
               - OPERATOR_BASE_NAME: $OP_NAME
         EOF
+      done
   artifacts:
     paths:
       - child-pipeline.yml
