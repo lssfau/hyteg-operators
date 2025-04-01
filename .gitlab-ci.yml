@@ -35,8 +35,8 @@ generate-child-pipeline:
       do
         OP_NAME=$(echo $f | sed -E 's/operators-(.*)\.toml/\1/')
         cat >> child-pipeline.yml << EOF
-              - OPERATOR_BASE_NAME: $OP_NAME
-        EOF
+            - OPERATOR_BASE_NAME: $OP_NAME
+      EOF
       done
   artifacts:
     paths:
