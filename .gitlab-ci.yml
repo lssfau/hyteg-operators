@@ -20,11 +20,11 @@ generate-child-pipeline:
           - cd generate
           - virtualenv -p python3 venv
           - source venv/bin/activate
-          - GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0="url.https://gitlab-ci-token:${CI_JOB_TOKEN}@i10git.cs.fau.de.insteadOf" GIT_CONFIG_VALUE_0="ssh://git@i10git.cs.fau.de" python -m pip install -r requirements.txt
+          - GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0="url.https://gitlab-ci-token:\${CI_JOB_TOKEN}@i10git.cs.fau.de.insteadOf" GIT_CONFIG_VALUE_0="ssh://git@i10git.cs.fau.de" python -m pip install -r requirements.txt
           - pip freeze
           - rm -rf ../operators/*
-          - echo $OPERATOR_BASE_NAME
-          - python3 generate.py -o ../operators ../operators-$OPERATOR_BASE_NAME.toml --processes 8
+          - echo \$OPERATOR_BASE_NAME
+          - python3 generate.py -o ../operators ../operators-\$OPERATOR_BASE_NAME.toml --processes 8
         tags:
           - docker
         parallel:
