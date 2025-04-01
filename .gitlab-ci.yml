@@ -1,95 +1,49 @@
 stages:
-  - pretest
-  - test
+  - generate-child-pipeline
+  - execute-child-pipeline
 
-compare_number_of_directories_and_toml_files:
-  stage: pretest
-  image: i10git.cs.fau.de:5005/pycodegen/pycodegen/full
+generate-child-pipeline:
+  stage: generate-child-pipeline
   script:
-    - find operators/* -maxdepth 0 -type d | wc -l > num_directories.txt
-    - find ./*.toml | wc -l > num_toml_files.txt
-    - cat num_directories.txt num_toml_files.txt
-    - diff num_directories.txt num_toml_files.txt
-  tags:
-    - docker
+    - |
+      cat > child-pipeline.yml << EOF
+      stages:
+        - generate-operators
+        - file-mr
 
-.hyteg-hog-integration-test-template:
-  stage: test
-  image: i10git.cs.fau.de:5005/pycodegen/pycodegen/full
-  script:
-    - python3 --version
-    - wget https://i10git.cs.fau.de/hyteg/hyteg/-/raw/master/.clang-format
-    - cd generate
-    - virtualenv -p python3 venv
-    - source venv/bin/activate
-    - GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0="url.https://gitlab-ci-token:${CI_JOB_TOKEN}@i10git.cs.fau.de.insteadOf" GIT_CONFIG_VALUE_0="ssh://git@i10git.cs.fau.de" python -m pip install -r requirements.txt
-    - pip freeze
-    - rm -rf ../operators/*
-    - python3 generate.py -o ../operators ../operators-$OPERATOR_BASE_NAME.toml --processes 8
-    - cd ..
-    - cd operators/$OPERATOR_BASE_NAME
-    - pwd
-    - ls -lhta
-    - git status
-    - git diff .
-    - git diff --exit-code --stat .
-  variables:
-    - OPERATOR_BASE_NAME: "OPERATOR_NOT_SPECIFIED"
-  tags:
-    - docker
+      generate-operators:
+        stage: generate-operators
+        image: i10git.cs.fau.de:5005/pycodegen/pycodegen/full
+        script:
+          - python3 --version
+          - wget https://i10git.cs.fau.de/hyteg/hyteg/-/raw/master/.clang-format
+          - cd generate
+          - virtualenv -p python3 venv
+          - source venv/bin/activate
+          - GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0="url.https://gitlab-ci-token:${CI_JOB_TOKEN}@i10git.cs.fau.de.insteadOf" GIT_CONFIG_VALUE_0="ssh://git@i10git.cs.fau.de" python -m pip install -r requirements.txt
+          - pip freeze
+          - rm -rf ../operators/*
+          - echo $OPERATOR_BASE_NAME
+          - python3 generate.py -o ../operators ../operators-$OPERATOR_BASE_NAME.toml --processes 8
+        tags:
+          - docker
+        parallel:
+          matrix:
+      EOF
+    - |
+      for f in operators-*.toml
+      do
+        OP_NAME=$(echo $f | sed -E 's/operators-(.*)\.toml/\1/')
+        cat >> child-pipeline.yml << EOF
+              - OPERATOR_BASE_NAME: $OP_NAME
+        EOF
+  artifacts:
+    paths:
+      - child-pipeline.yml
 
-curl_curl:
-  stage: pretest                                       # <=== THIS RUNS IN PRETEST STAGE
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "curl_curl"
-
-diffusion:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "diffusion"
-
-div_k_grad:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "div_k_grad"
-
-divergence:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "divergence"
-
-epsilon:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "epsilon"
-
-full_stokes:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "full_stokes"
-
-gradient:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "gradient"
-
-k_divdiv:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "k_divdiv"
-
-k_mass:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "k_mass"
-
-mass:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "mass"
-
-terraneo:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "terraneo"
+execute-child-pipeline:
+  stage: execute-child-pipeline
+  trigger:
+    include:
+      - artifact: child-pipeline.yml
+        job: generate-child-pipeline
