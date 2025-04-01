@@ -25,6 +25,9 @@ generate-child-pipeline:
           - rm -rf ../operators/*
           - echo \$OPERATOR_BASE_NAME
           - python3 generate.py -o ../operators ../operators-\$OPERATOR_BASE_NAME.toml --processes 8
+        artifacts:
+          paths:
+            - operators/\$OPERATOR_BASE_NAME
         tags:
           - docker
         parallel:
@@ -38,6 +41,14 @@ generate-child-pipeline:
             - OPERATOR_BASE_NAME: $OP_NAME
       EOF
       done
+    - |
+      cat >> child-pipeline.yml << EOF
+
+      file-mr:
+        stage: file-mr
+        script:
+          - git status
+      EOF
   artifacts:
     paths:
       - child-pipeline.yml
