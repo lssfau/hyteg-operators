@@ -46,8 +46,20 @@ generate-child-pipeline:
 
       file-mr:
         stage: file-mr
+        when: manual
+        before_script:
+          - apt-get update -yqq
+          - apt-get install -yqq --no-install-recommends git
         script:
+          - export GIT_SSL_CAINFO=\$CI_SERVER_TLS_CA_FILE
+          - git remote set-url --push origin "https://bot:\$ACCESS_TOKEN@\${CI_REPOSITORY_URL#*@}"
+          - git config --local user.email "\$GITLAB_USER_EMAIL"
+          - git config --local user.name "\$GITLAB_USER_NAME"
+          - git switch -c ci/\$CI_PIPELINE_ID
+          - git add operators
           - git status
+          - 'git commit -m "CI: Generate operators (Pipeline #\$CI_PIPELINE_ID)." || echo WARNING: git commit failed. Continuing without changes to generated code.'
+          - git push --set-upstream origin ci/\$CI_PIPELINE_ID -o ci.skip -o merge_request.create -o merge_request.draft -o merge_request.label="ci-generate-operators" -o merge_request.assign="\$GITLAB_USER_ID"
       EOF
   artifacts:
     paths:
