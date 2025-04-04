@@ -59,7 +59,7 @@ generate-child-pipeline:
           - git add operators
           - git status
           - 'git commit -m "CI: Generate operators (Pipeline #\$CI_PIPELINE_ID)." || echo WARNING: git commit failed. Continuing without changes to generated code.'
-          - git push --set-upstream origin ci/\$CI_PIPELINE_ID -o ci.skip -o merge_request.create -o merge_request.draft -o merge_request.label="ci-generate-operators" -o merge_request.assign="\$GITLAB_USER_ID"
+          - git push --set-upstream origin ci/\$CI_PIPELINE_ID -o ci.skip -o merge_request.create -o merge_request.draft -o merge_request.label="ci-generate-operators" -o merge_request.assign="\$GITLAB_USER_ID" -o merge_request.title="Operators for \$CI_COMMIT_SHORT_SHA (\$CI_COMMIT_TITLE)" -o merge_request.description="ToDo: Please describe your change and take a look at the generated code.\n\nOperators generated for \$CI_COMMIT_SHA by pipeline #\$CI_PIPELINE_ID."
       EOF
   artifacts:
     paths:
