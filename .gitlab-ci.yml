@@ -1,95 +1,73 @@
 stages:
-  - pretest
-  - test
+  - generate-child-pipeline
+  - execute-child-pipeline
 
-compare_number_of_directories_and_toml_files:
-  stage: pretest
-  image: i10git.cs.fau.de:5005/pycodegen/pycodegen/full
+generate-child-pipeline:
+  stage: generate-child-pipeline
   script:
-    - find operators/* -maxdepth 0 -type d | wc -l > num_directories.txt
-    - find ./*.toml | wc -l > num_toml_files.txt
-    - cat num_directories.txt num_toml_files.txt
-    - diff num_directories.txt num_toml_files.txt
-  tags:
-    - docker
+    - |
+      cat > child-pipeline.yml << EOF
+      stages:
+        - generate-operators
+        - submit-merge-request
 
-.hyteg-hog-integration-test-template:
-  stage: test
-  image: i10git.cs.fau.de:5005/pycodegen/pycodegen/full
-  script:
-    - python3 --version
-    - wget https://i10git.cs.fau.de/hyteg/hyteg/-/raw/master/.clang-format
-    - cd generate
-    - virtualenv -p python3 venv
-    - source venv/bin/activate
-    - GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0="url.https://gitlab-ci-token:${CI_JOB_TOKEN}@i10git.cs.fau.de.insteadOf" GIT_CONFIG_VALUE_0="ssh://git@i10git.cs.fau.de" python -m pip install -r requirements.txt
-    - pip freeze
-    - rm -rf ../operators/*
-    - python3 generate.py -o ../operators ../operators-$OPERATOR_BASE_NAME.toml --processes 8
-    - cd ..
-    - cd operators/$OPERATOR_BASE_NAME
-    - pwd
-    - ls -lhta
-    - git status
-    - git diff .
-    - git diff --exit-code --stat .
-  variables:
-    - OPERATOR_BASE_NAME: "OPERATOR_NOT_SPECIFIED"
-  tags:
-    - docker
+      generate-operators:
+        stage: generate-operators
+        image: i10git.cs.fau.de:5005/pycodegen/pycodegen/full
+        script:
+          - python3 --version
+          - wget https://i10git.cs.fau.de/hyteg/hyteg/-/raw/master/.clang-format
+          - cd generate
+          - virtualenv -p python3 venv
+          - source venv/bin/activate
+          - GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0="url.https://gitlab-ci-token:\${CI_JOB_TOKEN}@i10git.cs.fau.de.insteadOf" GIT_CONFIG_VALUE_0="ssh://git@i10git.cs.fau.de" python -m pip install -r requirements.txt
+          - pip freeze
+          - rm -rf ../operators/*
+          - echo \$OPERATOR_BASE_NAME
+          - python3 generate.py -o ../operators ../operators-\$OPERATOR_BASE_NAME.toml --processes 8
+        artifacts:
+          paths:
+            - operators/\$OPERATOR_BASE_NAME
+        tags:
+          - docker
+        parallel:
+          matrix:
+      EOF
+    - |
+      for f in operators-*.toml
+      do
+        OP_NAME=$(echo $f | sed -E 's/operators-(.*)\.toml/\1/')
+        cat >> child-pipeline.yml << EOF
+            - OPERATOR_BASE_NAME: $OP_NAME
+      EOF
+      done
+    - |
+      cat >> child-pipeline.yml << EOF
 
-curl_curl:
-  stage: pretest                                       # <=== THIS RUNS IN PRETEST STAGE
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "curl_curl"
+      submit-merge-request:
+        stage: submit-merge-request
+        when: manual
+        before_script:
+          - apt-get update -yqq
+          - apt-get install -yqq --no-install-recommends git
+        script:
+          - export GIT_SSL_CAINFO=\$CI_SERVER_TLS_CA_FILE
+          - git remote set-url --push origin "https://bot:\$ACCESS_TOKEN@\${CI_REPOSITORY_URL#*@}"
+          - git config --local user.email "\$GITLAB_USER_EMAIL"
+          - git config --local user.name "\$GITLAB_USER_NAME"
+          - git switch -c ci/\$CI_PIPELINE_ID
+          - git add operators
+          - git status
+          - 'git commit -m "CI: Generate operators (Pipeline #\$CI_PIPELINE_ID)." || echo WARNING: git commit failed. Continuing without changes to generated code.'
+          - 'git push --set-upstream origin ci/\$CI_PIPELINE_ID -o ci.skip -o merge_request.create -o merge_request.draft -o merge_request.label="ci-generate-operators" -o merge_request.assign="\$GITLAB_USER_ID" -o merge_request.title="Operators for \$CI_COMMIT_SHORT_SHA (\$CI_COMMIT_TITLE)" -o merge_request.description="ToDo: Please describe your change and take a look at the generated code.\n\nOperators generated for \$CI_COMMIT_SHA by pipeline #\$CI_PIPELINE_ID."'
+      EOF
+  artifacts:
+    paths:
+      - child-pipeline.yml
 
-diffusion:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "diffusion"
-
-div_k_grad:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "div_k_grad"
-
-divergence:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "divergence"
-
-epsilon:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "epsilon"
-
-full_stokes:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "full_stokes"
-
-gradient:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "gradient"
-
-k_divdiv:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "k_divdiv"
-
-k_mass:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "k_mass"
-
-mass:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "mass"
-
-terraneo:
-  extends: .hyteg-hog-integration-test-template
-  variables:
-    OPERATOR_BASE_NAME: "terraneo"
+execute-child-pipeline:
+  stage: execute-child-pipeline
+  trigger:
+    include:
+      - artifact: child-pipeline.yml
+        job: generate-child-pipeline
