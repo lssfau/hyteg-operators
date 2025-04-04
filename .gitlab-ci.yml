@@ -9,7 +9,7 @@ generate-child-pipeline:
       cat > child-pipeline.yml << EOF
       stages:
         - generate-operators
-        - file-mr
+        - submit-merge-request
 
       generate-operators:
         stage: generate-operators
@@ -44,8 +44,8 @@ generate-child-pipeline:
     - |
       cat >> child-pipeline.yml << EOF
 
-      file-mr:
-        stage: file-mr
+      submit-merge-request:
+        stage: submit-merge-request
         when: manual
         before_script:
           - apt-get update -yqq

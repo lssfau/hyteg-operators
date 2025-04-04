@@ -30,5 +30,5 @@ It is a good idea to test your changes locally.
 In your commit, do not include changes to the `operators` directory.
 After pushing your changes to the remote, our CI automatically regenerates all operators from all `operators-<operator-group>.toml` files present in the repository.
 In this process, any changes you made under `operators` will be lost.
-After the pipeline has passed, you can trigger the manual job `file-mr` to create a new merge request including your changes and the freshly generated operators.
+After the pipeline has passed, you can trigger the manual job `submit-merge-request` to create a new merge request including your changes and the freshly generated operators.
 Using the CI makes sure that the generated code is always in sync with the description of what and how to generate.
