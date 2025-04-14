@@ -49,3 +49,20 @@ quadrature    = 2
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize"]
 blending      = "ParametricP2Map"
+
+[[diffusion]]
+trial-space   = "P2PlusBubble"
+test-space    = "P2PlusBubble"
+dimensions    = [2]
+quadrature    = 4
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize"]
+
+[[diffusion]]
+trial-space   = "P2PlusBubble"
+test-space    = "P2PlusBubble"
+dimensions    = [2]
+quadrature    = 4
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize"]
+blending      = "AnnulusMap"
