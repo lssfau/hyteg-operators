@@ -66,6 +66,7 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
    P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map( const std::shared_ptr< PrimitiveStorage >& storage,
                                                                   size_t                                     minLevel,
                                                                   size_t                                     maxLevel,
+                                                                  const P2VectorFunction< real_t >&          _micromesh,
                                                                   const P1Function< real_t >&                _rho );
 
    void apply( const P2VectorFunction< real_t >& src,
@@ -91,19 +92,18 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    304     368      16       0      0              0                 0              1
+   ///    388     432      20       0      4              0                 0              1
    void apply_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_2D(
        real_t* RESTRICT _data_dst,
+       real_t* RESTRICT _data_micromesh_edge_0,
+       real_t* RESTRICT _data_micromesh_edge_1,
+       real_t* RESTRICT _data_micromesh_vertex_0,
+       real_t* RESTRICT _data_micromesh_vertex_1,
        real_t* RESTRICT _data_rho,
        real_t* RESTRICT _data_src_edge_0,
        real_t* RESTRICT _data_src_edge_1,
        real_t* RESTRICT _data_src_vertex_0,
        real_t* RESTRICT _data_src_vertex_1,
-       real_t           abs_det_jac_blending,
-       real_t           jac_blending_inv_0_0,
-       real_t           jac_blending_inv_0_1,
-       real_t           jac_blending_inv_1_0,
-       real_t           jac_blending_inv_1_1,
        real_t           macro_vertex_coord_id_0comp0,
        real_t           macro_vertex_coord_id_0comp1,
        real_t           macro_vertex_coord_id_1comp0,
@@ -122,9 +122,15 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1078    1187      41       0      0              0                 0              1
+   ///   1448    1577      46       0      5              0                 0              1
    void apply_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_3D(
        real_t* RESTRICT _data_dst,
+       real_t* RESTRICT _data_micromesh_edge_0,
+       real_t* RESTRICT _data_micromesh_edge_1,
+       real_t* RESTRICT _data_micromesh_edge_2,
+       real_t* RESTRICT _data_micromesh_vertex_0,
+       real_t* RESTRICT _data_micromesh_vertex_1,
+       real_t* RESTRICT _data_micromesh_vertex_2,
        real_t* RESTRICT _data_rho,
        real_t* RESTRICT _data_src_edge_0,
        real_t* RESTRICT _data_src_edge_1,
@@ -132,16 +138,6 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
        real_t* RESTRICT _data_src_vertex_0,
        real_t* RESTRICT _data_src_vertex_1,
        real_t* RESTRICT _data_src_vertex_2,
-       real_t           abs_det_jac_blending,
-       real_t           jac_blending_inv_0_0,
-       real_t           jac_blending_inv_0_1,
-       real_t           jac_blending_inv_0_2,
-       real_t           jac_blending_inv_1_0,
-       real_t           jac_blending_inv_1_1,
-       real_t           jac_blending_inv_1_2,
-       real_t           jac_blending_inv_2_0,
-       real_t           jac_blending_inv_2_1,
-       real_t           jac_blending_inv_2_2,
        real_t           macro_vertex_coord_id_0comp0,
        real_t           macro_vertex_coord_id_0comp1,
        real_t           macro_vertex_coord_id_0comp2,
@@ -166,19 +162,18 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    268     332      16       0      0              0                 0              4
+   ///    352     396      20       0      4              0                 0              4
    void toMatrix_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_2D(
        idx_t* RESTRICT                      _data_dst,
+       real_t* RESTRICT                     _data_micromesh_edge_0,
+       real_t* RESTRICT                     _data_micromesh_edge_1,
+       real_t* RESTRICT                     _data_micromesh_vertex_0,
+       real_t* RESTRICT                     _data_micromesh_vertex_1,
        real_t* RESTRICT                     _data_rho,
        idx_t* RESTRICT                      _data_src_edge_0,
        idx_t* RESTRICT                      _data_src_edge_1,
        idx_t* RESTRICT                      _data_src_vertex_0,
        idx_t* RESTRICT                      _data_src_vertex_1,
-       real_t                               abs_det_jac_blending,
-       real_t                               jac_blending_inv_0_0,
-       real_t                               jac_blending_inv_0_1,
-       real_t                               jac_blending_inv_1_0,
-       real_t                               jac_blending_inv_1_1,
        real_t                               macro_vertex_coord_id_0comp0,
        real_t                               macro_vertex_coord_id_0comp1,
        real_t                               macro_vertex_coord_id_1comp0,
@@ -198,9 +193,15 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    958    1067      41       0      0              0                 0              4
+   ///   1328    1457      46       0      5              0                 0              4
    void toMatrix_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_3D(
        idx_t* RESTRICT                      _data_dst,
+       real_t* RESTRICT                     _data_micromesh_edge_0,
+       real_t* RESTRICT                     _data_micromesh_edge_1,
+       real_t* RESTRICT                     _data_micromesh_edge_2,
+       real_t* RESTRICT                     _data_micromesh_vertex_0,
+       real_t* RESTRICT                     _data_micromesh_vertex_1,
+       real_t* RESTRICT                     _data_micromesh_vertex_2,
        real_t* RESTRICT                     _data_rho,
        idx_t* RESTRICT                      _data_src_edge_0,
        idx_t* RESTRICT                      _data_src_edge_1,
@@ -208,16 +209,6 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
        idx_t* RESTRICT                      _data_src_vertex_0,
        idx_t* RESTRICT                      _data_src_vertex_1,
        idx_t* RESTRICT                      _data_src_vertex_2,
-       real_t                               abs_det_jac_blending,
-       real_t                               jac_blending_inv_0_0,
-       real_t                               jac_blending_inv_0_1,
-       real_t                               jac_blending_inv_0_2,
-       real_t                               jac_blending_inv_1_0,
-       real_t                               jac_blending_inv_1_1,
-       real_t                               jac_blending_inv_1_2,
-       real_t                               jac_blending_inv_2_0,
-       real_t                               jac_blending_inv_2_1,
-       real_t                               jac_blending_inv_2_2,
        real_t                               macro_vertex_coord_id_0comp0,
        real_t                               macro_vertex_coord_id_0comp1,
        real_t                               macro_vertex_coord_id_0comp2,
@@ -234,7 +225,8 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
        int64_t                              micro_edges_per_macro_edge,
        real_t                               micro_edges_per_macro_edge_float ) const;
 
-   P1Function< real_t > rho;
+   P2VectorFunction< real_t > micromesh;
+   P1Function< real_t >       rho;
 };
 
 } // namespace operatorgeneration

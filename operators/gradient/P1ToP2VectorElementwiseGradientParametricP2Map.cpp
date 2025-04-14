@@ -143,6 +143,7 @@ void P1ToP2VectorElementwiseGradientParametricP2Map::apply( const P1Function< re
          edgedof::macrocell::setBoundaryToZero( level, cell, dst[2].getEdgeDoFFunction().getCellDataID() );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
          const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
          const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
@@ -276,6 +277,7 @@ void P1ToP2VectorElementwiseGradientParametricP2Map::apply( const P1Function< re
          }
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
          const real_t macro_vertex_coord_id_0comp0     = (real_t) face.getCoordinates()[0][0];
          const real_t macro_vertex_coord_id_0comp1     = (real_t) face.getCoordinates()[0][1];
@@ -383,6 +385,7 @@ void P1ToP2VectorElementwiseGradientParametricP2Map::toMatrix( const std::shared
          real_t* _data_micromesh_edge_2 = cell.getData( micromesh[2].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
          const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
          const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
@@ -458,6 +461,7 @@ void P1ToP2VectorElementwiseGradientParametricP2Map::toMatrix( const std::shared
          real_t* _data_micromesh_edge_1 = face.getData( micromesh[1].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
          const real_t macro_vertex_coord_id_0comp0     = (real_t) face.getCoordinates()[0][0];
          const real_t macro_vertex_coord_id_0comp1     = (real_t) face.getCoordinates()[0][1];

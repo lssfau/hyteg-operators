@@ -108,6 +108,7 @@ void P1ElementwiseMass::apply( const P1Function< real_t >& src,
          }
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
          const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
          const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
@@ -180,6 +181,7 @@ void P1ElementwiseMass::apply( const P1Function< real_t >& src,
          }
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
          const real_t macro_vertex_coord_id_0comp0     = (real_t) face.getCoordinates()[0][0];
          const real_t macro_vertex_coord_id_0comp1     = (real_t) face.getCoordinates()[0][1];
@@ -247,6 +249,7 @@ void P1ElementwiseMass::toMatrix( const std::shared_ptr< SparseMatrixProxy >& ma
          idx_t* _data_dst = cell.getData( dst.getCellDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
          const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
          const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
@@ -301,6 +304,7 @@ void P1ElementwiseMass::toMatrix( const std::shared_ptr< SparseMatrixProxy >& ma
          idx_t* _data_dst = face.getData( dst.getFaceDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
          const real_t macro_vertex_coord_id_0comp0     = (real_t) face.getCoordinates()[0][0];
          const real_t macro_vertex_coord_id_0comp1     = (real_t) face.getCoordinates()[0][1];
@@ -357,6 +361,7 @@ void P1ElementwiseMass::computeInverseDiagonalOperatorValues()
             real_t* _data_invDiag_ = cell.getData( ( *invDiag_ ).getCellDataID() )->getPointer( level );
 
             const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+            const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
             const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
             const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
             const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
@@ -419,6 +424,7 @@ void P1ElementwiseMass::computeInverseDiagonalOperatorValues()
             real_t* _data_invDiag_ = face.getData( ( *invDiag_ ).getFaceDataID() )->getPointer( level );
 
             const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+            const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
             const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
             const real_t macro_vertex_coord_id_0comp0     = (real_t) face.getCoordinates()[0][0];
             const real_t macro_vertex_coord_id_0comp1     = (real_t) face.getCoordinates()[0][1];

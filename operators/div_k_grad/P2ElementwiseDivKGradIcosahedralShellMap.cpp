@@ -121,6 +121,7 @@ void P2ElementwiseDivKGradIcosahedralShellMap::apply( const P2Function< real_t >
          edgedof::macrocell::setBoundaryToZero( level, cell, dst.getEdgeDoFFunction().getCellDataID() );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
          const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
          const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
@@ -253,6 +254,7 @@ void P2ElementwiseDivKGradIcosahedralShellMap::toMatrix( const std::shared_ptr< 
          real_t* _data_kEdge     = cell.getData( k.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
          const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
          const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
@@ -370,6 +372,7 @@ void P2ElementwiseDivKGradIcosahedralShellMap::computeInverseDiagonalOperatorVal
             real_t* _data_kEdge        = cell.getData( k.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
             const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+            const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
             const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
             const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
             const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
