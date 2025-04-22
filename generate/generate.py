@@ -266,6 +266,7 @@ def generate_operator(
             function_space.LagrangianFunctionSpace(2, symbolizer)
         ),
         "N1E1": function_space.N1E1Space(symbolizer),
+        "P2PlusBubble": function_space.P2PlusBubbleSpace(symbolizer),
     }
     geometries = {
         2: element_geometry.TriangleElement(),

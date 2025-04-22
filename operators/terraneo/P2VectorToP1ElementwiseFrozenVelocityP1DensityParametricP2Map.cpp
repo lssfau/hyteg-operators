@@ -51,8 +51,10 @@ P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::P2VectorToP1Eleme
     const std::shared_ptr< PrimitiveStorage >& storage,
     size_t                                     minLevel,
     size_t                                     maxLevel,
+    const P2VectorFunction< real_t >&          _micromesh,
     const P1Function< real_t >&                _rho )
 : Operator( storage, minLevel, maxLevel )
+, micromesh( _micromesh )
 , rho( _rho )
 {}
 
@@ -79,6 +81,15 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::apply( const
       src[2].communicate< Face, Cell >( level );
       src[2].communicate< Edge, Cell >( level );
       src[2].communicate< Vertex, Cell >( level );
+      micromesh[0].communicate< Face, Cell >( level );
+      micromesh[0].communicate< Edge, Cell >( level );
+      micromesh[0].communicate< Vertex, Cell >( level );
+      micromesh[1].communicate< Face, Cell >( level );
+      micromesh[1].communicate< Edge, Cell >( level );
+      micromesh[1].communicate< Vertex, Cell >( level );
+      micromesh[2].communicate< Face, Cell >( level );
+      micromesh[2].communicate< Edge, Cell >( level );
+      micromesh[2].communicate< Vertex, Cell >( level );
       rho.communicate< Face, Cell >( level );
       rho.communicate< Edge, Cell >( level );
       rho.communicate< Vertex, Cell >( level );
@@ -86,6 +97,7 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::apply( const
    else
    {
       communication::syncVectorFunctionBetweenPrimitives( src, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncVectorFunctionBetweenPrimitives( micromesh, level, communication::syncDirection_t::LOW2HIGH );
       communication::syncFunctionBetweenPrimitives( rho, level, communication::syncDirection_t::LOW2HIGH );
    }
    this->timingTree_->stop( "pre-communication" );
@@ -114,6 +126,16 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::apply( const
          real_t* _data_src_edge_2   = cell.getData( src[2].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
          real_t* _data_dst = cell.getData( dst.getCellDataID() )->getPointer( level );
+         real_t* _data_micromesh_vertex_0 =
+             cell.getData( micromesh[0].getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_micromesh_edge_0 = cell.getData( micromesh[0].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_micromesh_vertex_1 =
+             cell.getData( micromesh[1].getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_micromesh_edge_1 = cell.getData( micromesh[1].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_micromesh_vertex_2 =
+             cell.getData( micromesh[2].getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_micromesh_edge_2 = cell.getData( micromesh[2].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+
          real_t* _data_rho = cell.getData( rho.getCellDataID() )->getPointer( level );
 
          // Zero out dst halos only
@@ -130,6 +152,7 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::apply( const
          }
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
          const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
          const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
@@ -149,6 +172,12 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::apply( const
          apply_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_3D(
 
              _data_dst,
+             _data_micromesh_edge_0,
+             _data_micromesh_edge_1,
+             _data_micromesh_edge_2,
+             _data_micromesh_vertex_0,
+             _data_micromesh_vertex_1,
+             _data_micromesh_vertex_2,
              _data_rho,
              _data_src_edge_0,
              _data_src_edge_1,
@@ -156,16 +185,6 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::apply( const
              _data_src_vertex_0,
              _data_src_vertex_1,
              _data_src_vertex_2,
-             abs_det_jac_blending,
-             jac_blending_inv_0_0,
-             jac_blending_inv_0_1,
-             jac_blending_inv_0_2,
-             jac_blending_inv_1_0,
-             jac_blending_inv_1_1,
-             jac_blending_inv_1_2,
-             jac_blending_inv_2_0,
-             jac_blending_inv_2_1,
-             jac_blending_inv_2_2,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
              macro_vertex_coord_id_0comp2,
@@ -207,6 +226,13 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::apply( const
          real_t* _data_src_edge_1   = face.getData( src[1].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
          real_t* _data_dst = face.getData( dst.getFaceDataID() )->getPointer( level );
+         real_t* _data_micromesh_vertex_0 =
+             face.getData( micromesh[0].getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_micromesh_edge_0 = face.getData( micromesh[0].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_micromesh_vertex_1 =
+             face.getData( micromesh[1].getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_micromesh_edge_1 = face.getData( micromesh[1].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+
          real_t* _data_rho = face.getData( rho.getFaceDataID() )->getPointer( level );
 
          // Zero out dst halos only
@@ -223,6 +249,7 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::apply( const
          }
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
          const real_t macro_vertex_coord_id_0comp0     = (real_t) face.getCoordinates()[0][0];
          const real_t macro_vertex_coord_id_0comp1     = (real_t) face.getCoordinates()[0][1];
@@ -236,16 +263,15 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::apply( const
          apply_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_2D(
 
              _data_dst,
+             _data_micromesh_edge_0,
+             _data_micromesh_edge_1,
+             _data_micromesh_vertex_0,
+             _data_micromesh_vertex_1,
              _data_rho,
              _data_src_edge_0,
              _data_src_edge_1,
              _data_src_vertex_0,
              _data_src_vertex_1,
-             abs_det_jac_blending,
-             jac_blending_inv_0_0,
-             jac_blending_inv_0_1,
-             jac_blending_inv_1_0,
-             jac_blending_inv_1_1,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
              macro_vertex_coord_id_1comp0,
@@ -287,6 +313,15 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::toMatrix( co
    if ( storage_->hasGlobalCells() )
    {
       this->timingTree_->start( "pre-communication" );
+      micromesh[0].communicate< Face, Cell >( level );
+      micromesh[0].communicate< Edge, Cell >( level );
+      micromesh[0].communicate< Vertex, Cell >( level );
+      micromesh[1].communicate< Face, Cell >( level );
+      micromesh[1].communicate< Edge, Cell >( level );
+      micromesh[1].communicate< Vertex, Cell >( level );
+      micromesh[2].communicate< Face, Cell >( level );
+      micromesh[2].communicate< Edge, Cell >( level );
+      micromesh[2].communicate< Vertex, Cell >( level );
       rho.communicate< Face, Cell >( level );
       rho.communicate< Edge, Cell >( level );
       rho.communicate< Vertex, Cell >( level );
@@ -305,9 +340,20 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::toMatrix( co
          idx_t* _data_src_edge_2   = cell.getData( src[2].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
          idx_t*  _data_dst = cell.getData( dst.getCellDataID() )->getPointer( level );
+         real_t* _data_micromesh_vertex_0 =
+             cell.getData( micromesh[0].getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_micromesh_edge_0 = cell.getData( micromesh[0].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_micromesh_vertex_1 =
+             cell.getData( micromesh[1].getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_micromesh_edge_1 = cell.getData( micromesh[1].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_micromesh_vertex_2 =
+             cell.getData( micromesh[2].getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_micromesh_edge_2 = cell.getData( micromesh[2].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+
          real_t* _data_rho = cell.getData( rho.getCellDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
          const real_t macro_vertex_coord_id_0comp0     = (real_t) cell.getCoordinates()[0][0];
          const real_t macro_vertex_coord_id_0comp1     = (real_t) cell.getCoordinates()[0][1];
@@ -327,6 +373,12 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::toMatrix( co
          toMatrix_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_3D(
 
              _data_dst,
+             _data_micromesh_edge_0,
+             _data_micromesh_edge_1,
+             _data_micromesh_edge_2,
+             _data_micromesh_vertex_0,
+             _data_micromesh_vertex_1,
+             _data_micromesh_vertex_2,
              _data_rho,
              _data_src_edge_0,
              _data_src_edge_1,
@@ -334,16 +386,6 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::toMatrix( co
              _data_src_vertex_0,
              _data_src_vertex_1,
              _data_src_vertex_2,
-             abs_det_jac_blending,
-             jac_blending_inv_0_0,
-             jac_blending_inv_0_1,
-             jac_blending_inv_0_2,
-             jac_blending_inv_1_0,
-             jac_blending_inv_1_1,
-             jac_blending_inv_1_2,
-             jac_blending_inv_2_0,
-             jac_blending_inv_2_1,
-             jac_blending_inv_2_2,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
              macro_vertex_coord_id_0comp2,
@@ -366,6 +408,7 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::toMatrix( co
    else
    {
       this->timingTree_->start( "pre-communication" );
+      communication::syncVectorFunctionBetweenPrimitives( micromesh, level, communication::syncDirection_t::LOW2HIGH );
       communication::syncFunctionBetweenPrimitives( rho, level, communication::syncDirection_t::LOW2HIGH );
       this->timingTree_->stop( "pre-communication" );
 
@@ -380,9 +423,17 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::toMatrix( co
          idx_t* _data_src_edge_1   = face.getData( src[1].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
          idx_t*  _data_dst = face.getData( dst.getFaceDataID() )->getPointer( level );
+         real_t* _data_micromesh_vertex_0 =
+             face.getData( micromesh[0].getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_micromesh_edge_0 = face.getData( micromesh[0].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_micromesh_vertex_1 =
+             face.getData( micromesh[1].getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_micromesh_edge_1 = face.getData( micromesh[1].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+
          real_t* _data_rho = face.getData( rho.getFaceDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
+         const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
          const auto   micro_edges_per_macro_edge_float = (real_t) levelinfo::num_microedges_per_edge( level );
          const real_t macro_vertex_coord_id_0comp0     = (real_t) face.getCoordinates()[0][0];
          const real_t macro_vertex_coord_id_0comp1     = (real_t) face.getCoordinates()[0][1];
@@ -396,16 +447,15 @@ void P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map::toMatrix( co
          toMatrix_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_2D(
 
              _data_dst,
+             _data_micromesh_edge_0,
+             _data_micromesh_edge_1,
+             _data_micromesh_vertex_0,
+             _data_micromesh_vertex_1,
              _data_rho,
              _data_src_edge_0,
              _data_src_edge_1,
              _data_src_vertex_0,
              _data_src_vertex_1,
-             abs_det_jac_blending,
-             jac_blending_inv_0_0,
-             jac_blending_inv_0_1,
-             jac_blending_inv_1_0,
-             jac_blending_inv_1_1,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
              macro_vertex_coord_id_1comp0,

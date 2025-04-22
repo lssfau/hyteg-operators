@@ -12,6 +12,10 @@ add_library( opgen-diffusion
    P2ElementwiseDiffusionIcosahedralShellMap.hpp
    P2ElementwiseDiffusionParametricP2Map.cpp
    P2ElementwiseDiffusionParametricP2Map.hpp
+   P2PlusBubbleElementwiseDiffusion.cpp
+   P2PlusBubbleElementwiseDiffusion.hpp
+   P2PlusBubbleElementwiseDiffusionAnnulusMap.cpp
+   P2PlusBubbleElementwiseDiffusionAnnulusMap.hpp
 )
 target_link_libraries( opgen-diffusion PRIVATE hyteg )
 
@@ -38,6 +42,10 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P2ElementwiseDiffusion_apply_P2ElementwiseDiffusion_macro_3D.cpp
       avx/P2ElementwiseDiffusion_computeInverseDiagonalOperatorValues_P2ElementwiseDiffusion_macro_2D.cpp
       avx/P2ElementwiseDiffusion_computeInverseDiagonalOperatorValues_P2ElementwiseDiffusion_macro_3D.cpp
+      avx/P2PlusBubbleElementwiseDiffusionAnnulusMap_apply_P2PlusBubbleElementwiseDiffusionAnnulusMap_macro_2D.cpp
+      avx/P2PlusBubbleElementwiseDiffusionAnnulusMap_computeInverseDiagonalOperatorValues_P2PlusBubbleElementwiseDiffusionAnnulusMap_macro_2D.cpp
+      avx/P2PlusBubbleElementwiseDiffusion_apply_P2PlusBubbleElementwiseDiffusion_macro_2D.cpp
+      avx/P2PlusBubbleElementwiseDiffusion_computeInverseDiagonalOperatorValues_P2PlusBubbleElementwiseDiffusion_macro_2D.cpp
       noarch/P1ElementwiseDiffusionParametricP1Map_toMatrix_P1ElementwiseDiffusionParametricP1Map_macro_2D.cpp
       noarch/P1ElementwiseDiffusionParametricP1Map_toMatrix_P1ElementwiseDiffusionParametricP1Map_macro_3D.cpp
       noarch/P1ElementwiseDiffusion_toMatrix_P1ElementwiseDiffusion_macro_2D.cpp
@@ -48,6 +56,8 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       noarch/P2ElementwiseDiffusionParametricP2Map_toMatrix_P2ElementwiseDiffusionParametricP2Map_macro_3D.cpp
       noarch/P2ElementwiseDiffusion_toMatrix_P2ElementwiseDiffusion_macro_2D.cpp
       noarch/P2ElementwiseDiffusion_toMatrix_P2ElementwiseDiffusion_macro_3D.cpp
+      noarch/P2PlusBubbleElementwiseDiffusionAnnulusMap_toMatrix_P2PlusBubbleElementwiseDiffusionAnnulusMap_macro_2D.cpp
+      noarch/P2PlusBubbleElementwiseDiffusion_toMatrix_P2PlusBubbleElementwiseDiffusion_macro_2D.cpp
    )
 
    set_source_files_properties(
@@ -72,6 +82,10 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P2ElementwiseDiffusion_apply_P2ElementwiseDiffusion_macro_3D.cpp
       avx/P2ElementwiseDiffusion_computeInverseDiagonalOperatorValues_P2ElementwiseDiffusion_macro_2D.cpp
       avx/P2ElementwiseDiffusion_computeInverseDiagonalOperatorValues_P2ElementwiseDiffusion_macro_3D.cpp
+      avx/P2PlusBubbleElementwiseDiffusionAnnulusMap_apply_P2PlusBubbleElementwiseDiffusionAnnulusMap_macro_2D.cpp
+      avx/P2PlusBubbleElementwiseDiffusionAnnulusMap_computeInverseDiagonalOperatorValues_P2PlusBubbleElementwiseDiffusionAnnulusMap_macro_2D.cpp
+      avx/P2PlusBubbleElementwiseDiffusion_apply_P2PlusBubbleElementwiseDiffusion_macro_2D.cpp
+      avx/P2PlusBubbleElementwiseDiffusion_computeInverseDiagonalOperatorValues_P2PlusBubbleElementwiseDiffusion_macro_2D.cpp
 
       PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
    )
@@ -112,6 +126,12 @@ else()
       noarch/P2ElementwiseDiffusion_computeInverseDiagonalOperatorValues_P2ElementwiseDiffusion_macro_3D.cpp
       noarch/P2ElementwiseDiffusion_toMatrix_P2ElementwiseDiffusion_macro_2D.cpp
       noarch/P2ElementwiseDiffusion_toMatrix_P2ElementwiseDiffusion_macro_3D.cpp
+      noarch/P2PlusBubbleElementwiseDiffusionAnnulusMap_apply_P2PlusBubbleElementwiseDiffusionAnnulusMap_macro_2D.cpp
+      noarch/P2PlusBubbleElementwiseDiffusionAnnulusMap_computeInverseDiagonalOperatorValues_P2PlusBubbleElementwiseDiffusionAnnulusMap_macro_2D.cpp
+      noarch/P2PlusBubbleElementwiseDiffusionAnnulusMap_toMatrix_P2PlusBubbleElementwiseDiffusionAnnulusMap_macro_2D.cpp
+      noarch/P2PlusBubbleElementwiseDiffusion_apply_P2PlusBubbleElementwiseDiffusion_macro_2D.cpp
+      noarch/P2PlusBubbleElementwiseDiffusion_computeInverseDiagonalOperatorValues_P2PlusBubbleElementwiseDiffusion_macro_2D.cpp
+      noarch/P2PlusBubbleElementwiseDiffusion_toMatrix_P2PlusBubbleElementwiseDiffusion_macro_2D.cpp
    )
 endif()
 
