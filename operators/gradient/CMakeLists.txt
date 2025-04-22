@@ -25,6 +25,7 @@ add_library( opgen-gradient
    P1ToP2VectorElementwiseGradientParametricP2Map.cpp
    P1ToP2VectorElementwiseGradientParametricP2Map.hpp
 )
+target_link_libraries( opgen-gradient PRIVATE hyteg )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-gradient PRIVATE

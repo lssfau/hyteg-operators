@@ -155,6 +155,7 @@ def generate_cmake_from_cpp_files(output_dir_path: str):
                 print(f"   {xpp_file}", file=f)
 
             print(f")", file=f)
+            print(f"target_link_libraries( {lib_name} PRIVATE hyteg )", file=f)
             print(f"", file=f)
 
             noarch_dir = os.path.join(subdir, "noarch")

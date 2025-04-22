@@ -9,6 +9,7 @@ add_library( opgen-k_divdiv
    P2VectorElementwiseKDivdivParametricP2Map.cpp
    P2VectorElementwiseKDivdivParametricP2Map.hpp
 )
+target_link_libraries( opgen-k_divdiv PRIVATE hyteg )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-k_divdiv PRIVATE

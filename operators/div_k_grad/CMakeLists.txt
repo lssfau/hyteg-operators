@@ -17,6 +17,7 @@ add_library( opgen-div_k_grad
    P2ElementwiseDivKGradP1CoefficientParametricP2Map.cpp
    P2ElementwiseDivKGradP1CoefficientParametricP2Map.hpp
 )
+target_link_libraries( opgen-div_k_grad PRIVATE hyteg )
 
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-div_k_grad PRIVATE
