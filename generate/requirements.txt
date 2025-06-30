@@ -4,7 +4,7 @@
 # hog @ git+ssh://git@i10git.cs.fau.de/hyteg/hog@dd4431676255512e6baf08dcc8dac301c1b836a1
 
 # others should prefer https
-hog @ git+https://i10git.cs.fau.de/hyteg/hog@dd4431676255512e6baf08dcc8dac301c1b836a1
+hog @ git+https://i10git.cs.fau.de/hyteg/hog@d0992c28e691808741730e20d04c96536c2f504e
 
 tomli >= 1.1.0 ; python_version < "3.11"
 clang-format
