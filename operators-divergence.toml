@@ -58,6 +58,15 @@ trial-space   = "P2Vector"
 test-space    = "P1"
 dimensions    = [2, 3]
 quadrature    = 2
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "ParametricP2Map"
+
+[[divergence]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+dimensions    = [2, 3]
+quadrature    = 2
 loop-strategy = "cubes"
 form-args.compressible = "true"
 form-space-args.density_function_space = "P2"
@@ -94,5 +103,8 @@ test-space    = "P1"
 dimensions    = [2, 3]
 quadrature    = 2
 loop-strategy = "sawtooth"
+form-args.compressible = "true"
+form-space-args.density_function_space = "P2"
+operator-name = "DivergenceCompressible"
 optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 blending      = "ParametricP2Map"
