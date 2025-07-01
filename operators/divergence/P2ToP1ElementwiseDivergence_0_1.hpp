@@ -53,7 +53,9 @@ namespace operatorgeneration {
 /// Weak formulation
 ///
 ///     u: trial function (vectorial space: TensorialVectorSpace(Lagrange, degree: 2, component 1))
+///
 ///     v: test function  (scalar space:    Lagrange, degree: 1)
+///
 ///
 ///     ∫ - ( ∇ · u ) v
 
