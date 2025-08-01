@@ -70,6 +70,22 @@ blending      = "AnnulusMap"
 [[mass_boundary]]
 trial-space     = "P1"
 test-space      = "P1"
+dimensions      = [2, 3]
+quadrature      = 2
+folder-name     = "mass"
+optimizations   = ["moveconstants"]
+
+[[mass_boundary]]
+trial-space     = "P2"
+test-space      = "P2"
+dimensions      = [2, 3]
+quadrature      = 3
+folder-name     = "mass"
+optimizations   = ["moveconstants"]
+
+[[mass_boundary]]
+trial-space     = "P1"
+test-space      = "P1"
 dimensions      = [2]
 quadrature      = 2
 folder-name     = "mass"
