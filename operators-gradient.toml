@@ -61,3 +61,25 @@ quadrature    = 2
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 blending      = "ParametricP2Map"
+
+[[gradient]]
+trial-space   = "P1"
+test-space    = "P2Vector"
+dimensions    = [2]
+quadrature    = 2
+loop-strategy = "sawtooth"
+form-args.rotation_wrapper  = "true"
+operator-name               = "GradientRotation"
+optimizations = ["moveconstants", "vectorize"]
+blending      = "AnnulusMap"
+
+[[gradient]]
+trial-space   = "P1"
+test-space    = "P2Vector"
+dimensions    = [3]
+quadrature    = 2
+loop-strategy = "sawtooth"
+form-args.rotation_wrapper  = "true"
+operator-name               = "GradientRotation"
+optimizations = ["moveconstants", "vectorize"]
+blending      = "IcosahedralShellMap"

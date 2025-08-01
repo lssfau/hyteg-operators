@@ -94,3 +94,75 @@ loop-strategy   = "sawtooth"
 operator-name   = "EpsilonP1Viscosity"
 optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 blending        = "ParametricP2Map"
+
+[[epsilon]]
+trial-space     = "P2Vector"
+test-space      = "P2Vector"
+dimensions      = [2]
+form-args.rotation_wrapper                  = "true"
+form-space-args.coefficient_function_space  = "P2"
+quadrature      = 3
+loop-strategy   = "sawtooth"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+operator-name   = "EpsilonRotation"
+blending        = "AnnulusMap"
+
+[[epsilon]]
+trial-space     = "P2Vector"
+test-space      = "P2Vector"
+dimensions      = [3]
+form-args.rotation_wrapper                  = "true"
+form-space-args.coefficient_function_space  = "P2"
+quadrature      = 3
+loop-strategy   = "sawtooth"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+operator-name   = "EpsilonRotation"
+blending        = "IcosahedralShellMap"
+
+[[epsilon]]
+trial-space     = "P2Vector"
+test-space      = "P2Vector"
+dimensions      = [2]
+form-args.rotation_wrapper                  = "true"
+form-space-args.coefficient_function_space  = "P1"
+quadrature      = 3
+loop-strategy   = "sawtooth"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+operator-name   = "EpsilonRotationP1Viscosity"
+blending        = "AnnulusMap"
+
+[[epsilon]]
+trial-space     = "P2Vector"
+test-space      = "P2Vector"
+dimensions      = [3]
+form-args.rotation_wrapper                  = "true"
+form-space-args.coefficient_function_space  = "P1"
+quadrature      = 3
+loop-strategy   = "sawtooth"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+operator-name   = "EpsilonRotationP1Viscosity"
+blending        = "IcosahedralShellMap"
+
+[[epsilon]]
+trial-space     = "P2Vector"
+test-space      = "P2Vector"
+dimensions      = [2]
+form-args.rotation_wrapper                  = "true"
+form-space-args.coefficient_function_space  = "P0"
+quadrature      = 3
+loop-strategy   = "sawtooth"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+operator-name   = "EpsilonRotationP0Viscosity"
+blending        = "AnnulusMap"
+
+[[epsilon]]
+trial-space     = "P2Vector"
+test-space      = "P2Vector"
+dimensions      = [3]
+form-args.rotation_wrapper                  = "true"
+form-space-args.coefficient_function_space  = "P0"
+quadrature      = 3
+loop-strategy   = "sawtooth"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+operator-name   = "EpsilonRotationP0Viscosity"
+blending        = "IcosahedralShellMap"

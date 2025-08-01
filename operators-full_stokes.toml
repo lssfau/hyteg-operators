@@ -83,3 +83,75 @@ loop-strategy   = "sawtooth"
 operator-name   = "FullStokesP1Viscosity"
 optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 blending        = "ParametricP2Map"
+
+[[full_stokes]]
+trial-space     = "P2Vector"
+test-space      = "P2Vector"
+dimensions      = [2]
+form-args.rotation_wrapper                  = "true"
+form-space-args.coefficient_function_space  = "P2"
+quadrature      = 3
+loop-strategy   = "sawtooth"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+operator-name   = "FullStokesRotation"
+blending        = "AnnulusMap"
+
+[[full_stokes]]
+trial-space     = "P2Vector"
+test-space      = "P2Vector"
+dimensions      = [3]
+form-args.rotation_wrapper                  = "true"
+form-space-args.coefficient_function_space  = "P2"
+quadrature      = 3
+loop-strategy   = "sawtooth"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+operator-name   = "FullStokesRotation"
+blending        = "IcosahedralShellMap"
+
+[[full_stokes]]
+trial-space     = "P2Vector"
+test-space      = "P2Vector"
+dimensions      = [2]
+form-args.rotation_wrapper                  = "true"
+form-space-args.coefficient_function_space  = "P1"
+quadrature      = 3
+loop-strategy   = "sawtooth"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+operator-name   = "FullStokesRotationP1Viscosity"
+blending        = "AnnulusMap"
+
+[[full_stokes]]
+trial-space     = "P2Vector"
+test-space      = "P2Vector"
+dimensions      = [3]
+form-args.rotation_wrapper                  = "true"
+form-space-args.coefficient_function_space  = "P1"
+quadrature      = 3
+loop-strategy   = "sawtooth"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+operator-name   = "FullStokesRotationP1Viscosity"
+blending        = "IcosahedralShellMap"
+
+[[full_stokes]]
+trial-space     = "P2Vector"
+test-space      = "P2Vector"
+dimensions      = [2]
+form-args.rotation_wrapper                  = "true"
+form-space-args.coefficient_function_space  = "P0"
+quadrature      = 3
+loop-strategy   = "sawtooth"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+operator-name   = "FullStokesRotationP0Viscosity"
+blending        = "AnnulusMap"
+
+[[full_stokes]]
+trial-space     = "P2Vector"
+test-space      = "P2Vector"
+dimensions      = [3]
+form-args.rotation_wrapper                  = "true"
+form-space-args.coefficient_function_space  = "P0"
+quadrature      = 3
+loop-strategy   = "sawtooth"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+operator-name   = "FullStokesRotationP0Viscosity"
+blending        = "IcosahedralShellMap"

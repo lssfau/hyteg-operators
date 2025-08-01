@@ -96,3 +96,77 @@ form-space-args.density_function_space = "P2"
 operator-name = "DivergenceCompressible"
 optimizations = ["moveconstants", "vectorize"]
 blending      = "IcosahedralShellMap"
+
+[[divergence]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+dimensions    = [2]
+quadrature    = 2
+loop-strategy = "sawtooth"
+form-args.rotation_wrapper  = "true"
+operator-name               = "DivergenceRotation"
+optimizations = ["moveconstants", "vectorize"]
+blending      = "AnnulusMap"
+
+[[divergence]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+dimensions    = [3]
+quadrature    = 2
+loop-strategy = "sawtooth"
+form-args.rotation_wrapper  = "true"
+operator-name               = "DivergenceRotation"
+optimizations = ["moveconstants", "vectorize"]
+blending      = "IcosahedralShellMap"
+
+[[divergence]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+dimensions    = [2]
+quadrature    = 2
+loop-strategy = "sawtooth"
+form-args.compressible                  = "true"
+form-space-args.density_function_space  = "P1"
+form-args.rotation_wrapper              = "true"
+operator-name = "DivergenceRotationP1DensityCompressible"
+optimizations = ["moveconstants", "vectorize"]
+blending      = "AnnulusMap"
+
+[[divergence]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+dimensions    = [3]
+quadrature    = 2
+loop-strategy = "sawtooth"
+form-args.compressible                  = "true"
+form-space-args.density_function_space  = "P1"
+form-args.rotation_wrapper              = "true"
+operator-name = "DivergenceRotationP1DensityCompressible"
+optimizations = ["moveconstants", "vectorize"]
+blending      = "IcosahedralShellMap"
+
+[[divergence]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+dimensions    = [2]
+quadrature    = 2
+loop-strategy = "sawtooth"
+form-args.compressible                  = "true"
+form-space-args.density_function_space  = "P2"
+form-args.rotation_wrapper              = "true"
+operator-name = "DivergenceRotationCompressible"
+optimizations = ["moveconstants", "vectorize"]
+blending      = "AnnulusMap"
+
+[[divergence]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+dimensions    = [3]
+quadrature    = 2
+loop-strategy = "sawtooth"
+form-args.compressible                  = "true"
+form-space-args.density_function_space  = "P2"
+form-args.rotation_wrapper              = "true"
+operator-name = "DivergenceRotationCompressible"
+optimizations = ["moveconstants", "vectorize"]
+blending      = "IcosahedralShellMap"
