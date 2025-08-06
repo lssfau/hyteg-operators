@@ -8,6 +8,8 @@ add_library( opgen-mass
    P1ElementwiseMassBoundaryAnnulusMap.hpp
    P1ElementwiseMassBoundaryIcosahedralShellMap.cpp
    P1ElementwiseMassBoundaryIcosahedralShellMap.hpp
+   P1ElementwiseMassIcosahedralShellMap.cpp
+   P1ElementwiseMassIcosahedralShellMap.hpp
    P1ElementwiseMassParametricP1Map.cpp
    P1ElementwiseMassParametricP1Map.hpp
    P2ElementwiseMass.cpp
@@ -34,6 +36,8 @@ target_link_libraries( opgen-mass PRIVATE hyteg )
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-mass PRIVATE
 
+      avx/P1ElementwiseMassIcosahedralShellMap_apply_P1ElementwiseMassIcosahedralShellMap_macro_3D.cpp
+      avx/P1ElementwiseMassIcosahedralShellMap_computeInverseDiagonalOperatorValues_P1ElementwiseMassIcosahedralShellMap_macro_3D.cpp
       avx/P1ElementwiseMassParametricP1Map_apply_P1ElementwiseMassParametricP1Map_macro_2D.cpp
       avx/P1ElementwiseMassParametricP1Map_apply_P1ElementwiseMassParametricP1Map_macro_3D.cpp
       avx/P1ElementwiseMassParametricP1Map_computeInverseDiagonalOperatorValues_P1ElementwiseMassParametricP1Map_macro_2D.cpp
@@ -100,6 +104,7 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       noarch/P1ElementwiseMassBoundary_toMatrix_P1ElementwiseMassBoundary_facet_id_2_macro_2D.cpp
       noarch/P1ElementwiseMassBoundary_toMatrix_P1ElementwiseMassBoundary_facet_id_2_macro_3D.cpp
       noarch/P1ElementwiseMassBoundary_toMatrix_P1ElementwiseMassBoundary_facet_id_3_macro_3D.cpp
+      noarch/P1ElementwiseMassIcosahedralShellMap_toMatrix_P1ElementwiseMassIcosahedralShellMap_macro_3D.cpp
       noarch/P1ElementwiseMassParametricP1Map_toMatrix_P1ElementwiseMassParametricP1Map_macro_2D.cpp
       noarch/P1ElementwiseMassParametricP1Map_toMatrix_P1ElementwiseMassParametricP1Map_macro_3D.cpp
       noarch/P1ElementwiseMass_toMatrix_P1ElementwiseMass_macro_2D.cpp
@@ -158,6 +163,8 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
 
    set_source_files_properties(
 
+      avx/P1ElementwiseMassIcosahedralShellMap_apply_P1ElementwiseMassIcosahedralShellMap_macro_3D.cpp
+      avx/P1ElementwiseMassIcosahedralShellMap_computeInverseDiagonalOperatorValues_P1ElementwiseMassIcosahedralShellMap_macro_3D.cpp
       avx/P1ElementwiseMassParametricP1Map_apply_P1ElementwiseMassParametricP1Map_macro_2D.cpp
       avx/P1ElementwiseMassParametricP1Map_apply_P1ElementwiseMassParametricP1Map_macro_3D.cpp
       avx/P1ElementwiseMassParametricP1Map_computeInverseDiagonalOperatorValues_P1ElementwiseMassParametricP1Map_macro_2D.cpp
@@ -234,6 +241,9 @@ else()
       noarch/P1ElementwiseMassBoundary_toMatrix_P1ElementwiseMassBoundary_facet_id_2_macro_2D.cpp
       noarch/P1ElementwiseMassBoundary_toMatrix_P1ElementwiseMassBoundary_facet_id_2_macro_3D.cpp
       noarch/P1ElementwiseMassBoundary_toMatrix_P1ElementwiseMassBoundary_facet_id_3_macro_3D.cpp
+      noarch/P1ElementwiseMassIcosahedralShellMap_apply_P1ElementwiseMassIcosahedralShellMap_macro_3D.cpp
+      noarch/P1ElementwiseMassIcosahedralShellMap_computeInverseDiagonalOperatorValues_P1ElementwiseMassIcosahedralShellMap_macro_3D.cpp
+      noarch/P1ElementwiseMassIcosahedralShellMap_toMatrix_P1ElementwiseMassIcosahedralShellMap_macro_3D.cpp
       noarch/P1ElementwiseMassParametricP1Map_apply_P1ElementwiseMassParametricP1Map_macro_2D.cpp
       noarch/P1ElementwiseMassParametricP1Map_apply_P1ElementwiseMassParametricP1Map_macro_3D.cpp
       noarch/P1ElementwiseMassParametricP1Map_computeInverseDiagonalOperatorValues_P1ElementwiseMassParametricP1Map_macro_2D.cpp

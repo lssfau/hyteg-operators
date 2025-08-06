@@ -16,6 +16,15 @@ optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 blending      = "ParametricP1Map"
 
 [[mass]]
+trial-space   = "P1"
+test-space    = "P1"
+dimensions    = [3]
+quadrature    = 3
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "IcosahedralShellMap"
+
+[[mass]]
 trial-space   = "P2"
 test-space    = "P2"
 dimensions    = [2, 3]
