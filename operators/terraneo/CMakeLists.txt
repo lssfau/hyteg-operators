@@ -1,7 +1,5 @@
 add_library( opgen-terraneo
 
-   P1ElementwiseShearHeating.cpp
-   P1ElementwiseShearHeating.hpp
    P1ElementwiseShearHeatingIcosahedralShellMap.cpp
    P1ElementwiseShearHeatingIcosahedralShellMap.hpp
    P2ElementwiseShearHeating.cpp
@@ -40,8 +38,6 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
 
       avx/P1ElementwiseShearHeatingIcosahedralShellMap_apply_P1ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
       avx/P1ElementwiseShearHeatingIcosahedralShellMap_computeInverseDiagonalOperatorValues_P1ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
-      avx/P1ElementwiseShearHeating_apply_P1ElementwiseShearHeating_macro_3D.cpp
-      avx/P1ElementwiseShearHeating_computeInverseDiagonalOperatorValues_P1ElementwiseShearHeating_macro_3D.cpp
       avx/P2ElementwiseShearHeatingAnnulusMap_apply_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
       avx/P2ElementwiseShearHeatingAnnulusMap_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
       avx/P2ElementwiseShearHeatingIcosahedralShellMap_apply_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
@@ -73,7 +69,6 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P2VectorToP1ElementwiseFrozenVelocity_apply_P2VectorToP1ElementwiseFrozenVelocity_macro_2D.cpp
       avx/P2VectorToP1ElementwiseFrozenVelocity_apply_P2VectorToP1ElementwiseFrozenVelocity_macro_3D.cpp
       noarch/P1ElementwiseShearHeatingIcosahedralShellMap_toMatrix_P1ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
-      noarch/P1ElementwiseShearHeating_toMatrix_P1ElementwiseShearHeating_macro_3D.cpp
       noarch/P2ElementwiseShearHeatingAnnulusMap_toMatrix_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
       noarch/P2ElementwiseShearHeatingIcosahedralShellMap_toMatrix_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
       noarch/P2ElementwiseShearHeatingP1ViscosityAnnulusMap_toMatrix_P2ElementwiseShearHeatingP1ViscosityAnnulusMap_macro_2D.cpp
@@ -100,8 +95,6 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
 
       avx/P1ElementwiseShearHeatingIcosahedralShellMap_apply_P1ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
       avx/P1ElementwiseShearHeatingIcosahedralShellMap_computeInverseDiagonalOperatorValues_P1ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
-      avx/P1ElementwiseShearHeating_apply_P1ElementwiseShearHeating_macro_3D.cpp
-      avx/P1ElementwiseShearHeating_computeInverseDiagonalOperatorValues_P1ElementwiseShearHeating_macro_3D.cpp
       avx/P2ElementwiseShearHeatingAnnulusMap_apply_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
       avx/P2ElementwiseShearHeatingAnnulusMap_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
       avx/P2ElementwiseShearHeatingIcosahedralShellMap_apply_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
@@ -145,9 +138,6 @@ else()
       noarch/P1ElementwiseShearHeatingIcosahedralShellMap_apply_P1ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
       noarch/P1ElementwiseShearHeatingIcosahedralShellMap_computeInverseDiagonalOperatorValues_P1ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
       noarch/P1ElementwiseShearHeatingIcosahedralShellMap_toMatrix_P1ElementwiseShearHeatingIcosahedralShellMap_macro_3D.cpp
-      noarch/P1ElementwiseShearHeating_apply_P1ElementwiseShearHeating_macro_3D.cpp
-      noarch/P1ElementwiseShearHeating_computeInverseDiagonalOperatorValues_P1ElementwiseShearHeating_macro_3D.cpp
-      noarch/P1ElementwiseShearHeating_toMatrix_P1ElementwiseShearHeating_macro_3D.cpp
       noarch/P2ElementwiseShearHeatingAnnulusMap_apply_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
       noarch/P2ElementwiseShearHeatingAnnulusMap_computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
       noarch/P2ElementwiseShearHeatingAnnulusMap_toMatrix_P2ElementwiseShearHeatingAnnulusMap_macro_2D.cpp
