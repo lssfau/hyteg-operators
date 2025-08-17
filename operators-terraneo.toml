@@ -3,6 +3,17 @@ trial-space   = "P1"
 test-space    = "P1"
 form-space-args.viscosity_function_space = "P1"
 form-space-args.velocity_function_space = "P2"
+dimensions    = [2, 3]
+quadrature    = 3
+folder-name   = "terraneo"
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+
+[[shear_heating]]
+trial-space   = "P1"
+test-space    = "P1"
+form-space-args.viscosity_function_space = "P1"
+form-space-args.velocity_function_space = "P2"
 dimensions    = [3]
 quadrature    = 3
 folder-name   = "terraneo"
