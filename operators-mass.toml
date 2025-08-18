@@ -16,6 +16,15 @@ optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
 blending      = "ParametricP1Map"
 
 [[mass]]
+trial-space   = "P1"
+test-space    = "P1"
+dimensions    = [3]
+quadrature    = 3
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "IcosahedralShellMap"
+
+[[mass]]
 trial-space   = "P2"
 test-space    = "P2"
 dimensions    = [2, 3]
@@ -66,3 +75,55 @@ quadrature    = 4
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops"]
 blending      = "AnnulusMap"
+
+[[mass_boundary]]
+trial-space     = "P1"
+test-space      = "P1"
+dimensions      = [2, 3]
+quadrature      = 2
+folder-name     = "mass"
+optimizations   = ["moveconstants"]
+
+[[mass_boundary]]
+trial-space     = "P2"
+test-space      = "P2"
+dimensions      = [2, 3]
+quadrature      = 3
+folder-name     = "mass"
+optimizations   = ["moveconstants"]
+
+[[mass_boundary]]
+trial-space     = "P1"
+test-space      = "P1"
+dimensions      = [2]
+quadrature      = 2
+folder-name     = "mass"
+optimizations   = ["moveconstants"]
+blending        = "AnnulusMap"
+
+[[mass_boundary]]
+trial-space     = "P2"
+test-space      = "P2"
+dimensions      = [2]
+quadrature      = 2
+folder-name     = "mass"
+optimizations   = ["moveconstants"]
+blending        = "AnnulusMap"
+
+[[mass_boundary]]
+trial-space     = "P1"
+test-space      = "P1"
+dimensions      = [3]
+quadrature      = 3
+folder-name     = "mass"
+optimizations   = ["moveconstants"]
+blending        = "IcosahedralShellMap"
+
+[[mass_boundary]]
+trial-space     = "P2"
+test-space      = "P2"
+dimensions      = [3]
+quadrature      = 3
+folder-name     = "mass"
+optimizations   = ["moveconstants"]
+blending        = "IcosahedralShellMap"

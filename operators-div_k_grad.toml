@@ -8,6 +8,16 @@ loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops"]
 
 [[div_k_grad]]
+trial-space   = "P1"
+test-space    = "P1"
+form-space-args.coefficient_function_space = "P1"
+dimensions    = [3]
+quadrature    = 2
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "IcosahedralShellMap"
+
+[[div_k_grad]]
 trial-space   = "P2"
 test-space    = "P2"
 form-space-args.coefficient_function_space = "P2"

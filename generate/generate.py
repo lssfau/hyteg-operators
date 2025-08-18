@@ -260,6 +260,7 @@ def generate_operator(
 ) -> Dict[str, List[str]]:
     symbolizer = hog.symbolizer.Symbolizer()
     fe_spaces = {
+        "P0": function_space.LagrangianFunctionSpace(0, symbolizer),
         "P1": function_space.LagrangianFunctionSpace(1, symbolizer),
         "P2": function_space.LagrangianFunctionSpace(2, symbolizer),
         "P2Vector": function_space.TensorialVectorFunctionSpace(
@@ -268,10 +269,20 @@ def generate_operator(
         "N1E1": function_space.N1E1Space(symbolizer),
         "P2PlusBubble": function_space.P2PlusBubbleSpace(symbolizer),
     }
+    
+    TRIANGLE_ELEMENT = element_geometry.TriangleElement()
+    TETRAHEDRON_ELEMENT = element_geometry.TetrahedronElement()
+    
     geometries = {
-        2: element_geometry.TriangleElement(),
-        3: element_geometry.TetrahedronElement(),
+        2: TRIANGLE_ELEMENT,
+        3: TETRAHEDRON_ELEMENT,
     }
+    
+    boundary_geometries = {
+        TRIANGLE_ELEMENT : element_geometry.LineElement(space_dimension=2),
+        TETRAHEDRON_ELEMENT : element_geometry.TriangleElement(space_dimension=3),
+    }
+    
     loop_strategies = {
         "cubes": operator_generation.loop_strategies.CUBES(),
         "sawtooth": operator_generation.loop_strategies.SAWTOOTH(),
@@ -304,10 +315,16 @@ def generate_operator(
             f"{'' if not valid_options else str('Please choose one of these ' + str(valid_options) + '.')}"
         )
 
+    boundary_integral = False
+    
     try:
         get_form = getattr(forms, form_str)
     except:
-        get_form = getattr(forms_vectorial, form_str)
+        try: 
+            get_form = getattr(forms_vectorial, form_str)
+        except:
+            boundary_integral = True
+            get_form = getattr(forms_boundary, form_str)
 
     if "form-args" in spec:
         get_form = partial(get_form, **spec["form-args"])
@@ -414,27 +431,52 @@ def generate_operator(
         )
 
         for geometry in [geometries[dim] for dim in dims]:
-            quad = quadrature.Quadrature(
-                quadrature.select_quadrule(spec["quadrature"], geometry), geometry
-            )
+            
+            if boundary_integral:
+                quad = quadrature.Quadrature(
+                    quadrature.select_quadrule(spec["quadrature"], boundary_geometries[geometry]), boundary_geometries[geometry]
+                )
+                
+                form = get_form(
+                    trial_space,
+                    test_space,
+                    geometry,
+                    boundary_geometries[geometry],
+                    symbolizer,
+                    blending=blending,  # type: ignore[call-arg] # kw-args are not supported by Callable
+                )
 
-            form = get_form(
-                trial_space,
-                test_space,
-                geometry,
-                symbolizer,
-                blending=blending,  # type: ignore[call-arg] # kw-args are not supported by Callable
-            )
+                operator.add_boundary_integral(
+                    name="".join(name.split()),
+                    volume_geometry=geometry,
+                    quad=quad,
+                    blending=blending,
+                    form=form,
+                    optimizations=optimizations,
+                )
+                
+            else:
+                quad = quadrature.Quadrature(
+                    quadrature.select_quadrule(spec["quadrature"], geometry), geometry
+                )
+                
+                form = get_form(
+                    trial_space,
+                    test_space,
+                    geometry,
+                    symbolizer,
+                    blending=blending,  # type: ignore[call-arg] # kw-args are not supported by Callable
+                )
 
-            operator.add_volume_integral(
-                name="".join(name.split()),
-                volume_geometry=geometry,
-                quad=quad,
-                blending=blending,
-                form=form,
-                loop_strategy=loop_strategies[spec["loop-strategy"]],
-                optimizations=optimizations,
-            )
+                operator.add_volume_integral(
+                    name="".join(name.split()),
+                    volume_geometry=geometry,
+                    quad=quad,
+                    blending=blending,
+                    form=form,
+                    loop_strategy=loop_strategies[spec["loop-strategy"]],
+                    optimizations=optimizations,
+                )
 
         dir_path = os.path.join(
             args.output,

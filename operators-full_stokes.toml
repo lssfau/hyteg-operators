@@ -76,6 +76,17 @@ blending        = "IcosahedralShellMap"
 [[full_stokes]]
 trial-space               = "P2Vector"
 test-space                = "P2Vector"
+form-space-args.coefficient_function_space = "P0"
+dimensions      = [3]
+quadrature      = 3
+loop-strategy   = "sawtooth"
+operator-name   = "FullStokesP0Viscosity"
+optimizations   = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending        = "IcosahedralShellMap"
+
+[[full_stokes]]
+trial-space               = "P2Vector"
+test-space                = "P2Vector"
 form-space-args.coefficient_function_space = "P1"
 dimensions      = [2, 3]
 quadrature      = 2
