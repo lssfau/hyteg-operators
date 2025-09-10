@@ -299,6 +299,8 @@ def generate_operator(
         "IcosahedralShellMap": hog.blending.IcosahedralShellMap(),
         "ParametricP1Map": hog.blending.ParametricMap(1),
         "ParametricP2Map": hog.blending.ParametricMap(2),
+        "PolarCoordsMap": hog.blending.PolarCoordsMap(),
+        "SphericalCoordsMap": hog.blending.SphericalCoordsMap(),
     }
 
     def raise_exception(dict_key: Union[str, int]) -> None:

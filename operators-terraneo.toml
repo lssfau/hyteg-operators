@@ -8,6 +8,10 @@ quadrature    = 3
 folder-name   = "terraneo"
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops"]
+form-args.use_dim = true
+form-args.viscosity = "general"
+form-args.include_inv_rho_scaling = false
+form-args.surface_cutoff = false
 
 [[shear_heating]]
 trial-space   = "P1"
@@ -20,6 +24,10 @@ folder-name   = "terraneo"
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops"]
 blending      = "IcosahedralShellMap"
+form-args.use_dim = true
+form-args.viscosity = "general"
+form-args.include_inv_rho_scaling = false
+form-args.surface_cutoff = false
 
 [[shear_heating]]
 trial-space   = "P2"
@@ -31,6 +39,10 @@ quadrature    = 3
 folder-name   = "terraneo"
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops"]
+form-args.use_dim = true
+form-args.viscosity = "general"
+form-args.include_inv_rho_scaling = false
+form-args.surface_cutoff = false
 
 [[shear_heating]]
 trial-space   = "P2"
@@ -43,6 +55,10 @@ folder-name   = "terraneo"
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops"]
 blending      = "AnnulusMap"
+form-args.use_dim = true
+form-args.viscosity = "general"
+form-args.include_inv_rho_scaling = false
+form-args.surface_cutoff = false
 
 [[shear_heating]]
 trial-space   = "P2"
@@ -55,6 +71,10 @@ folder-name   = "terraneo"
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops"]
 blending      = "IcosahedralShellMap"
+form-args.use_dim = true
+form-args.viscosity = "general"
+form-args.include_inv_rho_scaling = false
+form-args.surface_cutoff = false
 
 [[shear_heating]]
 trial-space   = "P2"
@@ -67,6 +87,10 @@ folder-name   = "terraneo"
 operator-name = "ShearHeatingP1Viscosity"
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops"]
+form-args.use_dim = true
+form-args.viscosity = "general"
+form-args.include_inv_rho_scaling = false
+form-args.surface_cutoff = false
 
 [[shear_heating]]
 trial-space   = "P2"
@@ -80,6 +104,10 @@ operator-name = "ShearHeatingP1Viscosity"
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops"]
 blending      = "AnnulusMap"
+form-args.use_dim = true
+form-args.viscosity = "general"
+form-args.include_inv_rho_scaling = false
+form-args.surface_cutoff = false
 
 [[shear_heating]]
 trial-space   = "P2"
@@ -93,6 +121,10 @@ operator-name = "ShearHeatingP1Viscosity"
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops"]
 blending      = "IcosahedralShellMap"
+form-args.use_dim = true
+form-args.viscosity = "general"
+form-args.include_inv_rho_scaling = false
+form-args.surface_cutoff = false
 
 [[shear_heating]]
 trial-space   = "P2"
@@ -106,6 +138,10 @@ operator-name = "ShearHeatingP1Viscosity"
 loop-strategy = "sawtooth"
 optimizations = ["moveconstants", "vectorize", "quadloops"]
 blending      = "ParametricP2Map"
+form-args.use_dim = true
+form-args.viscosity = "general"
+form-args.include_inv_rho_scaling = false
+form-args.surface_cutoff = false
 
 [[grad_rho_by_rho_dot_u]]
 trial-space   = "P2Vector"

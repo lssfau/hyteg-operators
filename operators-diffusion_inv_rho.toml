@@ -1,0 +1,28 @@
+[[diffusion_inv_rho]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P1"
+dimensions    = [2,3]
+quadrature    = 4
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+
+[[diffusion_inv_rho]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P1"
+dimensions    = [2]
+quadrature    = 5
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "AnnulusMap"
+
+[[diffusion_inv_rho]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P1"
+dimensions    = [3]
+quadrature    = 5
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "IcosahedralShellMap"

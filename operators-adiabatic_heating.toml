@@ -1,0 +1,19 @@
+[[adiabatic_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.velocity_function_space = "P2"
+dimensions    = [2]
+quadrature    = 6
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "AnnulusMap"
+
+[[adiabatic_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.velocity_function_space = "P2"
+dimensions    = [3]
+quadrature    = 6
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "IcosahedralShellMap"
