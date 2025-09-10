@@ -51,24 +51,25 @@ P2ElementwiseShearHeatingIcosahedralShellMap::P2ElementwiseShearHeatingIcosahedr
     const std::shared_ptr< PrimitiveStorage >& storage,
     size_t                                     minLevel,
     size_t                                     maxLevel,
-    const P2Function< real_t >&                _mu,
-    const P2Function< real_t >&                _wx,
-    const P2Function< real_t >&                _wy,
-    const P2Function< real_t >&                _wz )
+    const P2Function< real_t >&                _eta,
+    const P2Function< real_t >&                _ux,
+    const P2Function< real_t >&                _uy,
+    const P2Function< real_t >&                _uz )
 : Operator( storage, minLevel, maxLevel )
-, mu( _mu )
-, wx( _wx )
-, wy( _wy )
-, wz( _wz )
+, eta( _eta )
+, ux( _ux )
+, uy( _uy )
+, uz( _uz )
 {}
 
-void P2ElementwiseShearHeatingIcosahedralShellMap::apply( const P2Function< real_t >& src,
-                                                          const P2Function< real_t >& dst,
-                                                          uint_t                      level,
-                                                          DoFType                     flag,
-                                                          UpdateType                  updateType ) const
+void P2ElementwiseShearHeatingIcosahedralShellMap::applyScaled( const real_t&               operatorScaling,
+                                                                const P2Function< real_t >& src,
+                                                                const P2Function< real_t >& dst,
+                                                                uint_t                      level,
+                                                                DoFType                     flag,
+                                                                UpdateType                  updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -79,18 +80,18 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::apply( const P2Function< real
       src.communicate< Face, Cell >( level );
       src.communicate< Edge, Cell >( level );
       src.communicate< Vertex, Cell >( level );
-      mu.communicate< Face, Cell >( level );
-      mu.communicate< Edge, Cell >( level );
-      mu.communicate< Vertex, Cell >( level );
-      wx.communicate< Face, Cell >( level );
-      wx.communicate< Edge, Cell >( level );
-      wx.communicate< Vertex, Cell >( level );
-      wy.communicate< Face, Cell >( level );
-      wy.communicate< Edge, Cell >( level );
-      wy.communicate< Vertex, Cell >( level );
-      wz.communicate< Face, Cell >( level );
-      wz.communicate< Edge, Cell >( level );
-      wz.communicate< Vertex, Cell >( level );
+      eta.communicate< Face, Cell >( level );
+      eta.communicate< Edge, Cell >( level );
+      eta.communicate< Vertex, Cell >( level );
+      ux.communicate< Face, Cell >( level );
+      ux.communicate< Edge, Cell >( level );
+      ux.communicate< Vertex, Cell >( level );
+      uy.communicate< Face, Cell >( level );
+      uy.communicate< Edge, Cell >( level );
+      uy.communicate< Vertex, Cell >( level );
+      uz.communicate< Face, Cell >( level );
+      uz.communicate< Edge, Cell >( level );
+      uz.communicate< Vertex, Cell >( level );
    }
    else
    {
@@ -118,14 +119,14 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::apply( const P2Function< real
          real_t* _data_srcEdge   = cell.getData( src.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
          real_t* _data_dstVertex = cell.getData( dst.getVertexDoFFunction().getCellDataID() )->getPointer( level );
          real_t* _data_dstEdge   = cell.getData( dst.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_muVertex  = cell.getData( mu.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_muEdge    = cell.getData( mu.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wxVertex  = cell.getData( wx.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wxEdge    = cell.getData( wx.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wyVertex  = cell.getData( wy.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wyEdge    = cell.getData( wy.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wzVertex  = cell.getData( wz.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wzEdge    = cell.getData( wz.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_etaVertex = cell.getData( eta.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_etaEdge   = cell.getData( eta.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uxVertex  = cell.getData( ux.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uxEdge    = cell.getData( ux.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uyVertex  = cell.getData( uy.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uyEdge    = cell.getData( uy.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uzVertex  = cell.getData( uz.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uzEdge    = cell.getData( uz.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
          // Zero out dst halos only
          //
@@ -176,20 +177,20 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::apply( const P2Function< real
 
          this->timingTree_->start( "kernel" );
 
-         apply_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D(
+         applyScaled_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
-             _data_muEdge,
-             _data_muVertex,
+             _data_etaEdge,
+             _data_etaVertex,
              _data_srcEdge,
              _data_srcVertex,
-             _data_wxEdge,
-             _data_wxVertex,
-             _data_wyEdge,
-             _data_wyVertex,
-             _data_wzEdge,
-             _data_wzVertex,
+             _data_uxEdge,
+             _data_uxVertex,
+             _data_uyEdge,
+             _data_uyVertex,
+             _data_uzEdge,
+             _data_uzVertex,
              forVertex_0,
              forVertex_1,
              forVertex_2,
@@ -207,6 +208,7 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::apply( const P2Function< real
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
+             operatorScaling,
              radRayVertex,
              radRefVertex,
              rayVertex_0,
@@ -244,37 +246,46 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::apply( const P2Function< real
       WALBERLA_ABORT( "Not implemented." );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P2ElementwiseShearHeatingIcosahedralShellMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                                             const P2Function< idx_t >&                  src,
-                                                             const P2Function< idx_t >&                  dst,
-                                                             uint_t                                      level,
-                                                             DoFType                                     flag ) const
+void P2ElementwiseShearHeatingIcosahedralShellMap::apply( const P2Function< real_t >& src,
+                                                          const P2Function< real_t >& dst,
+                                                          uint_t                      level,
+                                                          DoFType                     flag,
+                                                          UpdateType                  updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P2ElementwiseShearHeatingIcosahedralShellMap::toMatrixScaled( const real_t&                               toMatrixScaling,
+                                                                   const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                                   const P2Function< idx_t >&                  src,
+                                                                   const P2Function< idx_t >&                  dst,
+                                                                   uint_t                                      level,
+                                                                   DoFType                                     flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
    {
       this->timingTree_->start( "pre-communication" );
-      mu.communicate< Face, Cell >( level );
-      mu.communicate< Edge, Cell >( level );
-      mu.communicate< Vertex, Cell >( level );
-      wx.communicate< Face, Cell >( level );
-      wx.communicate< Edge, Cell >( level );
-      wx.communicate< Vertex, Cell >( level );
-      wy.communicate< Face, Cell >( level );
-      wy.communicate< Edge, Cell >( level );
-      wy.communicate< Vertex, Cell >( level );
-      wz.communicate< Face, Cell >( level );
-      wz.communicate< Edge, Cell >( level );
-      wz.communicate< Vertex, Cell >( level );
+      eta.communicate< Face, Cell >( level );
+      eta.communicate< Edge, Cell >( level );
+      eta.communicate< Vertex, Cell >( level );
+      ux.communicate< Face, Cell >( level );
+      ux.communicate< Edge, Cell >( level );
+      ux.communicate< Vertex, Cell >( level );
+      uy.communicate< Face, Cell >( level );
+      uy.communicate< Edge, Cell >( level );
+      uy.communicate< Vertex, Cell >( level );
+      uz.communicate< Face, Cell >( level );
+      uz.communicate< Edge, Cell >( level );
+      uz.communicate< Vertex, Cell >( level );
       this->timingTree_->stop( "pre-communication" );
 
       for ( auto& it : storage_->getCells() )
@@ -286,14 +297,14 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::toMatrix( const std::shared_p
          idx_t*  _data_srcEdge   = cell.getData( src.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
          idx_t*  _data_dstVertex = cell.getData( dst.getVertexDoFFunction().getCellDataID() )->getPointer( level );
          idx_t*  _data_dstEdge   = cell.getData( dst.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_muVertex  = cell.getData( mu.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_muEdge    = cell.getData( mu.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wxVertex  = cell.getData( wx.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wxEdge    = cell.getData( wx.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wyVertex  = cell.getData( wy.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wyEdge    = cell.getData( wy.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wzVertex  = cell.getData( wz.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wzEdge    = cell.getData( wz.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_etaVertex = cell.getData( eta.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_etaEdge   = cell.getData( eta.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uxVertex  = cell.getData( ux.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uxEdge    = cell.getData( ux.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uyVertex  = cell.getData( uy.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uyEdge    = cell.getData( uy.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uzVertex  = cell.getData( uz.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uzEdge    = cell.getData( uz.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
          const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
@@ -330,20 +341,20 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::toMatrix( const std::shared_p
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D(
+         toMatrixScaled_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
-             _data_muEdge,
-             _data_muVertex,
+             _data_etaEdge,
+             _data_etaVertex,
              _data_srcEdge,
              _data_srcVertex,
-             _data_wxEdge,
-             _data_wxVertex,
-             _data_wyEdge,
-             _data_wyVertex,
-             _data_wzEdge,
-             _data_wzVertex,
+             _data_uxEdge,
+             _data_uxVertex,
+             _data_uyEdge,
+             _data_uyVertex,
+             _data_uzEdge,
+             _data_uzVertex,
              forVertex_0,
              forVertex_1,
              forVertex_2,
@@ -372,7 +383,8 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::toMatrix( const std::shared_p
              refVertex_2,
              thrVertex_0,
              thrVertex_1,
-             thrVertex_2 );
+             thrVertex_2,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -380,19 +392,27 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::toMatrix( const std::shared_p
    else
    {
       this->timingTree_->start( "pre-communication" );
-      communication::syncFunctionBetweenPrimitives( mu, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( wx, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( wy, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( wz, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( eta, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( ux, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( uy, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( uz, level, communication::syncDirection_t::LOW2HIGH );
       this->timingTree_->stop( "pre-communication" );
 
       WALBERLA_ABORT( "Not implemented." );
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
 }
-void P2ElementwiseShearHeatingIcosahedralShellMap::computeInverseDiagonalOperatorValues()
+void P2ElementwiseShearHeatingIcosahedralShellMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                             const P2Function< idx_t >&                  src,
+                                                             const P2Function< idx_t >&                  dst,
+                                                             uint_t                                      level,
+                                                             DoFType                                     flag ) const
 {
-   this->startTiming( "computeInverseDiagonalOperatorValues" );
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
+}
+void P2ElementwiseShearHeatingIcosahedralShellMap::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
+{
+   this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
 
    if ( invDiag_ == nullptr )
    {
@@ -406,18 +426,18 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::computeInverseDiagonalOperato
       if ( storage_->hasGlobalCells() )
       {
          this->timingTree_->start( "pre-communication" );
-         mu.communicate< Face, Cell >( level );
-         mu.communicate< Edge, Cell >( level );
-         mu.communicate< Vertex, Cell >( level );
-         wx.communicate< Face, Cell >( level );
-         wx.communicate< Edge, Cell >( level );
-         wx.communicate< Vertex, Cell >( level );
-         wy.communicate< Face, Cell >( level );
-         wy.communicate< Edge, Cell >( level );
-         wy.communicate< Vertex, Cell >( level );
-         wz.communicate< Face, Cell >( level );
-         wz.communicate< Edge, Cell >( level );
-         wz.communicate< Vertex, Cell >( level );
+         eta.communicate< Face, Cell >( level );
+         eta.communicate< Edge, Cell >( level );
+         eta.communicate< Vertex, Cell >( level );
+         ux.communicate< Face, Cell >( level );
+         ux.communicate< Edge, Cell >( level );
+         ux.communicate< Vertex, Cell >( level );
+         uy.communicate< Face, Cell >( level );
+         uy.communicate< Edge, Cell >( level );
+         uy.communicate< Vertex, Cell >( level );
+         uz.communicate< Face, Cell >( level );
+         uz.communicate< Edge, Cell >( level );
+         uz.communicate< Vertex, Cell >( level );
          this->timingTree_->stop( "pre-communication" );
 
          for ( auto& it : storage_->getCells() )
@@ -428,14 +448,14 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::computeInverseDiagonalOperato
             real_t* _data_invDiag_Vertex =
                 cell.getData( ( *invDiag_ ).getVertexDoFFunction().getCellDataID() )->getPointer( level );
             real_t* _data_invDiag_Edge = cell.getData( ( *invDiag_ ).getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-            real_t* _data_muVertex     = cell.getData( mu.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-            real_t* _data_muEdge       = cell.getData( mu.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-            real_t* _data_wxVertex     = cell.getData( wx.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-            real_t* _data_wxEdge       = cell.getData( wx.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-            real_t* _data_wyVertex     = cell.getData( wy.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-            real_t* _data_wyEdge       = cell.getData( wy.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-            real_t* _data_wzVertex     = cell.getData( wz.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-            real_t* _data_wzEdge       = cell.getData( wz.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_etaVertex    = cell.getData( eta.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_etaEdge      = cell.getData( eta.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_uxVertex     = cell.getData( ux.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_uxEdge       = cell.getData( ux.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_uyVertex     = cell.getData( uy.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_uyEdge       = cell.getData( uy.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_uzVertex     = cell.getData( uz.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_uzEdge       = cell.getData( uz.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
             const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
             const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
@@ -472,18 +492,19 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::computeInverseDiagonalOperato
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D(
+            computeInverseDiagonalOperatorValuesScaled_P2ElementwiseShearHeatingIcosahedralShellMap_macro_3D(
 
+                _data_etaEdge,
+                _data_etaVertex,
                 _data_invDiag_Edge,
                 _data_invDiag_Vertex,
-                _data_muEdge,
-                _data_muVertex,
-                _data_wxEdge,
-                _data_wxVertex,
-                _data_wyEdge,
-                _data_wyVertex,
-                _data_wzEdge,
-                _data_wzVertex,
+                _data_uxEdge,
+                _data_uxVertex,
+                _data_uyEdge,
+                _data_uyVertex,
+                _data_uzEdge,
+                _data_uzVertex,
+                diagScaling,
                 forVertex_0,
                 forVertex_1,
                 forVertex_2,
@@ -532,10 +553,10 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::computeInverseDiagonalOperato
       else
       {
          this->timingTree_->start( "pre-communication" );
-         communication::syncFunctionBetweenPrimitives( mu, level, communication::syncDirection_t::LOW2HIGH );
-         communication::syncFunctionBetweenPrimitives( wx, level, communication::syncDirection_t::LOW2HIGH );
-         communication::syncFunctionBetweenPrimitives( wy, level, communication::syncDirection_t::LOW2HIGH );
-         communication::syncFunctionBetweenPrimitives( wz, level, communication::syncDirection_t::LOW2HIGH );
+         communication::syncFunctionBetweenPrimitives( eta, level, communication::syncDirection_t::LOW2HIGH );
+         communication::syncFunctionBetweenPrimitives( ux, level, communication::syncDirection_t::LOW2HIGH );
+         communication::syncFunctionBetweenPrimitives( uy, level, communication::syncDirection_t::LOW2HIGH );
+         communication::syncFunctionBetweenPrimitives( uz, level, communication::syncDirection_t::LOW2HIGH );
          this->timingTree_->stop( "pre-communication" );
 
          WALBERLA_ABORT( "Not implemented." );
@@ -543,7 +564,11 @@ void P2ElementwiseShearHeatingIcosahedralShellMap::computeInverseDiagonalOperato
       }
    }
 
-   this->stopTiming( "computeInverseDiagonalOperatorValues" );
+   this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
+}
+void P2ElementwiseShearHeatingIcosahedralShellMap::computeInverseDiagonalOperatorValues()
+{
+   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
 }
 std::shared_ptr< P2Function< real_t > > P2ElementwiseShearHeatingIcosahedralShellMap::getInverseDiagonalValues() const
 {

@@ -70,17 +70,33 @@ class P2ElementwiseDivKGradP1CoefficientParametricP2Map : public Operator< P2Fun
                                                       const P1Function< real_t >&                _k,
                                                       const P2VectorFunction< real_t >&          _micromesh );
 
+   void applyScaled( const real_t&               operatorScaling,
+                     const P2Function< real_t >& src,
+                     const P2Function< real_t >& dst,
+                     uint_t                      level,
+                     DoFType                     flag,
+                     UpdateType                  updateType = Replace ) const;
+
    void apply( const P2Function< real_t >& src,
                const P2Function< real_t >& dst,
                uint_t                      level,
                DoFType                     flag,
                UpdateType                  updateType = Replace ) const;
 
+   void toMatrixScaled( const real_t&                               toMatrixScaling,
+                        const std::shared_ptr< SparseMatrixProxy >& mat,
+                        const P2Function< idx_t >&                  src,
+                        const P2Function< idx_t >&                  dst,
+                        uint_t                                      level,
+                        DoFType                                     flag ) const;
+
    void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                   const P2Function< idx_t >&                  src,
                   const P2Function< idx_t >&                  dst,
                   uint_t                                      level,
                   DoFType                                     flag ) const;
+
+   void computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling );
 
    void computeInverseDiagonalOperatorValues();
 
@@ -90,145 +106,149 @@ class P2ElementwiseDivKGradP1CoefficientParametricP2Map : public Operator< P2Fun
  private:
    /// Integral: P2ElementwiseDivKGradP1CoefficientParametricP2Map
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    311     447      15       0      3              0                 0              1
-   void apply_P2ElementwiseDivKGradP1CoefficientParametricP2Map_macro_2D( real_t* RESTRICT _data_dstEdge,
-                                                                          real_t* RESTRICT _data_dstVertex,
-                                                                          real_t* RESTRICT _data_k,
-                                                                          real_t* RESTRICT _data_micromesh_edge_0,
-                                                                          real_t* RESTRICT _data_micromesh_edge_1,
-                                                                          real_t* RESTRICT _data_micromesh_vertex_0,
-                                                                          real_t* RESTRICT _data_micromesh_vertex_1,
-                                                                          real_t* RESTRICT _data_srcEdge,
-                                                                          real_t* RESTRICT _data_srcVertex,
-                                                                          real_t           macro_vertex_coord_id_0comp0,
-                                                                          real_t           macro_vertex_coord_id_0comp1,
-                                                                          real_t           macro_vertex_coord_id_1comp0,
-                                                                          real_t           macro_vertex_coord_id_1comp1,
-                                                                          real_t           macro_vertex_coord_id_2comp0,
-                                                                          real_t           macro_vertex_coord_id_2comp1,
-                                                                          int64_t          micro_edges_per_macro_edge,
-                                                                          real_t micro_edges_per_macro_edge_float ) const;
+   ///    317     453      15       0      3              0                 0              1
+   void applyScaled_P2ElementwiseDivKGradP1CoefficientParametricP2Map_macro_2D( real_t* RESTRICT _data_dstEdge,
+                                                                                real_t* RESTRICT _data_dstVertex,
+                                                                                real_t* RESTRICT _data_k,
+                                                                                real_t* RESTRICT _data_micromesh_edge_0,
+                                                                                real_t* RESTRICT _data_micromesh_edge_1,
+                                                                                real_t* RESTRICT _data_micromesh_vertex_0,
+                                                                                real_t* RESTRICT _data_micromesh_vertex_1,
+                                                                                real_t* RESTRICT _data_srcEdge,
+                                                                                real_t* RESTRICT _data_srcVertex,
+                                                                                real_t           macro_vertex_coord_id_0comp0,
+                                                                                real_t           macro_vertex_coord_id_0comp1,
+                                                                                real_t           macro_vertex_coord_id_1comp0,
+                                                                                real_t           macro_vertex_coord_id_1comp1,
+                                                                                real_t           macro_vertex_coord_id_2comp0,
+                                                                                real_t           macro_vertex_coord_id_2comp1,
+                                                                                int64_t          micro_edges_per_macro_edge,
+                                                                                real_t           micro_edges_per_macro_edge_float,
+                                                                                real_t           operatorScaling ) const;
 
    /// Integral: P2ElementwiseDivKGradP1CoefficientParametricP2Map
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1473    1872      40       0      4              0                 0              1
-   void apply_P2ElementwiseDivKGradP1CoefficientParametricP2Map_macro_3D( real_t* RESTRICT _data_dstEdge,
-                                                                          real_t* RESTRICT _data_dstVertex,
-                                                                          real_t* RESTRICT _data_k,
-                                                                          real_t* RESTRICT _data_micromesh_edge_0,
-                                                                          real_t* RESTRICT _data_micromesh_edge_1,
-                                                                          real_t* RESTRICT _data_micromesh_edge_2,
-                                                                          real_t* RESTRICT _data_micromesh_vertex_0,
-                                                                          real_t* RESTRICT _data_micromesh_vertex_1,
-                                                                          real_t* RESTRICT _data_micromesh_vertex_2,
-                                                                          real_t* RESTRICT _data_srcEdge,
-                                                                          real_t* RESTRICT _data_srcVertex,
-                                                                          real_t           macro_vertex_coord_id_0comp0,
-                                                                          real_t           macro_vertex_coord_id_0comp1,
-                                                                          real_t           macro_vertex_coord_id_0comp2,
-                                                                          real_t           macro_vertex_coord_id_1comp0,
-                                                                          real_t           macro_vertex_coord_id_1comp1,
-                                                                          real_t           macro_vertex_coord_id_1comp2,
-                                                                          real_t           macro_vertex_coord_id_2comp0,
-                                                                          real_t           macro_vertex_coord_id_2comp1,
-                                                                          real_t           macro_vertex_coord_id_2comp2,
-                                                                          real_t           macro_vertex_coord_id_3comp0,
-                                                                          real_t           macro_vertex_coord_id_3comp1,
-                                                                          real_t           macro_vertex_coord_id_3comp2,
-                                                                          int64_t          micro_edges_per_macro_edge,
-                                                                          real_t micro_edges_per_macro_edge_float ) const;
+   ///   1485    1882      40       0      4              0                 0              1
+   void applyScaled_P2ElementwiseDivKGradP1CoefficientParametricP2Map_macro_3D( real_t* RESTRICT _data_dstEdge,
+                                                                                real_t* RESTRICT _data_dstVertex,
+                                                                                real_t* RESTRICT _data_k,
+                                                                                real_t* RESTRICT _data_micromesh_edge_0,
+                                                                                real_t* RESTRICT _data_micromesh_edge_1,
+                                                                                real_t* RESTRICT _data_micromesh_edge_2,
+                                                                                real_t* RESTRICT _data_micromesh_vertex_0,
+                                                                                real_t* RESTRICT _data_micromesh_vertex_1,
+                                                                                real_t* RESTRICT _data_micromesh_vertex_2,
+                                                                                real_t* RESTRICT _data_srcEdge,
+                                                                                real_t* RESTRICT _data_srcVertex,
+                                                                                real_t           macro_vertex_coord_id_0comp0,
+                                                                                real_t           macro_vertex_coord_id_0comp1,
+                                                                                real_t           macro_vertex_coord_id_0comp2,
+                                                                                real_t           macro_vertex_coord_id_1comp0,
+                                                                                real_t           macro_vertex_coord_id_1comp1,
+                                                                                real_t           macro_vertex_coord_id_1comp2,
+                                                                                real_t           macro_vertex_coord_id_2comp0,
+                                                                                real_t           macro_vertex_coord_id_2comp1,
+                                                                                real_t           macro_vertex_coord_id_2comp2,
+                                                                                real_t           macro_vertex_coord_id_3comp0,
+                                                                                real_t           macro_vertex_coord_id_3comp1,
+                                                                                real_t           macro_vertex_coord_id_3comp2,
+                                                                                int64_t          micro_edges_per_macro_edge,
+                                                                                real_t           micro_edges_per_macro_edge_float,
+                                                                                real_t           operatorScaling ) const;
 
    /// Integral: P2ElementwiseDivKGradP1CoefficientParametricP2Map
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    275     411      15       0      3              0                 0              4
-   void toMatrix_P2ElementwiseDivKGradP1CoefficientParametricP2Map_macro_2D( idx_t* RESTRICT  _data_dstEdge,
-                                                                             idx_t* RESTRICT  _data_dstVertex,
-                                                                             real_t* RESTRICT _data_k,
-                                                                             real_t* RESTRICT _data_micromesh_edge_0,
-                                                                             real_t* RESTRICT _data_micromesh_edge_1,
-                                                                             real_t* RESTRICT _data_micromesh_vertex_0,
-                                                                             real_t* RESTRICT _data_micromesh_vertex_1,
-                                                                             idx_t* RESTRICT  _data_srcEdge,
-                                                                             idx_t* RESTRICT  _data_srcVertex,
-                                                                             real_t           macro_vertex_coord_id_0comp0,
-                                                                             real_t           macro_vertex_coord_id_0comp1,
-                                                                             real_t           macro_vertex_coord_id_1comp0,
-                                                                             real_t           macro_vertex_coord_id_1comp1,
-                                                                             real_t           macro_vertex_coord_id_2comp0,
-                                                                             real_t           macro_vertex_coord_id_2comp1,
-                                                                             std::shared_ptr< SparseMatrixProxy > mat,
-                                                                             int64_t micro_edges_per_macro_edge,
-                                                                             real_t  micro_edges_per_macro_edge_float ) const;
+   ///    281     432      15       0      3              0                 0              4
+   void toMatrixScaled_P2ElementwiseDivKGradP1CoefficientParametricP2Map_macro_2D( idx_t* RESTRICT  _data_dstEdge,
+                                                                                   idx_t* RESTRICT  _data_dstVertex,
+                                                                                   real_t* RESTRICT _data_k,
+                                                                                   real_t* RESTRICT _data_micromesh_edge_0,
+                                                                                   real_t* RESTRICT _data_micromesh_edge_1,
+                                                                                   real_t* RESTRICT _data_micromesh_vertex_0,
+                                                                                   real_t* RESTRICT _data_micromesh_vertex_1,
+                                                                                   idx_t* RESTRICT  _data_srcEdge,
+                                                                                   idx_t* RESTRICT  _data_srcVertex,
+                                                                                   real_t           macro_vertex_coord_id_0comp0,
+                                                                                   real_t           macro_vertex_coord_id_0comp1,
+                                                                                   real_t           macro_vertex_coord_id_1comp0,
+                                                                                   real_t           macro_vertex_coord_id_1comp1,
+                                                                                   real_t           macro_vertex_coord_id_2comp0,
+                                                                                   real_t           macro_vertex_coord_id_2comp1,
+                                                                                   std::shared_ptr< SparseMatrixProxy > mat,
+                                                                                   int64_t micro_edges_per_macro_edge,
+                                                                                   real_t  micro_edges_per_macro_edge_float,
+                                                                                   real_t  toMatrixScaling ) const;
 
    /// Integral: P2ElementwiseDivKGradP1CoefficientParametricP2Map
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1373    1772      40       0      4              0                 0              4
-   void toMatrix_P2ElementwiseDivKGradP1CoefficientParametricP2Map_macro_3D( idx_t* RESTRICT  _data_dstEdge,
-                                                                             idx_t* RESTRICT  _data_dstVertex,
-                                                                             real_t* RESTRICT _data_k,
-                                                                             real_t* RESTRICT _data_micromesh_edge_0,
-                                                                             real_t* RESTRICT _data_micromesh_edge_1,
-                                                                             real_t* RESTRICT _data_micromesh_edge_2,
-                                                                             real_t* RESTRICT _data_micromesh_vertex_0,
-                                                                             real_t* RESTRICT _data_micromesh_vertex_1,
-                                                                             real_t* RESTRICT _data_micromesh_vertex_2,
-                                                                             idx_t* RESTRICT  _data_srcEdge,
-                                                                             idx_t* RESTRICT  _data_srcVertex,
-                                                                             real_t           macro_vertex_coord_id_0comp0,
-                                                                             real_t           macro_vertex_coord_id_0comp1,
-                                                                             real_t           macro_vertex_coord_id_0comp2,
-                                                                             real_t           macro_vertex_coord_id_1comp0,
-                                                                             real_t           macro_vertex_coord_id_1comp1,
-                                                                             real_t           macro_vertex_coord_id_1comp2,
-                                                                             real_t           macro_vertex_coord_id_2comp0,
-                                                                             real_t           macro_vertex_coord_id_2comp1,
-                                                                             real_t           macro_vertex_coord_id_2comp2,
-                                                                             real_t           macro_vertex_coord_id_3comp0,
-                                                                             real_t           macro_vertex_coord_id_3comp1,
-                                                                             real_t           macro_vertex_coord_id_3comp2,
-                                                                             std::shared_ptr< SparseMatrixProxy > mat,
-                                                                             int64_t micro_edges_per_macro_edge,
-                                                                             real_t  micro_edges_per_macro_edge_float ) const;
+   ///   1385    1827      40       0      4              0                 0              4
+   void toMatrixScaled_P2ElementwiseDivKGradP1CoefficientParametricP2Map_macro_3D( idx_t* RESTRICT  _data_dstEdge,
+                                                                                   idx_t* RESTRICT  _data_dstVertex,
+                                                                                   real_t* RESTRICT _data_k,
+                                                                                   real_t* RESTRICT _data_micromesh_edge_0,
+                                                                                   real_t* RESTRICT _data_micromesh_edge_1,
+                                                                                   real_t* RESTRICT _data_micromesh_edge_2,
+                                                                                   real_t* RESTRICT _data_micromesh_vertex_0,
+                                                                                   real_t* RESTRICT _data_micromesh_vertex_1,
+                                                                                   real_t* RESTRICT _data_micromesh_vertex_2,
+                                                                                   idx_t* RESTRICT  _data_srcEdge,
+                                                                                   idx_t* RESTRICT  _data_srcVertex,
+                                                                                   real_t           macro_vertex_coord_id_0comp0,
+                                                                                   real_t           macro_vertex_coord_id_0comp1,
+                                                                                   real_t           macro_vertex_coord_id_0comp2,
+                                                                                   real_t           macro_vertex_coord_id_1comp0,
+                                                                                   real_t           macro_vertex_coord_id_1comp1,
+                                                                                   real_t           macro_vertex_coord_id_1comp2,
+                                                                                   real_t           macro_vertex_coord_id_2comp0,
+                                                                                   real_t           macro_vertex_coord_id_2comp1,
+                                                                                   real_t           macro_vertex_coord_id_2comp2,
+                                                                                   real_t           macro_vertex_coord_id_3comp0,
+                                                                                   real_t           macro_vertex_coord_id_3comp1,
+                                                                                   real_t           macro_vertex_coord_id_3comp2,
+                                                                                   std::shared_ptr< SparseMatrixProxy > mat,
+                                                                                   int64_t micro_edges_per_macro_edge,
+                                                                                   real_t  micro_edges_per_macro_edge_float,
+                                                                                   real_t  toMatrixScaling ) const;
 
    /// Integral: P2ElementwiseDivKGradP1CoefficientParametricP2Map
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     computeInverseDiagonalOperatorValues
+   /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    191     276      15       0      3              0                 0              1
-   void computeInverseDiagonalOperatorValues_P2ElementwiseDivKGradP1CoefficientParametricP2Map_macro_2D(
+   ///    197     282      15       0      3              0                 0              1
+   void computeInverseDiagonalOperatorValuesScaled_P2ElementwiseDivKGradP1CoefficientParametricP2Map_macro_2D(
        real_t* RESTRICT _data_invDiag_Edge,
        real_t* RESTRICT _data_invDiag_Vertex,
        real_t* RESTRICT _data_k,
@@ -236,6 +256,7 @@ class P2ElementwiseDivKGradP1CoefficientParametricP2Map : public Operator< P2Fun
        real_t* RESTRICT _data_micromesh_edge_1,
        real_t* RESTRICT _data_micromesh_vertex_0,
        real_t* RESTRICT _data_micromesh_vertex_1,
+       real_t           diagScaling,
        real_t           macro_vertex_coord_id_0comp0,
        real_t           macro_vertex_coord_id_0comp1,
        real_t           macro_vertex_coord_id_1comp0,
@@ -247,15 +268,15 @@ class P2ElementwiseDivKGradP1CoefficientParametricP2Map : public Operator< P2Fun
 
    /// Integral: P2ElementwiseDivKGradP1CoefficientParametricP2Map
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     computeInverseDiagonalOperatorValues
+   /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    843    1052      40       0      4              0                 0              1
-   void computeInverseDiagonalOperatorValues_P2ElementwiseDivKGradP1CoefficientParametricP2Map_macro_3D(
+   ///    855    1062      40       0      4              0                 0              1
+   void computeInverseDiagonalOperatorValuesScaled_P2ElementwiseDivKGradP1CoefficientParametricP2Map_macro_3D(
        real_t* RESTRICT _data_invDiag_Edge,
        real_t* RESTRICT _data_invDiag_Vertex,
        real_t* RESTRICT _data_k,
@@ -265,6 +286,7 @@ class P2ElementwiseDivKGradP1CoefficientParametricP2Map : public Operator< P2Fun
        real_t* RESTRICT _data_micromesh_vertex_0,
        real_t* RESTRICT _data_micromesh_vertex_1,
        real_t* RESTRICT _data_micromesh_vertex_2,
+       real_t           diagScaling,
        real_t           macro_vertex_coord_id_0comp0,
        real_t           macro_vertex_coord_id_0comp1,
        real_t           macro_vertex_coord_id_0comp2,

@@ -63,17 +63,33 @@ class P2ElementwiseMassIcosahedralShellMap : public Operator< P2Function< real_t
  public:
    P2ElementwiseMassIcosahedralShellMap( const std::shared_ptr< PrimitiveStorage >& storage, size_t minLevel, size_t maxLevel );
 
+   void applyScaled( const real_t&               operatorScaling,
+                     const P2Function< real_t >& src,
+                     const P2Function< real_t >& dst,
+                     uint_t                      level,
+                     DoFType                     flag,
+                     UpdateType                  updateType = Replace ) const;
+
    void apply( const P2Function< real_t >& src,
                const P2Function< real_t >& dst,
                uint_t                      level,
                DoFType                     flag,
                UpdateType                  updateType = Replace ) const;
 
+   void toMatrixScaled( const real_t&                               toMatrixScaling,
+                        const std::shared_ptr< SparseMatrixProxy >& mat,
+                        const P2Function< idx_t >&                  src,
+                        const P2Function< idx_t >&                  dst,
+                        uint_t                                      level,
+                        DoFType                                     flag ) const;
+
    void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                   const P2Function< idx_t >&                  src,
                   const P2Function< idx_t >&                  dst,
                   uint_t                                      level,
                   DoFType                                     flag ) const;
+
+   void computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling );
 
    void computeInverseDiagonalOperatorValues();
 
@@ -83,104 +99,107 @@ class P2ElementwiseMassIcosahedralShellMap : public Operator< P2Function< real_t
  private:
    /// Integral: P2ElementwiseMassIcosahedralShellMap
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2767    4066      58      22      0              0                 0              1
-   void apply_P2ElementwiseMassIcosahedralShellMap_macro_3D( real_t* RESTRICT _data_dstEdge,
-                                                             real_t* RESTRICT _data_dstVertex,
-                                                             real_t* RESTRICT _data_srcEdge,
-                                                             real_t* RESTRICT _data_srcVertex,
-                                                             real_t           forVertex_0,
-                                                             real_t           forVertex_1,
-                                                             real_t           forVertex_2,
-                                                             real_t           macro_vertex_coord_id_0comp0,
-                                                             real_t           macro_vertex_coord_id_0comp1,
-                                                             real_t           macro_vertex_coord_id_0comp2,
-                                                             real_t           macro_vertex_coord_id_1comp0,
-                                                             real_t           macro_vertex_coord_id_1comp1,
-                                                             real_t           macro_vertex_coord_id_1comp2,
-                                                             real_t           macro_vertex_coord_id_2comp0,
-                                                             real_t           macro_vertex_coord_id_2comp1,
-                                                             real_t           macro_vertex_coord_id_2comp2,
-                                                             real_t           macro_vertex_coord_id_3comp0,
-                                                             real_t           macro_vertex_coord_id_3comp1,
-                                                             real_t           macro_vertex_coord_id_3comp2,
-                                                             int64_t          micro_edges_per_macro_edge,
-                                                             real_t           micro_edges_per_macro_edge_float,
-                                                             real_t           radRayVertex,
-                                                             real_t           radRefVertex,
-                                                             real_t           rayVertex_0,
-                                                             real_t           rayVertex_1,
-                                                             real_t           rayVertex_2,
-                                                             real_t           refVertex_0,
-                                                             real_t           refVertex_1,
-                                                             real_t           refVertex_2,
-                                                             real_t           thrVertex_0,
-                                                             real_t           thrVertex_1,
-                                                             real_t           thrVertex_2 ) const;
+   ///   2767    4076      58      22      0              0                 0              1
+   void applyScaled_P2ElementwiseMassIcosahedralShellMap_macro_3D( real_t* RESTRICT _data_dstEdge,
+                                                                   real_t* RESTRICT _data_dstVertex,
+                                                                   real_t* RESTRICT _data_srcEdge,
+                                                                   real_t* RESTRICT _data_srcVertex,
+                                                                   real_t           forVertex_0,
+                                                                   real_t           forVertex_1,
+                                                                   real_t           forVertex_2,
+                                                                   real_t           macro_vertex_coord_id_0comp0,
+                                                                   real_t           macro_vertex_coord_id_0comp1,
+                                                                   real_t           macro_vertex_coord_id_0comp2,
+                                                                   real_t           macro_vertex_coord_id_1comp0,
+                                                                   real_t           macro_vertex_coord_id_1comp1,
+                                                                   real_t           macro_vertex_coord_id_1comp2,
+                                                                   real_t           macro_vertex_coord_id_2comp0,
+                                                                   real_t           macro_vertex_coord_id_2comp1,
+                                                                   real_t           macro_vertex_coord_id_2comp2,
+                                                                   real_t           macro_vertex_coord_id_3comp0,
+                                                                   real_t           macro_vertex_coord_id_3comp1,
+                                                                   real_t           macro_vertex_coord_id_3comp2,
+                                                                   int64_t          micro_edges_per_macro_edge,
+                                                                   real_t           micro_edges_per_macro_edge_float,
+                                                                   real_t           operatorScaling,
+                                                                   real_t           radRayVertex,
+                                                                   real_t           radRefVertex,
+                                                                   real_t           rayVertex_0,
+                                                                   real_t           rayVertex_1,
+                                                                   real_t           rayVertex_2,
+                                                                   real_t           refVertex_0,
+                                                                   real_t           refVertex_1,
+                                                                   real_t           refVertex_2,
+                                                                   real_t           thrVertex_0,
+                                                                   real_t           thrVertex_1,
+                                                                   real_t           thrVertex_2 ) const;
 
    /// Integral: P2ElementwiseMassIcosahedralShellMap
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2667    3966      58      22      0              0                 0              4
-   void toMatrix_P2ElementwiseMassIcosahedralShellMap_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
-                                                                idx_t* RESTRICT                      _data_dstVertex,
-                                                                idx_t* RESTRICT                      _data_srcEdge,
-                                                                idx_t* RESTRICT                      _data_srcVertex,
-                                                                real_t                               forVertex_0,
-                                                                real_t                               forVertex_1,
-                                                                real_t                               forVertex_2,
-                                                                real_t                               macro_vertex_coord_id_0comp0,
-                                                                real_t                               macro_vertex_coord_id_0comp1,
-                                                                real_t                               macro_vertex_coord_id_0comp2,
-                                                                real_t                               macro_vertex_coord_id_1comp0,
-                                                                real_t                               macro_vertex_coord_id_1comp1,
-                                                                real_t                               macro_vertex_coord_id_1comp2,
-                                                                real_t                               macro_vertex_coord_id_2comp0,
-                                                                real_t                               macro_vertex_coord_id_2comp1,
-                                                                real_t                               macro_vertex_coord_id_2comp2,
-                                                                real_t                               macro_vertex_coord_id_3comp0,
-                                                                real_t                               macro_vertex_coord_id_3comp1,
-                                                                real_t                               macro_vertex_coord_id_3comp2,
-                                                                std::shared_ptr< SparseMatrixProxy > mat,
-                                                                int64_t                              micro_edges_per_macro_edge,
-                                                                real_t micro_edges_per_macro_edge_float,
-                                                                real_t radRayVertex,
-                                                                real_t radRefVertex,
-                                                                real_t rayVertex_0,
-                                                                real_t rayVertex_1,
-                                                                real_t rayVertex_2,
-                                                                real_t refVertex_0,
-                                                                real_t refVertex_1,
-                                                                real_t refVertex_2,
-                                                                real_t thrVertex_0,
-                                                                real_t thrVertex_1,
-                                                                real_t thrVertex_2 ) const;
+   ///   2667    4021      58      22      0              0                 0              4
+   void toMatrixScaled_P2ElementwiseMassIcosahedralShellMap_macro_3D( idx_t* RESTRICT _data_dstEdge,
+                                                                      idx_t* RESTRICT _data_dstVertex,
+                                                                      idx_t* RESTRICT _data_srcEdge,
+                                                                      idx_t* RESTRICT _data_srcVertex,
+                                                                      real_t          forVertex_0,
+                                                                      real_t          forVertex_1,
+                                                                      real_t          forVertex_2,
+                                                                      real_t          macro_vertex_coord_id_0comp0,
+                                                                      real_t          macro_vertex_coord_id_0comp1,
+                                                                      real_t          macro_vertex_coord_id_0comp2,
+                                                                      real_t          macro_vertex_coord_id_1comp0,
+                                                                      real_t          macro_vertex_coord_id_1comp1,
+                                                                      real_t          macro_vertex_coord_id_1comp2,
+                                                                      real_t          macro_vertex_coord_id_2comp0,
+                                                                      real_t          macro_vertex_coord_id_2comp1,
+                                                                      real_t          macro_vertex_coord_id_2comp2,
+                                                                      real_t          macro_vertex_coord_id_3comp0,
+                                                                      real_t          macro_vertex_coord_id_3comp1,
+                                                                      real_t          macro_vertex_coord_id_3comp2,
+                                                                      std::shared_ptr< SparseMatrixProxy > mat,
+                                                                      int64_t micro_edges_per_macro_edge,
+                                                                      real_t  micro_edges_per_macro_edge_float,
+                                                                      real_t  radRayVertex,
+                                                                      real_t  radRefVertex,
+                                                                      real_t  rayVertex_0,
+                                                                      real_t  rayVertex_1,
+                                                                      real_t  rayVertex_2,
+                                                                      real_t  refVertex_0,
+                                                                      real_t  refVertex_1,
+                                                                      real_t  refVertex_2,
+                                                                      real_t  thrVertex_0,
+                                                                      real_t  thrVertex_1,
+                                                                      real_t  thrVertex_2,
+                                                                      real_t  toMatrixScaling ) const;
 
    /// Integral: P2ElementwiseMassIcosahedralShellMap
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     computeInverseDiagonalOperatorValues
+   /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1962    3218      58      22      0              0                 0              1
-   void computeInverseDiagonalOperatorValues_P2ElementwiseMassIcosahedralShellMap_macro_3D(
+   ///   1962    3228      58      22      0              0                 0              1
+   void computeInverseDiagonalOperatorValuesScaled_P2ElementwiseMassIcosahedralShellMap_macro_3D(
        real_t* RESTRICT _data_invDiag_Edge,
        real_t* RESTRICT _data_invDiag_Vertex,
+       real_t           diagScaling,
        real_t           forVertex_0,
        real_t           forVertex_1,
        real_t           forVertex_2,

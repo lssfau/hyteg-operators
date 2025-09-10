@@ -56,13 +56,14 @@ P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::P2VectorElementwise
 , mu( _mu )
 {}
 
-void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::apply( const P2VectorFunction< real_t >& src,
-                                                                         const P2VectorFunction< real_t >& dst,
-                                                                         uint_t                            level,
-                                                                         DoFType                           flag,
-                                                                         UpdateType                        updateType ) const
+void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::applyScaled( const real_t&                     operatorScaling,
+                                                                               const P2VectorFunction< real_t >& src,
+                                                                               const P2VectorFunction< real_t >& dst,
+                                                                               uint_t                            level,
+                                                                               DoFType                           flag,
+                                                                               UpdateType updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -174,7 +175,7 @@ void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::apply( const P
 
          this->timingTree_->start( "kernel" );
 
-         apply_P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap_macro_3D(
+         applyScaled_P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap_macro_3D(
 
              _data_dst_edge_0,
              _data_dst_edge_1,
@@ -206,6 +207,7 @@ void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::apply( const P
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
+             operatorScaling,
              radRayVertex,
              radRefVertex,
              rayVertex_0,
@@ -263,20 +265,29 @@ void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::apply( const P
       WALBERLA_ABORT( "Not implemented." );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                                                            const P2VectorFunction< idx_t >&            src,
-                                                                            const P2VectorFunction< idx_t >&            dst,
-                                                                            uint_t                                      level,
-                                                                            DoFType flag ) const
+void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::apply( const P2VectorFunction< real_t >& src,
+                                                                         const P2VectorFunction< real_t >& dst,
+                                                                         uint_t                            level,
+                                                                         DoFType                           flag,
+                                                                         UpdateType                        updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::toMatrixScaled( const real_t& toMatrixScaling,
+                                                                                  const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                                                  const P2VectorFunction< idx_t >&            src,
+                                                                                  const P2VectorFunction< idx_t >&            dst,
+                                                                                  uint_t  level,
+                                                                                  DoFType flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -343,7 +354,7 @@ void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::toMatrix( cons
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap_macro_3D(
+         toMatrixScaled_P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap_macro_3D(
 
              _data_dst_edge_0,
              _data_dst_edge_1,
@@ -386,7 +397,8 @@ void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::toMatrix( cons
              refVertex_2,
              thrVertex_0,
              thrVertex_1,
-             thrVertex_2 );
+             thrVertex_2,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -399,11 +411,20 @@ void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::toMatrix( cons
 
       WALBERLA_ABORT( "Not implemented." );
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
 }
-void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::computeInverseDiagonalOperatorValues()
+void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                                            const P2VectorFunction< idx_t >&            src,
+                                                                            const P2VectorFunction< idx_t >&            dst,
+                                                                            uint_t                                      level,
+                                                                            DoFType flag ) const
 {
-   this->startTiming( "computeInverseDiagonalOperatorValues" );
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
+}
+void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::computeInverseDiagonalOperatorValuesScaled(
+    const real_t& diagScaling )
+{
+   this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
 
    if ( invDiag_ == nullptr )
    {
@@ -477,7 +498,7 @@ void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::computeInverse
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap_macro_3D(
+            computeInverseDiagonalOperatorValuesScaled_P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap_macro_3D(
 
                 _data_invDiag__edge_0,
                 _data_invDiag__edge_1,
@@ -486,6 +507,7 @@ void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::computeInverse
                 _data_invDiag__vertex_1,
                 _data_invDiag__vertex_2,
                 _data_mu,
+                diagScaling,
                 forVertex_0,
                 forVertex_1,
                 forVertex_2,
@@ -555,7 +577,11 @@ void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::computeInverse
       }
    }
 
-   this->stopTiming( "computeInverseDiagonalOperatorValues" );
+   this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
+}
+void P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::computeInverseDiagonalOperatorValues()
+{
+   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
 }
 std::shared_ptr< P2VectorFunction< real_t > >
     P2VectorElementwiseFullStokesP1ViscosityIcosahedralShellMap::getInverseDiagonalValues() const

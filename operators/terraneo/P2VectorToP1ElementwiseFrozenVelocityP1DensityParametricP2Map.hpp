@@ -47,7 +47,9 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-/// RHS operator for the frozen velocity approach.
+/// Operator for the frozen velocity approach.
+///
+/// Intended for RHS use.
 ///
 /// Geometry map: ParametricMapP2
 ///
@@ -57,7 +59,7 @@ namespace operatorgeneration {
 ///     v: test function  (space: Lagrange, degree: 1)
 ///     rho: coefficient    (space: Lagrange, degree: 1)
 ///
-///     ∫ ((∇ρ / ρ) · u) v
+///     ∫ ((∇rho / rho) · u) v
 
 class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
 : public Operator< P2VectorFunction< real_t >, P1Function< real_t > >
@@ -69,11 +71,25 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
                                                                   const P2VectorFunction< real_t >&          _micromesh,
                                                                   const P1Function< real_t >&                _rho );
 
+   void applyScaled( const real_t&                     operatorScaling,
+                     const P2VectorFunction< real_t >& src,
+                     const P1Function< real_t >&       dst,
+                     uint_t                            level,
+                     DoFType                           flag,
+                     UpdateType                        updateType = Replace ) const;
+
    void apply( const P2VectorFunction< real_t >& src,
                const P1Function< real_t >&       dst,
                uint_t                            level,
                DoFType                           flag,
                UpdateType                        updateType = Replace ) const;
+
+   void toMatrixScaled( const real_t&                               toMatrixScaling,
+                        const std::shared_ptr< SparseMatrixProxy >& mat,
+                        const P2VectorFunction< idx_t >&            src,
+                        const P1Function< idx_t >&                  dst,
+                        uint_t                                      level,
+                        DoFType                                     flag ) const;
 
    void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                   const P2VectorFunction< idx_t >&            src,
@@ -85,15 +101,15 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
  private:
    /// Integral: P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    388     432      20       0      4              0                 0              1
-   void apply_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_2D(
+   ///    388     435      20       0      4              0                 0              1
+   void applyScaled_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_2D(
        real_t* RESTRICT _data_dst,
        real_t* RESTRICT _data_micromesh_edge_0,
        real_t* RESTRICT _data_micromesh_edge_1,
@@ -111,19 +127,20 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
        real_t           macro_vertex_coord_id_2comp0,
        real_t           macro_vertex_coord_id_2comp1,
        int64_t          micro_edges_per_macro_edge,
-       real_t           micro_edges_per_macro_edge_float ) const;
+       real_t           micro_edges_per_macro_edge_float,
+       real_t           operatorScaling ) const;
 
    /// Integral: P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1448    1577      46       0      5              0                 0              1
-   void apply_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_3D(
+   ///   1448    1581      46       0      5              0                 0              1
+   void applyScaled_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_3D(
        real_t* RESTRICT _data_dst,
        real_t* RESTRICT _data_micromesh_edge_0,
        real_t* RESTRICT _data_micromesh_edge_1,
@@ -151,19 +168,20 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
        real_t           macro_vertex_coord_id_3comp1,
        real_t           macro_vertex_coord_id_3comp2,
        int64_t          micro_edges_per_macro_edge,
-       real_t           micro_edges_per_macro_edge_float ) const;
+       real_t           micro_edges_per_macro_edge_float,
+       real_t           operatorScaling ) const;
 
    /// Integral: P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    352     396      20       0      4              0                 0              4
-   void toMatrix_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_2D(
+   ///    352     432      20       0      4              0                 0              4
+   void toMatrixScaled_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_2D(
        idx_t* RESTRICT                      _data_dst,
        real_t* RESTRICT                     _data_micromesh_edge_0,
        real_t* RESTRICT                     _data_micromesh_edge_1,
@@ -182,19 +200,20 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
        real_t                               macro_vertex_coord_id_2comp1,
        std::shared_ptr< SparseMatrixProxy > mat,
        int64_t                              micro_edges_per_macro_edge,
-       real_t                               micro_edges_per_macro_edge_float ) const;
+       real_t                               micro_edges_per_macro_edge_float,
+       real_t                               toMatrixScaling ) const;
 
    /// Integral: P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 3 | points: 5, degree: 3
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1328    1457      46       0      5              0                 0              4
-   void toMatrix_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_3D(
+   ///   1328    1577      46       0      5              0                 0              4
+   void toMatrixScaled_P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map_macro_3D(
        idx_t* RESTRICT                      _data_dst,
        real_t* RESTRICT                     _data_micromesh_edge_0,
        real_t* RESTRICT                     _data_micromesh_edge_1,
@@ -223,7 +242,8 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityParametricP2Map
        real_t                               macro_vertex_coord_id_3comp2,
        std::shared_ptr< SparseMatrixProxy > mat,
        int64_t                              micro_edges_per_macro_edge,
-       real_t                               micro_edges_per_macro_edge_float ) const;
+       real_t                               micro_edges_per_macro_edge_float,
+       real_t                               toMatrixScaling ) const;
 
    P2VectorFunction< real_t > micromesh;
    P1Function< real_t >       rho;

@@ -93,11 +93,25 @@ class P2VectorToP1ElementwiseDivergenceRotationP1DensityCompressibleIcosahedralS
        const P2Function< real_t >&                _nz_rotation,
        const P1Function< real_t >&                _rho );
 
+   void applyScaled( const real_t&                     operatorScaling,
+                     const P2VectorFunction< real_t >& src,
+                     const P1Function< real_t >&       dst,
+                     uint_t                            level,
+                     DoFType                           flag,
+                     UpdateType                        updateType = Replace ) const;
+
    void apply( const P2VectorFunction< real_t >& src,
                const P1Function< real_t >&       dst,
                uint_t                            level,
                DoFType                           flag,
                UpdateType                        updateType = Replace ) const;
+
+   void toMatrixScaled( const real_t&                               toMatrixScaling,
+                        const std::shared_ptr< SparseMatrixProxy >& mat,
+                        const P2VectorFunction< idx_t >&            src,
+                        const P1Function< idx_t >&                  dst,
+                        uint_t                                      level,
+                        DoFType                                     flag ) const;
 
    void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                   const P2VectorFunction< idx_t >&            src,
@@ -109,15 +123,15 @@ class P2VectorToP1ElementwiseDivergenceRotationP1DensityCompressibleIcosahedralS
  private:
    /// Integral: P2VectorToP1ElementwiseDivergenceRotationP1DensityCompressibleIcosahedralShellMap
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2485    5063      71      44     30              0                 0              1
-   void apply_P2VectorToP1ElementwiseDivergenceRotationP1DensityCompressibleIcosahedralShellMap_macro_3D(
+   ///   2485    5067      71      44     30              0                 0              1
+   void applyScaled_P2VectorToP1ElementwiseDivergenceRotationP1DensityCompressibleIcosahedralShellMap_macro_3D(
        real_t* RESTRICT _data_dst,
        real_t* RESTRICT _data_nx_rotationEdge,
        real_t* RESTRICT _data_nx_rotationVertex,
@@ -149,6 +163,7 @@ class P2VectorToP1ElementwiseDivergenceRotationP1DensityCompressibleIcosahedralS
        real_t           macro_vertex_coord_id_3comp2,
        int64_t          micro_edges_per_macro_edge,
        real_t           micro_edges_per_macro_edge_float,
+       real_t           operatorScaling,
        real_t           radRayVertex,
        real_t           radRefVertex,
        real_t           rayVertex_0,
@@ -163,15 +178,15 @@ class P2VectorToP1ElementwiseDivergenceRotationP1DensityCompressibleIcosahedralS
 
    /// Integral: P2VectorToP1ElementwiseDivergenceRotationP1DensityCompressibleIcosahedralShellMap
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   2365    4951      71      44     30              0                 0              4
-   void toMatrix_P2VectorToP1ElementwiseDivergenceRotationP1DensityCompressibleIcosahedralShellMap_macro_3D(
+   ///   2365    5071      71      44     30              0                 0              4
+   void toMatrixScaled_P2VectorToP1ElementwiseDivergenceRotationP1DensityCompressibleIcosahedralShellMap_macro_3D(
        idx_t* RESTRICT                      _data_dst,
        real_t* RESTRICT                     _data_nx_rotationEdge,
        real_t* RESTRICT                     _data_nx_rotationVertex,
@@ -214,7 +229,8 @@ class P2VectorToP1ElementwiseDivergenceRotationP1DensityCompressibleIcosahedralS
        real_t                               refVertex_2,
        real_t                               thrVertex_0,
        real_t                               thrVertex_1,
-       real_t                               thrVertex_2 ) const;
+       real_t                               thrVertex_2,
+       real_t                               toMatrixScaling ) const;
 
    P2Function< real_t > nx_rotation;
    P2Function< real_t > ny_rotation;

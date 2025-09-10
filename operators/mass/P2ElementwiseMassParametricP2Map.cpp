@@ -55,13 +55,14 @@ P2ElementwiseMassParametricP2Map::P2ElementwiseMassParametricP2Map( const std::s
 , micromesh( _micromesh )
 {}
 
-void P2ElementwiseMassParametricP2Map::apply( const P2Function< real_t >& src,
-                                              const P2Function< real_t >& dst,
-                                              uint_t                      level,
-                                              DoFType                     flag,
-                                              UpdateType                  updateType ) const
+void P2ElementwiseMassParametricP2Map::applyScaled( const real_t&               operatorScaling,
+                                                    const P2Function< real_t >& src,
+                                                    const P2Function< real_t >& dst,
+                                                    uint_t                      level,
+                                                    DoFType                     flag,
+                                                    UpdateType                  updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -151,7 +152,7 @@ void P2ElementwiseMassParametricP2Map::apply( const P2Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_P2ElementwiseMassParametricP2Map_macro_3D(
+         applyScaled_P2ElementwiseMassParametricP2Map_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -176,7 +177,8 @@ void P2ElementwiseMassParametricP2Map::apply( const P2Function< real_t >& src,
              macro_vertex_coord_id_3comp1,
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             operatorScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -252,7 +254,7 @@ void P2ElementwiseMassParametricP2Map::apply( const P2Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_P2ElementwiseMassParametricP2Map_macro_2D(
+         applyScaled_P2ElementwiseMassParametricP2Map_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -269,7 +271,8 @@ void P2ElementwiseMassParametricP2Map::apply( const P2Function< real_t >& src,
              macro_vertex_coord_id_2comp0,
              macro_vertex_coord_id_2comp1,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             operatorScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -288,20 +291,29 @@ void P2ElementwiseMassParametricP2Map::apply( const P2Function< real_t >& src,
       this->timingTree_->stop( "post-communication" );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P2ElementwiseMassParametricP2Map::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                                 const P2Function< idx_t >&                  src,
-                                                 const P2Function< idx_t >&                  dst,
-                                                 uint_t                                      level,
-                                                 DoFType                                     flag ) const
+void P2ElementwiseMassParametricP2Map::apply( const P2Function< real_t >& src,
+                                              const P2Function< real_t >& dst,
+                                              uint_t                      level,
+                                              DoFType                     flag,
+                                              UpdateType                  updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P2ElementwiseMassParametricP2Map::toMatrixScaled( const real_t&                               toMatrixScaling,
+                                                       const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                       const P2Function< idx_t >&                  src,
+                                                       const P2Function< idx_t >&                  dst,
+                                                       uint_t                                      level,
+                                                       DoFType                                     flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -355,7 +367,7 @@ void P2ElementwiseMassParametricP2Map::toMatrix( const std::shared_ptr< SparseMa
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P2ElementwiseMassParametricP2Map_macro_3D(
+         toMatrixScaled_P2ElementwiseMassParametricP2Map_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -381,7 +393,8 @@ void P2ElementwiseMassParametricP2Map::toMatrix( const std::shared_ptr< SparseMa
              macro_vertex_coord_id_3comp2,
              mat,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -420,7 +433,7 @@ void P2ElementwiseMassParametricP2Map::toMatrix( const std::shared_ptr< SparseMa
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P2ElementwiseMassParametricP2Map_macro_2D(
+         toMatrixScaled_P2ElementwiseMassParametricP2Map_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -438,16 +451,25 @@ void P2ElementwiseMassParametricP2Map::toMatrix( const std::shared_ptr< SparseMa
              macro_vertex_coord_id_2comp1,
              mat,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
 }
-void P2ElementwiseMassParametricP2Map::computeInverseDiagonalOperatorValues()
+void P2ElementwiseMassParametricP2Map::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                 const P2Function< idx_t >&                  src,
+                                                 const P2Function< idx_t >&                  dst,
+                                                 uint_t                                      level,
+                                                 DoFType                                     flag ) const
 {
-   this->startTiming( "computeInverseDiagonalOperatorValues" );
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
+}
+void P2ElementwiseMassParametricP2Map::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
+{
+   this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
 
    if ( invDiag_ == nullptr )
    {
@@ -511,7 +533,7 @@ void P2ElementwiseMassParametricP2Map::computeInverseDiagonalOperatorValues()
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_P2ElementwiseMassParametricP2Map_macro_3D(
+            computeInverseDiagonalOperatorValuesScaled_P2ElementwiseMassParametricP2Map_macro_3D(
 
                 _data_invDiag_Edge,
                 _data_invDiag_Vertex,
@@ -521,6 +543,7 @@ void P2ElementwiseMassParametricP2Map::computeInverseDiagonalOperatorValues()
                 _data_micromesh_vertex_0,
                 _data_micromesh_vertex_1,
                 _data_micromesh_vertex_2,
+                diagScaling,
                 macro_vertex_coord_id_0comp0,
                 macro_vertex_coord_id_0comp1,
                 macro_vertex_coord_id_0comp2,
@@ -587,7 +610,7 @@ void P2ElementwiseMassParametricP2Map::computeInverseDiagonalOperatorValues()
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_P2ElementwiseMassParametricP2Map_macro_2D(
+            computeInverseDiagonalOperatorValuesScaled_P2ElementwiseMassParametricP2Map_macro_2D(
 
                 _data_invDiag_Edge,
                 _data_invDiag_Vertex,
@@ -595,6 +618,7 @@ void P2ElementwiseMassParametricP2Map::computeInverseDiagonalOperatorValues()
                 _data_micromesh_edge_1,
                 _data_micromesh_vertex_0,
                 _data_micromesh_vertex_1,
+                diagScaling,
                 macro_vertex_coord_id_0comp0,
                 macro_vertex_coord_id_0comp1,
                 macro_vertex_coord_id_1comp0,
@@ -620,7 +644,11 @@ void P2ElementwiseMassParametricP2Map::computeInverseDiagonalOperatorValues()
       }
    }
 
-   this->stopTiming( "computeInverseDiagonalOperatorValues" );
+   this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
+}
+void P2ElementwiseMassParametricP2Map::computeInverseDiagonalOperatorValues()
+{
+   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
 }
 std::shared_ptr< P2Function< real_t > > P2ElementwiseMassParametricP2Map::getInverseDiagonalValues() const
 {

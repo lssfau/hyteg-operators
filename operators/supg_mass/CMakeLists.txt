@@ -1,0 +1,109 @@
+add_library( opgen-supg_mass
+
+   P2ElementwiseSupgMass.cpp
+   P2ElementwiseSupgMass.hpp
+   P2ElementwiseSupgMassAnnulusMap.cpp
+   P2ElementwiseSupgMassAnnulusMap.hpp
+   P2ElementwiseSupgMassCoeffDelta.cpp
+   P2ElementwiseSupgMassCoeffDelta.hpp
+   P2ElementwiseSupgMassCoeffDeltaAnnulusMap.cpp
+   P2ElementwiseSupgMassCoeffDeltaAnnulusMap.hpp
+   P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap.cpp
+   P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap.hpp
+   P2ElementwiseSupgMassIcosahedralShellMap.cpp
+   P2ElementwiseSupgMassIcosahedralShellMap.hpp
+)
+target_link_libraries( opgen-supg_mass PRIVATE hyteg )
+
+if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
+   target_sources(opgen-supg_mass PRIVATE
+
+      avx/P2ElementwiseSupgMassAnnulusMap_applyScaled_P2ElementwiseSupgMassAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseSupgMassAnnulusMap_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseSupgMassCoeffDeltaAnnulusMap_applyScaled_P2ElementwiseSupgMassCoeffDeltaAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseSupgMassCoeffDeltaAnnulusMap_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassCoeffDeltaAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_applyScaled_P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseSupgMassCoeffDelta_applyScaled_P2ElementwiseSupgMassCoeffDelta_macro_2D.cpp
+      avx/P2ElementwiseSupgMassCoeffDelta_applyScaled_P2ElementwiseSupgMassCoeffDelta_macro_3D.cpp
+      avx/P2ElementwiseSupgMassCoeffDelta_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassCoeffDelta_macro_2D.cpp
+      avx/P2ElementwiseSupgMassCoeffDelta_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassCoeffDelta_macro_3D.cpp
+      avx/P2ElementwiseSupgMassIcosahedralShellMap_applyScaled_P2ElementwiseSupgMassIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseSupgMassIcosahedralShellMap_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseSupgMass_applyScaled_P2ElementwiseSupgMass_macro_2D.cpp
+      avx/P2ElementwiseSupgMass_applyScaled_P2ElementwiseSupgMass_macro_3D.cpp
+      avx/P2ElementwiseSupgMass_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMass_macro_2D.cpp
+      avx/P2ElementwiseSupgMass_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMass_macro_3D.cpp
+      noarch/P2ElementwiseSupgMassAnnulusMap_toMatrixScaled_P2ElementwiseSupgMassAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDeltaAnnulusMap_toMatrixScaled_P2ElementwiseSupgMassCoeffDeltaAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_toMatrixScaled_P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDelta_toMatrixScaled_P2ElementwiseSupgMassCoeffDelta_macro_2D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDelta_toMatrixScaled_P2ElementwiseSupgMassCoeffDelta_macro_3D.cpp
+      noarch/P2ElementwiseSupgMassIcosahedralShellMap_toMatrixScaled_P2ElementwiseSupgMassIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseSupgMass_toMatrixScaled_P2ElementwiseSupgMass_macro_2D.cpp
+      noarch/P2ElementwiseSupgMass_toMatrixScaled_P2ElementwiseSupgMass_macro_3D.cpp
+   )
+
+   set_source_files_properties(
+
+      avx/P2ElementwiseSupgMassAnnulusMap_applyScaled_P2ElementwiseSupgMassAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseSupgMassAnnulusMap_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseSupgMassCoeffDeltaAnnulusMap_applyScaled_P2ElementwiseSupgMassCoeffDeltaAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseSupgMassCoeffDeltaAnnulusMap_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassCoeffDeltaAnnulusMap_macro_2D.cpp
+      avx/P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_applyScaled_P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseSupgMassCoeffDelta_applyScaled_P2ElementwiseSupgMassCoeffDelta_macro_2D.cpp
+      avx/P2ElementwiseSupgMassCoeffDelta_applyScaled_P2ElementwiseSupgMassCoeffDelta_macro_3D.cpp
+      avx/P2ElementwiseSupgMassCoeffDelta_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassCoeffDelta_macro_2D.cpp
+      avx/P2ElementwiseSupgMassCoeffDelta_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassCoeffDelta_macro_3D.cpp
+      avx/P2ElementwiseSupgMassIcosahedralShellMap_applyScaled_P2ElementwiseSupgMassIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseSupgMassIcosahedralShellMap_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassIcosahedralShellMap_macro_3D.cpp
+      avx/P2ElementwiseSupgMass_applyScaled_P2ElementwiseSupgMass_macro_2D.cpp
+      avx/P2ElementwiseSupgMass_applyScaled_P2ElementwiseSupgMass_macro_3D.cpp
+      avx/P2ElementwiseSupgMass_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMass_macro_2D.cpp
+      avx/P2ElementwiseSupgMass_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMass_macro_3D.cpp
+
+      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
+   )
+else()
+   if(HYTEG_BUILD_WITH_AVX AND NOT WALBERLA_DOUBLE_ACCURACY)
+      message(WARNING "AVX vectorization only available in double precision. Using scalar kernels.")
+   endif()
+
+   target_sources(opgen-supg_mass PRIVATE
+
+      noarch/P2ElementwiseSupgMassAnnulusMap_applyScaled_P2ElementwiseSupgMassAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseSupgMassAnnulusMap_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseSupgMassAnnulusMap_toMatrixScaled_P2ElementwiseSupgMassAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDeltaAnnulusMap_applyScaled_P2ElementwiseSupgMassCoeffDeltaAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDeltaAnnulusMap_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassCoeffDeltaAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDeltaAnnulusMap_toMatrixScaled_P2ElementwiseSupgMassCoeffDeltaAnnulusMap_macro_2D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_applyScaled_P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_toMatrixScaled_P2ElementwiseSupgMassCoeffDeltaIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDelta_applyScaled_P2ElementwiseSupgMassCoeffDelta_macro_2D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDelta_applyScaled_P2ElementwiseSupgMassCoeffDelta_macro_3D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDelta_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassCoeffDelta_macro_2D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDelta_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassCoeffDelta_macro_3D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDelta_toMatrixScaled_P2ElementwiseSupgMassCoeffDelta_macro_2D.cpp
+      noarch/P2ElementwiseSupgMassCoeffDelta_toMatrixScaled_P2ElementwiseSupgMassCoeffDelta_macro_3D.cpp
+      noarch/P2ElementwiseSupgMassIcosahedralShellMap_applyScaled_P2ElementwiseSupgMassIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseSupgMassIcosahedralShellMap_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMassIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseSupgMassIcosahedralShellMap_toMatrixScaled_P2ElementwiseSupgMassIcosahedralShellMap_macro_3D.cpp
+      noarch/P2ElementwiseSupgMass_applyScaled_P2ElementwiseSupgMass_macro_2D.cpp
+      noarch/P2ElementwiseSupgMass_applyScaled_P2ElementwiseSupgMass_macro_3D.cpp
+      noarch/P2ElementwiseSupgMass_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMass_macro_2D.cpp
+      noarch/P2ElementwiseSupgMass_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseSupgMass_macro_3D.cpp
+      noarch/P2ElementwiseSupgMass_toMatrixScaled_P2ElementwiseSupgMass_macro_2D.cpp
+      noarch/P2ElementwiseSupgMass_toMatrixScaled_P2ElementwiseSupgMass_macro_3D.cpp
+   )
+endif()
+
+if (HYTEG_BUILD_WITH_PETSC)
+   target_link_libraries(opgen-supg_mass PUBLIC PETSc::PETSc)
+endif ()
+if (WALBERLA_BUILD_WITH_HALF_PRECISION_SUPPORT)
+    target_compile_features(opgen-supg_mass PUBLIC cxx_std_23)
+else ()
+    target_compile_features(opgen-supg_mass PUBLIC cxx_std_17)
+endif ()

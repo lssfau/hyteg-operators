@@ -55,13 +55,14 @@ P1ElementwiseKMassIcosahedralShellMap::P1ElementwiseKMassIcosahedralShellMap( co
 , k( _k )
 {}
 
-void P1ElementwiseKMassIcosahedralShellMap::apply( const P1Function< real_t >& src,
-                                                   const P1Function< real_t >& dst,
-                                                   uint_t                      level,
-                                                   DoFType                     flag,
-                                                   UpdateType                  updateType ) const
+void P1ElementwiseKMassIcosahedralShellMap::applyScaled( const real_t&               operatorScaling,
+                                                         const P1Function< real_t >& src,
+                                                         const P1Function< real_t >& dst,
+                                                         uint_t                      level,
+                                                         DoFType                     flag,
+                                                         UpdateType                  updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -150,7 +151,7 @@ void P1ElementwiseKMassIcosahedralShellMap::apply( const P1Function< real_t >& s
 
          this->timingTree_->start( "kernel" );
 
-         apply_P1ElementwiseKMassIcosahedralShellMap_macro_3D(
+         applyScaled_P1ElementwiseKMassIcosahedralShellMap_macro_3D(
 
              _data_dst,
              _data_k,
@@ -172,6 +173,7 @@ void P1ElementwiseKMassIcosahedralShellMap::apply( const P1Function< real_t >& s
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
+             operatorScaling,
              radRayVertex,
              radRefVertex,
              rayVertex_0,
@@ -202,20 +204,29 @@ void P1ElementwiseKMassIcosahedralShellMap::apply( const P1Function< real_t >& s
       WALBERLA_ABORT( "Not implemented." );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P1ElementwiseKMassIcosahedralShellMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                                      const P1Function< idx_t >&                  src,
-                                                      const P1Function< idx_t >&                  dst,
-                                                      uint_t                                      level,
-                                                      DoFType                                     flag ) const
+void P1ElementwiseKMassIcosahedralShellMap::apply( const P1Function< real_t >& src,
+                                                   const P1Function< real_t >& dst,
+                                                   uint_t                      level,
+                                                   DoFType                     flag,
+                                                   UpdateType                  updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P1ElementwiseKMassIcosahedralShellMap::toMatrixScaled( const real_t&                               toMatrixScaling,
+                                                            const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                            const P1Function< idx_t >&                  src,
+                                                            const P1Function< idx_t >&                  dst,
+                                                            uint_t                                      level,
+                                                            DoFType                                     flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -270,7 +281,7 @@ void P1ElementwiseKMassIcosahedralShellMap::toMatrix( const std::shared_ptr< Spa
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P1ElementwiseKMassIcosahedralShellMap_macro_3D(
+         toMatrixScaled_P1ElementwiseKMassIcosahedralShellMap_macro_3D(
 
              _data_dst,
              _data_k,
@@ -303,7 +314,8 @@ void P1ElementwiseKMassIcosahedralShellMap::toMatrix( const std::shared_ptr< Spa
              refVertex_2,
              thrVertex_0,
              thrVertex_1,
-             thrVertex_2 );
+             thrVertex_2,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -316,11 +328,19 @@ void P1ElementwiseKMassIcosahedralShellMap::toMatrix( const std::shared_ptr< Spa
 
       WALBERLA_ABORT( "Not implemented." );
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
 }
-void P1ElementwiseKMassIcosahedralShellMap::computeInverseDiagonalOperatorValues()
+void P1ElementwiseKMassIcosahedralShellMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                      const P1Function< idx_t >&                  src,
+                                                      const P1Function< idx_t >&                  dst,
+                                                      uint_t                                      level,
+                                                      DoFType                                     flag ) const
 {
-   this->startTiming( "computeInverseDiagonalOperatorValues" );
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
+}
+void P1ElementwiseKMassIcosahedralShellMap::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
+{
+   this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
 
    if ( invDiag_ == nullptr )
    {
@@ -382,10 +402,11 @@ void P1ElementwiseKMassIcosahedralShellMap::computeInverseDiagonalOperatorValues
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_P1ElementwiseKMassIcosahedralShellMap_macro_3D(
+            computeInverseDiagonalOperatorValuesScaled_P1ElementwiseKMassIcosahedralShellMap_macro_3D(
 
                 _data_invDiag_,
                 _data_k,
+                diagScaling,
                 forVertex_0,
                 forVertex_1,
                 forVertex_2,
@@ -440,7 +461,11 @@ void P1ElementwiseKMassIcosahedralShellMap::computeInverseDiagonalOperatorValues
       }
    }
 
-   this->stopTiming( "computeInverseDiagonalOperatorValues" );
+   this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
+}
+void P1ElementwiseKMassIcosahedralShellMap::computeInverseDiagonalOperatorValues()
+{
+   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
 }
 std::shared_ptr< P1Function< real_t > > P1ElementwiseKMassIcosahedralShellMap::getInverseDiagonalValues() const
 {

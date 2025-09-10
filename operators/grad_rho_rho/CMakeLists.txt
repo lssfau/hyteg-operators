@@ -1,0 +1,85 @@
+add_library( opgen-grad_rho_rho
+
+   P2VectorToP1ElementwiseGradRhoRho.cpp
+   P2VectorToP1ElementwiseGradRhoRho.hpp
+   P2VectorToP1ElementwiseGradRhoRhoAnnulusMap.cpp
+   P2VectorToP1ElementwiseGradRhoRhoAnnulusMap.hpp
+   P2VectorToP1ElementwiseGradRhoRhoDivergence.cpp
+   P2VectorToP1ElementwiseGradRhoRhoDivergence.hpp
+   P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap.cpp
+   P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap.hpp
+   P2VectorToP1ElementwiseGradRhoRhoDivergenceIcosahedralShellMap.cpp
+   P2VectorToP1ElementwiseGradRhoRhoDivergenceIcosahedralShellMap.hpp
+   P2VectorToP1ElementwiseGradRhoRhoIcosahedralShellMap.cpp
+   P2VectorToP1ElementwiseGradRhoRhoIcosahedralShellMap.hpp
+)
+target_link_libraries( opgen-grad_rho_rho PRIVATE hyteg )
+
+if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
+   target_sources(opgen-grad_rho_rho PRIVATE
+
+      avx/P2VectorToP1ElementwiseGradRhoRhoAnnulusMap_applyScaled_P2VectorToP1ElementwiseGradRhoRhoAnnulusMap_macro_2D.cpp
+      avx/P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap_applyScaled_P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap_macro_2D.cpp
+      avx/P2VectorToP1ElementwiseGradRhoRhoDivergenceIcosahedralShellMap_applyScaled_P2VectorToP1ElementwiseGradRhoRhoDivergenceIcosahedralShellMap_macro_3D.cpp
+      avx/P2VectorToP1ElementwiseGradRhoRhoDivergence_applyScaled_P2VectorToP1ElementwiseGradRhoRhoDivergence_macro_2D.cpp
+      avx/P2VectorToP1ElementwiseGradRhoRhoDivergence_applyScaled_P2VectorToP1ElementwiseGradRhoRhoDivergence_macro_3D.cpp
+      avx/P2VectorToP1ElementwiseGradRhoRhoIcosahedralShellMap_applyScaled_P2VectorToP1ElementwiseGradRhoRhoIcosahedralShellMap_macro_3D.cpp
+      avx/P2VectorToP1ElementwiseGradRhoRho_applyScaled_P2VectorToP1ElementwiseGradRhoRho_macro_2D.cpp
+      avx/P2VectorToP1ElementwiseGradRhoRho_applyScaled_P2VectorToP1ElementwiseGradRhoRho_macro_3D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoAnnulusMap_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRhoAnnulusMap_macro_2D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap_macro_2D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoDivergenceIcosahedralShellMap_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRhoDivergenceIcosahedralShellMap_macro_3D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoDivergence_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRhoDivergence_macro_2D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoDivergence_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRhoDivergence_macro_3D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoIcosahedralShellMap_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRhoIcosahedralShellMap_macro_3D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRho_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRho_macro_2D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRho_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRho_macro_3D.cpp
+   )
+
+   set_source_files_properties(
+
+      avx/P2VectorToP1ElementwiseGradRhoRhoAnnulusMap_applyScaled_P2VectorToP1ElementwiseGradRhoRhoAnnulusMap_macro_2D.cpp
+      avx/P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap_applyScaled_P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap_macro_2D.cpp
+      avx/P2VectorToP1ElementwiseGradRhoRhoDivergenceIcosahedralShellMap_applyScaled_P2VectorToP1ElementwiseGradRhoRhoDivergenceIcosahedralShellMap_macro_3D.cpp
+      avx/P2VectorToP1ElementwiseGradRhoRhoDivergence_applyScaled_P2VectorToP1ElementwiseGradRhoRhoDivergence_macro_2D.cpp
+      avx/P2VectorToP1ElementwiseGradRhoRhoDivergence_applyScaled_P2VectorToP1ElementwiseGradRhoRhoDivergence_macro_3D.cpp
+      avx/P2VectorToP1ElementwiseGradRhoRhoIcosahedralShellMap_applyScaled_P2VectorToP1ElementwiseGradRhoRhoIcosahedralShellMap_macro_3D.cpp
+      avx/P2VectorToP1ElementwiseGradRhoRho_applyScaled_P2VectorToP1ElementwiseGradRhoRho_macro_2D.cpp
+      avx/P2VectorToP1ElementwiseGradRhoRho_applyScaled_P2VectorToP1ElementwiseGradRhoRho_macro_3D.cpp
+
+      PROPERTIES COMPILE_OPTIONS ${HYTEG_COMPILER_NATIVE_FLAGS}
+   )
+else()
+   if(HYTEG_BUILD_WITH_AVX AND NOT WALBERLA_DOUBLE_ACCURACY)
+      message(WARNING "AVX vectorization only available in double precision. Using scalar kernels.")
+   endif()
+
+   target_sources(opgen-grad_rho_rho PRIVATE
+
+      noarch/P2VectorToP1ElementwiseGradRhoRhoAnnulusMap_applyScaled_P2VectorToP1ElementwiseGradRhoRhoAnnulusMap_macro_2D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoAnnulusMap_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRhoAnnulusMap_macro_2D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap_applyScaled_P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap_macro_2D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap_macro_2D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoDivergenceIcosahedralShellMap_applyScaled_P2VectorToP1ElementwiseGradRhoRhoDivergenceIcosahedralShellMap_macro_3D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoDivergenceIcosahedralShellMap_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRhoDivergenceIcosahedralShellMap_macro_3D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoDivergence_applyScaled_P2VectorToP1ElementwiseGradRhoRhoDivergence_macro_2D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoDivergence_applyScaled_P2VectorToP1ElementwiseGradRhoRhoDivergence_macro_3D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoDivergence_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRhoDivergence_macro_2D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoDivergence_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRhoDivergence_macro_3D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoIcosahedralShellMap_applyScaled_P2VectorToP1ElementwiseGradRhoRhoIcosahedralShellMap_macro_3D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRhoIcosahedralShellMap_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRhoIcosahedralShellMap_macro_3D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRho_applyScaled_P2VectorToP1ElementwiseGradRhoRho_macro_2D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRho_applyScaled_P2VectorToP1ElementwiseGradRhoRho_macro_3D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRho_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRho_macro_2D.cpp
+      noarch/P2VectorToP1ElementwiseGradRhoRho_toMatrixScaled_P2VectorToP1ElementwiseGradRhoRho_macro_3D.cpp
+   )
+endif()
+
+if (HYTEG_BUILD_WITH_PETSC)
+   target_link_libraries(opgen-grad_rho_rho PUBLIC PETSc::PETSc)
+endif ()
+if (WALBERLA_BUILD_WITH_HALF_PRECISION_SUPPORT)
+    target_compile_features(opgen-grad_rho_rho PUBLIC cxx_std_23)
+else ()
+    target_compile_features(opgen-grad_rho_rho PUBLIC cxx_std_17)
+endif ()

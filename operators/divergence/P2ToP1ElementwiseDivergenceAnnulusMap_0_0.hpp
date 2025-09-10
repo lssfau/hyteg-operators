@@ -67,11 +67,25 @@ class P2ToP1ElementwiseDivergenceAnnulusMap_0_0 : public Operator< P2Function< r
                                               size_t                                     minLevel,
                                               size_t                                     maxLevel );
 
+   void applyScaled( const real_t&               operatorScaling,
+                     const P2Function< real_t >& src,
+                     const P1Function< real_t >& dst,
+                     uint_t                      level,
+                     DoFType                     flag,
+                     UpdateType                  updateType = Replace ) const;
+
    void apply( const P2Function< real_t >& src,
                const P1Function< real_t >& dst,
                uint_t                      level,
                DoFType                     flag,
                UpdateType                  updateType = Replace ) const;
+
+   void toMatrixScaled( const real_t&                               toMatrixScaling,
+                        const std::shared_ptr< SparseMatrixProxy >& mat,
+                        const P2Function< idx_t >&                  src,
+                        const P1Function< idx_t >&                  dst,
+                        uint_t                                      level,
+                        DoFType                                     flag ) const;
 
    void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                   const P2Function< idx_t >&                  src,
@@ -83,64 +97,66 @@ class P2ToP1ElementwiseDivergenceAnnulusMap_0_0 : public Operator< P2Function< r
  private:
    /// Integral: P2ToP1ElementwiseDivergenceAnnulusMap_0_0
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
    /// - blending map:    AnnulusMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    198     285      16       6      0              0                 0              1
-   void apply_P2ToP1ElementwiseDivergenceAnnulusMap_0_0_macro_2D( real_t* RESTRICT _data_dst,
-                                                                  real_t* RESTRICT _data_srcEdge,
-                                                                  real_t* RESTRICT _data_srcVertex,
-                                                                  real_t           macro_vertex_coord_id_0comp0,
-                                                                  real_t           macro_vertex_coord_id_0comp1,
-                                                                  real_t           macro_vertex_coord_id_1comp0,
-                                                                  real_t           macro_vertex_coord_id_1comp1,
-                                                                  real_t           macro_vertex_coord_id_2comp0,
-                                                                  real_t           macro_vertex_coord_id_2comp1,
-                                                                  int64_t          micro_edges_per_macro_edge,
-                                                                  real_t           micro_edges_per_macro_edge_float,
-                                                                  real_t           radRayVertex,
-                                                                  real_t           radRefVertex,
-                                                                  real_t           rayVertex_0,
-                                                                  real_t           rayVertex_1,
-                                                                  real_t           refVertex_0,
-                                                                  real_t           refVertex_1,
-                                                                  real_t           thrVertex_0,
-                                                                  real_t           thrVertex_1 ) const;
+   ///    198     288      16       6      0              0                 0              1
+   void applyScaled_P2ToP1ElementwiseDivergenceAnnulusMap_0_0_macro_2D( real_t* RESTRICT _data_dst,
+                                                                        real_t* RESTRICT _data_srcEdge,
+                                                                        real_t* RESTRICT _data_srcVertex,
+                                                                        real_t           macro_vertex_coord_id_0comp0,
+                                                                        real_t           macro_vertex_coord_id_0comp1,
+                                                                        real_t           macro_vertex_coord_id_1comp0,
+                                                                        real_t           macro_vertex_coord_id_1comp1,
+                                                                        real_t           macro_vertex_coord_id_2comp0,
+                                                                        real_t           macro_vertex_coord_id_2comp1,
+                                                                        int64_t          micro_edges_per_macro_edge,
+                                                                        real_t           micro_edges_per_macro_edge_float,
+                                                                        real_t           operatorScaling,
+                                                                        real_t           radRayVertex,
+                                                                        real_t           radRefVertex,
+                                                                        real_t           rayVertex_0,
+                                                                        real_t           rayVertex_1,
+                                                                        real_t           refVertex_0,
+                                                                        real_t           refVertex_1,
+                                                                        real_t           thrVertex_0,
+                                                                        real_t           thrVertex_1 ) const;
 
    /// Integral: P2ToP1ElementwiseDivergenceAnnulusMap_0_0
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
    /// - blending map:    AnnulusMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    180     267      16       6      0              0                 0              4
-   void toMatrix_P2ToP1ElementwiseDivergenceAnnulusMap_0_0_macro_2D( idx_t* RESTRICT _data_dst,
-                                                                     idx_t* RESTRICT _data_srcEdge,
-                                                                     idx_t* RESTRICT _data_srcVertex,
-                                                                     real_t          macro_vertex_coord_id_0comp0,
-                                                                     real_t          macro_vertex_coord_id_0comp1,
-                                                                     real_t          macro_vertex_coord_id_1comp0,
-                                                                     real_t          macro_vertex_coord_id_1comp1,
-                                                                     real_t          macro_vertex_coord_id_2comp0,
-                                                                     real_t          macro_vertex_coord_id_2comp1,
-                                                                     std::shared_ptr< SparseMatrixProxy > mat,
-                                                                     int64_t micro_edges_per_macro_edge,
-                                                                     real_t  micro_edges_per_macro_edge_float,
-                                                                     real_t  radRayVertex,
-                                                                     real_t  radRefVertex,
-                                                                     real_t  rayVertex_0,
-                                                                     real_t  rayVertex_1,
-                                                                     real_t  refVertex_0,
-                                                                     real_t  refVertex_1,
-                                                                     real_t  thrVertex_0,
-                                                                     real_t  thrVertex_1 ) const;
+   ///    180     285      16       6      0              0                 0              4
+   void toMatrixScaled_P2ToP1ElementwiseDivergenceAnnulusMap_0_0_macro_2D( idx_t* RESTRICT _data_dst,
+                                                                           idx_t* RESTRICT _data_srcEdge,
+                                                                           idx_t* RESTRICT _data_srcVertex,
+                                                                           real_t          macro_vertex_coord_id_0comp0,
+                                                                           real_t          macro_vertex_coord_id_0comp1,
+                                                                           real_t          macro_vertex_coord_id_1comp0,
+                                                                           real_t          macro_vertex_coord_id_1comp1,
+                                                                           real_t          macro_vertex_coord_id_2comp0,
+                                                                           real_t          macro_vertex_coord_id_2comp1,
+                                                                           std::shared_ptr< SparseMatrixProxy > mat,
+                                                                           int64_t micro_edges_per_macro_edge,
+                                                                           real_t  micro_edges_per_macro_edge_float,
+                                                                           real_t  radRayVertex,
+                                                                           real_t  radRefVertex,
+                                                                           real_t  rayVertex_0,
+                                                                           real_t  rayVertex_1,
+                                                                           real_t  refVertex_0,
+                                                                           real_t  refVertex_1,
+                                                                           real_t  thrVertex_0,
+                                                                           real_t  thrVertex_1,
+                                                                           real_t  toMatrixScaling ) const;
 };
 
 } // namespace operatorgeneration

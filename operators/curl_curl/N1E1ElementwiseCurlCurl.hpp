@@ -52,17 +52,33 @@ class N1E1ElementwiseCurlCurl : public Operator< n1e1::N1E1VectorFunction< real_
  public:
    N1E1ElementwiseCurlCurl( const std::shared_ptr< PrimitiveStorage >& storage, size_t minLevel, size_t maxLevel );
 
+   void applyScaled( const real_t&                             operatorScaling,
+                     const n1e1::N1E1VectorFunction< real_t >& src,
+                     const n1e1::N1E1VectorFunction< real_t >& dst,
+                     uint_t                                    level,
+                     DoFType                                   flag,
+                     UpdateType                                updateType = Replace ) const;
+
    void apply( const n1e1::N1E1VectorFunction< real_t >& src,
                const n1e1::N1E1VectorFunction< real_t >& dst,
                uint_t                                    level,
                DoFType                                   flag,
                UpdateType                                updateType = Replace ) const;
 
+   void toMatrixScaled( const real_t&                               toMatrixScaling,
+                        const std::shared_ptr< SparseMatrixProxy >& mat,
+                        const n1e1::N1E1VectorFunction< idx_t >&    src,
+                        const n1e1::N1E1VectorFunction< idx_t >&    dst,
+                        uint_t                                      level,
+                        DoFType                                     flag ) const;
+
    void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                   const n1e1::N1E1VectorFunction< idx_t >&    src,
                   const n1e1::N1E1VectorFunction< idx_t >&    dst,
                   uint_t                                      level,
                   DoFType                                     flag ) const;
+
+   void computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling );
 
    void computeInverseDiagonalOperatorValues();
 
@@ -72,86 +88,90 @@ class N1E1ElementwiseCurlCurl : public Operator< n1e1::N1E1VectorFunction< real_
  private:
    /// Integral: N1E1ElementwiseCurlCurl
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Keast 0 | points: 1, degree: 1
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    180     202      37       0      0              0                 0              1
-   void apply_N1E1ElementwiseCurlCurl_macro_3D( real_t* RESTRICT _data_dst,
-                                                real_t* RESTRICT _data_src,
-                                                real_t           macro_vertex_coord_id_0comp0,
-                                                real_t           macro_vertex_coord_id_0comp1,
-                                                real_t           macro_vertex_coord_id_0comp2,
-                                                real_t           macro_vertex_coord_id_1comp0,
-                                                real_t           macro_vertex_coord_id_1comp1,
-                                                real_t           macro_vertex_coord_id_1comp2,
-                                                real_t           macro_vertex_coord_id_2comp0,
-                                                real_t           macro_vertex_coord_id_2comp1,
-                                                real_t           macro_vertex_coord_id_2comp2,
-                                                real_t           macro_vertex_coord_id_3comp0,
-                                                real_t           macro_vertex_coord_id_3comp1,
-                                                real_t           macro_vertex_coord_id_3comp2,
-                                                int64_t          micro_edges_per_macro_edge,
-                                                real_t           micro_edges_per_macro_edge_float ) const;
+   ///    180     208      37       0      0              0                 0              1
+   void applyScaled_N1E1ElementwiseCurlCurl_macro_3D( real_t* RESTRICT _data_dst,
+                                                      real_t* RESTRICT _data_src,
+                                                      real_t           macro_vertex_coord_id_0comp0,
+                                                      real_t           macro_vertex_coord_id_0comp1,
+                                                      real_t           macro_vertex_coord_id_0comp2,
+                                                      real_t           macro_vertex_coord_id_1comp0,
+                                                      real_t           macro_vertex_coord_id_1comp1,
+                                                      real_t           macro_vertex_coord_id_1comp2,
+                                                      real_t           macro_vertex_coord_id_2comp0,
+                                                      real_t           macro_vertex_coord_id_2comp1,
+                                                      real_t           macro_vertex_coord_id_2comp2,
+                                                      real_t           macro_vertex_coord_id_3comp0,
+                                                      real_t           macro_vertex_coord_id_3comp1,
+                                                      real_t           macro_vertex_coord_id_3comp2,
+                                                      int64_t          micro_edges_per_macro_edge,
+                                                      real_t           micro_edges_per_macro_edge_float,
+                                                      real_t           operatorScaling ) const;
 
    /// Integral: N1E1ElementwiseCurlCurl
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Keast 0 | points: 1, degree: 1
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    144     253      37       0      0              0                 0              4
-   void toMatrix_N1E1ElementwiseCurlCurl_macro_3D( idx_t* RESTRICT                      _data_dst,
-                                                   idx_t* RESTRICT                      _data_src,
-                                                   const Cell&                          cell,
-                                                   const uint_t                         level,
-                                                   real_t                               macro_vertex_coord_id_0comp0,
-                                                   real_t                               macro_vertex_coord_id_0comp1,
-                                                   real_t                               macro_vertex_coord_id_0comp2,
-                                                   real_t                               macro_vertex_coord_id_1comp0,
-                                                   real_t                               macro_vertex_coord_id_1comp1,
-                                                   real_t                               macro_vertex_coord_id_1comp2,
-                                                   real_t                               macro_vertex_coord_id_2comp0,
-                                                   real_t                               macro_vertex_coord_id_2comp1,
-                                                   real_t                               macro_vertex_coord_id_2comp2,
-                                                   real_t                               macro_vertex_coord_id_3comp0,
-                                                   real_t                               macro_vertex_coord_id_3comp1,
-                                                   real_t                               macro_vertex_coord_id_3comp2,
-                                                   std::shared_ptr< SparseMatrixProxy > mat,
-                                                   int64_t                              micro_edges_per_macro_edge,
-                                                   real_t                               micro_edges_per_macro_edge_float ) const;
+   ///    144     254      37       0      0              0                 0              4
+   void toMatrixScaled_N1E1ElementwiseCurlCurl_macro_3D( idx_t* RESTRICT                      _data_dst,
+                                                         idx_t* RESTRICT                      _data_src,
+                                                         const Cell&                          cell,
+                                                         const uint_t                         level,
+                                                         real_t                               macro_vertex_coord_id_0comp0,
+                                                         real_t                               macro_vertex_coord_id_0comp1,
+                                                         real_t                               macro_vertex_coord_id_0comp2,
+                                                         real_t                               macro_vertex_coord_id_1comp0,
+                                                         real_t                               macro_vertex_coord_id_1comp1,
+                                                         real_t                               macro_vertex_coord_id_1comp2,
+                                                         real_t                               macro_vertex_coord_id_2comp0,
+                                                         real_t                               macro_vertex_coord_id_2comp1,
+                                                         real_t                               macro_vertex_coord_id_2comp2,
+                                                         real_t                               macro_vertex_coord_id_3comp0,
+                                                         real_t                               macro_vertex_coord_id_3comp1,
+                                                         real_t                               macro_vertex_coord_id_3comp2,
+                                                         std::shared_ptr< SparseMatrixProxy > mat,
+                                                         int64_t                              micro_edges_per_macro_edge,
+                                                         real_t                               micro_edges_per_macro_edge_float,
+                                                         real_t                               toMatrixScaling ) const;
 
    /// Integral: N1E1ElementwiseCurlCurl
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     computeInverseDiagonalOperatorValues
+   /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Keast 0 | points: 1, degree: 1
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    120     115      37       0      0              0                 0              1
-   void computeInverseDiagonalOperatorValues_N1E1ElementwiseCurlCurl_macro_3D( real_t* RESTRICT _data_invDiag_,
-                                                                               real_t           macro_vertex_coord_id_0comp0,
-                                                                               real_t           macro_vertex_coord_id_0comp1,
-                                                                               real_t           macro_vertex_coord_id_0comp2,
-                                                                               real_t           macro_vertex_coord_id_1comp0,
-                                                                               real_t           macro_vertex_coord_id_1comp1,
-                                                                               real_t           macro_vertex_coord_id_1comp2,
-                                                                               real_t           macro_vertex_coord_id_2comp0,
-                                                                               real_t           macro_vertex_coord_id_2comp1,
-                                                                               real_t           macro_vertex_coord_id_2comp2,
-                                                                               real_t           macro_vertex_coord_id_3comp0,
-                                                                               real_t           macro_vertex_coord_id_3comp1,
-                                                                               real_t           macro_vertex_coord_id_3comp2,
-                                                                               int64_t          micro_edges_per_macro_edge,
-                                                                               real_t micro_edges_per_macro_edge_float ) const;
+   ///    120     121      37       0      0              0                 0              1
+   void computeInverseDiagonalOperatorValuesScaled_N1E1ElementwiseCurlCurl_macro_3D(
+       real_t* RESTRICT _data_invDiag_,
+       real_t           diagScaling,
+       real_t           macro_vertex_coord_id_0comp0,
+       real_t           macro_vertex_coord_id_0comp1,
+       real_t           macro_vertex_coord_id_0comp2,
+       real_t           macro_vertex_coord_id_1comp0,
+       real_t           macro_vertex_coord_id_1comp1,
+       real_t           macro_vertex_coord_id_1comp2,
+       real_t           macro_vertex_coord_id_2comp0,
+       real_t           macro_vertex_coord_id_2comp1,
+       real_t           macro_vertex_coord_id_2comp2,
+       real_t           macro_vertex_coord_id_3comp0,
+       real_t           macro_vertex_coord_id_3comp1,
+       real_t           macro_vertex_coord_id_3comp2,
+       int64_t          micro_edges_per_macro_edge,
+       real_t           micro_edges_per_macro_edge_float ) const;
 
    std::shared_ptr< n1e1::N1E1VectorFunction< real_t > > invDiag_;
 };

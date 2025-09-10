@@ -58,28 +58,30 @@ namespace operatorgeneration {
 /// https://doi.org/10.5194/gmd-15-5127-2022
 /// Listing 2
 ///
-/// The strong representation of the operator is given by:
+/// Intended for RHS use.
 ///
-///     𝜏(w) : grad(w)
-///     2 {[ μ (grad(w)+grad(w)ᵀ) / 2 ] - 1/dim [ μ div(w) ]I} : grad(w)
-///
-/// Note that the factor 1/dim means that for 2D this is the pseudo-3D form
-/// of the operator.
-///
-/// Component trial: 0
-/// Component test:  0
-/// Geometry map:    AnnulusMap
+/// Geometry map: AnnulusMap
 ///
 /// Weak formulation
 ///
-///     T: trial function (scalar space:    Lagrange, degree: 2)
-///     s: test function  (scalar space:    Lagrange, degree: 2)
-///     μ: coefficient    (scalar space:    Lagrange, degree: 1)
-///     w: velocity       (vectorial space: Lagrange, degree: 2)
+///     T: trial function (scalar space: Lagrange, degree: 2)
+///     w: test function (scalar space: Lagrange, degree: 2)
+///     u: coefficient (vector space: Lagrange, degree: 2)
+///     eta: coefficient (scalar space: Lagrange, degree: 1)
 ///
-///     ∫ { 2 {[ μ (grad(w)+grad(w)ᵀ) / 2 ] - 1/dim [ μ div(w) ]I} : grad(w) } T_h s_h
+///     ∫ ( tau(u,eta) : ∇u ) T * w
 ///
-/// The resulting matrix must be multiplied with a vector of ones to be used as the shear heating term in the RHS
+///     or equivalently
+///
+///     ∫ ( tau(u,eta) : eps(u) ) T * w
+///
+///     with
+///
+///     tau(u,eta) = 2 eta eps(u)
+///     eps(u) := 1/2 ∇u + 1/2 (∇u)^T - 1/dim (∇ · u) I
+///     I := Identity Matrix
+///
+/// Typical usage sets T = 1, i.e. applying the operator to a function containing only ones.
 
 class P2ElementwiseShearHeatingP1ViscosityAnnulusMap : public Operator< P2Function< real_t >, P2Function< real_t > >,
                                                        public OperatorWithInverseDiagonal< P2Function< real_t > >
@@ -88,9 +90,16 @@ class P2ElementwiseShearHeatingP1ViscosityAnnulusMap : public Operator< P2Functi
    P2ElementwiseShearHeatingP1ViscosityAnnulusMap( const std::shared_ptr< PrimitiveStorage >& storage,
                                                    size_t                                     minLevel,
                                                    size_t                                     maxLevel,
-                                                   const P1Function< real_t >&                _mu,
-                                                   const P2Function< real_t >&                _wx,
-                                                   const P2Function< real_t >&                _wy );
+                                                   const P1Function< real_t >&                _eta,
+                                                   const P2Function< real_t >&                _ux,
+                                                   const P2Function< real_t >&                _uy );
+
+   void applyScaled( const real_t&               operatorScaling,
+                     const P2Function< real_t >& src,
+                     const P2Function< real_t >& dst,
+                     uint_t                      level,
+                     DoFType                     flag,
+                     UpdateType                  updateType = Replace ) const;
 
    void apply( const P2Function< real_t >& src,
                const P2Function< real_t >& dst,
@@ -98,11 +107,20 @@ class P2ElementwiseShearHeatingP1ViscosityAnnulusMap : public Operator< P2Functi
                DoFType                     flag,
                UpdateType                  updateType = Replace ) const;
 
+   void toMatrixScaled( const real_t&                               toMatrixScaling,
+                        const std::shared_ptr< SparseMatrixProxy >& mat,
+                        const P2Function< idx_t >&                  src,
+                        const P2Function< idx_t >&                  dst,
+                        uint_t                                      level,
+                        DoFType                                     flag ) const;
+
    void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                   const P2Function< idx_t >&                  src,
                   const P2Function< idx_t >&                  dst,
                   uint_t                                      level,
                   DoFType                                     flag ) const;
+
+   void computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling );
 
    void computeInverseDiagonalOperatorValues();
 
@@ -112,95 +130,98 @@ class P2ElementwiseShearHeatingP1ViscosityAnnulusMap : public Operator< P2Functi
  private:
    /// Integral: P2ElementwiseShearHeatingP1ViscosityAnnulusMap
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
    /// - blending map:    AnnulusMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    552     744      20      12      0              0                 0              1
-   void apply_P2ElementwiseShearHeatingP1ViscosityAnnulusMap_macro_2D( real_t* RESTRICT _data_dstEdge,
-                                                                       real_t* RESTRICT _data_dstVertex,
-                                                                       real_t* RESTRICT _data_mu,
-                                                                       real_t* RESTRICT _data_srcEdge,
-                                                                       real_t* RESTRICT _data_srcVertex,
-                                                                       real_t* RESTRICT _data_wxEdge,
-                                                                       real_t* RESTRICT _data_wxVertex,
-                                                                       real_t* RESTRICT _data_wyEdge,
-                                                                       real_t* RESTRICT _data_wyVertex,
-                                                                       real_t           macro_vertex_coord_id_0comp0,
-                                                                       real_t           macro_vertex_coord_id_0comp1,
-                                                                       real_t           macro_vertex_coord_id_1comp0,
-                                                                       real_t           macro_vertex_coord_id_1comp1,
-                                                                       real_t           macro_vertex_coord_id_2comp0,
-                                                                       real_t           macro_vertex_coord_id_2comp1,
-                                                                       int64_t          micro_edges_per_macro_edge,
-                                                                       real_t           micro_edges_per_macro_edge_float,
-                                                                       real_t           radRayVertex,
-                                                                       real_t           radRefVertex,
-                                                                       real_t           rayVertex_0,
-                                                                       real_t           rayVertex_1,
-                                                                       real_t           refVertex_0,
-                                                                       real_t           refVertex_1,
-                                                                       real_t           thrVertex_0,
-                                                                       real_t           thrVertex_1 ) const;
+   ///    552     750      20      12      0              0                 0              1
+   void applyScaled_P2ElementwiseShearHeatingP1ViscosityAnnulusMap_macro_2D( real_t* RESTRICT _data_dstEdge,
+                                                                             real_t* RESTRICT _data_dstVertex,
+                                                                             real_t* RESTRICT _data_eta,
+                                                                             real_t* RESTRICT _data_srcEdge,
+                                                                             real_t* RESTRICT _data_srcVertex,
+                                                                             real_t* RESTRICT _data_uxEdge,
+                                                                             real_t* RESTRICT _data_uxVertex,
+                                                                             real_t* RESTRICT _data_uyEdge,
+                                                                             real_t* RESTRICT _data_uyVertex,
+                                                                             real_t           macro_vertex_coord_id_0comp0,
+                                                                             real_t           macro_vertex_coord_id_0comp1,
+                                                                             real_t           macro_vertex_coord_id_1comp0,
+                                                                             real_t           macro_vertex_coord_id_1comp1,
+                                                                             real_t           macro_vertex_coord_id_2comp0,
+                                                                             real_t           macro_vertex_coord_id_2comp1,
+                                                                             int64_t          micro_edges_per_macro_edge,
+                                                                             real_t           micro_edges_per_macro_edge_float,
+                                                                             real_t           operatorScaling,
+                                                                             real_t           radRayVertex,
+                                                                             real_t           radRefVertex,
+                                                                             real_t           rayVertex_0,
+                                                                             real_t           rayVertex_1,
+                                                                             real_t           refVertex_0,
+                                                                             real_t           refVertex_1,
+                                                                             real_t           thrVertex_0,
+                                                                             real_t           thrVertex_1 ) const;
 
    /// Integral: P2ElementwiseShearHeatingP1ViscosityAnnulusMap
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
    /// - blending map:    AnnulusMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    516     708      20      12      0              0                 0              4
-   void toMatrix_P2ElementwiseShearHeatingP1ViscosityAnnulusMap_macro_2D( idx_t* RESTRICT  _data_dstEdge,
-                                                                          idx_t* RESTRICT  _data_dstVertex,
-                                                                          real_t* RESTRICT _data_mu,
-                                                                          idx_t* RESTRICT  _data_srcEdge,
-                                                                          idx_t* RESTRICT  _data_srcVertex,
-                                                                          real_t* RESTRICT _data_wxEdge,
-                                                                          real_t* RESTRICT _data_wxVertex,
-                                                                          real_t* RESTRICT _data_wyEdge,
-                                                                          real_t* RESTRICT _data_wyVertex,
-                                                                          real_t           macro_vertex_coord_id_0comp0,
-                                                                          real_t           macro_vertex_coord_id_0comp1,
-                                                                          real_t           macro_vertex_coord_id_1comp0,
-                                                                          real_t           macro_vertex_coord_id_1comp1,
-                                                                          real_t           macro_vertex_coord_id_2comp0,
-                                                                          real_t           macro_vertex_coord_id_2comp1,
-                                                                          std::shared_ptr< SparseMatrixProxy > mat,
-                                                                          int64_t micro_edges_per_macro_edge,
-                                                                          real_t  micro_edges_per_macro_edge_float,
-                                                                          real_t  radRayVertex,
-                                                                          real_t  radRefVertex,
-                                                                          real_t  rayVertex_0,
-                                                                          real_t  rayVertex_1,
-                                                                          real_t  refVertex_0,
-                                                                          real_t  refVertex_1,
-                                                                          real_t  thrVertex_0,
-                                                                          real_t  thrVertex_1 ) const;
+   ///    516     729      20      12      0              0                 0              4
+   void toMatrixScaled_P2ElementwiseShearHeatingP1ViscosityAnnulusMap_macro_2D( idx_t* RESTRICT  _data_dstEdge,
+                                                                                idx_t* RESTRICT  _data_dstVertex,
+                                                                                real_t* RESTRICT _data_eta,
+                                                                                idx_t* RESTRICT  _data_srcEdge,
+                                                                                idx_t* RESTRICT  _data_srcVertex,
+                                                                                real_t* RESTRICT _data_uxEdge,
+                                                                                real_t* RESTRICT _data_uxVertex,
+                                                                                real_t* RESTRICT _data_uyEdge,
+                                                                                real_t* RESTRICT _data_uyVertex,
+                                                                                real_t           macro_vertex_coord_id_0comp0,
+                                                                                real_t           macro_vertex_coord_id_0comp1,
+                                                                                real_t           macro_vertex_coord_id_1comp0,
+                                                                                real_t           macro_vertex_coord_id_1comp1,
+                                                                                real_t           macro_vertex_coord_id_2comp0,
+                                                                                real_t           macro_vertex_coord_id_2comp1,
+                                                                                std::shared_ptr< SparseMatrixProxy > mat,
+                                                                                int64_t micro_edges_per_macro_edge,
+                                                                                real_t  micro_edges_per_macro_edge_float,
+                                                                                real_t  radRayVertex,
+                                                                                real_t  radRefVertex,
+                                                                                real_t  rayVertex_0,
+                                                                                real_t  rayVertex_1,
+                                                                                real_t  refVertex_0,
+                                                                                real_t  refVertex_1,
+                                                                                real_t  thrVertex_0,
+                                                                                real_t  thrVertex_1,
+                                                                                real_t  toMatrixScaling ) const;
 
    /// Integral: P2ElementwiseShearHeatingP1ViscosityAnnulusMap
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     computeInverseDiagonalOperatorValues
+   /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
    /// - blending map:    AnnulusMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    462     628      20      12      0              0                 0              1
-   void computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingP1ViscosityAnnulusMap_macro_2D(
+   ///    462     634      20      12      0              0                 0              1
+   void computeInverseDiagonalOperatorValuesScaled_P2ElementwiseShearHeatingP1ViscosityAnnulusMap_macro_2D(
+       real_t* RESTRICT _data_eta,
        real_t* RESTRICT _data_invDiag_Edge,
        real_t* RESTRICT _data_invDiag_Vertex,
-       real_t* RESTRICT _data_mu,
-       real_t* RESTRICT _data_wxEdge,
-       real_t* RESTRICT _data_wxVertex,
-       real_t* RESTRICT _data_wyEdge,
-       real_t* RESTRICT _data_wyVertex,
+       real_t* RESTRICT _data_uxEdge,
+       real_t* RESTRICT _data_uxVertex,
+       real_t* RESTRICT _data_uyEdge,
+       real_t* RESTRICT _data_uyVertex,
+       real_t           diagScaling,
        real_t           macro_vertex_coord_id_0comp0,
        real_t           macro_vertex_coord_id_0comp1,
        real_t           macro_vertex_coord_id_1comp0,
@@ -219,9 +240,9 @@ class P2ElementwiseShearHeatingP1ViscosityAnnulusMap : public Operator< P2Functi
        real_t           thrVertex_1 ) const;
 
    std::shared_ptr< P2Function< real_t > > invDiag_;
-   P1Function< real_t >                    mu;
-   P2Function< real_t >                    wx;
-   P2Function< real_t >                    wy;
+   P1Function< real_t >                    eta;
+   P2Function< real_t >                    ux;
+   P2Function< real_t >                    uy;
 };
 
 } // namespace operatorgeneration

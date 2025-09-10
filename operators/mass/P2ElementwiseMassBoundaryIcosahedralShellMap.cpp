@@ -58,13 +58,14 @@ P2ElementwiseMassBoundaryIcosahedralShellMap::P2ElementwiseMassBoundaryIcosahedr
 , P2ElementwiseMassBoundaryIcosahedralShellMap_boundary_uid_( P2ElementwiseMassBoundaryIcosahedralShellMap_boundary_uid )
 {}
 
-void P2ElementwiseMassBoundaryIcosahedralShellMap::apply( const P2Function< real_t >& src,
-                                                          const P2Function< real_t >& dst,
-                                                          uint_t                      level,
-                                                          DoFType                     flag,
-                                                          UpdateType                  updateType ) const
+void P2ElementwiseMassBoundaryIcosahedralShellMap::applyScaled( const real_t&               operatorScaling,
+                                                                const P2Function< real_t >& src,
+                                                                const P2Function< real_t >& dst,
+                                                                uint_t                      level,
+                                                                DoFType                     flag,
+                                                                UpdateType                  updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -156,7 +157,7 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::apply( const P2Function< real
                   getStorage()->getFace( cell.getLowerDimNeighbors()[0] )->getMeshBoundaryFlag() ) ==
               P2ElementwiseMassBoundaryIcosahedralShellMap_boundary_uid_ )
          {
-            apply_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_0_macro_3D(
+            applyScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_0_macro_3D(
 
                 _data_dstEdge,
                 _data_dstVertex,
@@ -179,6 +180,7 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::apply( const P2Function< real
                 macro_vertex_coord_id_3comp2,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float,
+                operatorScaling,
                 radRayVertex,
                 radRefVertex,
                 rayVertex_0,
@@ -196,7 +198,7 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::apply( const P2Function< real
                   getStorage()->getFace( cell.getLowerDimNeighbors()[1] )->getMeshBoundaryFlag() ) ==
               P2ElementwiseMassBoundaryIcosahedralShellMap_boundary_uid_ )
          {
-            apply_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_1_macro_3D(
+            applyScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_1_macro_3D(
 
                 _data_dstEdge,
                 _data_dstVertex,
@@ -219,6 +221,7 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::apply( const P2Function< real
                 macro_vertex_coord_id_3comp2,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float,
+                operatorScaling,
                 radRayVertex,
                 radRefVertex,
                 rayVertex_0,
@@ -236,7 +239,7 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::apply( const P2Function< real
                   getStorage()->getFace( cell.getLowerDimNeighbors()[2] )->getMeshBoundaryFlag() ) ==
               P2ElementwiseMassBoundaryIcosahedralShellMap_boundary_uid_ )
          {
-            apply_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_2_macro_3D(
+            applyScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_2_macro_3D(
 
                 _data_dstEdge,
                 _data_dstVertex,
@@ -259,6 +262,7 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::apply( const P2Function< real
                 macro_vertex_coord_id_3comp2,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float,
+                operatorScaling,
                 radRayVertex,
                 radRefVertex,
                 rayVertex_0,
@@ -276,7 +280,7 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::apply( const P2Function< real
                   getStorage()->getFace( cell.getLowerDimNeighbors()[3] )->getMeshBoundaryFlag() ) ==
               P2ElementwiseMassBoundaryIcosahedralShellMap_boundary_uid_ )
          {
-            apply_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_3_macro_3D(
+            applyScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_3_macro_3D(
 
                 _data_dstEdge,
                 _data_dstVertex,
@@ -299,6 +303,7 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::apply( const P2Function< real
                 macro_vertex_coord_id_3comp2,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float,
+                operatorScaling,
                 radRayVertex,
                 radRefVertex,
                 rayVertex_0,
@@ -337,20 +342,29 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::apply( const P2Function< real
       WALBERLA_ABORT( "Not implemented." );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P2ElementwiseMassBoundaryIcosahedralShellMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                                             const P2Function< idx_t >&                  src,
-                                                             const P2Function< idx_t >&                  dst,
-                                                             uint_t                                      level,
-                                                             DoFType                                     flag ) const
+void P2ElementwiseMassBoundaryIcosahedralShellMap::apply( const P2Function< real_t >& src,
+                                                          const P2Function< real_t >& dst,
+                                                          uint_t                      level,
+                                                          DoFType                     flag,
+                                                          UpdateType                  updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P2ElementwiseMassBoundaryIcosahedralShellMap::toMatrixScaled( const real_t&                               toMatrixScaling,
+                                                                   const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                                   const P2Function< idx_t >&                  src,
+                                                                   const P2Function< idx_t >&                  dst,
+                                                                   uint_t                                      level,
+                                                                   DoFType                                     flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -408,7 +422,7 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::toMatrix( const std::shared_p
                   getStorage()->getFace( cell.getLowerDimNeighbors()[0] )->getMeshBoundaryFlag() ) ==
               P2ElementwiseMassBoundaryIcosahedralShellMap_boundary_uid_ )
          {
-            toMatrix_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_0_macro_3D(
+            toMatrixScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_0_macro_3D(
 
                 _data_dstEdge,
                 _data_dstVertex,
@@ -442,14 +456,15 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::toMatrix( const std::shared_p
                 refVertex_2,
                 thrVertex_0,
                 thrVertex_1,
-                thrVertex_2 );
+                thrVertex_2,
+                toMatrixScaling );
          }
 
          if ( boundaryCondition_.getBoundaryUIDFromMeshFlag(
                   getStorage()->getFace( cell.getLowerDimNeighbors()[1] )->getMeshBoundaryFlag() ) ==
               P2ElementwiseMassBoundaryIcosahedralShellMap_boundary_uid_ )
          {
-            toMatrix_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_1_macro_3D(
+            toMatrixScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_1_macro_3D(
 
                 _data_dstEdge,
                 _data_dstVertex,
@@ -483,14 +498,15 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::toMatrix( const std::shared_p
                 refVertex_2,
                 thrVertex_0,
                 thrVertex_1,
-                thrVertex_2 );
+                thrVertex_2,
+                toMatrixScaling );
          }
 
          if ( boundaryCondition_.getBoundaryUIDFromMeshFlag(
                   getStorage()->getFace( cell.getLowerDimNeighbors()[2] )->getMeshBoundaryFlag() ) ==
               P2ElementwiseMassBoundaryIcosahedralShellMap_boundary_uid_ )
          {
-            toMatrix_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_2_macro_3D(
+            toMatrixScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_2_macro_3D(
 
                 _data_dstEdge,
                 _data_dstVertex,
@@ -524,14 +540,15 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::toMatrix( const std::shared_p
                 refVertex_2,
                 thrVertex_0,
                 thrVertex_1,
-                thrVertex_2 );
+                thrVertex_2,
+                toMatrixScaling );
          }
 
          if ( boundaryCondition_.getBoundaryUIDFromMeshFlag(
                   getStorage()->getFace( cell.getLowerDimNeighbors()[3] )->getMeshBoundaryFlag() ) ==
               P2ElementwiseMassBoundaryIcosahedralShellMap_boundary_uid_ )
          {
-            toMatrix_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_3_macro_3D(
+            toMatrixScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_3_macro_3D(
 
                 _data_dstEdge,
                 _data_dstVertex,
@@ -565,7 +582,8 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::toMatrix( const std::shared_p
                 refVertex_2,
                 thrVertex_0,
                 thrVertex_1,
-                thrVertex_2 );
+                thrVertex_2,
+                toMatrixScaling );
          }
 
          this->timingTree_->stop( "kernel" );
@@ -579,11 +597,19 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::toMatrix( const std::shared_p
 
       WALBERLA_ABORT( "Not implemented." );
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
 }
-void P2ElementwiseMassBoundaryIcosahedralShellMap::computeInverseDiagonalOperatorValues()
+void P2ElementwiseMassBoundaryIcosahedralShellMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                             const P2Function< idx_t >&                  src,
+                                                             const P2Function< idx_t >&                  dst,
+                                                             uint_t                                      level,
+                                                             DoFType                                     flag ) const
 {
-   this->startTiming( "computeInverseDiagonalOperatorValues" );
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
+}
+void P2ElementwiseMassBoundaryIcosahedralShellMap::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
+{
+   this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
 
    if ( invDiag_ == nullptr )
    {
@@ -648,10 +674,11 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::computeInverseDiagonalOperato
                      getStorage()->getFace( cell.getLowerDimNeighbors()[0] )->getMeshBoundaryFlag() ) ==
                  P2ElementwiseMassBoundaryIcosahedralShellMap_boundary_uid_ )
             {
-               computeInverseDiagonalOperatorValues_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_0_macro_3D(
+               computeInverseDiagonalOperatorValuesScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_0_macro_3D(
 
                    _data_invDiag_Edge,
                    _data_invDiag_Vertex,
+                   diagScaling,
                    forVertex_0,
                    forVertex_1,
                    forVertex_2,
@@ -686,10 +713,11 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::computeInverseDiagonalOperato
                      getStorage()->getFace( cell.getLowerDimNeighbors()[1] )->getMeshBoundaryFlag() ) ==
                  P2ElementwiseMassBoundaryIcosahedralShellMap_boundary_uid_ )
             {
-               computeInverseDiagonalOperatorValues_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_1_macro_3D(
+               computeInverseDiagonalOperatorValuesScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_1_macro_3D(
 
                    _data_invDiag_Edge,
                    _data_invDiag_Vertex,
+                   diagScaling,
                    forVertex_0,
                    forVertex_1,
                    forVertex_2,
@@ -724,10 +752,11 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::computeInverseDiagonalOperato
                      getStorage()->getFace( cell.getLowerDimNeighbors()[2] )->getMeshBoundaryFlag() ) ==
                  P2ElementwiseMassBoundaryIcosahedralShellMap_boundary_uid_ )
             {
-               computeInverseDiagonalOperatorValues_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_2_macro_3D(
+               computeInverseDiagonalOperatorValuesScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_2_macro_3D(
 
                    _data_invDiag_Edge,
                    _data_invDiag_Vertex,
+                   diagScaling,
                    forVertex_0,
                    forVertex_1,
                    forVertex_2,
@@ -762,10 +791,11 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::computeInverseDiagonalOperato
                      getStorage()->getFace( cell.getLowerDimNeighbors()[3] )->getMeshBoundaryFlag() ) ==
                  P2ElementwiseMassBoundaryIcosahedralShellMap_boundary_uid_ )
             {
-               computeInverseDiagonalOperatorValues_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_3_macro_3D(
+               computeInverseDiagonalOperatorValuesScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_3_macro_3D(
 
                    _data_invDiag_Edge,
                    _data_invDiag_Vertex,
+                   diagScaling,
                    forVertex_0,
                    forVertex_1,
                    forVertex_2,
@@ -823,7 +853,11 @@ void P2ElementwiseMassBoundaryIcosahedralShellMap::computeInverseDiagonalOperato
       }
    }
 
-   this->stopTiming( "computeInverseDiagonalOperatorValues" );
+   this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
+}
+void P2ElementwiseMassBoundaryIcosahedralShellMap::computeInverseDiagonalOperatorValues()
+{
+   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
 }
 std::shared_ptr< P2Function< real_t > > P2ElementwiseMassBoundaryIcosahedralShellMap::getInverseDiagonalValues() const
 {

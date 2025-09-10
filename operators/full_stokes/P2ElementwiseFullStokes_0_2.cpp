@@ -55,13 +55,14 @@ P2ElementwiseFullStokes_0_2::P2ElementwiseFullStokes_0_2( const std::shared_ptr<
 , mu( _mu )
 {}
 
-void P2ElementwiseFullStokes_0_2::apply( const P2Function< real_t >& src,
-                                         const P2Function< real_t >& dst,
-                                         uint_t                      level,
-                                         DoFType                     flag,
-                                         UpdateType                  updateType ) const
+void P2ElementwiseFullStokes_0_2::applyScaled( const real_t&               operatorScaling,
+                                               const P2Function< real_t >& src,
+                                               const P2Function< real_t >& dst,
+                                               uint_t                      level,
+                                               DoFType                     flag,
+                                               UpdateType                  updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -137,7 +138,7 @@ void P2ElementwiseFullStokes_0_2::apply( const P2Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_P2ElementwiseFullStokes_0_2_macro_3D(
+         applyScaled_P2ElementwiseFullStokes_0_2_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -158,7 +159,8 @@ void P2ElementwiseFullStokes_0_2::apply( const P2Function< real_t >& src,
              macro_vertex_coord_id_3comp1,
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             operatorScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -185,20 +187,29 @@ void P2ElementwiseFullStokes_0_2::apply( const P2Function< real_t >& src,
       WALBERLA_ABORT( "Not implemented." );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P2ElementwiseFullStokes_0_2::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                            const P2Function< idx_t >&                  src,
-                                            const P2Function< idx_t >&                  dst,
-                                            uint_t                                      level,
-                                            DoFType                                     flag ) const
+void P2ElementwiseFullStokes_0_2::apply( const P2Function< real_t >& src,
+                                         const P2Function< real_t >& dst,
+                                         uint_t                      level,
+                                         DoFType                     flag,
+                                         UpdateType                  updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P2ElementwiseFullStokes_0_2::toMatrixScaled( const real_t&                               toMatrixScaling,
+                                                  const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                  const P2Function< idx_t >&                  src,
+                                                  const P2Function< idx_t >&                  dst,
+                                                  uint_t                                      level,
+                                                  DoFType                                     flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -239,7 +250,7 @@ void P2ElementwiseFullStokes_0_2::toMatrix( const std::shared_ptr< SparseMatrixP
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P2ElementwiseFullStokes_0_2_macro_3D(
+         toMatrixScaled_P2ElementwiseFullStokes_0_2_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -261,7 +272,8 @@ void P2ElementwiseFullStokes_0_2::toMatrix( const std::shared_ptr< SparseMatrixP
              macro_vertex_coord_id_3comp2,
              mat,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -274,7 +286,15 @@ void P2ElementwiseFullStokes_0_2::toMatrix( const std::shared_ptr< SparseMatrixP
 
       WALBERLA_ABORT( "Not implemented." );
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
+}
+void P2ElementwiseFullStokes_0_2::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                            const P2Function< idx_t >&                  src,
+                                            const P2Function< idx_t >&                  dst,
+                                            uint_t                                      level,
+                                            DoFType                                     flag ) const
+{
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
 }
 
 } // namespace operatorgeneration
