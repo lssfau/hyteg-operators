@@ -299,8 +299,10 @@ def generate_operator(
         "IcosahedralShellMap": hog.blending.IcosahedralShellMap(),
         "ParametricP1Map": hog.blending.ParametricMap(1),
         "ParametricP2Map": hog.blending.ParametricMap(2),
-        "PolarCoordsMap": hog.blending.PolarCoordsMap(),
-        "SphericalCoordsMap": hog.blending.SphericalCoordsMap(),
+        "PolarCoordsMap": hog.blending.PolarCoordsMap(False),
+        "SphericalCoordsMap": hog.blending.SphericalCoordsMap(False),
+        "PolarCoordsApproxMap": hog.blending.PolarCoordsMap(True),
+        "SphericalCoordsApproxMap": hog.blending.SphericalCoordsMap(True),        
     }
 
     def raise_exception(dict_key: Union[str, int]) -> None:
