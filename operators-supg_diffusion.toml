@@ -1,0 +1,90 @@
+[[supg_diffusion]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.density_function_space = "P1"
+dimensions    = [2, 3]
+quadrature    = 2
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+extraCoefficients = ["thermalConductivity"]
+form-args.coefficient_delta = false
+form-args.include_invrho = true
+
+[[supg_diffusion]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.density_function_space = "P1"
+dimensions    = [2]
+quadrature    = 3
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+extraCoefficients = ["thermalConductivity"]
+blending      = "AnnulusMap"
+form-args.coefficient_delta = false
+form-args.include_invrho = true
+
+[[supg_diffusion]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.density_function_space = "P1"
+dimensions    = [3]
+quadrature    = 3
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+extraCoefficients = ["thermalConductivity"]
+blending      = "IcosahedralShellMap"
+form-args.coefficient_delta = false
+form-args.include_invrho = true
+
+[[supg_diffusion]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.density_function_space = "P1"
+dimensions    = [2, 3]
+quadrature    = 2
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+extraCoefficients = ["thermalConductivity"]
+operator-name = "SupgDiffusionCoeffDelta"
+form-args.coefficient_delta = true
+form-args.include_invrho = false
+
+[[supg_diffusion]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.density_function_space = "P1"
+dimensions    = [2]
+quadrature    = 3
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+extraCoefficients = ["thermalConductivity"]
+blending      = "AnnulusMap"
+operator-name = "SupgDiffusionCoeffDelta"
+form-args.coefficient_delta = true
+form-args.include_invrho = false
+
+[[supg_diffusion]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.density_function_space = "P1"
+dimensions    = [3]
+quadrature    = 3
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+extraCoefficients = ["thermalConductivity"]
+blending      = "IcosahedralShellMap"
+operator-name = "SupgDiffusionCoeffDelta"
+form-args.coefficient_delta = true
+form-args.include_invrho = false

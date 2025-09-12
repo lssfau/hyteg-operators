@@ -50,22 +50,23 @@ namespace operatorgeneration {
 P2ElementwiseShearHeatingAnnulusMap::P2ElementwiseShearHeatingAnnulusMap( const std::shared_ptr< PrimitiveStorage >& storage,
                                                                           size_t                                     minLevel,
                                                                           size_t                                     maxLevel,
-                                                                          const P2Function< real_t >&                _mu,
-                                                                          const P2Function< real_t >&                _wx,
-                                                                          const P2Function< real_t >&                _wy )
+                                                                          const P2Function< real_t >&                _eta,
+                                                                          const P2Function< real_t >&                _ux,
+                                                                          const P2Function< real_t >&                _uy )
 : Operator( storage, minLevel, maxLevel )
-, mu( _mu )
-, wx( _wx )
-, wy( _wy )
+, eta( _eta )
+, ux( _ux )
+, uy( _uy )
 {}
 
-void P2ElementwiseShearHeatingAnnulusMap::apply( const P2Function< real_t >& src,
-                                                 const P2Function< real_t >& dst,
-                                                 uint_t                      level,
-                                                 DoFType                     flag,
-                                                 UpdateType                  updateType ) const
+void P2ElementwiseShearHeatingAnnulusMap::applyScaled( const real_t&               operatorScaling,
+                                                       const P2Function< real_t >& src,
+                                                       const P2Function< real_t >& dst,
+                                                       uint_t                      level,
+                                                       DoFType                     flag,
+                                                       UpdateType                  updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -76,9 +77,9 @@ void P2ElementwiseShearHeatingAnnulusMap::apply( const P2Function< real_t >& src
    else
    {
       communication::syncFunctionBetweenPrimitives( src, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( mu, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( wx, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( wy, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( eta, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( ux, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( uy, level, communication::syncDirection_t::LOW2HIGH );
    }
    this->timingTree_->stop( "pre-communication" );
 
@@ -106,12 +107,12 @@ void P2ElementwiseShearHeatingAnnulusMap::apply( const P2Function< real_t >& src
          real_t* _data_srcEdge   = face.getData( src.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
          real_t* _data_dstVertex = face.getData( dst.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
          real_t* _data_dstEdge   = face.getData( dst.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_muVertex  = face.getData( mu.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_muEdge    = face.getData( mu.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wxVertex  = face.getData( wx.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wxEdge    = face.getData( wx.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wyVertex  = face.getData( wy.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wyEdge    = face.getData( wy.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_etaVertex = face.getData( eta.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_etaEdge   = face.getData( eta.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uxVertex  = face.getData( ux.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uxEdge    = face.getData( ux.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uyVertex  = face.getData( uy.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uyEdge    = face.getData( uy.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
          // Zero out dst halos only
          //
@@ -160,18 +161,18 @@ void P2ElementwiseShearHeatingAnnulusMap::apply( const P2Function< real_t >& src
 
          this->timingTree_->start( "kernel" );
 
-         apply_P2ElementwiseShearHeatingAnnulusMap_macro_2D(
+         applyScaled_P2ElementwiseShearHeatingAnnulusMap_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
-             _data_muEdge,
-             _data_muVertex,
+             _data_etaEdge,
+             _data_etaVertex,
              _data_srcEdge,
              _data_srcVertex,
-             _data_wxEdge,
-             _data_wxVertex,
-             _data_wyEdge,
-             _data_wyVertex,
+             _data_uxEdge,
+             _data_uxVertex,
+             _data_uyEdge,
+             _data_uyVertex,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
              macro_vertex_coord_id_1comp0,
@@ -180,6 +181,7 @@ void P2ElementwiseShearHeatingAnnulusMap::apply( const P2Function< real_t >& src
              macro_vertex_coord_id_2comp1,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
+             operatorScaling,
              radRayVertex,
              radRefVertex,
              rayVertex_0,
@@ -206,34 +208,43 @@ void P2ElementwiseShearHeatingAnnulusMap::apply( const P2Function< real_t >& src
       this->timingTree_->stop( "post-communication" );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P2ElementwiseShearHeatingAnnulusMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                                    const P2Function< idx_t >&                  src,
-                                                    const P2Function< idx_t >&                  dst,
-                                                    uint_t                                      level,
-                                                    DoFType                                     flag ) const
+void P2ElementwiseShearHeatingAnnulusMap::apply( const P2Function< real_t >& src,
+                                                 const P2Function< real_t >& dst,
+                                                 uint_t                      level,
+                                                 DoFType                     flag,
+                                                 UpdateType                  updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P2ElementwiseShearHeatingAnnulusMap::toMatrixScaled( const real_t&                               toMatrixScaling,
+                                                          const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                          const P2Function< idx_t >&                  src,
+                                                          const P2Function< idx_t >&                  dst,
+                                                          uint_t                                      level,
+                                                          DoFType                                     flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
    {
       this->timingTree_->start( "pre-communication" );
-      mu.communicate< Face, Cell >( level );
-      mu.communicate< Edge, Cell >( level );
-      mu.communicate< Vertex, Cell >( level );
-      wx.communicate< Face, Cell >( level );
-      wx.communicate< Edge, Cell >( level );
-      wx.communicate< Vertex, Cell >( level );
-      wy.communicate< Face, Cell >( level );
-      wy.communicate< Edge, Cell >( level );
-      wy.communicate< Vertex, Cell >( level );
+      eta.communicate< Face, Cell >( level );
+      eta.communicate< Edge, Cell >( level );
+      eta.communicate< Vertex, Cell >( level );
+      ux.communicate< Face, Cell >( level );
+      ux.communicate< Edge, Cell >( level );
+      ux.communicate< Vertex, Cell >( level );
+      uy.communicate< Face, Cell >( level );
+      uy.communicate< Edge, Cell >( level );
+      uy.communicate< Vertex, Cell >( level );
       this->timingTree_->stop( "pre-communication" );
 
       WALBERLA_ABORT( "Not implemented." );
@@ -241,9 +252,9 @@ void P2ElementwiseShearHeatingAnnulusMap::toMatrix( const std::shared_ptr< Spars
    else
    {
       this->timingTree_->start( "pre-communication" );
-      communication::syncFunctionBetweenPrimitives( mu, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( wx, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( wy, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( eta, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( ux, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( uy, level, communication::syncDirection_t::LOW2HIGH );
       this->timingTree_->stop( "pre-communication" );
 
       for ( auto& it : storage_->getFaces() )
@@ -255,12 +266,12 @@ void P2ElementwiseShearHeatingAnnulusMap::toMatrix( const std::shared_ptr< Spars
          idx_t*  _data_srcEdge   = face.getData( src.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
          idx_t*  _data_dstVertex = face.getData( dst.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
          idx_t*  _data_dstEdge   = face.getData( dst.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_muVertex  = face.getData( mu.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_muEdge    = face.getData( mu.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wxVertex  = face.getData( wx.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wxEdge    = face.getData( wx.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wyVertex  = face.getData( wy.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wyEdge    = face.getData( wy.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_etaVertex = face.getData( eta.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_etaEdge   = face.getData( eta.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uxVertex  = face.getData( ux.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uxEdge    = face.getData( ux.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uyVertex  = face.getData( uy.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uyEdge    = face.getData( uy.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
          const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
@@ -285,18 +296,18 @@ void P2ElementwiseShearHeatingAnnulusMap::toMatrix( const std::shared_ptr< Spars
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P2ElementwiseShearHeatingAnnulusMap_macro_2D(
+         toMatrixScaled_P2ElementwiseShearHeatingAnnulusMap_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
-             _data_muEdge,
-             _data_muVertex,
+             _data_etaEdge,
+             _data_etaVertex,
              _data_srcEdge,
              _data_srcVertex,
-             _data_wxEdge,
-             _data_wxVertex,
-             _data_wyEdge,
-             _data_wyVertex,
+             _data_uxEdge,
+             _data_uxVertex,
+             _data_uyEdge,
+             _data_uyVertex,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
              macro_vertex_coord_id_1comp0,
@@ -313,16 +324,25 @@ void P2ElementwiseShearHeatingAnnulusMap::toMatrix( const std::shared_ptr< Spars
              refVertex_0,
              refVertex_1,
              thrVertex_0,
-             thrVertex_1 );
+             thrVertex_1,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
 }
-void P2ElementwiseShearHeatingAnnulusMap::computeInverseDiagonalOperatorValues()
+void P2ElementwiseShearHeatingAnnulusMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                    const P2Function< idx_t >&                  src,
+                                                    const P2Function< idx_t >&                  dst,
+                                                    uint_t                                      level,
+                                                    DoFType                                     flag ) const
 {
-   this->startTiming( "computeInverseDiagonalOperatorValues" );
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
+}
+void P2ElementwiseShearHeatingAnnulusMap::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
+{
+   this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
 
    if ( invDiag_ == nullptr )
    {
@@ -336,15 +356,15 @@ void P2ElementwiseShearHeatingAnnulusMap::computeInverseDiagonalOperatorValues()
       if ( storage_->hasGlobalCells() )
       {
          this->timingTree_->start( "pre-communication" );
-         mu.communicate< Face, Cell >( level );
-         mu.communicate< Edge, Cell >( level );
-         mu.communicate< Vertex, Cell >( level );
-         wx.communicate< Face, Cell >( level );
-         wx.communicate< Edge, Cell >( level );
-         wx.communicate< Vertex, Cell >( level );
-         wy.communicate< Face, Cell >( level );
-         wy.communicate< Edge, Cell >( level );
-         wy.communicate< Vertex, Cell >( level );
+         eta.communicate< Face, Cell >( level );
+         eta.communicate< Edge, Cell >( level );
+         eta.communicate< Vertex, Cell >( level );
+         ux.communicate< Face, Cell >( level );
+         ux.communicate< Edge, Cell >( level );
+         ux.communicate< Vertex, Cell >( level );
+         uy.communicate< Face, Cell >( level );
+         uy.communicate< Edge, Cell >( level );
+         uy.communicate< Vertex, Cell >( level );
          this->timingTree_->stop( "pre-communication" );
 
          WALBERLA_ABORT( "Not implemented." );
@@ -353,9 +373,9 @@ void P2ElementwiseShearHeatingAnnulusMap::computeInverseDiagonalOperatorValues()
       else
       {
          this->timingTree_->start( "pre-communication" );
-         communication::syncFunctionBetweenPrimitives( mu, level, communication::syncDirection_t::LOW2HIGH );
-         communication::syncFunctionBetweenPrimitives( wx, level, communication::syncDirection_t::LOW2HIGH );
-         communication::syncFunctionBetweenPrimitives( wy, level, communication::syncDirection_t::LOW2HIGH );
+         communication::syncFunctionBetweenPrimitives( eta, level, communication::syncDirection_t::LOW2HIGH );
+         communication::syncFunctionBetweenPrimitives( ux, level, communication::syncDirection_t::LOW2HIGH );
+         communication::syncFunctionBetweenPrimitives( uy, level, communication::syncDirection_t::LOW2HIGH );
          this->timingTree_->stop( "pre-communication" );
 
          for ( auto& it : storage_->getFaces() )
@@ -366,12 +386,12 @@ void P2ElementwiseShearHeatingAnnulusMap::computeInverseDiagonalOperatorValues()
             real_t* _data_invDiag_Vertex =
                 face.getData( ( *invDiag_ ).getVertexDoFFunction().getFaceDataID() )->getPointer( level );
             real_t* _data_invDiag_Edge = face.getData( ( *invDiag_ ).getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
-            real_t* _data_muVertex     = face.getData( mu.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-            real_t* _data_muEdge       = face.getData( mu.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
-            real_t* _data_wxVertex     = face.getData( wx.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-            real_t* _data_wxEdge       = face.getData( wx.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
-            real_t* _data_wyVertex     = face.getData( wy.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-            real_t* _data_wyEdge       = face.getData( wy.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_etaVertex    = face.getData( eta.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_etaEdge      = face.getData( eta.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_uxVertex     = face.getData( ux.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_uxEdge       = face.getData( ux.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_uyVertex     = face.getData( uy.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_uyEdge       = face.getData( uy.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
             const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
             const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
@@ -396,16 +416,17 @@ void P2ElementwiseShearHeatingAnnulusMap::computeInverseDiagonalOperatorValues()
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingAnnulusMap_macro_2D(
+            computeInverseDiagonalOperatorValuesScaled_P2ElementwiseShearHeatingAnnulusMap_macro_2D(
 
+                _data_etaEdge,
+                _data_etaVertex,
                 _data_invDiag_Edge,
                 _data_invDiag_Vertex,
-                _data_muEdge,
-                _data_muVertex,
-                _data_wxEdge,
-                _data_wxVertex,
-                _data_wyEdge,
-                _data_wyVertex,
+                _data_uxEdge,
+                _data_uxVertex,
+                _data_uyEdge,
+                _data_uyVertex,
+                diagScaling,
                 macro_vertex_coord_id_0comp0,
                 macro_vertex_coord_id_0comp1,
                 macro_vertex_coord_id_1comp0,
@@ -439,7 +460,11 @@ void P2ElementwiseShearHeatingAnnulusMap::computeInverseDiagonalOperatorValues()
       }
    }
 
-   this->stopTiming( "computeInverseDiagonalOperatorValues" );
+   this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
+}
+void P2ElementwiseShearHeatingAnnulusMap::computeInverseDiagonalOperatorValues()
+{
+   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
 }
 std::shared_ptr< P2Function< real_t > > P2ElementwiseShearHeatingAnnulusMap::getInverseDiagonalValues() const
 {

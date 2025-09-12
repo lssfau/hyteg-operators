@@ -58,13 +58,14 @@ P1ToP2VectorElementwiseGradientRotationAnnulusMap::P1ToP2VectorElementwiseGradie
 , ny_rotation( _ny_rotation )
 {}
 
-void P1ToP2VectorElementwiseGradientRotationAnnulusMap::apply( const P1Function< real_t >&       src,
-                                                               const P2VectorFunction< real_t >& dst,
-                                                               uint_t                            level,
-                                                               DoFType                           flag,
-                                                               UpdateType                        updateType ) const
+void P1ToP2VectorElementwiseGradientRotationAnnulusMap::applyScaled( const real_t&                     operatorScaling,
+                                                                     const P1Function< real_t >&       src,
+                                                                     const P2VectorFunction< real_t >& dst,
+                                                                     uint_t                            level,
+                                                                     DoFType                           flag,
+                                                                     UpdateType                        updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -162,7 +163,7 @@ void P1ToP2VectorElementwiseGradientRotationAnnulusMap::apply( const P1Function<
 
          this->timingTree_->start( "kernel" );
 
-         apply_P1ToP2VectorElementwiseGradientRotationAnnulusMap_macro_2D(
+         applyScaled_P1ToP2VectorElementwiseGradientRotationAnnulusMap_macro_2D(
 
              _data_dst_edge_0,
              _data_dst_edge_1,
@@ -181,6 +182,7 @@ void P1ToP2VectorElementwiseGradientRotationAnnulusMap::apply( const P1Function<
              macro_vertex_coord_id_2comp1,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
+             operatorScaling,
              radRayVertex,
              radRefVertex,
              rayVertex_0,
@@ -213,20 +215,29 @@ void P1ToP2VectorElementwiseGradientRotationAnnulusMap::apply( const P1Function<
       this->timingTree_->stop( "post-communication" );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P1ToP2VectorElementwiseGradientRotationAnnulusMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                                                  const P1Function< idx_t >&                  src,
-                                                                  const P2VectorFunction< idx_t >&            dst,
-                                                                  uint_t                                      level,
-                                                                  DoFType                                     flag ) const
+void P1ToP2VectorElementwiseGradientRotationAnnulusMap::apply( const P1Function< real_t >&       src,
+                                                               const P2VectorFunction< real_t >& dst,
+                                                               uint_t                            level,
+                                                               DoFType                           flag,
+                                                               UpdateType                        updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P1ToP2VectorElementwiseGradientRotationAnnulusMap::toMatrixScaled( const real_t& toMatrixScaling,
+                                                                        const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                                        const P1Function< idx_t >&                  src,
+                                                                        const P2VectorFunction< idx_t >&            dst,
+                                                                        uint_t                                      level,
+                                                                        DoFType                                     flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -290,7 +301,7 @@ void P1ToP2VectorElementwiseGradientRotationAnnulusMap::toMatrix( const std::sha
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P1ToP2VectorElementwiseGradientRotationAnnulusMap_macro_2D(
+         toMatrixScaled_P1ToP2VectorElementwiseGradientRotationAnnulusMap_macro_2D(
 
              _data_dst_edge_0,
              _data_dst_edge_1,
@@ -317,12 +328,21 @@ void P1ToP2VectorElementwiseGradientRotationAnnulusMap::toMatrix( const std::sha
              refVertex_0,
              refVertex_1,
              thrVertex_0,
-             thrVertex_1 );
+             thrVertex_1,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
+}
+void P1ToP2VectorElementwiseGradientRotationAnnulusMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                                  const P1Function< idx_t >&                  src,
+                                                                  const P2VectorFunction< idx_t >&            dst,
+                                                                  uint_t                                      level,
+                                                                  DoFType                                     flag ) const
+{
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
 }
 
 } // namespace operatorgeneration

@@ -47,7 +47,9 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-/// RHS operator for the frozen velocity approach.
+/// Operator for the frozen velocity approach.
+///
+/// Intended for RHS use.
 ///
 /// Geometry map: AnnulusMap
 ///
@@ -57,7 +59,7 @@ namespace operatorgeneration {
 ///     v: test function  (space: Lagrange, degree: 1)
 ///     rho: coefficient    (space: Lagrange, degree: 1)
 ///
-///     ∫ ((∇ρ / ρ) · u) v
+///     ∫ ((∇rho / rho) · u) v
 
 class P2VectorToP1ElementwiseFrozenVelocityP1DensityAnnulusMap
 : public Operator< P2VectorFunction< real_t >, P1Function< real_t > >
@@ -68,11 +70,25 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityAnnulusMap
                                                              size_t                                     maxLevel,
                                                              const P1Function< real_t >&                _rho );
 
+   void applyScaled( const real_t&                     operatorScaling,
+                     const P2VectorFunction< real_t >& src,
+                     const P1Function< real_t >&       dst,
+                     uint_t                            level,
+                     DoFType                           flag,
+                     UpdateType                        updateType = Replace ) const;
+
    void apply( const P2VectorFunction< real_t >& src,
                const P1Function< real_t >&       dst,
                uint_t                            level,
                DoFType                           flag,
                UpdateType                        updateType = Replace ) const;
+
+   void toMatrixScaled( const real_t&                               toMatrixScaling,
+                        const std::shared_ptr< SparseMatrixProxy >& mat,
+                        const P2VectorFunction< idx_t >&            src,
+                        const P1Function< idx_t >&                  dst,
+                        uint_t                                      level,
+                        DoFType                                     flag ) const;
 
    void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                   const P2VectorFunction< idx_t >&            src,
@@ -84,70 +100,73 @@ class P2VectorToP1ElementwiseFrozenVelocityP1DensityAnnulusMap
  private:
    /// Integral: P2VectorToP1ElementwiseFrozenVelocityP1DensityAnnulusMap
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
    /// - blending map:    AnnulusMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    492     688      24      12      0              0                 0              1
-   void apply_P2VectorToP1ElementwiseFrozenVelocityP1DensityAnnulusMap_macro_2D( real_t* RESTRICT _data_dst,
-                                                                                 real_t* RESTRICT _data_rho,
-                                                                                 real_t* RESTRICT _data_src_edge_0,
-                                                                                 real_t* RESTRICT _data_src_edge_1,
-                                                                                 real_t* RESTRICT _data_src_vertex_0,
-                                                                                 real_t* RESTRICT _data_src_vertex_1,
-                                                                                 real_t           macro_vertex_coord_id_0comp0,
-                                                                                 real_t           macro_vertex_coord_id_0comp1,
-                                                                                 real_t           macro_vertex_coord_id_1comp0,
-                                                                                 real_t           macro_vertex_coord_id_1comp1,
-                                                                                 real_t           macro_vertex_coord_id_2comp0,
-                                                                                 real_t           macro_vertex_coord_id_2comp1,
-                                                                                 int64_t          micro_edges_per_macro_edge,
-                                                                                 real_t micro_edges_per_macro_edge_float,
-                                                                                 real_t radRayVertex,
-                                                                                 real_t radRefVertex,
-                                                                                 real_t rayVertex_0,
-                                                                                 real_t rayVertex_1,
-                                                                                 real_t refVertex_0,
-                                                                                 real_t refVertex_1,
-                                                                                 real_t thrVertex_0,
-                                                                                 real_t thrVertex_1 ) const;
+   ///    492     691      24      12      0              0                 0              1
+   void applyScaled_P2VectorToP1ElementwiseFrozenVelocityP1DensityAnnulusMap_macro_2D( real_t* RESTRICT _data_dst,
+                                                                                       real_t* RESTRICT _data_rho,
+                                                                                       real_t* RESTRICT _data_src_edge_0,
+                                                                                       real_t* RESTRICT _data_src_edge_1,
+                                                                                       real_t* RESTRICT _data_src_vertex_0,
+                                                                                       real_t* RESTRICT _data_src_vertex_1,
+                                                                                       real_t  macro_vertex_coord_id_0comp0,
+                                                                                       real_t  macro_vertex_coord_id_0comp1,
+                                                                                       real_t  macro_vertex_coord_id_1comp0,
+                                                                                       real_t  macro_vertex_coord_id_1comp1,
+                                                                                       real_t  macro_vertex_coord_id_2comp0,
+                                                                                       real_t  macro_vertex_coord_id_2comp1,
+                                                                                       int64_t micro_edges_per_macro_edge,
+                                                                                       real_t  micro_edges_per_macro_edge_float,
+                                                                                       real_t  operatorScaling,
+                                                                                       real_t  radRayVertex,
+                                                                                       real_t  radRefVertex,
+                                                                                       real_t  rayVertex_0,
+                                                                                       real_t  rayVertex_1,
+                                                                                       real_t  refVertex_0,
+                                                                                       real_t  refVertex_1,
+                                                                                       real_t  thrVertex_0,
+                                                                                       real_t  thrVertex_1 ) const;
 
    /// Integral: P2VectorToP1ElementwiseFrozenVelocityP1DensityAnnulusMap
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
    /// - blending map:    AnnulusMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    456     652      24      12      0              0                 0              4
-   void toMatrix_P2VectorToP1ElementwiseFrozenVelocityP1DensityAnnulusMap_macro_2D( idx_t* RESTRICT  _data_dst,
-                                                                                    real_t* RESTRICT _data_rho,
-                                                                                    idx_t* RESTRICT  _data_src_edge_0,
-                                                                                    idx_t* RESTRICT  _data_src_edge_1,
-                                                                                    idx_t* RESTRICT  _data_src_vertex_0,
-                                                                                    idx_t* RESTRICT  _data_src_vertex_1,
-                                                                                    real_t           macro_vertex_coord_id_0comp0,
-                                                                                    real_t           macro_vertex_coord_id_0comp1,
-                                                                                    real_t           macro_vertex_coord_id_1comp0,
-                                                                                    real_t           macro_vertex_coord_id_1comp1,
-                                                                                    real_t           macro_vertex_coord_id_2comp0,
-                                                                                    real_t           macro_vertex_coord_id_2comp1,
-                                                                                    std::shared_ptr< SparseMatrixProxy > mat,
-                                                                                    int64_t micro_edges_per_macro_edge,
-                                                                                    real_t  micro_edges_per_macro_edge_float,
-                                                                                    real_t  radRayVertex,
-                                                                                    real_t  radRefVertex,
-                                                                                    real_t  rayVertex_0,
-                                                                                    real_t  rayVertex_1,
-                                                                                    real_t  refVertex_0,
-                                                                                    real_t  refVertex_1,
-                                                                                    real_t  thrVertex_0,
-                                                                                    real_t  thrVertex_1 ) const;
+   ///    456     688      24      12      0              0                 0              4
+   void
+       toMatrixScaled_P2VectorToP1ElementwiseFrozenVelocityP1DensityAnnulusMap_macro_2D( idx_t* RESTRICT  _data_dst,
+                                                                                         real_t* RESTRICT _data_rho,
+                                                                                         idx_t* RESTRICT  _data_src_edge_0,
+                                                                                         idx_t* RESTRICT  _data_src_edge_1,
+                                                                                         idx_t* RESTRICT  _data_src_vertex_0,
+                                                                                         idx_t* RESTRICT  _data_src_vertex_1,
+                                                                                         real_t macro_vertex_coord_id_0comp0,
+                                                                                         real_t macro_vertex_coord_id_0comp1,
+                                                                                         real_t macro_vertex_coord_id_1comp0,
+                                                                                         real_t macro_vertex_coord_id_1comp1,
+                                                                                         real_t macro_vertex_coord_id_2comp0,
+                                                                                         real_t macro_vertex_coord_id_2comp1,
+                                                                                         std::shared_ptr< SparseMatrixProxy > mat,
+                                                                                         int64_t micro_edges_per_macro_edge,
+                                                                                         real_t  micro_edges_per_macro_edge_float,
+                                                                                         real_t  radRayVertex,
+                                                                                         real_t  radRefVertex,
+                                                                                         real_t  rayVertex_0,
+                                                                                         real_t  rayVertex_1,
+                                                                                         real_t  refVertex_0,
+                                                                                         real_t  refVertex_1,
+                                                                                         real_t  thrVertex_0,
+                                                                                         real_t  thrVertex_1,
+                                                                                         real_t  toMatrixScaling ) const;
 
    P1Function< real_t > rho;
 };

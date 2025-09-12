@@ -53,13 +53,14 @@ N1E1ElementwiseCurlCurl::N1E1ElementwiseCurlCurl( const std::shared_ptr< Primiti
 : Operator( storage, minLevel, maxLevel )
 {}
 
-void N1E1ElementwiseCurlCurl::apply( const n1e1::N1E1VectorFunction< real_t >& src,
-                                     const n1e1::N1E1VectorFunction< real_t >& dst,
-                                     uint_t                                    level,
-                                     DoFType                                   flag,
-                                     UpdateType                                updateType ) const
+void N1E1ElementwiseCurlCurl::applyScaled( const real_t&                             operatorScaling,
+                                           const n1e1::N1E1VectorFunction< real_t >& src,
+                                           const n1e1::N1E1VectorFunction< real_t >& dst,
+                                           uint_t                                    level,
+                                           DoFType                                   flag,
+                                           UpdateType                                updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -119,7 +120,7 @@ void N1E1ElementwiseCurlCurl::apply( const n1e1::N1E1VectorFunction< real_t >& s
 
          this->timingTree_->start( "kernel" );
 
-         apply_N1E1ElementwiseCurlCurl_macro_3D(
+         applyScaled_N1E1ElementwiseCurlCurl_macro_3D(
 
              _data_dst,
              _data_src,
@@ -136,7 +137,8 @@ void N1E1ElementwiseCurlCurl::apply( const n1e1::N1E1VectorFunction< real_t >& s
              macro_vertex_coord_id_3comp1,
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             operatorScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -155,20 +157,29 @@ void N1E1ElementwiseCurlCurl::apply( const n1e1::N1E1VectorFunction< real_t >& s
       WALBERLA_ABORT( "Not implemented." );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void N1E1ElementwiseCurlCurl::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                        const n1e1::N1E1VectorFunction< idx_t >&    src,
-                                        const n1e1::N1E1VectorFunction< idx_t >&    dst,
-                                        uint_t                                      level,
-                                        DoFType                                     flag ) const
+void N1E1ElementwiseCurlCurl::apply( const n1e1::N1E1VectorFunction< real_t >& src,
+                                     const n1e1::N1E1VectorFunction< real_t >& dst,
+                                     uint_t                                    level,
+                                     DoFType                                   flag,
+                                     UpdateType                                updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void N1E1ElementwiseCurlCurl::toMatrixScaled( const real_t&                               toMatrixScaling,
+                                              const std::shared_ptr< SparseMatrixProxy >& mat,
+                                              const n1e1::N1E1VectorFunction< idx_t >&    src,
+                                              const n1e1::N1E1VectorFunction< idx_t >&    dst,
+                                              uint_t                                      level,
+                                              DoFType                                     flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -203,7 +214,7 @@ void N1E1ElementwiseCurlCurl::toMatrix( const std::shared_ptr< SparseMatrixProxy
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_N1E1ElementwiseCurlCurl_macro_3D(
+         toMatrixScaled_N1E1ElementwiseCurlCurl_macro_3D(
 
              _data_dst,
              _data_src,
@@ -223,7 +234,8 @@ void N1E1ElementwiseCurlCurl::toMatrix( const std::shared_ptr< SparseMatrixProxy
              macro_vertex_coord_id_3comp2,
              mat,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -236,11 +248,19 @@ void N1E1ElementwiseCurlCurl::toMatrix( const std::shared_ptr< SparseMatrixProxy
 
       WALBERLA_ABORT( "Not implemented." );
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
 }
-void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValues()
+void N1E1ElementwiseCurlCurl::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                        const n1e1::N1E1VectorFunction< idx_t >&    src,
+                                        const n1e1::N1E1VectorFunction< idx_t >&    dst,
+                                        uint_t                                      level,
+                                        DoFType                                     flag ) const
 {
-   this->startTiming( "computeInverseDiagonalOperatorValues" );
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
+}
+void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
+{
+   this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
 
    if ( invDiag_ == nullptr )
    {
@@ -283,9 +303,10 @@ void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValues()
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_N1E1ElementwiseCurlCurl_macro_3D(
+            computeInverseDiagonalOperatorValuesScaled_N1E1ElementwiseCurlCurl_macro_3D(
 
                 _data_invDiag_,
+                diagScaling,
                 macro_vertex_coord_id_0comp0,
                 macro_vertex_coord_id_0comp1,
                 macro_vertex_coord_id_0comp2,
@@ -325,7 +346,11 @@ void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValues()
       }
    }
 
-   this->stopTiming( "computeInverseDiagonalOperatorValues" );
+   this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
+}
+void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValues()
+{
+   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
 }
 std::shared_ptr< n1e1::N1E1VectorFunction< real_t > > N1E1ElementwiseCurlCurl::getInverseDiagonalValues() const
 {

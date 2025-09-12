@@ -52,10 +52,9 @@ namespace operatorgeneration {
 ///
 /// The strong representation of the operator is given by:
 ///
-///    - div[ μ (grad(u)+grad(u)ᵀ) ] + 2/3 grad[ μ div(u) ]
+///    - div[ μ (grad(u)+grad(u)ᵀ) ] + (2/3) grad[ μ div(u) ]
 ///
-/// Note that the factor 2/3 means that for 2D this is the pseudo-3D form
-/// of the operator.
+/// Note that the factor 2/3 means that for 2D this is the pseudo-3D form of the operator.
 ///
 /// Component trial: 1
 /// Component test:  1
@@ -82,17 +81,33 @@ class P2ElementwiseFullStokes_1_1 : public Operator< P2Function< real_t >, P2Fun
                                 size_t                                     maxLevel,
                                 const P2Function< real_t >&                _mu );
 
+   void applyScaled( const real_t&               operatorScaling,
+                     const P2Function< real_t >& src,
+                     const P2Function< real_t >& dst,
+                     uint_t                      level,
+                     DoFType                     flag,
+                     UpdateType                  updateType = Replace ) const;
+
    void apply( const P2Function< real_t >& src,
                const P2Function< real_t >& dst,
                uint_t                      level,
                DoFType                     flag,
                UpdateType                  updateType = Replace ) const;
 
+   void toMatrixScaled( const real_t&                               toMatrixScaling,
+                        const std::shared_ptr< SparseMatrixProxy >& mat,
+                        const P2Function< idx_t >&                  src,
+                        const P2Function< idx_t >&                  dst,
+                        uint_t                                      level,
+                        DoFType                                     flag ) const;
+
    void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                   const P2Function< idx_t >&                  src,
                   const P2Function< idx_t >&                  dst,
                   uint_t                                      level,
                   DoFType                                     flag ) const;
+
+   void computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling );
 
    void computeInverseDiagonalOperatorValues();
 
@@ -102,171 +117,177 @@ class P2ElementwiseFullStokes_1_1 : public Operator< P2Function< real_t >, P2Fun
  private:
    /// Integral: P2ElementwiseFullStokes_1_1
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    407     498      12       0      0              0                 0              1
-   void apply_P2ElementwiseFullStokes_1_1_macro_2D( real_t* RESTRICT _data_dstEdge,
-                                                    real_t* RESTRICT _data_dstVertex,
-                                                    real_t* RESTRICT _data_muEdge,
-                                                    real_t* RESTRICT _data_muVertex,
-                                                    real_t* RESTRICT _data_srcEdge,
-                                                    real_t* RESTRICT _data_srcVertex,
-                                                    real_t           macro_vertex_coord_id_0comp0,
-                                                    real_t           macro_vertex_coord_id_0comp1,
-                                                    real_t           macro_vertex_coord_id_1comp0,
-                                                    real_t           macro_vertex_coord_id_1comp1,
-                                                    real_t           macro_vertex_coord_id_2comp0,
-                                                    real_t           macro_vertex_coord_id_2comp1,
-                                                    int64_t          micro_edges_per_macro_edge,
-                                                    real_t           micro_edges_per_macro_edge_float ) const;
+   ///    407     504      12       0      0              0                 0              1
+   void applyScaled_P2ElementwiseFullStokes_1_1_macro_2D( real_t* RESTRICT _data_dstEdge,
+                                                          real_t* RESTRICT _data_dstVertex,
+                                                          real_t* RESTRICT _data_muEdge,
+                                                          real_t* RESTRICT _data_muVertex,
+                                                          real_t* RESTRICT _data_srcEdge,
+                                                          real_t* RESTRICT _data_srcVertex,
+                                                          real_t           macro_vertex_coord_id_0comp0,
+                                                          real_t           macro_vertex_coord_id_0comp1,
+                                                          real_t           macro_vertex_coord_id_1comp0,
+                                                          real_t           macro_vertex_coord_id_1comp1,
+                                                          real_t           macro_vertex_coord_id_2comp0,
+                                                          real_t           macro_vertex_coord_id_2comp1,
+                                                          int64_t          micro_edges_per_macro_edge,
+                                                          real_t           micro_edges_per_macro_edge_float,
+                                                          real_t           operatorScaling ) const;
 
    /// Integral: P2ElementwiseFullStokes_1_1
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1593    1828      36       0      0              0                 0              1
-   void apply_P2ElementwiseFullStokes_1_1_macro_3D( real_t* RESTRICT _data_dstEdge,
-                                                    real_t* RESTRICT _data_dstVertex,
-                                                    real_t* RESTRICT _data_muEdge,
-                                                    real_t* RESTRICT _data_muVertex,
-                                                    real_t* RESTRICT _data_srcEdge,
-                                                    real_t* RESTRICT _data_srcVertex,
-                                                    real_t           macro_vertex_coord_id_0comp0,
-                                                    real_t           macro_vertex_coord_id_0comp1,
-                                                    real_t           macro_vertex_coord_id_0comp2,
-                                                    real_t           macro_vertex_coord_id_1comp0,
-                                                    real_t           macro_vertex_coord_id_1comp1,
-                                                    real_t           macro_vertex_coord_id_1comp2,
-                                                    real_t           macro_vertex_coord_id_2comp0,
-                                                    real_t           macro_vertex_coord_id_2comp1,
-                                                    real_t           macro_vertex_coord_id_2comp2,
-                                                    real_t           macro_vertex_coord_id_3comp0,
-                                                    real_t           macro_vertex_coord_id_3comp1,
-                                                    real_t           macro_vertex_coord_id_3comp2,
-                                                    int64_t          micro_edges_per_macro_edge,
-                                                    real_t           micro_edges_per_macro_edge_float ) const;
+   ///   1593    1838      36       0      0              0                 0              1
+   void applyScaled_P2ElementwiseFullStokes_1_1_macro_3D( real_t* RESTRICT _data_dstEdge,
+                                                          real_t* RESTRICT _data_dstVertex,
+                                                          real_t* RESTRICT _data_muEdge,
+                                                          real_t* RESTRICT _data_muVertex,
+                                                          real_t* RESTRICT _data_srcEdge,
+                                                          real_t* RESTRICT _data_srcVertex,
+                                                          real_t           macro_vertex_coord_id_0comp0,
+                                                          real_t           macro_vertex_coord_id_0comp1,
+                                                          real_t           macro_vertex_coord_id_0comp2,
+                                                          real_t           macro_vertex_coord_id_1comp0,
+                                                          real_t           macro_vertex_coord_id_1comp1,
+                                                          real_t           macro_vertex_coord_id_1comp2,
+                                                          real_t           macro_vertex_coord_id_2comp0,
+                                                          real_t           macro_vertex_coord_id_2comp1,
+                                                          real_t           macro_vertex_coord_id_2comp2,
+                                                          real_t           macro_vertex_coord_id_3comp0,
+                                                          real_t           macro_vertex_coord_id_3comp1,
+                                                          real_t           macro_vertex_coord_id_3comp2,
+                                                          int64_t          micro_edges_per_macro_edge,
+                                                          real_t           micro_edges_per_macro_edge_float,
+                                                          real_t           operatorScaling ) const;
 
    /// Integral: P2ElementwiseFullStokes_1_1
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    371     462      12       0      0              0                 0              4
-   void toMatrix_P2ElementwiseFullStokes_1_1_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
-                                                       idx_t* RESTRICT                      _data_dstVertex,
-                                                       real_t* RESTRICT                     _data_muEdge,
-                                                       real_t* RESTRICT                     _data_muVertex,
-                                                       idx_t* RESTRICT                      _data_srcEdge,
-                                                       idx_t* RESTRICT                      _data_srcVertex,
-                                                       real_t                               macro_vertex_coord_id_0comp0,
-                                                       real_t                               macro_vertex_coord_id_0comp1,
-                                                       real_t                               macro_vertex_coord_id_1comp0,
-                                                       real_t                               macro_vertex_coord_id_1comp1,
-                                                       real_t                               macro_vertex_coord_id_2comp0,
-                                                       real_t                               macro_vertex_coord_id_2comp1,
-                                                       std::shared_ptr< SparseMatrixProxy > mat,
-                                                       int64_t                              micro_edges_per_macro_edge,
-                                                       real_t micro_edges_per_macro_edge_float ) const;
+   ///    371     483      12       0      0              0                 0              4
+   void toMatrixScaled_P2ElementwiseFullStokes_1_1_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
+                                                             idx_t* RESTRICT                      _data_dstVertex,
+                                                             real_t* RESTRICT                     _data_muEdge,
+                                                             real_t* RESTRICT                     _data_muVertex,
+                                                             idx_t* RESTRICT                      _data_srcEdge,
+                                                             idx_t* RESTRICT                      _data_srcVertex,
+                                                             real_t                               macro_vertex_coord_id_0comp0,
+                                                             real_t                               macro_vertex_coord_id_0comp1,
+                                                             real_t                               macro_vertex_coord_id_1comp0,
+                                                             real_t                               macro_vertex_coord_id_1comp1,
+                                                             real_t                               macro_vertex_coord_id_2comp0,
+                                                             real_t                               macro_vertex_coord_id_2comp1,
+                                                             std::shared_ptr< SparseMatrixProxy > mat,
+                                                             int64_t                              micro_edges_per_macro_edge,
+                                                             real_t micro_edges_per_macro_edge_float,
+                                                             real_t toMatrixScaling ) const;
 
    /// Integral: P2ElementwiseFullStokes_1_1
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1493    1728      36       0      0              0                 0              4
-   void toMatrix_P2ElementwiseFullStokes_1_1_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
-                                                       idx_t* RESTRICT                      _data_dstVertex,
-                                                       real_t* RESTRICT                     _data_muEdge,
-                                                       real_t* RESTRICT                     _data_muVertex,
-                                                       idx_t* RESTRICT                      _data_srcEdge,
-                                                       idx_t* RESTRICT                      _data_srcVertex,
-                                                       real_t                               macro_vertex_coord_id_0comp0,
-                                                       real_t                               macro_vertex_coord_id_0comp1,
-                                                       real_t                               macro_vertex_coord_id_0comp2,
-                                                       real_t                               macro_vertex_coord_id_1comp0,
-                                                       real_t                               macro_vertex_coord_id_1comp1,
-                                                       real_t                               macro_vertex_coord_id_1comp2,
-                                                       real_t                               macro_vertex_coord_id_2comp0,
-                                                       real_t                               macro_vertex_coord_id_2comp1,
-                                                       real_t                               macro_vertex_coord_id_2comp2,
-                                                       real_t                               macro_vertex_coord_id_3comp0,
-                                                       real_t                               macro_vertex_coord_id_3comp1,
-                                                       real_t                               macro_vertex_coord_id_3comp2,
-                                                       std::shared_ptr< SparseMatrixProxy > mat,
-                                                       int64_t                              micro_edges_per_macro_edge,
-                                                       real_t micro_edges_per_macro_edge_float ) const;
+   ///   1493    1783      36       0      0              0                 0              4
+   void toMatrixScaled_P2ElementwiseFullStokes_1_1_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
+                                                             idx_t* RESTRICT                      _data_dstVertex,
+                                                             real_t* RESTRICT                     _data_muEdge,
+                                                             real_t* RESTRICT                     _data_muVertex,
+                                                             idx_t* RESTRICT                      _data_srcEdge,
+                                                             idx_t* RESTRICT                      _data_srcVertex,
+                                                             real_t                               macro_vertex_coord_id_0comp0,
+                                                             real_t                               macro_vertex_coord_id_0comp1,
+                                                             real_t                               macro_vertex_coord_id_0comp2,
+                                                             real_t                               macro_vertex_coord_id_1comp0,
+                                                             real_t                               macro_vertex_coord_id_1comp1,
+                                                             real_t                               macro_vertex_coord_id_1comp2,
+                                                             real_t                               macro_vertex_coord_id_2comp0,
+                                                             real_t                               macro_vertex_coord_id_2comp1,
+                                                             real_t                               macro_vertex_coord_id_2comp2,
+                                                             real_t                               macro_vertex_coord_id_3comp0,
+                                                             real_t                               macro_vertex_coord_id_3comp1,
+                                                             real_t                               macro_vertex_coord_id_3comp2,
+                                                             std::shared_ptr< SparseMatrixProxy > mat,
+                                                             int64_t                              micro_edges_per_macro_edge,
+                                                             real_t micro_edges_per_macro_edge_float,
+                                                             real_t toMatrixScaling ) const;
 
    /// Integral: P2ElementwiseFullStokes_1_1
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     computeInverseDiagonalOperatorValues
+   /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    197     237      12       0      0              0                 0              1
-   void
-       computeInverseDiagonalOperatorValues_P2ElementwiseFullStokes_1_1_macro_2D( real_t* RESTRICT _data_invDiag_Edge,
-                                                                                  real_t* RESTRICT _data_invDiag_Vertex,
-                                                                                  real_t* RESTRICT _data_muEdge,
-                                                                                  real_t* RESTRICT _data_muVertex,
-                                                                                  real_t           macro_vertex_coord_id_0comp0,
-                                                                                  real_t           macro_vertex_coord_id_0comp1,
-                                                                                  real_t           macro_vertex_coord_id_1comp0,
-                                                                                  real_t           macro_vertex_coord_id_1comp1,
-                                                                                  real_t           macro_vertex_coord_id_2comp0,
-                                                                                  real_t           macro_vertex_coord_id_2comp1,
-                                                                                  int64_t          micro_edges_per_macro_edge,
-                                                                                  real_t micro_edges_per_macro_edge_float ) const;
+   ///    197     243      12       0      0              0                 0              1
+   void computeInverseDiagonalOperatorValuesScaled_P2ElementwiseFullStokes_1_1_macro_2D(
+       real_t* RESTRICT _data_invDiag_Edge,
+       real_t* RESTRICT _data_invDiag_Vertex,
+       real_t* RESTRICT _data_muEdge,
+       real_t* RESTRICT _data_muVertex,
+       real_t           diagScaling,
+       real_t           macro_vertex_coord_id_0comp0,
+       real_t           macro_vertex_coord_id_0comp1,
+       real_t           macro_vertex_coord_id_1comp0,
+       real_t           macro_vertex_coord_id_1comp1,
+       real_t           macro_vertex_coord_id_2comp0,
+       real_t           macro_vertex_coord_id_2comp1,
+       int64_t          micro_edges_per_macro_edge,
+       real_t           micro_edges_per_macro_edge_float ) const;
 
    /// Integral: P2ElementwiseFullStokes_1_1
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     computeInverseDiagonalOperatorValues
+   /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    603     684      36       0      0              0                 0              1
-   void
-       computeInverseDiagonalOperatorValues_P2ElementwiseFullStokes_1_1_macro_3D( real_t* RESTRICT _data_invDiag_Edge,
-                                                                                  real_t* RESTRICT _data_invDiag_Vertex,
-                                                                                  real_t* RESTRICT _data_muEdge,
-                                                                                  real_t* RESTRICT _data_muVertex,
-                                                                                  real_t           macro_vertex_coord_id_0comp0,
-                                                                                  real_t           macro_vertex_coord_id_0comp1,
-                                                                                  real_t           macro_vertex_coord_id_0comp2,
-                                                                                  real_t           macro_vertex_coord_id_1comp0,
-                                                                                  real_t           macro_vertex_coord_id_1comp1,
-                                                                                  real_t           macro_vertex_coord_id_1comp2,
-                                                                                  real_t           macro_vertex_coord_id_2comp0,
-                                                                                  real_t           macro_vertex_coord_id_2comp1,
-                                                                                  real_t           macro_vertex_coord_id_2comp2,
-                                                                                  real_t           macro_vertex_coord_id_3comp0,
-                                                                                  real_t           macro_vertex_coord_id_3comp1,
-                                                                                  real_t           macro_vertex_coord_id_3comp2,
-                                                                                  int64_t          micro_edges_per_macro_edge,
-                                                                                  real_t micro_edges_per_macro_edge_float ) const;
+   ///    603     694      36       0      0              0                 0              1
+   void computeInverseDiagonalOperatorValuesScaled_P2ElementwiseFullStokes_1_1_macro_3D(
+       real_t* RESTRICT _data_invDiag_Edge,
+       real_t* RESTRICT _data_invDiag_Vertex,
+       real_t* RESTRICT _data_muEdge,
+       real_t* RESTRICT _data_muVertex,
+       real_t           diagScaling,
+       real_t           macro_vertex_coord_id_0comp0,
+       real_t           macro_vertex_coord_id_0comp1,
+       real_t           macro_vertex_coord_id_0comp2,
+       real_t           macro_vertex_coord_id_1comp0,
+       real_t           macro_vertex_coord_id_1comp1,
+       real_t           macro_vertex_coord_id_1comp2,
+       real_t           macro_vertex_coord_id_2comp0,
+       real_t           macro_vertex_coord_id_2comp1,
+       real_t           macro_vertex_coord_id_2comp2,
+       real_t           macro_vertex_coord_id_3comp0,
+       real_t           macro_vertex_coord_id_3comp1,
+       real_t           macro_vertex_coord_id_3comp2,
+       int64_t          micro_edges_per_macro_edge,
+       real_t           micro_edges_per_macro_edge_float ) const;
 
    std::shared_ptr< P2Function< real_t > > invDiag_;
    P2Function< real_t >                    mu;

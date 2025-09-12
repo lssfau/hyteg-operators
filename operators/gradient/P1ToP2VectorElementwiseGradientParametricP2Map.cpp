@@ -56,13 +56,14 @@ P1ToP2VectorElementwiseGradientParametricP2Map::P1ToP2VectorElementwiseGradientP
 , micromesh( _micromesh )
 {}
 
-void P1ToP2VectorElementwiseGradientParametricP2Map::apply( const P1Function< real_t >&       src,
-                                                            const P2VectorFunction< real_t >& dst,
-                                                            uint_t                            level,
-                                                            DoFType                           flag,
-                                                            UpdateType                        updateType ) const
+void P1ToP2VectorElementwiseGradientParametricP2Map::applyScaled( const real_t&                     operatorScaling,
+                                                                  const P1Function< real_t >&       src,
+                                                                  const P2VectorFunction< real_t >& dst,
+                                                                  uint_t                            level,
+                                                                  DoFType                           flag,
+                                                                  UpdateType                        updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -160,7 +161,7 @@ void P1ToP2VectorElementwiseGradientParametricP2Map::apply( const P1Function< re
 
          this->timingTree_->start( "kernel" );
 
-         apply_P1ToP2VectorElementwiseGradientParametricP2Map_macro_3D(
+         applyScaled_P1ToP2VectorElementwiseGradientParametricP2Map_macro_3D(
 
              _data_dst_edge_0,
              _data_dst_edge_1,
@@ -188,7 +189,8 @@ void P1ToP2VectorElementwiseGradientParametricP2Map::apply( const P1Function< re
              macro_vertex_coord_id_3comp1,
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             operatorScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -288,7 +290,7 @@ void P1ToP2VectorElementwiseGradientParametricP2Map::apply( const P1Function< re
 
          this->timingTree_->start( "kernel" );
 
-         apply_P1ToP2VectorElementwiseGradientParametricP2Map_macro_2D(
+         applyScaled_P1ToP2VectorElementwiseGradientParametricP2Map_macro_2D(
 
              _data_dst_edge_0,
              _data_dst_edge_1,
@@ -306,7 +308,8 @@ void P1ToP2VectorElementwiseGradientParametricP2Map::apply( const P1Function< re
              macro_vertex_coord_id_2comp0,
              macro_vertex_coord_id_2comp1,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             operatorScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -331,20 +334,29 @@ void P1ToP2VectorElementwiseGradientParametricP2Map::apply( const P1Function< re
       this->timingTree_->stop( "post-communication" );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P1ToP2VectorElementwiseGradientParametricP2Map::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                                               const P1Function< idx_t >&                  src,
-                                                               const P2VectorFunction< idx_t >&            dst,
-                                                               uint_t                                      level,
-                                                               DoFType                                     flag ) const
+void P1ToP2VectorElementwiseGradientParametricP2Map::apply( const P1Function< real_t >&       src,
+                                                            const P2VectorFunction< real_t >& dst,
+                                                            uint_t                            level,
+                                                            DoFType                           flag,
+                                                            UpdateType                        updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P1ToP2VectorElementwiseGradientParametricP2Map::toMatrixScaled( const real_t&                               toMatrixScaling,
+                                                                     const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                                     const P1Function< idx_t >&                  src,
+                                                                     const P2VectorFunction< idx_t >&            dst,
+                                                                     uint_t                                      level,
+                                                                     DoFType                                     flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -402,7 +414,7 @@ void P1ToP2VectorElementwiseGradientParametricP2Map::toMatrix( const std::shared
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P1ToP2VectorElementwiseGradientParametricP2Map_macro_3D(
+         toMatrixScaled_P1ToP2VectorElementwiseGradientParametricP2Map_macro_3D(
 
              _data_dst_edge_0,
              _data_dst_edge_1,
@@ -431,7 +443,8 @@ void P1ToP2VectorElementwiseGradientParametricP2Map::toMatrix( const std::shared
              macro_vertex_coord_id_3comp2,
              mat,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -472,7 +485,7 @@ void P1ToP2VectorElementwiseGradientParametricP2Map::toMatrix( const std::shared
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P1ToP2VectorElementwiseGradientParametricP2Map_macro_2D(
+         toMatrixScaled_P1ToP2VectorElementwiseGradientParametricP2Map_macro_2D(
 
              _data_dst_edge_0,
              _data_dst_edge_1,
@@ -491,12 +504,21 @@ void P1ToP2VectorElementwiseGradientParametricP2Map::toMatrix( const std::shared
              macro_vertex_coord_id_2comp1,
              mat,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
+}
+void P1ToP2VectorElementwiseGradientParametricP2Map::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                               const P1Function< idx_t >&                  src,
+                                                               const P2VectorFunction< idx_t >&            dst,
+                                                               uint_t                                      level,
+                                                               DoFType                                     flag ) const
+{
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
 }
 
 } // namespace operatorgeneration

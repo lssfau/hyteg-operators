@@ -55,13 +55,14 @@ P2ElementwiseEpsilon_0_0::P2ElementwiseEpsilon_0_0( const std::shared_ptr< Primi
 , mu( _mu )
 {}
 
-void P2ElementwiseEpsilon_0_0::apply( const P2Function< real_t >& src,
-                                      const P2Function< real_t >& dst,
-                                      uint_t                      level,
-                                      DoFType                     flag,
-                                      UpdateType                  updateType ) const
+void P2ElementwiseEpsilon_0_0::applyScaled( const real_t&               operatorScaling,
+                                            const P2Function< real_t >& src,
+                                            const P2Function< real_t >& dst,
+                                            uint_t                      level,
+                                            DoFType                     flag,
+                                            UpdateType                  updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -138,7 +139,7 @@ void P2ElementwiseEpsilon_0_0::apply( const P2Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_P2ElementwiseEpsilon_0_0_macro_3D(
+         applyScaled_P2ElementwiseEpsilon_0_0_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -159,7 +160,8 @@ void P2ElementwiseEpsilon_0_0::apply( const P2Function< real_t >& src,
              macro_vertex_coord_id_3comp1,
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             operatorScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -231,7 +233,7 @@ void P2ElementwiseEpsilon_0_0::apply( const P2Function< real_t >& src,
 
          this->timingTree_->start( "kernel" );
 
-         apply_P2ElementwiseEpsilon_0_0_macro_2D(
+         applyScaled_P2ElementwiseEpsilon_0_0_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -246,7 +248,8 @@ void P2ElementwiseEpsilon_0_0::apply( const P2Function< real_t >& src,
              macro_vertex_coord_id_2comp0,
              macro_vertex_coord_id_2comp1,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             operatorScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -265,20 +268,29 @@ void P2ElementwiseEpsilon_0_0::apply( const P2Function< real_t >& src,
       this->timingTree_->stop( "post-communication" );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P2ElementwiseEpsilon_0_0::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                         const P2Function< idx_t >&                  src,
-                                         const P2Function< idx_t >&                  dst,
-                                         uint_t                                      level,
-                                         DoFType                                     flag ) const
+void P2ElementwiseEpsilon_0_0::apply( const P2Function< real_t >& src,
+                                      const P2Function< real_t >& dst,
+                                      uint_t                      level,
+                                      DoFType                     flag,
+                                      UpdateType                  updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P2ElementwiseEpsilon_0_0::toMatrixScaled( const real_t&                               toMatrixScaling,
+                                               const std::shared_ptr< SparseMatrixProxy >& mat,
+                                               const P2Function< idx_t >&                  src,
+                                               const P2Function< idx_t >&                  dst,
+                                               uint_t                                      level,
+                                               DoFType                                     flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -319,7 +331,7 @@ void P2ElementwiseEpsilon_0_0::toMatrix( const std::shared_ptr< SparseMatrixProx
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P2ElementwiseEpsilon_0_0_macro_3D(
+         toMatrixScaled_P2ElementwiseEpsilon_0_0_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -341,7 +353,8 @@ void P2ElementwiseEpsilon_0_0::toMatrix( const std::shared_ptr< SparseMatrixProx
              macro_vertex_coord_id_3comp2,
              mat,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -376,7 +389,7 @@ void P2ElementwiseEpsilon_0_0::toMatrix( const std::shared_ptr< SparseMatrixProx
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P2ElementwiseEpsilon_0_0_macro_2D(
+         toMatrixScaled_P2ElementwiseEpsilon_0_0_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
@@ -392,16 +405,25 @@ void P2ElementwiseEpsilon_0_0::toMatrix( const std::shared_ptr< SparseMatrixProx
              macro_vertex_coord_id_2comp1,
              mat,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
 }
-void P2ElementwiseEpsilon_0_0::computeInverseDiagonalOperatorValues()
+void P2ElementwiseEpsilon_0_0::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                         const P2Function< idx_t >&                  src,
+                                         const P2Function< idx_t >&                  dst,
+                                         uint_t                                      level,
+                                         DoFType                                     flag ) const
 {
-   this->startTiming( "computeInverseDiagonalOperatorValues" );
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
+}
+void P2ElementwiseEpsilon_0_0::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
+{
+   this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
 
    if ( invDiag_ == nullptr )
    {
@@ -449,12 +471,13 @@ void P2ElementwiseEpsilon_0_0::computeInverseDiagonalOperatorValues()
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_P2ElementwiseEpsilon_0_0_macro_3D(
+            computeInverseDiagonalOperatorValuesScaled_P2ElementwiseEpsilon_0_0_macro_3D(
 
                 _data_invDiag_Edge,
                 _data_invDiag_Vertex,
                 _data_muEdge,
                 _data_muVertex,
+                diagScaling,
                 macro_vertex_coord_id_0comp0,
                 macro_vertex_coord_id_0comp1,
                 macro_vertex_coord_id_0comp2,
@@ -515,12 +538,13 @@ void P2ElementwiseEpsilon_0_0::computeInverseDiagonalOperatorValues()
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_P2ElementwiseEpsilon_0_0_macro_2D(
+            computeInverseDiagonalOperatorValuesScaled_P2ElementwiseEpsilon_0_0_macro_2D(
 
                 _data_invDiag_Edge,
                 _data_invDiag_Vertex,
                 _data_muEdge,
                 _data_muVertex,
+                diagScaling,
                 macro_vertex_coord_id_0comp0,
                 macro_vertex_coord_id_0comp1,
                 macro_vertex_coord_id_1comp0,
@@ -546,7 +570,11 @@ void P2ElementwiseEpsilon_0_0::computeInverseDiagonalOperatorValues()
       }
    }
 
-   this->stopTiming( "computeInverseDiagonalOperatorValues" );
+   this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
+}
+void P2ElementwiseEpsilon_0_0::computeInverseDiagonalOperatorValues()
+{
+   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
 }
 std::shared_ptr< P2Function< real_t > > P2ElementwiseEpsilon_0_0::getInverseDiagonalValues() const
 {

@@ -58,13 +58,14 @@ P2ElementwiseMassBoundaryAnnulusMap::P2ElementwiseMassBoundaryAnnulusMap(
 , P2ElementwiseMassBoundaryAnnulusMap_boundary_uid_( P2ElementwiseMassBoundaryAnnulusMap_boundary_uid )
 {}
 
-void P2ElementwiseMassBoundaryAnnulusMap::apply( const P2Function< real_t >& src,
-                                                 const P2Function< real_t >& dst,
-                                                 uint_t                      level,
-                                                 DoFType                     flag,
-                                                 UpdateType                  updateType ) const
+void P2ElementwiseMassBoundaryAnnulusMap::applyScaled( const real_t&               operatorScaling,
+                                                       const P2Function< real_t >& src,
+                                                       const P2Function< real_t >& dst,
+                                                       uint_t                      level,
+                                                       DoFType                     flag,
+                                                       UpdateType                  updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -154,7 +155,7 @@ void P2ElementwiseMassBoundaryAnnulusMap::apply( const P2Function< real_t >& src
                   getStorage()->getEdge( face.getLowerDimNeighbors()[0] )->getMeshBoundaryFlag() ) ==
               P2ElementwiseMassBoundaryAnnulusMap_boundary_uid_ )
          {
-            apply_P2ElementwiseMassBoundaryAnnulusMap_facet_id_0_macro_2D(
+            applyScaled_P2ElementwiseMassBoundaryAnnulusMap_facet_id_0_macro_2D(
 
                 _data_dstEdge,
                 _data_dstVertex,
@@ -168,6 +169,7 @@ void P2ElementwiseMassBoundaryAnnulusMap::apply( const P2Function< real_t >& src
                 macro_vertex_coord_id_2comp1,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float,
+                operatorScaling,
                 radRayVertex,
                 radRefVertex,
                 rayVertex_0,
@@ -182,7 +184,7 @@ void P2ElementwiseMassBoundaryAnnulusMap::apply( const P2Function< real_t >& src
                   getStorage()->getEdge( face.getLowerDimNeighbors()[1] )->getMeshBoundaryFlag() ) ==
               P2ElementwiseMassBoundaryAnnulusMap_boundary_uid_ )
          {
-            apply_P2ElementwiseMassBoundaryAnnulusMap_facet_id_1_macro_2D(
+            applyScaled_P2ElementwiseMassBoundaryAnnulusMap_facet_id_1_macro_2D(
 
                 _data_dstEdge,
                 _data_dstVertex,
@@ -196,6 +198,7 @@ void P2ElementwiseMassBoundaryAnnulusMap::apply( const P2Function< real_t >& src
                 macro_vertex_coord_id_2comp1,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float,
+                operatorScaling,
                 radRayVertex,
                 radRefVertex,
                 rayVertex_0,
@@ -210,7 +213,7 @@ void P2ElementwiseMassBoundaryAnnulusMap::apply( const P2Function< real_t >& src
                   getStorage()->getEdge( face.getLowerDimNeighbors()[2] )->getMeshBoundaryFlag() ) ==
               P2ElementwiseMassBoundaryAnnulusMap_boundary_uid_ )
          {
-            apply_P2ElementwiseMassBoundaryAnnulusMap_facet_id_2_macro_2D(
+            applyScaled_P2ElementwiseMassBoundaryAnnulusMap_facet_id_2_macro_2D(
 
                 _data_dstEdge,
                 _data_dstVertex,
@@ -224,6 +227,7 @@ void P2ElementwiseMassBoundaryAnnulusMap::apply( const P2Function< real_t >& src
                 macro_vertex_coord_id_2comp1,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float,
+                operatorScaling,
                 radRayVertex,
                 radRefVertex,
                 rayVertex_0,
@@ -251,20 +255,29 @@ void P2ElementwiseMassBoundaryAnnulusMap::apply( const P2Function< real_t >& src
       this->timingTree_->stop( "post-communication" );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P2ElementwiseMassBoundaryAnnulusMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                                    const P2Function< idx_t >&                  src,
-                                                    const P2Function< idx_t >&                  dst,
-                                                    uint_t                                      level,
-                                                    DoFType                                     flag ) const
+void P2ElementwiseMassBoundaryAnnulusMap::apply( const P2Function< real_t >& src,
+                                                 const P2Function< real_t >& dst,
+                                                 uint_t                      level,
+                                                 DoFType                     flag,
+                                                 UpdateType                  updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P2ElementwiseMassBoundaryAnnulusMap::toMatrixScaled( const real_t&                               toMatrixScaling,
+                                                          const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                          const P2Function< idx_t >&                  src,
+                                                          const P2Function< idx_t >&                  dst,
+                                                          uint_t                                      level,
+                                                          DoFType                                     flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -318,7 +331,7 @@ void P2ElementwiseMassBoundaryAnnulusMap::toMatrix( const std::shared_ptr< Spars
                   getStorage()->getEdge( face.getLowerDimNeighbors()[0] )->getMeshBoundaryFlag() ) ==
               P2ElementwiseMassBoundaryAnnulusMap_boundary_uid_ )
          {
-            toMatrix_P2ElementwiseMassBoundaryAnnulusMap_facet_id_0_macro_2D(
+            toMatrixScaled_P2ElementwiseMassBoundaryAnnulusMap_facet_id_0_macro_2D(
 
                 _data_dstEdge,
                 _data_dstVertex,
@@ -340,14 +353,15 @@ void P2ElementwiseMassBoundaryAnnulusMap::toMatrix( const std::shared_ptr< Spars
                 refVertex_0,
                 refVertex_1,
                 thrVertex_0,
-                thrVertex_1 );
+                thrVertex_1,
+                toMatrixScaling );
          }
 
          if ( boundaryCondition_.getBoundaryUIDFromMeshFlag(
                   getStorage()->getEdge( face.getLowerDimNeighbors()[1] )->getMeshBoundaryFlag() ) ==
               P2ElementwiseMassBoundaryAnnulusMap_boundary_uid_ )
          {
-            toMatrix_P2ElementwiseMassBoundaryAnnulusMap_facet_id_1_macro_2D(
+            toMatrixScaled_P2ElementwiseMassBoundaryAnnulusMap_facet_id_1_macro_2D(
 
                 _data_dstEdge,
                 _data_dstVertex,
@@ -369,14 +383,15 @@ void P2ElementwiseMassBoundaryAnnulusMap::toMatrix( const std::shared_ptr< Spars
                 refVertex_0,
                 refVertex_1,
                 thrVertex_0,
-                thrVertex_1 );
+                thrVertex_1,
+                toMatrixScaling );
          }
 
          if ( boundaryCondition_.getBoundaryUIDFromMeshFlag(
                   getStorage()->getEdge( face.getLowerDimNeighbors()[2] )->getMeshBoundaryFlag() ) ==
               P2ElementwiseMassBoundaryAnnulusMap_boundary_uid_ )
          {
-            toMatrix_P2ElementwiseMassBoundaryAnnulusMap_facet_id_2_macro_2D(
+            toMatrixScaled_P2ElementwiseMassBoundaryAnnulusMap_facet_id_2_macro_2D(
 
                 _data_dstEdge,
                 _data_dstVertex,
@@ -398,17 +413,26 @@ void P2ElementwiseMassBoundaryAnnulusMap::toMatrix( const std::shared_ptr< Spars
                 refVertex_0,
                 refVertex_1,
                 thrVertex_0,
-                thrVertex_1 );
+                thrVertex_1,
+                toMatrixScaling );
          }
 
          this->timingTree_->stop( "kernel" );
       }
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
 }
-void P2ElementwiseMassBoundaryAnnulusMap::computeInverseDiagonalOperatorValues()
+void P2ElementwiseMassBoundaryAnnulusMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                    const P2Function< idx_t >&                  src,
+                                                    const P2Function< idx_t >&                  dst,
+                                                    uint_t                                      level,
+                                                    DoFType                                     flag ) const
 {
-   this->startTiming( "computeInverseDiagonalOperatorValues" );
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
+}
+void P2ElementwiseMassBoundaryAnnulusMap::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
+{
+   this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
 
    if ( invDiag_ == nullptr )
    {
@@ -470,10 +494,11 @@ void P2ElementwiseMassBoundaryAnnulusMap::computeInverseDiagonalOperatorValues()
                      getStorage()->getEdge( face.getLowerDimNeighbors()[0] )->getMeshBoundaryFlag() ) ==
                  P2ElementwiseMassBoundaryAnnulusMap_boundary_uid_ )
             {
-               computeInverseDiagonalOperatorValues_P2ElementwiseMassBoundaryAnnulusMap_facet_id_0_macro_2D(
+               computeInverseDiagonalOperatorValuesScaled_P2ElementwiseMassBoundaryAnnulusMap_facet_id_0_macro_2D(
 
                    _data_invDiag_Edge,
                    _data_invDiag_Vertex,
+                   diagScaling,
                    macro_vertex_coord_id_0comp0,
                    macro_vertex_coord_id_0comp1,
                    macro_vertex_coord_id_1comp0,
@@ -496,10 +521,11 @@ void P2ElementwiseMassBoundaryAnnulusMap::computeInverseDiagonalOperatorValues()
                      getStorage()->getEdge( face.getLowerDimNeighbors()[1] )->getMeshBoundaryFlag() ) ==
                  P2ElementwiseMassBoundaryAnnulusMap_boundary_uid_ )
             {
-               computeInverseDiagonalOperatorValues_P2ElementwiseMassBoundaryAnnulusMap_facet_id_1_macro_2D(
+               computeInverseDiagonalOperatorValuesScaled_P2ElementwiseMassBoundaryAnnulusMap_facet_id_1_macro_2D(
 
                    _data_invDiag_Edge,
                    _data_invDiag_Vertex,
+                   diagScaling,
                    macro_vertex_coord_id_0comp0,
                    macro_vertex_coord_id_0comp1,
                    macro_vertex_coord_id_1comp0,
@@ -522,10 +548,11 @@ void P2ElementwiseMassBoundaryAnnulusMap::computeInverseDiagonalOperatorValues()
                      getStorage()->getEdge( face.getLowerDimNeighbors()[2] )->getMeshBoundaryFlag() ) ==
                  P2ElementwiseMassBoundaryAnnulusMap_boundary_uid_ )
             {
-               computeInverseDiagonalOperatorValues_P2ElementwiseMassBoundaryAnnulusMap_facet_id_2_macro_2D(
+               computeInverseDiagonalOperatorValuesScaled_P2ElementwiseMassBoundaryAnnulusMap_facet_id_2_macro_2D(
 
                    _data_invDiag_Edge,
                    _data_invDiag_Vertex,
+                   diagScaling,
                    macro_vertex_coord_id_0comp0,
                    macro_vertex_coord_id_0comp1,
                    macro_vertex_coord_id_1comp0,
@@ -560,7 +587,11 @@ void P2ElementwiseMassBoundaryAnnulusMap::computeInverseDiagonalOperatorValues()
       }
    }
 
-   this->stopTiming( "computeInverseDiagonalOperatorValues" );
+   this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
+}
+void P2ElementwiseMassBoundaryAnnulusMap::computeInverseDiagonalOperatorValues()
+{
+   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
 }
 std::shared_ptr< P2Function< real_t > > P2ElementwiseMassBoundaryAnnulusMap::getInverseDiagonalValues() const
 {

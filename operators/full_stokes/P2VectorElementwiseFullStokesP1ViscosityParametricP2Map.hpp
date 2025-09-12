@@ -55,10 +55,9 @@ namespace operatorgeneration {
 ///
 /// The strong representation of the operator is given by:
 ///
-///    - div[ μ (grad(u)+grad(u)ᵀ) ] + 2/3 grad[ μ div(u) ]
+///    - div[ μ (grad(u)+grad(u)ᵀ) ] + (2/3) grad[ μ div(u) ]
 ///
-/// Note that the factor 2/3 means that for 2D this is the pseudo-3D form
-/// of the operator.
+/// Note that the factor 2/3 means that for 2D this is the pseudo-3D form of the operator.
 ///
 /// Component trial: 0
 /// Component test:  0
@@ -87,17 +86,33 @@ class P2VectorElementwiseFullStokesP1ViscosityParametricP2Map
                                                             const P2VectorFunction< real_t >&          _micromesh,
                                                             const P1Function< real_t >&                _mu );
 
+   void applyScaled( const real_t&                     operatorScaling,
+                     const P2VectorFunction< real_t >& src,
+                     const P2VectorFunction< real_t >& dst,
+                     uint_t                            level,
+                     DoFType                           flag,
+                     UpdateType                        updateType = Replace ) const;
+
    void apply( const P2VectorFunction< real_t >& src,
                const P2VectorFunction< real_t >& dst,
                uint_t                            level,
                DoFType                           flag,
                UpdateType                        updateType = Replace ) const;
 
+   void toMatrixScaled( const real_t&                               toMatrixScaling,
+                        const std::shared_ptr< SparseMatrixProxy >& mat,
+                        const P2VectorFunction< idx_t >&            src,
+                        const P2VectorFunction< idx_t >&            dst,
+                        uint_t                                      level,
+                        DoFType                                     flag ) const;
+
    void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                   const P2VectorFunction< idx_t >&            src,
                   const P2VectorFunction< idx_t >&            dst,
                   uint_t                                      level,
                   DoFType                                     flag ) const;
+
+   void computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling );
 
    void computeInverseDiagonalOperatorValues();
 
@@ -107,171 +122,175 @@ class P2VectorElementwiseFullStokesP1ViscosityParametricP2Map
  private:
    /// Integral: P2VectorElementwiseFullStokesP1ViscosityParametricP2Map
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1589    1761      15       0      3              0                 0              1
-   void apply_P2VectorElementwiseFullStokesP1ViscosityParametricP2Map_macro_2D( real_t* RESTRICT _data_dst_edge_0,
-                                                                                real_t* RESTRICT _data_dst_edge_1,
-                                                                                real_t* RESTRICT _data_dst_vertex_0,
-                                                                                real_t* RESTRICT _data_dst_vertex_1,
-                                                                                real_t* RESTRICT _data_micromesh_edge_0,
-                                                                                real_t* RESTRICT _data_micromesh_edge_1,
-                                                                                real_t* RESTRICT _data_micromesh_vertex_0,
-                                                                                real_t* RESTRICT _data_micromesh_vertex_1,
-                                                                                real_t* RESTRICT _data_mu,
-                                                                                real_t* RESTRICT _data_src_edge_0,
-                                                                                real_t* RESTRICT _data_src_edge_1,
-                                                                                real_t* RESTRICT _data_src_vertex_0,
-                                                                                real_t* RESTRICT _data_src_vertex_1,
-                                                                                real_t           macro_vertex_coord_id_0comp0,
-                                                                                real_t           macro_vertex_coord_id_0comp1,
-                                                                                real_t           macro_vertex_coord_id_1comp0,
-                                                                                real_t           macro_vertex_coord_id_1comp1,
-                                                                                real_t           macro_vertex_coord_id_2comp0,
-                                                                                real_t           macro_vertex_coord_id_2comp1,
-                                                                                int64_t          micro_edges_per_macro_edge,
-                                                                                real_t micro_edges_per_macro_edge_float ) const;
+   ///   1595    1773      15       0      3              0                 0              1
+   void applyScaled_P2VectorElementwiseFullStokesP1ViscosityParametricP2Map_macro_2D( real_t* RESTRICT _data_dst_edge_0,
+                                                                                      real_t* RESTRICT _data_dst_edge_1,
+                                                                                      real_t* RESTRICT _data_dst_vertex_0,
+                                                                                      real_t* RESTRICT _data_dst_vertex_1,
+                                                                                      real_t* RESTRICT _data_micromesh_edge_0,
+                                                                                      real_t* RESTRICT _data_micromesh_edge_1,
+                                                                                      real_t* RESTRICT _data_micromesh_vertex_0,
+                                                                                      real_t* RESTRICT _data_micromesh_vertex_1,
+                                                                                      real_t* RESTRICT _data_mu,
+                                                                                      real_t* RESTRICT _data_src_edge_0,
+                                                                                      real_t* RESTRICT _data_src_edge_1,
+                                                                                      real_t* RESTRICT _data_src_vertex_0,
+                                                                                      real_t* RESTRICT _data_src_vertex_1,
+                                                                                      real_t  macro_vertex_coord_id_0comp0,
+                                                                                      real_t  macro_vertex_coord_id_0comp1,
+                                                                                      real_t  macro_vertex_coord_id_1comp0,
+                                                                                      real_t  macro_vertex_coord_id_1comp1,
+                                                                                      real_t  macro_vertex_coord_id_2comp0,
+                                                                                      real_t  macro_vertex_coord_id_2comp1,
+                                                                                      int64_t micro_edges_per_macro_edge,
+                                                                                      real_t  micro_edges_per_macro_edge_float,
+                                                                                      real_t  operatorScaling ) const;
 
    /// Integral: P2VectorElementwiseFullStokesP1ViscosityParametricP2Map
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///  12509   12648      40       0      4              0                 0              1
-   void apply_P2VectorElementwiseFullStokesP1ViscosityParametricP2Map_macro_3D( real_t* RESTRICT _data_dst_edge_0,
-                                                                                real_t* RESTRICT _data_dst_edge_1,
-                                                                                real_t* RESTRICT _data_dst_edge_2,
-                                                                                real_t* RESTRICT _data_dst_vertex_0,
-                                                                                real_t* RESTRICT _data_dst_vertex_1,
-                                                                                real_t* RESTRICT _data_dst_vertex_2,
-                                                                                real_t* RESTRICT _data_micromesh_edge_0,
-                                                                                real_t* RESTRICT _data_micromesh_edge_1,
-                                                                                real_t* RESTRICT _data_micromesh_edge_2,
-                                                                                real_t* RESTRICT _data_micromesh_vertex_0,
-                                                                                real_t* RESTRICT _data_micromesh_vertex_1,
-                                                                                real_t* RESTRICT _data_micromesh_vertex_2,
-                                                                                real_t* RESTRICT _data_mu,
-                                                                                real_t* RESTRICT _data_src_edge_0,
-                                                                                real_t* RESTRICT _data_src_edge_1,
-                                                                                real_t* RESTRICT _data_src_edge_2,
-                                                                                real_t* RESTRICT _data_src_vertex_0,
-                                                                                real_t* RESTRICT _data_src_vertex_1,
-                                                                                real_t* RESTRICT _data_src_vertex_2,
-                                                                                real_t           macro_vertex_coord_id_0comp0,
-                                                                                real_t           macro_vertex_coord_id_0comp1,
-                                                                                real_t           macro_vertex_coord_id_0comp2,
-                                                                                real_t           macro_vertex_coord_id_1comp0,
-                                                                                real_t           macro_vertex_coord_id_1comp1,
-                                                                                real_t           macro_vertex_coord_id_1comp2,
-                                                                                real_t           macro_vertex_coord_id_2comp0,
-                                                                                real_t           macro_vertex_coord_id_2comp1,
-                                                                                real_t           macro_vertex_coord_id_2comp2,
-                                                                                real_t           macro_vertex_coord_id_3comp0,
-                                                                                real_t           macro_vertex_coord_id_3comp1,
-                                                                                real_t           macro_vertex_coord_id_3comp2,
-                                                                                int64_t          micro_edges_per_macro_edge,
-                                                                                real_t micro_edges_per_macro_edge_float ) const;
+   ///  12521   12678      40       0      4              0                 0              1
+   void applyScaled_P2VectorElementwiseFullStokesP1ViscosityParametricP2Map_macro_3D( real_t* RESTRICT _data_dst_edge_0,
+                                                                                      real_t* RESTRICT _data_dst_edge_1,
+                                                                                      real_t* RESTRICT _data_dst_edge_2,
+                                                                                      real_t* RESTRICT _data_dst_vertex_0,
+                                                                                      real_t* RESTRICT _data_dst_vertex_1,
+                                                                                      real_t* RESTRICT _data_dst_vertex_2,
+                                                                                      real_t* RESTRICT _data_micromesh_edge_0,
+                                                                                      real_t* RESTRICT _data_micromesh_edge_1,
+                                                                                      real_t* RESTRICT _data_micromesh_edge_2,
+                                                                                      real_t* RESTRICT _data_micromesh_vertex_0,
+                                                                                      real_t* RESTRICT _data_micromesh_vertex_1,
+                                                                                      real_t* RESTRICT _data_micromesh_vertex_2,
+                                                                                      real_t* RESTRICT _data_mu,
+                                                                                      real_t* RESTRICT _data_src_edge_0,
+                                                                                      real_t* RESTRICT _data_src_edge_1,
+                                                                                      real_t* RESTRICT _data_src_edge_2,
+                                                                                      real_t* RESTRICT _data_src_vertex_0,
+                                                                                      real_t* RESTRICT _data_src_vertex_1,
+                                                                                      real_t* RESTRICT _data_src_vertex_2,
+                                                                                      real_t  macro_vertex_coord_id_0comp0,
+                                                                                      real_t  macro_vertex_coord_id_0comp1,
+                                                                                      real_t  macro_vertex_coord_id_0comp2,
+                                                                                      real_t  macro_vertex_coord_id_1comp0,
+                                                                                      real_t  macro_vertex_coord_id_1comp1,
+                                                                                      real_t  macro_vertex_coord_id_1comp2,
+                                                                                      real_t  macro_vertex_coord_id_2comp0,
+                                                                                      real_t  macro_vertex_coord_id_2comp1,
+                                                                                      real_t  macro_vertex_coord_id_2comp2,
+                                                                                      real_t  macro_vertex_coord_id_3comp0,
+                                                                                      real_t  macro_vertex_coord_id_3comp1,
+                                                                                      real_t  macro_vertex_coord_id_3comp2,
+                                                                                      int64_t micro_edges_per_macro_edge,
+                                                                                      real_t  micro_edges_per_macro_edge_float,
+                                                                                      real_t  operatorScaling ) const;
 
    /// Integral: P2VectorElementwiseFullStokesP1ViscosityParametricP2Map
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1445    1617      15       0      3              0                 0              4
+   ///   1451    1695      15       0      3              0                 0              4
    void
-       toMatrix_P2VectorElementwiseFullStokesP1ViscosityParametricP2Map_macro_2D( idx_t* RESTRICT  _data_dst_edge_0,
-                                                                                  idx_t* RESTRICT  _data_dst_edge_1,
-                                                                                  idx_t* RESTRICT  _data_dst_vertex_0,
-                                                                                  idx_t* RESTRICT  _data_dst_vertex_1,
-                                                                                  real_t* RESTRICT _data_micromesh_edge_0,
-                                                                                  real_t* RESTRICT _data_micromesh_edge_1,
-                                                                                  real_t* RESTRICT _data_micromesh_vertex_0,
-                                                                                  real_t* RESTRICT _data_micromesh_vertex_1,
-                                                                                  real_t* RESTRICT _data_mu,
-                                                                                  idx_t* RESTRICT  _data_src_edge_0,
-                                                                                  idx_t* RESTRICT  _data_src_edge_1,
-                                                                                  idx_t* RESTRICT  _data_src_vertex_0,
-                                                                                  idx_t* RESTRICT  _data_src_vertex_1,
-                                                                                  real_t           macro_vertex_coord_id_0comp0,
-                                                                                  real_t           macro_vertex_coord_id_0comp1,
-                                                                                  real_t           macro_vertex_coord_id_1comp0,
-                                                                                  real_t           macro_vertex_coord_id_1comp1,
-                                                                                  real_t           macro_vertex_coord_id_2comp0,
-                                                                                  real_t           macro_vertex_coord_id_2comp1,
-                                                                                  std::shared_ptr< SparseMatrixProxy > mat,
-                                                                                  int64_t micro_edges_per_macro_edge,
-                                                                                  real_t micro_edges_per_macro_edge_float ) const;
+       toMatrixScaled_P2VectorElementwiseFullStokesP1ViscosityParametricP2Map_macro_2D( idx_t* RESTRICT  _data_dst_edge_0,
+                                                                                        idx_t* RESTRICT  _data_dst_edge_1,
+                                                                                        idx_t* RESTRICT  _data_dst_vertex_0,
+                                                                                        idx_t* RESTRICT  _data_dst_vertex_1,
+                                                                                        real_t* RESTRICT _data_micromesh_edge_0,
+                                                                                        real_t* RESTRICT _data_micromesh_edge_1,
+                                                                                        real_t* RESTRICT _data_micromesh_vertex_0,
+                                                                                        real_t* RESTRICT _data_micromesh_vertex_1,
+                                                                                        real_t* RESTRICT _data_mu,
+                                                                                        idx_t* RESTRICT  _data_src_edge_0,
+                                                                                        idx_t* RESTRICT  _data_src_edge_1,
+                                                                                        idx_t* RESTRICT  _data_src_vertex_0,
+                                                                                        idx_t* RESTRICT  _data_src_vertex_1,
+                                                                                        real_t macro_vertex_coord_id_0comp0,
+                                                                                        real_t macro_vertex_coord_id_0comp1,
+                                                                                        real_t macro_vertex_coord_id_1comp0,
+                                                                                        real_t macro_vertex_coord_id_1comp1,
+                                                                                        real_t macro_vertex_coord_id_2comp0,
+                                                                                        real_t macro_vertex_coord_id_2comp1,
+                                                                                        std::shared_ptr< SparseMatrixProxy > mat,
+                                                                                        int64_t micro_edges_per_macro_edge,
+                                                                                        real_t  micro_edges_per_macro_edge_float,
+                                                                                        real_t  toMatrixScaling ) const;
 
    /// Integral: P2VectorElementwiseFullStokesP1ViscosityParametricP2Map
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///  11609   11748      40       0      4              0                 0              4
+   ///  11621   12213      40       0      4              0                 0              4
    void
-       toMatrix_P2VectorElementwiseFullStokesP1ViscosityParametricP2Map_macro_3D( idx_t* RESTRICT  _data_dst_edge_0,
-                                                                                  idx_t* RESTRICT  _data_dst_edge_1,
-                                                                                  idx_t* RESTRICT  _data_dst_edge_2,
-                                                                                  idx_t* RESTRICT  _data_dst_vertex_0,
-                                                                                  idx_t* RESTRICT  _data_dst_vertex_1,
-                                                                                  idx_t* RESTRICT  _data_dst_vertex_2,
-                                                                                  real_t* RESTRICT _data_micromesh_edge_0,
-                                                                                  real_t* RESTRICT _data_micromesh_edge_1,
-                                                                                  real_t* RESTRICT _data_micromesh_edge_2,
-                                                                                  real_t* RESTRICT _data_micromesh_vertex_0,
-                                                                                  real_t* RESTRICT _data_micromesh_vertex_1,
-                                                                                  real_t* RESTRICT _data_micromesh_vertex_2,
-                                                                                  real_t* RESTRICT _data_mu,
-                                                                                  idx_t* RESTRICT  _data_src_edge_0,
-                                                                                  idx_t* RESTRICT  _data_src_edge_1,
-                                                                                  idx_t* RESTRICT  _data_src_edge_2,
-                                                                                  idx_t* RESTRICT  _data_src_vertex_0,
-                                                                                  idx_t* RESTRICT  _data_src_vertex_1,
-                                                                                  idx_t* RESTRICT  _data_src_vertex_2,
-                                                                                  real_t           macro_vertex_coord_id_0comp0,
-                                                                                  real_t           macro_vertex_coord_id_0comp1,
-                                                                                  real_t           macro_vertex_coord_id_0comp2,
-                                                                                  real_t           macro_vertex_coord_id_1comp0,
-                                                                                  real_t           macro_vertex_coord_id_1comp1,
-                                                                                  real_t           macro_vertex_coord_id_1comp2,
-                                                                                  real_t           macro_vertex_coord_id_2comp0,
-                                                                                  real_t           macro_vertex_coord_id_2comp1,
-                                                                                  real_t           macro_vertex_coord_id_2comp2,
-                                                                                  real_t           macro_vertex_coord_id_3comp0,
-                                                                                  real_t           macro_vertex_coord_id_3comp1,
-                                                                                  real_t           macro_vertex_coord_id_3comp2,
-                                                                                  std::shared_ptr< SparseMatrixProxy > mat,
-                                                                                  int64_t micro_edges_per_macro_edge,
-                                                                                  real_t micro_edges_per_macro_edge_float ) const;
+       toMatrixScaled_P2VectorElementwiseFullStokesP1ViscosityParametricP2Map_macro_3D( idx_t* RESTRICT  _data_dst_edge_0,
+                                                                                        idx_t* RESTRICT  _data_dst_edge_1,
+                                                                                        idx_t* RESTRICT  _data_dst_edge_2,
+                                                                                        idx_t* RESTRICT  _data_dst_vertex_0,
+                                                                                        idx_t* RESTRICT  _data_dst_vertex_1,
+                                                                                        idx_t* RESTRICT  _data_dst_vertex_2,
+                                                                                        real_t* RESTRICT _data_micromesh_edge_0,
+                                                                                        real_t* RESTRICT _data_micromesh_edge_1,
+                                                                                        real_t* RESTRICT _data_micromesh_edge_2,
+                                                                                        real_t* RESTRICT _data_micromesh_vertex_0,
+                                                                                        real_t* RESTRICT _data_micromesh_vertex_1,
+                                                                                        real_t* RESTRICT _data_micromesh_vertex_2,
+                                                                                        real_t* RESTRICT _data_mu,
+                                                                                        idx_t* RESTRICT  _data_src_edge_0,
+                                                                                        idx_t* RESTRICT  _data_src_edge_1,
+                                                                                        idx_t* RESTRICT  _data_src_edge_2,
+                                                                                        idx_t* RESTRICT  _data_src_vertex_0,
+                                                                                        idx_t* RESTRICT  _data_src_vertex_1,
+                                                                                        idx_t* RESTRICT  _data_src_vertex_2,
+                                                                                        real_t macro_vertex_coord_id_0comp0,
+                                                                                        real_t macro_vertex_coord_id_0comp1,
+                                                                                        real_t macro_vertex_coord_id_0comp2,
+                                                                                        real_t macro_vertex_coord_id_1comp0,
+                                                                                        real_t macro_vertex_coord_id_1comp1,
+                                                                                        real_t macro_vertex_coord_id_1comp2,
+                                                                                        real_t macro_vertex_coord_id_2comp0,
+                                                                                        real_t macro_vertex_coord_id_2comp1,
+                                                                                        real_t macro_vertex_coord_id_2comp2,
+                                                                                        real_t macro_vertex_coord_id_3comp0,
+                                                                                        real_t macro_vertex_coord_id_3comp1,
+                                                                                        real_t macro_vertex_coord_id_3comp2,
+                                                                                        std::shared_ptr< SparseMatrixProxy > mat,
+                                                                                        int64_t micro_edges_per_macro_edge,
+                                                                                        real_t  micro_edges_per_macro_edge_float,
+                                                                                        real_t  toMatrixScaling ) const;
 
    /// Integral: P2VectorElementwiseFullStokesP1ViscosityParametricP2Map
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     computeInverseDiagonalOperatorValues
+   /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 2 | points: 3, degree: 2
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    665     741      15       0      3              0                 0              1
-   void computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokesP1ViscosityParametricP2Map_macro_2D(
+   ///    671     753      15       0      3              0                 0              1
+   void computeInverseDiagonalOperatorValuesScaled_P2VectorElementwiseFullStokesP1ViscosityParametricP2Map_macro_2D(
        real_t* RESTRICT _data_invDiag__edge_0,
        real_t* RESTRICT _data_invDiag__edge_1,
        real_t* RESTRICT _data_invDiag__vertex_0,
@@ -281,6 +300,7 @@ class P2VectorElementwiseFullStokesP1ViscosityParametricP2Map
        real_t* RESTRICT _data_micromesh_vertex_0,
        real_t* RESTRICT _data_micromesh_vertex_1,
        real_t* RESTRICT _data_mu,
+       real_t           diagScaling,
        real_t           macro_vertex_coord_id_0comp0,
        real_t           macro_vertex_coord_id_0comp1,
        real_t           macro_vertex_coord_id_1comp0,
@@ -292,15 +312,15 @@ class P2VectorElementwiseFullStokesP1ViscosityParametricP2Map
 
    /// Integral: P2VectorElementwiseFullStokesP1ViscosityParametricP2Map
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     computeInverseDiagonalOperatorValues
+   /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - blending map:    ParametricMapP2
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   3767    3684      40       0      4              0                 0              1
-   void computeInverseDiagonalOperatorValues_P2VectorElementwiseFullStokesP1ViscosityParametricP2Map_macro_3D(
+   ///   3779    3714      40       0      4              0                 0              1
+   void computeInverseDiagonalOperatorValuesScaled_P2VectorElementwiseFullStokesP1ViscosityParametricP2Map_macro_3D(
        real_t* RESTRICT _data_invDiag__edge_0,
        real_t* RESTRICT _data_invDiag__edge_1,
        real_t* RESTRICT _data_invDiag__edge_2,
@@ -314,6 +334,7 @@ class P2VectorElementwiseFullStokesP1ViscosityParametricP2Map
        real_t* RESTRICT _data_micromesh_vertex_1,
        real_t* RESTRICT _data_micromesh_vertex_2,
        real_t* RESTRICT _data_mu,
+       real_t           diagScaling,
        real_t           macro_vertex_coord_id_0comp0,
        real_t           macro_vertex_coord_id_0comp1,
        real_t           macro_vertex_coord_id_0comp2,

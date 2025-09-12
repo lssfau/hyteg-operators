@@ -1,0 +1,39 @@
+[[rho_g_mass]]
+trial-space   = "P2"
+test-space    = "P2Vector"
+form-space-args.density_function_space = "P1"
+dimensions    = [2]
+quadrature    = 4
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "AnnulusMap"
+
+[[rho_g_mass]]
+trial-space   = "P2"
+test-space    = "P2Vector"
+form-space-args.density_function_space = "P1"
+dimensions    = [3]
+quadrature    = 4
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "IcosahedralShellMap"
+
+[[rho_g_mass]]
+trial-space   = "P1"
+test-space    = "P2Vector"
+form-space-args.density_function_space = "P1"
+dimensions    = [2]
+quadrature    = 3
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "AnnulusMap"
+
+[[rho_g_mass]]
+trial-space   = "P1"
+test-space    = "P2Vector"
+form-space-args.density_function_space = "P1"
+dimensions    = [3]
+quadrature    = 3
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "IcosahedralShellMap"

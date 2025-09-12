@@ -56,13 +56,14 @@ P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::P2VectorElementwiseEpsilonP1Vis
 , mu( _mu )
 {}
 
-void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::apply( const P2VectorFunction< real_t >& src,
-                                                             const P2VectorFunction< real_t >& dst,
-                                                             uint_t                            level,
-                                                             DoFType                           flag,
-                                                             UpdateType                        updateType ) const
+void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::applyScaled( const real_t&                     operatorScaling,
+                                                                   const P2VectorFunction< real_t >& src,
+                                                                   const P2VectorFunction< real_t >& dst,
+                                                                   uint_t                            level,
+                                                                   DoFType                           flag,
+                                                                   UpdateType                        updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -158,7 +159,7 @@ void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::apply( const P2VectorFunct
 
          this->timingTree_->start( "kernel" );
 
-         apply_P2VectorElementwiseEpsilonP1ViscosityAnnulusMap_macro_2D(
+         applyScaled_P2VectorElementwiseEpsilonP1ViscosityAnnulusMap_macro_2D(
 
              _data_dst_edge_0,
              _data_dst_edge_1,
@@ -177,6 +178,7 @@ void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::apply( const P2VectorFunct
              macro_vertex_coord_id_2comp1,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
+             operatorScaling,
              radRayVertex,
              radRefVertex,
              rayVertex_0,
@@ -209,20 +211,29 @@ void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::apply( const P2VectorFunct
       this->timingTree_->stop( "post-communication" );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                                                const P2VectorFunction< idx_t >&            src,
-                                                                const P2VectorFunction< idx_t >&            dst,
-                                                                uint_t                                      level,
-                                                                DoFType                                     flag ) const
+void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::apply( const P2VectorFunction< real_t >& src,
+                                                             const P2VectorFunction< real_t >& dst,
+                                                             uint_t                            level,
+                                                             DoFType                           flag,
+                                                             UpdateType                        updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::toMatrixScaled( const real_t&                               toMatrixScaling,
+                                                                      const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                                      const P2VectorFunction< idx_t >&            src,
+                                                                      const P2VectorFunction< idx_t >&            dst,
+                                                                      uint_t                                      level,
+                                                                      DoFType                                     flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -281,7 +292,7 @@ void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::toMatrix( const std::share
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P2VectorElementwiseEpsilonP1ViscosityAnnulusMap_macro_2D(
+         toMatrixScaled_P2VectorElementwiseEpsilonP1ViscosityAnnulusMap_macro_2D(
 
              _data_dst_edge_0,
              _data_dst_edge_1,
@@ -308,16 +319,25 @@ void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::toMatrix( const std::share
              refVertex_0,
              refVertex_1,
              thrVertex_0,
-             thrVertex_1 );
+             thrVertex_1,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
 }
-void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::computeInverseDiagonalOperatorValues()
+void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                                const P2VectorFunction< idx_t >&            src,
+                                                                const P2VectorFunction< idx_t >&            dst,
+                                                                uint_t                                      level,
+                                                                DoFType                                     flag ) const
 {
-   this->startTiming( "computeInverseDiagonalOperatorValues" );
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
+}
+void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
+{
+   this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
 
    if ( invDiag_ == nullptr )
    {
@@ -386,13 +406,14 @@ void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::computeInverseDiagonalOper
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_P2VectorElementwiseEpsilonP1ViscosityAnnulusMap_macro_2D(
+            computeInverseDiagonalOperatorValuesScaled_P2VectorElementwiseEpsilonP1ViscosityAnnulusMap_macro_2D(
 
                 _data_invDiag__edge_0,
                 _data_invDiag__edge_1,
                 _data_invDiag__vertex_0,
                 _data_invDiag__vertex_1,
                 _data_mu,
+                diagScaling,
                 macro_vertex_coord_id_0comp0,
                 macro_vertex_coord_id_0comp1,
                 macro_vertex_coord_id_1comp0,
@@ -430,7 +451,11 @@ void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::computeInverseDiagonalOper
       }
    }
 
-   this->stopTiming( "computeInverseDiagonalOperatorValues" );
+   this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
+}
+void P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::computeInverseDiagonalOperatorValues()
+{
+   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
 }
 std::shared_ptr< P2VectorFunction< real_t > > P2VectorElementwiseEpsilonP1ViscosityAnnulusMap::getInverseDiagonalValues() const
 {

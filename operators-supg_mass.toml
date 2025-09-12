@@ -1,0 +1,72 @@
+[[supg_mass]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.coefficient_function_space = "P2"
+dimensions    = [2, 3]
+quadrature    = 4
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+form-args.coefficient_delta = false
+
+[[supg_mass]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.coefficient_function_space = "P2"
+dimensions    = [2]
+quadrature    = 4
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "AnnulusMap"
+form-args.coefficient_delta = false
+
+[[supg_mass]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.coefficient_function_space = "P2"
+dimensions    = [3]
+quadrature    = 4
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "IcosahedralShellMap"
+form-args.coefficient_delta = false
+
+[[supg_mass]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.coefficient_function_space = "P2"
+dimensions    = [2, 3]
+quadrature    = 4
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+operator-name = "SupgMassCoeffDelta"
+form-args.coefficient_delta = true
+
+[[supg_mass]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.coefficient_function_space = "P2"
+dimensions    = [2]
+quadrature    = 4
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "AnnulusMap"
+operator-name = "SupgMassCoeffDelta"
+form-args.coefficient_delta = true
+
+[[supg_mass]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.coefficient_function_space = "P2"
+dimensions    = [3]
+quadrature    = 4
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "IcosahedralShellMap"
+operator-name = "SupgMassCoeffDelta"
+form-args.coefficient_delta = true

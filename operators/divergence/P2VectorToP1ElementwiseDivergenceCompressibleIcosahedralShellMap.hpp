@@ -75,11 +75,25 @@ class P2VectorToP1ElementwiseDivergenceCompressibleIcosahedralShellMap
                                                                      size_t                                     maxLevel,
                                                                      const P2Function< real_t >&                _rho );
 
+   void applyScaled( const real_t&                     operatorScaling,
+                     const P2VectorFunction< real_t >& src,
+                     const P1Function< real_t >&       dst,
+                     uint_t                            level,
+                     DoFType                           flag,
+                     UpdateType                        updateType = Replace ) const;
+
    void apply( const P2VectorFunction< real_t >& src,
                const P1Function< real_t >&       dst,
                uint_t                            level,
                DoFType                           flag,
                UpdateType                        updateType = Replace ) const;
+
+   void toMatrixScaled( const real_t&                               toMatrixScaling,
+                        const std::shared_ptr< SparseMatrixProxy >& mat,
+                        const P2VectorFunction< idx_t >&            src,
+                        const P1Function< idx_t >&                  dst,
+                        uint_t                                      level,
+                        DoFType                                     flag ) const;
 
    void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                   const P2VectorFunction< idx_t >&            src,
@@ -91,63 +105,65 @@ class P2VectorToP1ElementwiseDivergenceCompressibleIcosahedralShellMap
  private:
    /// Integral: P2VectorToP1ElementwiseDivergenceCompressibleIcosahedralShellMap
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1532    2045      41       4      0              0                 0              1
-   void apply_P2VectorToP1ElementwiseDivergenceCompressibleIcosahedralShellMap_macro_3D( real_t* RESTRICT _data_dst,
-                                                                                         real_t* RESTRICT _data_rhoEdge,
-                                                                                         real_t* RESTRICT _data_rhoVertex,
-                                                                                         real_t* RESTRICT _data_src_edge_0,
-                                                                                         real_t* RESTRICT _data_src_edge_1,
-                                                                                         real_t* RESTRICT _data_src_edge_2,
-                                                                                         real_t* RESTRICT _data_src_vertex_0,
-                                                                                         real_t* RESTRICT _data_src_vertex_1,
-                                                                                         real_t* RESTRICT _data_src_vertex_2,
-                                                                                         real_t           forVertex_0,
-                                                                                         real_t           forVertex_1,
-                                                                                         real_t           forVertex_2,
-                                                                                         real_t  macro_vertex_coord_id_0comp0,
-                                                                                         real_t  macro_vertex_coord_id_0comp1,
-                                                                                         real_t  macro_vertex_coord_id_0comp2,
-                                                                                         real_t  macro_vertex_coord_id_1comp0,
-                                                                                         real_t  macro_vertex_coord_id_1comp1,
-                                                                                         real_t  macro_vertex_coord_id_1comp2,
-                                                                                         real_t  macro_vertex_coord_id_2comp0,
-                                                                                         real_t  macro_vertex_coord_id_2comp1,
-                                                                                         real_t  macro_vertex_coord_id_2comp2,
-                                                                                         real_t  macro_vertex_coord_id_3comp0,
-                                                                                         real_t  macro_vertex_coord_id_3comp1,
-                                                                                         real_t  macro_vertex_coord_id_3comp2,
-                                                                                         int64_t micro_edges_per_macro_edge,
-                                                                                         real_t  micro_edges_per_macro_edge_float,
-                                                                                         real_t  radRayVertex,
-                                                                                         real_t  radRefVertex,
-                                                                                         real_t  rayVertex_0,
-                                                                                         real_t  rayVertex_1,
-                                                                                         real_t  rayVertex_2,
-                                                                                         real_t  refVertex_0,
-                                                                                         real_t  refVertex_1,
-                                                                                         real_t  refVertex_2,
-                                                                                         real_t  thrVertex_0,
-                                                                                         real_t  thrVertex_1,
-                                                                                         real_t  thrVertex_2 ) const;
+   ///   1532    2049      41       4      0              0                 0              1
+   void applyScaled_P2VectorToP1ElementwiseDivergenceCompressibleIcosahedralShellMap_macro_3D(
+       real_t* RESTRICT _data_dst,
+       real_t* RESTRICT _data_rhoEdge,
+       real_t* RESTRICT _data_rhoVertex,
+       real_t* RESTRICT _data_src_edge_0,
+       real_t* RESTRICT _data_src_edge_1,
+       real_t* RESTRICT _data_src_edge_2,
+       real_t* RESTRICT _data_src_vertex_0,
+       real_t* RESTRICT _data_src_vertex_1,
+       real_t* RESTRICT _data_src_vertex_2,
+       real_t           forVertex_0,
+       real_t           forVertex_1,
+       real_t           forVertex_2,
+       real_t           macro_vertex_coord_id_0comp0,
+       real_t           macro_vertex_coord_id_0comp1,
+       real_t           macro_vertex_coord_id_0comp2,
+       real_t           macro_vertex_coord_id_1comp0,
+       real_t           macro_vertex_coord_id_1comp1,
+       real_t           macro_vertex_coord_id_1comp2,
+       real_t           macro_vertex_coord_id_2comp0,
+       real_t           macro_vertex_coord_id_2comp1,
+       real_t           macro_vertex_coord_id_2comp2,
+       real_t           macro_vertex_coord_id_3comp0,
+       real_t           macro_vertex_coord_id_3comp1,
+       real_t           macro_vertex_coord_id_3comp2,
+       int64_t          micro_edges_per_macro_edge,
+       real_t           micro_edges_per_macro_edge_float,
+       real_t           operatorScaling,
+       real_t           radRayVertex,
+       real_t           radRefVertex,
+       real_t           rayVertex_0,
+       real_t           rayVertex_1,
+       real_t           rayVertex_2,
+       real_t           refVertex_0,
+       real_t           refVertex_1,
+       real_t           refVertex_2,
+       real_t           thrVertex_0,
+       real_t           thrVertex_1,
+       real_t           thrVertex_2 ) const;
 
    /// Integral: P2VectorToP1ElementwiseDivergenceCompressibleIcosahedralShellMap
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Hammer-Marlowe-Stroud 1 | points: 4, degree: 2
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///   1412    1925      41       4      0              0                 0              4
-   void toMatrix_P2VectorToP1ElementwiseDivergenceCompressibleIcosahedralShellMap_macro_3D(
+   ///   1412    2045      41       4      0              0                 0              4
+   void toMatrixScaled_P2VectorToP1ElementwiseDivergenceCompressibleIcosahedralShellMap_macro_3D(
        idx_t* RESTRICT                      _data_dst,
        real_t* RESTRICT                     _data_rhoEdge,
        real_t* RESTRICT                     _data_rhoVertex,
@@ -185,7 +201,8 @@ class P2VectorToP1ElementwiseDivergenceCompressibleIcosahedralShellMap
        real_t                               refVertex_2,
        real_t                               thrVertex_0,
        real_t                               thrVertex_1,
-       real_t                               thrVertex_2 ) const;
+       real_t                               thrVertex_2,
+       real_t                               toMatrixScaling ) const;
 
    P2Function< real_t > rho;
 };

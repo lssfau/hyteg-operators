@@ -51,26 +51,27 @@ P2ElementwiseShearHeatingP1ViscosityParametricP2Map::P2ElementwiseShearHeatingP1
     const std::shared_ptr< PrimitiveStorage >& storage,
     size_t                                     minLevel,
     size_t                                     maxLevel,
+    const P1Function< real_t >&                _eta,
     const P2VectorFunction< real_t >&          _micromesh,
-    const P1Function< real_t >&                _mu,
-    const P2Function< real_t >&                _wx,
-    const P2Function< real_t >&                _wy,
-    const P2Function< real_t >&                _wz )
+    const P2Function< real_t >&                _ux,
+    const P2Function< real_t >&                _uy,
+    const P2Function< real_t >&                _uz )
 : Operator( storage, minLevel, maxLevel )
+, eta( _eta )
 , micromesh( _micromesh )
-, mu( _mu )
-, wx( _wx )
-, wy( _wy )
-, wz( _wz )
+, ux( _ux )
+, uy( _uy )
+, uz( _uz )
 {}
 
-void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::apply( const P2Function< real_t >& src,
-                                                                 const P2Function< real_t >& dst,
-                                                                 uint_t                      level,
-                                                                 DoFType                     flag,
-                                                                 UpdateType                  updateType ) const
+void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::applyScaled( const real_t&               operatorScaling,
+                                                                       const P2Function< real_t >& src,
+                                                                       const P2Function< real_t >& dst,
+                                                                       uint_t                      level,
+                                                                       DoFType                     flag,
+                                                                       UpdateType                  updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -81,6 +82,9 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::apply( const P2Functio
       src.communicate< Face, Cell >( level );
       src.communicate< Edge, Cell >( level );
       src.communicate< Vertex, Cell >( level );
+      eta.communicate< Face, Cell >( level );
+      eta.communicate< Edge, Cell >( level );
+      eta.communicate< Vertex, Cell >( level );
       micromesh[0].communicate< Face, Cell >( level );
       micromesh[0].communicate< Edge, Cell >( level );
       micromesh[0].communicate< Vertex, Cell >( level );
@@ -90,27 +94,24 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::apply( const P2Functio
       micromesh[2].communicate< Face, Cell >( level );
       micromesh[2].communicate< Edge, Cell >( level );
       micromesh[2].communicate< Vertex, Cell >( level );
-      mu.communicate< Face, Cell >( level );
-      mu.communicate< Edge, Cell >( level );
-      mu.communicate< Vertex, Cell >( level );
-      wx.communicate< Face, Cell >( level );
-      wx.communicate< Edge, Cell >( level );
-      wx.communicate< Vertex, Cell >( level );
-      wy.communicate< Face, Cell >( level );
-      wy.communicate< Edge, Cell >( level );
-      wy.communicate< Vertex, Cell >( level );
-      wz.communicate< Face, Cell >( level );
-      wz.communicate< Edge, Cell >( level );
-      wz.communicate< Vertex, Cell >( level );
+      ux.communicate< Face, Cell >( level );
+      ux.communicate< Edge, Cell >( level );
+      ux.communicate< Vertex, Cell >( level );
+      uy.communicate< Face, Cell >( level );
+      uy.communicate< Edge, Cell >( level );
+      uy.communicate< Vertex, Cell >( level );
+      uz.communicate< Face, Cell >( level );
+      uz.communicate< Edge, Cell >( level );
+      uz.communicate< Vertex, Cell >( level );
    }
    else
    {
       communication::syncFunctionBetweenPrimitives( src, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( eta, level, communication::syncDirection_t::LOW2HIGH );
       communication::syncVectorFunctionBetweenPrimitives( micromesh, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( mu, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( wx, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( wy, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( wz, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( ux, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( uy, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( uz, level, communication::syncDirection_t::LOW2HIGH );
    }
    this->timingTree_->stop( "pre-communication" );
 
@@ -134,6 +135,7 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::apply( const P2Functio
          real_t* _data_srcEdge   = cell.getData( src.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
          real_t* _data_dstVertex = cell.getData( dst.getVertexDoFFunction().getCellDataID() )->getPointer( level );
          real_t* _data_dstEdge   = cell.getData( dst.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_eta       = cell.getData( eta.getCellDataID() )->getPointer( level );
          real_t* _data_micromesh_vertex_0 =
              cell.getData( micromesh[0].getVertexDoFFunction().getCellDataID() )->getPointer( level );
          real_t* _data_micromesh_edge_0 = cell.getData( micromesh[0].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
@@ -144,13 +146,12 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::apply( const P2Functio
              cell.getData( micromesh[2].getVertexDoFFunction().getCellDataID() )->getPointer( level );
          real_t* _data_micromesh_edge_2 = cell.getData( micromesh[2].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
-         real_t* _data_mu       = cell.getData( mu.getCellDataID() )->getPointer( level );
-         real_t* _data_wxVertex = cell.getData( wx.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wxEdge   = cell.getData( wx.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wyVertex = cell.getData( wy.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wyEdge   = cell.getData( wy.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wzVertex = cell.getData( wz.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wzEdge   = cell.getData( wz.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uxVertex = cell.getData( ux.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uxEdge   = cell.getData( ux.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uyVertex = cell.getData( uy.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uyEdge   = cell.getData( uy.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uzVertex = cell.getData( uz.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uzEdge   = cell.getData( uz.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
          // Zero out dst halos only
          //
@@ -184,25 +185,25 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::apply( const P2Functio
 
          this->timingTree_->start( "kernel" );
 
-         apply_P2ElementwiseShearHeatingP1ViscosityParametricP2Map_macro_3D(
+         applyScaled_P2ElementwiseShearHeatingP1ViscosityParametricP2Map_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
+             _data_eta,
              _data_micromesh_edge_0,
              _data_micromesh_edge_1,
              _data_micromesh_edge_2,
              _data_micromesh_vertex_0,
              _data_micromesh_vertex_1,
              _data_micromesh_vertex_2,
-             _data_mu,
              _data_srcEdge,
              _data_srcVertex,
-             _data_wxEdge,
-             _data_wxVertex,
-             _data_wyEdge,
-             _data_wyVertex,
-             _data_wzEdge,
-             _data_wzVertex,
+             _data_uxEdge,
+             _data_uxVertex,
+             _data_uyEdge,
+             _data_uyVertex,
+             _data_uzEdge,
+             _data_uzVertex,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
              macro_vertex_coord_id_0comp2,
@@ -216,7 +217,8 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::apply( const P2Functio
              macro_vertex_coord_id_3comp1,
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             operatorScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -249,6 +251,7 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::apply( const P2Functio
          real_t* _data_srcEdge   = face.getData( src.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
          real_t* _data_dstVertex = face.getData( dst.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
          real_t* _data_dstEdge   = face.getData( dst.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_eta       = face.getData( eta.getFaceDataID() )->getPointer( level );
          real_t* _data_micromesh_vertex_0 =
              face.getData( micromesh[0].getVertexDoFFunction().getFaceDataID() )->getPointer( level );
          real_t* _data_micromesh_edge_0 = face.getData( micromesh[0].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
@@ -256,11 +259,10 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::apply( const P2Functio
              face.getData( micromesh[1].getVertexDoFFunction().getFaceDataID() )->getPointer( level );
          real_t* _data_micromesh_edge_1 = face.getData( micromesh[1].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
-         real_t* _data_mu       = face.getData( mu.getFaceDataID() )->getPointer( level );
-         real_t* _data_wxVertex = face.getData( wx.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wxEdge   = face.getData( wx.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wyVertex = face.getData( wy.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wyEdge   = face.getData( wy.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uxVertex = face.getData( ux.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uxEdge   = face.getData( ux.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uyVertex = face.getData( uy.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uyEdge   = face.getData( uy.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
          // Zero out dst halos only
          //
@@ -298,21 +300,21 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::apply( const P2Functio
 
          this->timingTree_->start( "kernel" );
 
-         apply_P2ElementwiseShearHeatingP1ViscosityParametricP2Map_macro_2D(
+         applyScaled_P2ElementwiseShearHeatingP1ViscosityParametricP2Map_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
+             _data_eta,
              _data_micromesh_edge_0,
              _data_micromesh_edge_1,
              _data_micromesh_vertex_0,
              _data_micromesh_vertex_1,
-             _data_mu,
              _data_srcEdge,
              _data_srcVertex,
-             _data_wxEdge,
-             _data_wxVertex,
-             _data_wyEdge,
-             _data_wyVertex,
+             _data_uxEdge,
+             _data_uxVertex,
+             _data_uyEdge,
+             _data_uyVertex,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
              macro_vertex_coord_id_1comp0,
@@ -320,7 +322,8 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::apply( const P2Functio
              macro_vertex_coord_id_2comp0,
              macro_vertex_coord_id_2comp1,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             operatorScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -339,25 +342,37 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::apply( const P2Functio
       this->timingTree_->stop( "post-communication" );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                                                    const P2Function< idx_t >&                  src,
-                                                                    const P2Function< idx_t >&                  dst,
-                                                                    uint_t                                      level,
-                                                                    DoFType                                     flag ) const
+void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::apply( const P2Function< real_t >& src,
+                                                                 const P2Function< real_t >& dst,
+                                                                 uint_t                      level,
+                                                                 DoFType                     flag,
+                                                                 UpdateType                  updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::toMatrixScaled( const real_t& toMatrixScaling,
+                                                                          const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                                          const P2Function< idx_t >&                  src,
+                                                                          const P2Function< idx_t >&                  dst,
+                                                                          uint_t                                      level,
+                                                                          DoFType                                     flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
    {
       this->timingTree_->start( "pre-communication" );
+      eta.communicate< Face, Cell >( level );
+      eta.communicate< Edge, Cell >( level );
+      eta.communicate< Vertex, Cell >( level );
       micromesh[0].communicate< Face, Cell >( level );
       micromesh[0].communicate< Edge, Cell >( level );
       micromesh[0].communicate< Vertex, Cell >( level );
@@ -367,18 +382,15 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::toMatrix( const std::s
       micromesh[2].communicate< Face, Cell >( level );
       micromesh[2].communicate< Edge, Cell >( level );
       micromesh[2].communicate< Vertex, Cell >( level );
-      mu.communicate< Face, Cell >( level );
-      mu.communicate< Edge, Cell >( level );
-      mu.communicate< Vertex, Cell >( level );
-      wx.communicate< Face, Cell >( level );
-      wx.communicate< Edge, Cell >( level );
-      wx.communicate< Vertex, Cell >( level );
-      wy.communicate< Face, Cell >( level );
-      wy.communicate< Edge, Cell >( level );
-      wy.communicate< Vertex, Cell >( level );
-      wz.communicate< Face, Cell >( level );
-      wz.communicate< Edge, Cell >( level );
-      wz.communicate< Vertex, Cell >( level );
+      ux.communicate< Face, Cell >( level );
+      ux.communicate< Edge, Cell >( level );
+      ux.communicate< Vertex, Cell >( level );
+      uy.communicate< Face, Cell >( level );
+      uy.communicate< Edge, Cell >( level );
+      uy.communicate< Vertex, Cell >( level );
+      uz.communicate< Face, Cell >( level );
+      uz.communicate< Edge, Cell >( level );
+      uz.communicate< Vertex, Cell >( level );
       this->timingTree_->stop( "pre-communication" );
 
       for ( auto& it : storage_->getCells() )
@@ -390,6 +402,7 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::toMatrix( const std::s
          idx_t*  _data_srcEdge   = cell.getData( src.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
          idx_t*  _data_dstVertex = cell.getData( dst.getVertexDoFFunction().getCellDataID() )->getPointer( level );
          idx_t*  _data_dstEdge   = cell.getData( dst.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_eta       = cell.getData( eta.getCellDataID() )->getPointer( level );
          real_t* _data_micromesh_vertex_0 =
              cell.getData( micromesh[0].getVertexDoFFunction().getCellDataID() )->getPointer( level );
          real_t* _data_micromesh_edge_0 = cell.getData( micromesh[0].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
@@ -400,13 +413,12 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::toMatrix( const std::s
              cell.getData( micromesh[2].getVertexDoFFunction().getCellDataID() )->getPointer( level );
          real_t* _data_micromesh_edge_2 = cell.getData( micromesh[2].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
-         real_t* _data_mu       = cell.getData( mu.getCellDataID() )->getPointer( level );
-         real_t* _data_wxVertex = cell.getData( wx.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wxEdge   = cell.getData( wx.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wyVertex = cell.getData( wy.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wyEdge   = cell.getData( wy.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wzVertex = cell.getData( wz.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_wzEdge   = cell.getData( wz.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uxVertex = cell.getData( ux.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uxEdge   = cell.getData( ux.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uyVertex = cell.getData( uy.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uyEdge   = cell.getData( uy.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uzVertex = cell.getData( uz.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_uzEdge   = cell.getData( uz.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
          const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
@@ -426,25 +438,25 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::toMatrix( const std::s
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P2ElementwiseShearHeatingP1ViscosityParametricP2Map_macro_3D(
+         toMatrixScaled_P2ElementwiseShearHeatingP1ViscosityParametricP2Map_macro_3D(
 
              _data_dstEdge,
              _data_dstVertex,
+             _data_eta,
              _data_micromesh_edge_0,
              _data_micromesh_edge_1,
              _data_micromesh_edge_2,
              _data_micromesh_vertex_0,
              _data_micromesh_vertex_1,
              _data_micromesh_vertex_2,
-             _data_mu,
              _data_srcEdge,
              _data_srcVertex,
-             _data_wxEdge,
-             _data_wxVertex,
-             _data_wyEdge,
-             _data_wyVertex,
-             _data_wzEdge,
-             _data_wzVertex,
+             _data_uxEdge,
+             _data_uxVertex,
+             _data_uyEdge,
+             _data_uyVertex,
+             _data_uzEdge,
+             _data_uzVertex,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
              macro_vertex_coord_id_0comp2,
@@ -459,7 +471,8 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::toMatrix( const std::s
              macro_vertex_coord_id_3comp2,
              mat,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -467,11 +480,11 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::toMatrix( const std::s
    else
    {
       this->timingTree_->start( "pre-communication" );
+      communication::syncFunctionBetweenPrimitives( eta, level, communication::syncDirection_t::LOW2HIGH );
       communication::syncVectorFunctionBetweenPrimitives( micromesh, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( mu, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( wx, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( wy, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( wz, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( ux, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( uy, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( uz, level, communication::syncDirection_t::LOW2HIGH );
       this->timingTree_->stop( "pre-communication" );
 
       for ( auto& it : storage_->getFaces() )
@@ -483,6 +496,7 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::toMatrix( const std::s
          idx_t*  _data_srcEdge   = face.getData( src.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
          idx_t*  _data_dstVertex = face.getData( dst.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
          idx_t*  _data_dstEdge   = face.getData( dst.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_eta       = face.getData( eta.getFaceDataID() )->getPointer( level );
          real_t* _data_micromesh_vertex_0 =
              face.getData( micromesh[0].getVertexDoFFunction().getFaceDataID() )->getPointer( level );
          real_t* _data_micromesh_edge_0 = face.getData( micromesh[0].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
@@ -490,13 +504,12 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::toMatrix( const std::s
              face.getData( micromesh[1].getVertexDoFFunction().getFaceDataID() )->getPointer( level );
          real_t* _data_micromesh_edge_1 = face.getData( micromesh[1].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
-         real_t* _data_mu       = face.getData( mu.getFaceDataID() )->getPointer( level );
-         real_t* _data_wxVertex = face.getData( wx.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wxEdge   = face.getData( wx.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wyVertex = face.getData( wy.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wyEdge   = face.getData( wy.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wzVertex = face.getData( wz.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_wzEdge   = face.getData( wz.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uxVertex = face.getData( ux.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uxEdge   = face.getData( ux.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uyVertex = face.getData( uy.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uyEdge   = face.getData( uy.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uzVertex = face.getData( uz.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_uzEdge   = face.getData( uz.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
          const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
@@ -510,21 +523,21 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::toMatrix( const std::s
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P2ElementwiseShearHeatingP1ViscosityParametricP2Map_macro_2D(
+         toMatrixScaled_P2ElementwiseShearHeatingP1ViscosityParametricP2Map_macro_2D(
 
              _data_dstEdge,
              _data_dstVertex,
+             _data_eta,
              _data_micromesh_edge_0,
              _data_micromesh_edge_1,
              _data_micromesh_vertex_0,
              _data_micromesh_vertex_1,
-             _data_mu,
              _data_srcEdge,
              _data_srcVertex,
-             _data_wxEdge,
-             _data_wxVertex,
-             _data_wyEdge,
-             _data_wyVertex,
+             _data_uxEdge,
+             _data_uxVertex,
+             _data_uyEdge,
+             _data_uyVertex,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
              macro_vertex_coord_id_1comp0,
@@ -533,16 +546,25 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::toMatrix( const std::s
              macro_vertex_coord_id_2comp1,
              mat,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
 }
-void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::computeInverseDiagonalOperatorValues()
+void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                                    const P2Function< idx_t >&                  src,
+                                                                    const P2Function< idx_t >&                  dst,
+                                                                    uint_t                                      level,
+                                                                    DoFType                                     flag ) const
 {
-   this->startTiming( "computeInverseDiagonalOperatorValues" );
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
+}
+void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
+{
+   this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
 
    if ( invDiag_ == nullptr )
    {
@@ -556,6 +578,9 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::computeInverseDiagonal
       if ( storage_->hasGlobalCells() )
       {
          this->timingTree_->start( "pre-communication" );
+         eta.communicate< Face, Cell >( level );
+         eta.communicate< Edge, Cell >( level );
+         eta.communicate< Vertex, Cell >( level );
          micromesh[0].communicate< Face, Cell >( level );
          micromesh[0].communicate< Edge, Cell >( level );
          micromesh[0].communicate< Vertex, Cell >( level );
@@ -565,18 +590,15 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::computeInverseDiagonal
          micromesh[2].communicate< Face, Cell >( level );
          micromesh[2].communicate< Edge, Cell >( level );
          micromesh[2].communicate< Vertex, Cell >( level );
-         mu.communicate< Face, Cell >( level );
-         mu.communicate< Edge, Cell >( level );
-         mu.communicate< Vertex, Cell >( level );
-         wx.communicate< Face, Cell >( level );
-         wx.communicate< Edge, Cell >( level );
-         wx.communicate< Vertex, Cell >( level );
-         wy.communicate< Face, Cell >( level );
-         wy.communicate< Edge, Cell >( level );
-         wy.communicate< Vertex, Cell >( level );
-         wz.communicate< Face, Cell >( level );
-         wz.communicate< Edge, Cell >( level );
-         wz.communicate< Vertex, Cell >( level );
+         ux.communicate< Face, Cell >( level );
+         ux.communicate< Edge, Cell >( level );
+         ux.communicate< Vertex, Cell >( level );
+         uy.communicate< Face, Cell >( level );
+         uy.communicate< Edge, Cell >( level );
+         uy.communicate< Vertex, Cell >( level );
+         uz.communicate< Face, Cell >( level );
+         uz.communicate< Edge, Cell >( level );
+         uz.communicate< Vertex, Cell >( level );
          this->timingTree_->stop( "pre-communication" );
 
          for ( auto& it : storage_->getCells() )
@@ -587,6 +609,7 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::computeInverseDiagonal
             real_t* _data_invDiag_Vertex =
                 cell.getData( ( *invDiag_ ).getVertexDoFFunction().getCellDataID() )->getPointer( level );
             real_t* _data_invDiag_Edge = cell.getData( ( *invDiag_ ).getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_eta          = cell.getData( eta.getCellDataID() )->getPointer( level );
             real_t* _data_micromesh_vertex_0 =
                 cell.getData( micromesh[0].getVertexDoFFunction().getCellDataID() )->getPointer( level );
             real_t* _data_micromesh_edge_0 =
@@ -600,13 +623,12 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::computeInverseDiagonal
             real_t* _data_micromesh_edge_2 =
                 cell.getData( micromesh[2].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
-            real_t* _data_mu       = cell.getData( mu.getCellDataID() )->getPointer( level );
-            real_t* _data_wxVertex = cell.getData( wx.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-            real_t* _data_wxEdge   = cell.getData( wx.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-            real_t* _data_wyVertex = cell.getData( wy.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-            real_t* _data_wyEdge   = cell.getData( wy.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
-            real_t* _data_wzVertex = cell.getData( wz.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-            real_t* _data_wzEdge   = cell.getData( wz.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_uxVertex = cell.getData( ux.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_uxEdge   = cell.getData( ux.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_uyVertex = cell.getData( uy.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_uyEdge   = cell.getData( uy.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_uzVertex = cell.getData( uz.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_uzEdge   = cell.getData( uz.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
             const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
             const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
@@ -626,8 +648,9 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::computeInverseDiagonal
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingP1ViscosityParametricP2Map_macro_3D(
+            computeInverseDiagonalOperatorValuesScaled_P2ElementwiseShearHeatingP1ViscosityParametricP2Map_macro_3D(
 
+                _data_eta,
                 _data_invDiag_Edge,
                 _data_invDiag_Vertex,
                 _data_micromesh_edge_0,
@@ -636,13 +659,13 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::computeInverseDiagonal
                 _data_micromesh_vertex_0,
                 _data_micromesh_vertex_1,
                 _data_micromesh_vertex_2,
-                _data_mu,
-                _data_wxEdge,
-                _data_wxVertex,
-                _data_wyEdge,
-                _data_wyVertex,
-                _data_wzEdge,
-                _data_wzVertex,
+                _data_uxEdge,
+                _data_uxVertex,
+                _data_uyEdge,
+                _data_uyVertex,
+                _data_uzEdge,
+                _data_uzVertex,
+                diagScaling,
                 macro_vertex_coord_id_0comp0,
                 macro_vertex_coord_id_0comp1,
                 macro_vertex_coord_id_0comp2,
@@ -677,11 +700,11 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::computeInverseDiagonal
       else
       {
          this->timingTree_->start( "pre-communication" );
+         communication::syncFunctionBetweenPrimitives( eta, level, communication::syncDirection_t::LOW2HIGH );
          communication::syncVectorFunctionBetweenPrimitives( micromesh, level, communication::syncDirection_t::LOW2HIGH );
-         communication::syncFunctionBetweenPrimitives( mu, level, communication::syncDirection_t::LOW2HIGH );
-         communication::syncFunctionBetweenPrimitives( wx, level, communication::syncDirection_t::LOW2HIGH );
-         communication::syncFunctionBetweenPrimitives( wy, level, communication::syncDirection_t::LOW2HIGH );
-         communication::syncFunctionBetweenPrimitives( wz, level, communication::syncDirection_t::LOW2HIGH );
+         communication::syncFunctionBetweenPrimitives( ux, level, communication::syncDirection_t::LOW2HIGH );
+         communication::syncFunctionBetweenPrimitives( uy, level, communication::syncDirection_t::LOW2HIGH );
+         communication::syncFunctionBetweenPrimitives( uz, level, communication::syncDirection_t::LOW2HIGH );
          this->timingTree_->stop( "pre-communication" );
 
          for ( auto& it : storage_->getFaces() )
@@ -692,6 +715,7 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::computeInverseDiagonal
             real_t* _data_invDiag_Vertex =
                 face.getData( ( *invDiag_ ).getVertexDoFFunction().getFaceDataID() )->getPointer( level );
             real_t* _data_invDiag_Edge = face.getData( ( *invDiag_ ).getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_eta          = face.getData( eta.getFaceDataID() )->getPointer( level );
             real_t* _data_micromesh_vertex_0 =
                 face.getData( micromesh[0].getVertexDoFFunction().getFaceDataID() )->getPointer( level );
             real_t* _data_micromesh_edge_0 =
@@ -701,13 +725,12 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::computeInverseDiagonal
             real_t* _data_micromesh_edge_1 =
                 face.getData( micromesh[1].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
-            real_t* _data_mu       = face.getData( mu.getFaceDataID() )->getPointer( level );
-            real_t* _data_wxVertex = face.getData( wx.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-            real_t* _data_wxEdge   = face.getData( wx.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
-            real_t* _data_wyVertex = face.getData( wy.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-            real_t* _data_wyEdge   = face.getData( wy.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
-            real_t* _data_wzVertex = face.getData( wz.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-            real_t* _data_wzEdge   = face.getData( wz.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_uxVertex = face.getData( ux.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_uxEdge   = face.getData( ux.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_uyVertex = face.getData( uy.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_uyEdge   = face.getData( uy.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_uzVertex = face.getData( uz.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_uzEdge   = face.getData( uz.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
             const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
             const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
@@ -721,19 +744,20 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::computeInverseDiagonal
 
             this->timingTree_->start( "kernel" );
 
-            computeInverseDiagonalOperatorValues_P2ElementwiseShearHeatingP1ViscosityParametricP2Map_macro_2D(
+            computeInverseDiagonalOperatorValuesScaled_P2ElementwiseShearHeatingP1ViscosityParametricP2Map_macro_2D(
 
+                _data_eta,
                 _data_invDiag_Edge,
                 _data_invDiag_Vertex,
                 _data_micromesh_edge_0,
                 _data_micromesh_edge_1,
                 _data_micromesh_vertex_0,
                 _data_micromesh_vertex_1,
-                _data_mu,
-                _data_wxEdge,
-                _data_wxVertex,
-                _data_wyEdge,
-                _data_wyVertex,
+                _data_uxEdge,
+                _data_uxVertex,
+                _data_uyEdge,
+                _data_uyVertex,
+                diagScaling,
                 macro_vertex_coord_id_0comp0,
                 macro_vertex_coord_id_0comp1,
                 macro_vertex_coord_id_1comp0,
@@ -759,7 +783,11 @@ void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::computeInverseDiagonal
       }
    }
 
-   this->stopTiming( "computeInverseDiagonalOperatorValues" );
+   this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
+}
+void P2ElementwiseShearHeatingP1ViscosityParametricP2Map::computeInverseDiagonalOperatorValues()
+{
+   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
 }
 std::shared_ptr< P2Function< real_t > > P2ElementwiseShearHeatingP1ViscosityParametricP2Map::getInverseDiagonalValues() const
 {

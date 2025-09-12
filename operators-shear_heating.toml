@@ -1,0 +1,88 @@
+[[shear_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.viscosity_function_space = "P1"
+form-space-args.density_function_space = "P1"
+dimensions    = [2,3]
+quadrature    = 5
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+form-args.use_dim = true
+form-args.viscosity = "general"
+form-args.include_inv_rho_scaling = true
+form-args.surface_cutoff = false
+operator-name = "ShearHeatingP1ViscosityScaled"
+
+[[shear_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.viscosity_function_space = "P1"
+form-space-args.density_function_space = "P1"
+dimensions    = [2]
+quadrature    = 5
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "AnnulusMap"
+form-args.use_dim = true
+form-args.viscosity = "general"
+form-args.include_inv_rho_scaling = true
+form-args.surface_cutoff = false
+operator-name = "ShearHeatingP1ViscosityScaled"
+
+[[shear_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.viscosity_function_space = "P1"
+form-space-args.density_function_space = "P1"
+dimensions    = [3]
+quadrature    = 5
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "IcosahedralShellMap"
+form-args.use_dim = true
+form-args.viscosity = "general"
+form-args.include_inv_rho_scaling = true
+form-args.surface_cutoff = false
+operator-name = "ShearHeatingP1ViscosityScaled"
+
+[[shear_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.viscosity_function_space = "P1"
+form-space-args.density_function_space = "P1"
+dimensions    = [2]
+quadrature    = 5
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "AnnulusMap"
+form-args.use_dim = true
+form-args.viscosity = "general"
+form-args.include_inv_rho_scaling = true
+form-args.surface_cutoff = true
+operator-name = "ShearHeatingP1ViscosityScaledNoSurface"
+
+[[shear_heating]]
+trial-space   = "P2"
+test-space    = "P2"
+form-space-args.coefficient_function_space = "P2"
+form-space-args.velocity_function_space = "P2"
+form-space-args.viscosity_function_space = "P1"
+form-space-args.density_function_space = "P1"
+dimensions    = [3]
+quadrature    = 5
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "IcosahedralShellMap"
+form-args.use_dim = true
+form-args.viscosity = "general"
+form-args.include_inv_rho_scaling = true
+form-args.surface_cutoff = true
+operator-name = "ShearHeatingP1ViscosityScaledNoSurface"

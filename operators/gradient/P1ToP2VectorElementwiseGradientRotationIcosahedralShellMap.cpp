@@ -60,13 +60,14 @@ P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap::P1ToP2VectorElementw
 , nz_rotation( _nz_rotation )
 {}
 
-void P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap::apply( const P1Function< real_t >&       src,
-                                                                        const P2VectorFunction< real_t >& dst,
-                                                                        uint_t                            level,
-                                                                        DoFType                           flag,
-                                                                        UpdateType                        updateType ) const
+void P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap::applyScaled( const real_t&                     operatorScaling,
+                                                                              const P1Function< real_t >&       src,
+                                                                              const P2VectorFunction< real_t >& dst,
+                                                                              uint_t                            level,
+                                                                              DoFType                           flag,
+                                                                              UpdateType                        updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -180,7 +181,7 @@ void P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap::apply( const P1
 
          this->timingTree_->start( "kernel" );
 
-         apply_P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap_macro_3D(
+         applyScaled_P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap_macro_3D(
 
              _data_dst_edge_0,
              _data_dst_edge_1,
@@ -212,6 +213,7 @@ void P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap::apply( const P1
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
+             operatorScaling,
              radRayVertex,
              radRefVertex,
              rayVertex_0,
@@ -269,20 +271,29 @@ void P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap::apply( const P1
       WALBERLA_ABORT( "Not implemented." );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                                                           const P1Function< idx_t >&                  src,
-                                                                           const P2VectorFunction< idx_t >&            dst,
-                                                                           uint_t                                      level,
-                                                                           DoFType flag ) const
+void P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap::apply( const P1Function< real_t >&       src,
+                                                                        const P2VectorFunction< real_t >& dst,
+                                                                        uint_t                            level,
+                                                                        DoFType                           flag,
+                                                                        UpdateType                        updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap::toMatrixScaled( const real_t& toMatrixScaling,
+                                                                                 const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                                                 const P1Function< idx_t >&                  src,
+                                                                                 const P2VectorFunction< idx_t >&            dst,
+                                                                                 uint_t  level,
+                                                                                 DoFType flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -357,7 +368,7 @@ void P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap::toMatrix( const
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap_macro_3D(
+         toMatrixScaled_P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap_macro_3D(
 
              _data_dst_edge_0,
              _data_dst_edge_1,
@@ -400,7 +411,8 @@ void P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap::toMatrix( const
              refVertex_2,
              thrVertex_0,
              thrVertex_1,
-             thrVertex_2 );
+             thrVertex_2,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -415,7 +427,15 @@ void P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap::toMatrix( const
 
       WALBERLA_ABORT( "Not implemented." );
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
+}
+void P1ToP2VectorElementwiseGradientRotationIcosahedralShellMap::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                                           const P1Function< idx_t >&                  src,
+                                                                           const P2VectorFunction< idx_t >&            dst,
+                                                                           uint_t                                      level,
+                                                                           DoFType flag ) const
+{
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
 }
 
 } // namespace operatorgeneration

@@ -66,17 +66,33 @@ class P2ElementwiseKMass : public Operator< P2Function< real_t >, P2Function< re
                        size_t                                     maxLevel,
                        const P2Function< real_t >&                _k );
 
+   void applyScaled( const real_t&               operatorScaling,
+                     const P2Function< real_t >& src,
+                     const P2Function< real_t >& dst,
+                     uint_t                      level,
+                     DoFType                     flag,
+                     UpdateType                  updateType = Replace ) const;
+
    void apply( const P2Function< real_t >& src,
                const P2Function< real_t >& dst,
                uint_t                      level,
                DoFType                     flag,
                UpdateType                  updateType = Replace ) const;
 
+   void toMatrixScaled( const real_t&                               toMatrixScaling,
+                        const std::shared_ptr< SparseMatrixProxy >& mat,
+                        const P2Function< idx_t >&                  src,
+                        const P2Function< idx_t >&                  dst,
+                        uint_t                                      level,
+                        DoFType                                     flag ) const;
+
    void toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
                   const P2Function< idx_t >&                  src,
                   const P2Function< idx_t >&                  dst,
                   uint_t                                      level,
                   DoFType                                     flag ) const;
+
+   void computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling );
 
    void computeInverseDiagonalOperatorValues();
 
@@ -86,169 +102,175 @@ class P2ElementwiseKMass : public Operator< P2Function< real_t >, P2Function< re
  private:
    /// Integral: P2ElementwiseKMass
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    224     228      12       0      0              0                 0              1
-   void apply_P2ElementwiseKMass_macro_2D( real_t* RESTRICT _data_dstEdge,
-                                           real_t* RESTRICT _data_dstVertex,
-                                           real_t* RESTRICT _data_kEdge,
-                                           real_t* RESTRICT _data_kVertex,
-                                           real_t* RESTRICT _data_srcEdge,
-                                           real_t* RESTRICT _data_srcVertex,
-                                           real_t           macro_vertex_coord_id_0comp0,
-                                           real_t           macro_vertex_coord_id_0comp1,
-                                           real_t           macro_vertex_coord_id_1comp0,
-                                           real_t           macro_vertex_coord_id_1comp1,
-                                           real_t           macro_vertex_coord_id_2comp0,
-                                           real_t           macro_vertex_coord_id_2comp1,
-                                           int64_t          micro_edges_per_macro_edge,
-                                           real_t           micro_edges_per_macro_edge_float ) const;
+   ///    224     234      12       0      0              0                 0              1
+   void applyScaled_P2ElementwiseKMass_macro_2D( real_t* RESTRICT _data_dstEdge,
+                                                 real_t* RESTRICT _data_dstVertex,
+                                                 real_t* RESTRICT _data_kEdge,
+                                                 real_t* RESTRICT _data_kVertex,
+                                                 real_t* RESTRICT _data_srcEdge,
+                                                 real_t* RESTRICT _data_srcVertex,
+                                                 real_t           macro_vertex_coord_id_0comp0,
+                                                 real_t           macro_vertex_coord_id_0comp1,
+                                                 real_t           macro_vertex_coord_id_1comp0,
+                                                 real_t           macro_vertex_coord_id_1comp1,
+                                                 real_t           macro_vertex_coord_id_2comp0,
+                                                 real_t           macro_vertex_coord_id_2comp1,
+                                                 int64_t          micro_edges_per_macro_edge,
+                                                 real_t           micro_edges_per_macro_edge_float,
+                                                 real_t           operatorScaling ) const;
 
    /// Integral: P2ElementwiseKMass
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     apply
+   /// - kernel type:     applyScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    897     898      36       0      0              0                 0              1
-   void apply_P2ElementwiseKMass_macro_3D( real_t* RESTRICT _data_dstEdge,
-                                           real_t* RESTRICT _data_dstVertex,
-                                           real_t* RESTRICT _data_kEdge,
-                                           real_t* RESTRICT _data_kVertex,
-                                           real_t* RESTRICT _data_srcEdge,
-                                           real_t* RESTRICT _data_srcVertex,
-                                           real_t           macro_vertex_coord_id_0comp0,
-                                           real_t           macro_vertex_coord_id_0comp1,
-                                           real_t           macro_vertex_coord_id_0comp2,
-                                           real_t           macro_vertex_coord_id_1comp0,
-                                           real_t           macro_vertex_coord_id_1comp1,
-                                           real_t           macro_vertex_coord_id_1comp2,
-                                           real_t           macro_vertex_coord_id_2comp0,
-                                           real_t           macro_vertex_coord_id_2comp1,
-                                           real_t           macro_vertex_coord_id_2comp2,
-                                           real_t           macro_vertex_coord_id_3comp0,
-                                           real_t           macro_vertex_coord_id_3comp1,
-                                           real_t           macro_vertex_coord_id_3comp2,
-                                           int64_t          micro_edges_per_macro_edge,
-                                           real_t           micro_edges_per_macro_edge_float ) const;
+   ///    897     908      36       0      0              0                 0              1
+   void applyScaled_P2ElementwiseKMass_macro_3D( real_t* RESTRICT _data_dstEdge,
+                                                 real_t* RESTRICT _data_dstVertex,
+                                                 real_t* RESTRICT _data_kEdge,
+                                                 real_t* RESTRICT _data_kVertex,
+                                                 real_t* RESTRICT _data_srcEdge,
+                                                 real_t* RESTRICT _data_srcVertex,
+                                                 real_t           macro_vertex_coord_id_0comp0,
+                                                 real_t           macro_vertex_coord_id_0comp1,
+                                                 real_t           macro_vertex_coord_id_0comp2,
+                                                 real_t           macro_vertex_coord_id_1comp0,
+                                                 real_t           macro_vertex_coord_id_1comp1,
+                                                 real_t           macro_vertex_coord_id_1comp2,
+                                                 real_t           macro_vertex_coord_id_2comp0,
+                                                 real_t           macro_vertex_coord_id_2comp1,
+                                                 real_t           macro_vertex_coord_id_2comp2,
+                                                 real_t           macro_vertex_coord_id_3comp0,
+                                                 real_t           macro_vertex_coord_id_3comp1,
+                                                 real_t           macro_vertex_coord_id_3comp2,
+                                                 int64_t          micro_edges_per_macro_edge,
+                                                 real_t           micro_edges_per_macro_edge_float,
+                                                 real_t           operatorScaling ) const;
 
    /// Integral: P2ElementwiseKMass
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    188     192      12       0      0              0                 0              4
-   void toMatrix_P2ElementwiseKMass_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
-                                              idx_t* RESTRICT                      _data_dstVertex,
-                                              real_t* RESTRICT                     _data_kEdge,
-                                              real_t* RESTRICT                     _data_kVertex,
-                                              idx_t* RESTRICT                      _data_srcEdge,
-                                              idx_t* RESTRICT                      _data_srcVertex,
-                                              real_t                               macro_vertex_coord_id_0comp0,
-                                              real_t                               macro_vertex_coord_id_0comp1,
-                                              real_t                               macro_vertex_coord_id_1comp0,
-                                              real_t                               macro_vertex_coord_id_1comp1,
-                                              real_t                               macro_vertex_coord_id_2comp0,
-                                              real_t                               macro_vertex_coord_id_2comp1,
-                                              std::shared_ptr< SparseMatrixProxy > mat,
-                                              int64_t                              micro_edges_per_macro_edge,
-                                              real_t                               micro_edges_per_macro_edge_float ) const;
+   ///    188     213      12       0      0              0                 0              4
+   void toMatrixScaled_P2ElementwiseKMass_macro_2D( idx_t* RESTRICT                      _data_dstEdge,
+                                                    idx_t* RESTRICT                      _data_dstVertex,
+                                                    real_t* RESTRICT                     _data_kEdge,
+                                                    real_t* RESTRICT                     _data_kVertex,
+                                                    idx_t* RESTRICT                      _data_srcEdge,
+                                                    idx_t* RESTRICT                      _data_srcVertex,
+                                                    real_t                               macro_vertex_coord_id_0comp0,
+                                                    real_t                               macro_vertex_coord_id_0comp1,
+                                                    real_t                               macro_vertex_coord_id_1comp0,
+                                                    real_t                               macro_vertex_coord_id_1comp1,
+                                                    real_t                               macro_vertex_coord_id_2comp0,
+                                                    real_t                               macro_vertex_coord_id_2comp1,
+                                                    std::shared_ptr< SparseMatrixProxy > mat,
+                                                    int64_t                              micro_edges_per_macro_edge,
+                                                    real_t                               micro_edges_per_macro_edge_float,
+                                                    real_t                               toMatrixScaling ) const;
 
    /// Integral: P2ElementwiseKMass
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     toMatrix
+   /// - kernel type:     toMatrixScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    797     798      36       0      0              0                 0              4
-   void toMatrix_P2ElementwiseKMass_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
-                                              idx_t* RESTRICT                      _data_dstVertex,
-                                              real_t* RESTRICT                     _data_kEdge,
-                                              real_t* RESTRICT                     _data_kVertex,
-                                              idx_t* RESTRICT                      _data_srcEdge,
-                                              idx_t* RESTRICT                      _data_srcVertex,
-                                              real_t                               macro_vertex_coord_id_0comp0,
-                                              real_t                               macro_vertex_coord_id_0comp1,
-                                              real_t                               macro_vertex_coord_id_0comp2,
-                                              real_t                               macro_vertex_coord_id_1comp0,
-                                              real_t                               macro_vertex_coord_id_1comp1,
-                                              real_t                               macro_vertex_coord_id_1comp2,
-                                              real_t                               macro_vertex_coord_id_2comp0,
-                                              real_t                               macro_vertex_coord_id_2comp1,
-                                              real_t                               macro_vertex_coord_id_2comp2,
-                                              real_t                               macro_vertex_coord_id_3comp0,
-                                              real_t                               macro_vertex_coord_id_3comp1,
-                                              real_t                               macro_vertex_coord_id_3comp2,
-                                              std::shared_ptr< SparseMatrixProxy > mat,
-                                              int64_t                              micro_edges_per_macro_edge,
-                                              real_t                               micro_edges_per_macro_edge_float ) const;
+   ///    797     853      36       0      0              0                 0              4
+   void toMatrixScaled_P2ElementwiseKMass_macro_3D( idx_t* RESTRICT                      _data_dstEdge,
+                                                    idx_t* RESTRICT                      _data_dstVertex,
+                                                    real_t* RESTRICT                     _data_kEdge,
+                                                    real_t* RESTRICT                     _data_kVertex,
+                                                    idx_t* RESTRICT                      _data_srcEdge,
+                                                    idx_t* RESTRICT                      _data_srcVertex,
+                                                    real_t                               macro_vertex_coord_id_0comp0,
+                                                    real_t                               macro_vertex_coord_id_0comp1,
+                                                    real_t                               macro_vertex_coord_id_0comp2,
+                                                    real_t                               macro_vertex_coord_id_1comp0,
+                                                    real_t                               macro_vertex_coord_id_1comp1,
+                                                    real_t                               macro_vertex_coord_id_1comp2,
+                                                    real_t                               macro_vertex_coord_id_2comp0,
+                                                    real_t                               macro_vertex_coord_id_2comp1,
+                                                    real_t                               macro_vertex_coord_id_2comp2,
+                                                    real_t                               macro_vertex_coord_id_3comp0,
+                                                    real_t                               macro_vertex_coord_id_3comp1,
+                                                    real_t                               macro_vertex_coord_id_3comp2,
+                                                    std::shared_ptr< SparseMatrixProxy > mat,
+                                                    int64_t                              micro_edges_per_macro_edge,
+                                                    real_t                               micro_edges_per_macro_edge_float,
+                                                    real_t                               toMatrixScaling ) const;
 
    /// Integral: P2ElementwiseKMass
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
-   /// - kernel type:     computeInverseDiagonalOperatorValues
+   /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    104     102      12       0      0              0                 0              1
-   void computeInverseDiagonalOperatorValues_P2ElementwiseKMass_macro_2D( real_t* RESTRICT _data_invDiag_Edge,
-                                                                          real_t* RESTRICT _data_invDiag_Vertex,
-                                                                          real_t* RESTRICT _data_kEdge,
-                                                                          real_t* RESTRICT _data_kVertex,
-                                                                          real_t           macro_vertex_coord_id_0comp0,
-                                                                          real_t           macro_vertex_coord_id_0comp1,
-                                                                          real_t           macro_vertex_coord_id_1comp0,
-                                                                          real_t           macro_vertex_coord_id_1comp1,
-                                                                          real_t           macro_vertex_coord_id_2comp0,
-                                                                          real_t           macro_vertex_coord_id_2comp1,
-                                                                          int64_t          micro_edges_per_macro_edge,
-                                                                          real_t micro_edges_per_macro_edge_float ) const;
+   ///    104     108      12       0      0              0                 0              1
+   void computeInverseDiagonalOperatorValuesScaled_P2ElementwiseKMass_macro_2D( real_t* RESTRICT _data_invDiag_Edge,
+                                                                                real_t* RESTRICT _data_invDiag_Vertex,
+                                                                                real_t* RESTRICT _data_kEdge,
+                                                                                real_t* RESTRICT _data_kVertex,
+                                                                                real_t           diagScaling,
+                                                                                real_t           macro_vertex_coord_id_0comp0,
+                                                                                real_t           macro_vertex_coord_id_0comp1,
+                                                                                real_t           macro_vertex_coord_id_1comp0,
+                                                                                real_t           macro_vertex_coord_id_1comp1,
+                                                                                real_t           macro_vertex_coord_id_2comp0,
+                                                                                real_t           macro_vertex_coord_id_2comp1,
+                                                                                int64_t          micro_edges_per_macro_edge,
+                                                                                real_t micro_edges_per_macro_edge_float ) const;
 
    /// Integral: P2ElementwiseKMass
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
-   /// - kernel type:     computeInverseDiagonalOperatorValues
+   /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   SAWTOOTH
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - blending map:    IdentityMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    312     303      36       0      0              0                 0              1
-   void computeInverseDiagonalOperatorValues_P2ElementwiseKMass_macro_3D( real_t* RESTRICT _data_invDiag_Edge,
-                                                                          real_t* RESTRICT _data_invDiag_Vertex,
-                                                                          real_t* RESTRICT _data_kEdge,
-                                                                          real_t* RESTRICT _data_kVertex,
-                                                                          real_t           macro_vertex_coord_id_0comp0,
-                                                                          real_t           macro_vertex_coord_id_0comp1,
-                                                                          real_t           macro_vertex_coord_id_0comp2,
-                                                                          real_t           macro_vertex_coord_id_1comp0,
-                                                                          real_t           macro_vertex_coord_id_1comp1,
-                                                                          real_t           macro_vertex_coord_id_1comp2,
-                                                                          real_t           macro_vertex_coord_id_2comp0,
-                                                                          real_t           macro_vertex_coord_id_2comp1,
-                                                                          real_t           macro_vertex_coord_id_2comp2,
-                                                                          real_t           macro_vertex_coord_id_3comp0,
-                                                                          real_t           macro_vertex_coord_id_3comp1,
-                                                                          real_t           macro_vertex_coord_id_3comp2,
-                                                                          int64_t          micro_edges_per_macro_edge,
-                                                                          real_t micro_edges_per_macro_edge_float ) const;
+   ///    312     313      36       0      0              0                 0              1
+   void computeInverseDiagonalOperatorValuesScaled_P2ElementwiseKMass_macro_3D( real_t* RESTRICT _data_invDiag_Edge,
+                                                                                real_t* RESTRICT _data_invDiag_Vertex,
+                                                                                real_t* RESTRICT _data_kEdge,
+                                                                                real_t* RESTRICT _data_kVertex,
+                                                                                real_t           diagScaling,
+                                                                                real_t           macro_vertex_coord_id_0comp0,
+                                                                                real_t           macro_vertex_coord_id_0comp1,
+                                                                                real_t           macro_vertex_coord_id_0comp2,
+                                                                                real_t           macro_vertex_coord_id_1comp0,
+                                                                                real_t           macro_vertex_coord_id_1comp1,
+                                                                                real_t           macro_vertex_coord_id_1comp2,
+                                                                                real_t           macro_vertex_coord_id_2comp0,
+                                                                                real_t           macro_vertex_coord_id_2comp1,
+                                                                                real_t           macro_vertex_coord_id_2comp2,
+                                                                                real_t           macro_vertex_coord_id_3comp0,
+                                                                                real_t           macro_vertex_coord_id_3comp1,
+                                                                                real_t           macro_vertex_coord_id_3comp2,
+                                                                                int64_t          micro_edges_per_macro_edge,
+                                                                                real_t micro_edges_per_macro_edge_float ) const;
 
    std::shared_ptr< P2Function< real_t > > invDiag_;
    P2Function< real_t >                    k;

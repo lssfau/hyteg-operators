@@ -1,0 +1,75 @@
+[[grad_rho_by_rho_dot_u]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P1"
+dimensions    = [2, 3]
+quadrature    = 4
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+folder-name   = "grad_rho_rho"
+operator-name = "GradRhoRho"
+form-args.include_inv_rho = false
+
+[[grad_rho_by_rho_dot_u]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P1"
+dimensions    = [2]
+quadrature    = 4
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "AnnulusMap"
+folder-name   = "grad_rho_rho"
+operator-name = "GradRhoRho"
+form-args.include_inv_rho = false
+
+[[grad_rho_by_rho_dot_u]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P1"
+dimensions    = [3]
+quadrature    = 4
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "IcosahedralShellMap"
+folder-name   = "grad_rho_rho"
+operator-name = "GradRhoRho"
+form-args.include_inv_rho = false
+
+[[grad_rho_by_rho_dot_u_divergence]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P1"
+dimensions    = [2, 3]
+quadrature    = 4
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+folder-name   = "grad_rho_rho"
+operator-name = "GradRhoRhoDivergence"
+form-args.include_inv_rho = false
+
+[[grad_rho_by_rho_dot_u_divergence]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P1"
+dimensions    = [2]
+quadrature    = 4
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "AnnulusMap"
+folder-name   = "grad_rho_rho"
+operator-name = "GradRhoRhoDivergence"
+form-args.include_inv_rho = false
+
+[[grad_rho_by_rho_dot_u_divergence]]
+trial-space   = "P2Vector"
+test-space    = "P1"
+form-space-args.density_function_space = "P1"
+dimensions    = [3]
+quadrature    = 4
+loop-strategy = "cubes"
+optimizations = ["moveconstants", "vectorize", "quadloops", "tabulate"]
+blending      = "IcosahedralShellMap"
+folder-name   = "grad_rho_rho"
+operator-name = "GradRhoRhoDivergence"
+form-args.include_inv_rho = false

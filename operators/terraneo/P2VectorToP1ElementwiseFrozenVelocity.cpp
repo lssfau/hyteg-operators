@@ -55,13 +55,14 @@ P2VectorToP1ElementwiseFrozenVelocity::P2VectorToP1ElementwiseFrozenVelocity( co
 , rho( _rho )
 {}
 
-void P2VectorToP1ElementwiseFrozenVelocity::apply( const P2VectorFunction< real_t >& src,
-                                                   const P1Function< real_t >&       dst,
-                                                   uint_t                            level,
-                                                   DoFType                           flag,
-                                                   UpdateType                        updateType ) const
+void P2VectorToP1ElementwiseFrozenVelocity::applyScaled( const real_t&                     operatorScaling,
+                                                         const P2VectorFunction< real_t >& src,
+                                                         const P1Function< real_t >&       dst,
+                                                         uint_t                            level,
+                                                         DoFType                           flag,
+                                                         UpdateType                        updateType ) const
 {
-   this->startTiming( "apply" );
+   this->startTiming( "applyScaled" );
 
    // Make sure that halos are up-to-date
    this->timingTree_->start( "pre-communication" );
@@ -147,7 +148,7 @@ void P2VectorToP1ElementwiseFrozenVelocity::apply( const P2VectorFunction< real_
 
          this->timingTree_->start( "kernel" );
 
-         apply_P2VectorToP1ElementwiseFrozenVelocity_macro_3D(
+         applyScaled_P2VectorToP1ElementwiseFrozenVelocity_macro_3D(
 
              _data_dst,
              _data_rhoEdge,
@@ -171,7 +172,8 @@ void P2VectorToP1ElementwiseFrozenVelocity::apply( const P2VectorFunction< real_
              macro_vertex_coord_id_3comp1,
              macro_vertex_coord_id_3comp2,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             operatorScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -227,7 +229,7 @@ void P2VectorToP1ElementwiseFrozenVelocity::apply( const P2VectorFunction< real_
 
          this->timingTree_->start( "kernel" );
 
-         apply_P2VectorToP1ElementwiseFrozenVelocity_macro_2D(
+         applyScaled_P2VectorToP1ElementwiseFrozenVelocity_macro_2D(
 
              _data_dst,
              _data_rhoEdge,
@@ -243,7 +245,8 @@ void P2VectorToP1ElementwiseFrozenVelocity::apply( const P2VectorFunction< real_
              macro_vertex_coord_id_2comp0,
              macro_vertex_coord_id_2comp1,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             operatorScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -258,20 +261,29 @@ void P2VectorToP1ElementwiseFrozenVelocity::apply( const P2VectorFunction< real_
       this->timingTree_->stop( "post-communication" );
    }
 
-   this->stopTiming( "apply" );
+   this->stopTiming( "applyScaled" );
 }
-void P2VectorToP1ElementwiseFrozenVelocity::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
-                                                      const P2VectorFunction< idx_t >&            src,
-                                                      const P1Function< idx_t >&                  dst,
-                                                      uint_t                                      level,
-                                                      DoFType                                     flag ) const
+void P2VectorToP1ElementwiseFrozenVelocity::apply( const P2VectorFunction< real_t >& src,
+                                                   const P1Function< real_t >&       dst,
+                                                   uint_t                            level,
+                                                   DoFType                           flag,
+                                                   UpdateType                        updateType ) const
 {
-   this->startTiming( "toMatrix" );
+   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
+}
+void P2VectorToP1ElementwiseFrozenVelocity::toMatrixScaled( const real_t&                               toMatrixScaling,
+                                                            const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                            const P2VectorFunction< idx_t >&            src,
+                                                            const P1Function< idx_t >&                  dst,
+                                                            uint_t                                      level,
+                                                            DoFType                                     flag ) const
+{
+   this->startTiming( "toMatrixScaled" );
 
    // We currently ignore the flag provided!
    if ( flag != All )
    {
-      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrix; using flag = All" );
+      WALBERLA_LOG_WARNING_ON_ROOT( "Input flag ignored in toMatrixScaled; using flag = All" );
    }
 
    if ( storage_->hasGlobalCells() )
@@ -316,7 +328,7 @@ void P2VectorToP1ElementwiseFrozenVelocity::toMatrix( const std::shared_ptr< Spa
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P2VectorToP1ElementwiseFrozenVelocity_macro_3D(
+         toMatrixScaled_P2VectorToP1ElementwiseFrozenVelocity_macro_3D(
 
              _data_dst,
              _data_rhoEdge,
@@ -341,7 +353,8 @@ void P2VectorToP1ElementwiseFrozenVelocity::toMatrix( const std::shared_ptr< Spa
              macro_vertex_coord_id_3comp2,
              mat,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -378,7 +391,7 @@ void P2VectorToP1ElementwiseFrozenVelocity::toMatrix( const std::shared_ptr< Spa
 
          this->timingTree_->start( "kernel" );
 
-         toMatrix_P2VectorToP1ElementwiseFrozenVelocity_macro_2D(
+         toMatrixScaled_P2VectorToP1ElementwiseFrozenVelocity_macro_2D(
 
              _data_dst,
              _data_rhoEdge,
@@ -395,12 +408,21 @@ void P2VectorToP1ElementwiseFrozenVelocity::toMatrix( const std::shared_ptr< Spa
              macro_vertex_coord_id_2comp1,
              mat,
              micro_edges_per_macro_edge,
-             micro_edges_per_macro_edge_float );
+             micro_edges_per_macro_edge_float,
+             toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
       }
    }
-   this->stopTiming( "toMatrix" );
+   this->stopTiming( "toMatrixScaled" );
+}
+void P2VectorToP1ElementwiseFrozenVelocity::toMatrix( const std::shared_ptr< SparseMatrixProxy >& mat,
+                                                      const P2VectorFunction< idx_t >&            src,
+                                                      const P1Function< idx_t >&                  dst,
+                                                      uint_t                                      level,
+                                                      DoFType                                     flag ) const
+{
+   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
 }
 
 } // namespace operatorgeneration
