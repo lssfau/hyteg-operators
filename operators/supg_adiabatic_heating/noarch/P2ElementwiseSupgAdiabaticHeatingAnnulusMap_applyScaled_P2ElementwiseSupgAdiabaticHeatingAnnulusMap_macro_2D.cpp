@@ -62,7 +62,7 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-void P2ElementwiseSupgAdiabaticHeatingAnnulusMap::applyScaled_P2ElementwiseSupgAdiabaticHeatingAnnulusMap_macro_2D( real_t * RESTRICT  _data_dstEdge, real_t * RESTRICT  _data_dstVertex, real_t * RESTRICT  _data_srcEdge, real_t * RESTRICT  _data_srcVertex, real_t * RESTRICT  _data_uxEdge, real_t * RESTRICT  _data_uxVertex, real_t * RESTRICT  _data_uyEdge, real_t * RESTRICT  _data_uyVertex, real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge, real_t micro_edges_per_macro_edge_float, real_t operatorScaling, real_t radRayVertex, real_t radRefVertex, real_t rayVertex_0, real_t rayVertex_1, real_t refVertex_0, real_t refVertex_1, real_t thermalConductivity, real_t thrVertex_0, real_t thrVertex_1 ) const
+void P2ElementwiseSupgAdiabaticHeatingAnnulusMap::applyScaled_P2ElementwiseSupgAdiabaticHeatingAnnulusMap_macro_2D( real_t * RESTRICT  _data_dstEdge, real_t * RESTRICT  _data_dstVertex, real_t * RESTRICT  _data_srcEdge, real_t * RESTRICT  _data_srcVertex, real_t * RESTRICT  _data_uxEdge, real_t * RESTRICT  _data_uxVertex, real_t * RESTRICT  _data_uyEdge, real_t * RESTRICT  _data_uyVertex, real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge, real_t micro_edges_per_macro_edge_float, real_t operatorScaling, real_t radRayVertex, real_t radRefVertex, real_t rayVertex_0, real_t rayVertex_1, real_t refVertex_0, real_t refVertex_1, real_t thermal_conductivity, real_t thrVertex_0, real_t thrVertex_1 ) const
 {
     {
        const real_t _data_q_w [] = {0.11250000000000003, 0.066197076394253096, 0.062969590272413584, 0.066197076394253096, 0.062969590272413584, 0.066197076394253096, 0.062969590272413584};
@@ -130,8 +130,8 @@ void P2ElementwiseSupgAdiabaticHeatingAnnulusMap::applyScaled_P2ElementwiseSupgA
        const real_t tmp_qloop_20 = -tmp_qloop_19;
        const real_t tmp_qloop_21 = tmp_qloop_18*tmp_qloop_20;
        const real_t tmp_qloop_22 = tmp_qloop_21*1.0;
-       const real_t tmp_qloop_67 = 1.0 / (thermalConductivity*thermalConductivity*thermalConductivity);
-       const real_t tmp_qloop_78 = 1.0 / (thermalConductivity);
+       const real_t tmp_qloop_67 = 1.0 / (thermal_conductivity*thermal_conductivity*thermal_conductivity);
+       const real_t tmp_qloop_78 = 1.0 / (thermal_conductivity);
        for (int64_t ctr_1 = 0; ctr_1 < micro_edges_per_macro_edge; ctr_1 += 1)
        {
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
@@ -236,7 +236,7 @@ void P2ElementwiseSupgAdiabaticHeatingAnnulusMap::applyScaled_P2ElementwiseSupgA
                    const real_t tmp_qloop_82 = 1.0 / (tmp_qloop_75);
                    const real_t tmp_qloop_83 = tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82;
                    const real_t tmp_qloop_84 = tmp_qloop_60*tmp_qloop_78*tmp_qloop_83;
-                   const real_t tmp_qloop_85 = 1.0 / (thermalConductivity*thermalConductivity)*tmp_qloop_59*tmp_qloop_69*tmp_qloop_71*tmp_qloop_73*1.0 / (tmp_qloop_75*tmp_qloop_75);
+                   const real_t tmp_qloop_85 = 1.0 / (thermal_conductivity*thermal_conductivity)*tmp_qloop_59*tmp_qloop_69*tmp_qloop_71*tmp_qloop_73*1.0 / (tmp_qloop_75*tmp_qloop_75);
                    for (int64_t q = 0; q < 7; q += 1)
                    {
                       const real_t tmp_qloop_3 = p_affine_0_0 - tmp_qloop_0*_data_q_p_0[q] - tmp_qloop_2*_data_q_p_1[q];
@@ -291,7 +291,7 @@ void P2ElementwiseSupgAdiabaticHeatingAnnulusMap::applyScaled_P2ElementwiseSupgA
                       const real_t tmp_qloop_31 = jac_blending_0_0*jac_blending_1_1 - jac_blending_0_1*jac_blending_1_0;
                       const real_t tmp_qloop_32 = 1.0 / (tmp_qloop_31);
                       const real_t abs_det_jac_blending = tmp_qloop_31;
-                      const real_t tmp_qloop_86 = abs_det_jac_blending*tmp_qloop_61*tmp_qloop_83*(-tmp_qloop_10*tmp_qloop_58*tmp_qloop_66 - tmp_qloop_3*tmp_qloop_57*tmp_qloop_66)*0.50000000000000000*((tmp_qloop_84 <= 1.1799999561582399) ? (tmp_qloop_77*-0.0027777777777777778 + tmp_qloop_84*0.16666666666666667): ((tmp_qloop_84 <= 3.0159389978870399) ? (tmp_qloop_60*tmp_qloop_78*tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82*0.17969906536907199 + tmp_qloop_77*-0.00051942446859271248 + tmp_qloop_85*-0.0089393368193446242 - 0.0064954259688208404): ((tmp_qloop_84 <= 6.7434348119715999) ? (tmp_qloop_60*tmp_qloop_78*tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82*0.2146156710600175 + tmp_qloop_67*tmp_qloop_68*tmp_qloop_70*tmp_qloop_72*tmp_qloop_74*tmp_qloop_76*0.00076015027042957372 + tmp_qloop_85*-0.020516694887729999 - 0.041597543561209399): ((tmp_qloop_84 <= 9.7000000058627194) ? (tmp_qloop_77*0.0003890697253152925 + tmp_qloop_84*0.16399221771597999 + tmp_qloop_85*-0.01300962248982295 + 0.072194442299590406): (thermalConductivity*tmp_qloop_61*tmp_qloop_75*1.0 / (tmp_qloop_79)*1.0 / (tmp_qloop_80)*1.0 / (tmp_qloop_81)*-2.0 + 1.0)))))*_data_q_w[q];
+                      const real_t tmp_qloop_86 = abs_det_jac_blending*tmp_qloop_61*tmp_qloop_83*(-tmp_qloop_10*tmp_qloop_58*tmp_qloop_66 - tmp_qloop_3*tmp_qloop_57*tmp_qloop_66)*0.50000000000000000*((tmp_qloop_84 <= 1.1799999561582399) ? (tmp_qloop_77*-0.0027777777777777778 + tmp_qloop_84*0.16666666666666667): ((tmp_qloop_84 <= 3.0159389978870399) ? (tmp_qloop_60*tmp_qloop_78*tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82*0.17969906536907199 + tmp_qloop_77*-0.00051942446859271248 + tmp_qloop_85*-0.0089393368193446242 - 0.0064954259688208404): ((tmp_qloop_84 <= 6.7434348119715999) ? (tmp_qloop_60*tmp_qloop_78*tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82*0.2146156710600175 + tmp_qloop_67*tmp_qloop_68*tmp_qloop_70*tmp_qloop_72*tmp_qloop_74*tmp_qloop_76*0.00076015027042957372 + tmp_qloop_85*-0.020516694887729999 - 0.041597543561209399): ((tmp_qloop_84 <= 9.7000000058627194) ? (tmp_qloop_77*0.0003890697253152925 + tmp_qloop_84*0.16399221771597999 + tmp_qloop_85*-0.01300962248982295 + 0.072194442299590406): (thermal_conductivity*tmp_qloop_61*tmp_qloop_75*1.0 / (tmp_qloop_79)*1.0 / (tmp_qloop_80)*1.0 / (tmp_qloop_81)*-2.0 + 1.0)))))*_data_q_w[q];
                       const real_t jac_blending_inv_0_0 = jac_blending_1_1*tmp_qloop_32;
                       const real_t jac_blending_inv_0_1 = -jac_blending_0_1*tmp_qloop_32;
                       const real_t jac_blending_inv_1_0 = -jac_blending_1_0*tmp_qloop_32;
@@ -497,7 +497,7 @@ void P2ElementwiseSupgAdiabaticHeatingAnnulusMap::applyScaled_P2ElementwiseSupgA
                    const real_t tmp_qloop_82 = 1.0 / (tmp_qloop_75);
                    const real_t tmp_qloop_83 = tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82;
                    const real_t tmp_qloop_84 = tmp_moved_constant_19*tmp_qloop_78*tmp_qloop_83;
-                   const real_t tmp_qloop_85 = 1.0 / (thermalConductivity*thermalConductivity)*tmp_moved_constant_18*tmp_qloop_69*tmp_qloop_71*tmp_qloop_73*1.0 / (tmp_qloop_75*tmp_qloop_75);
+                   const real_t tmp_qloop_85 = 1.0 / (thermal_conductivity*thermal_conductivity)*tmp_moved_constant_18*tmp_qloop_69*tmp_qloop_71*tmp_qloop_73*1.0 / (tmp_qloop_75*tmp_qloop_75);
                    for (int64_t q = 0; q < 7; q += 1)
                    {
                       const real_t tmp_qloop_3 = p_affine_0_0 - tmp_qloop_0*_data_q_p_0[q] - tmp_qloop_2*_data_q_p_1[q];
@@ -552,7 +552,7 @@ void P2ElementwiseSupgAdiabaticHeatingAnnulusMap::applyScaled_P2ElementwiseSupgA
                       const real_t tmp_qloop_31 = jac_blending_0_0*jac_blending_1_1 - jac_blending_0_1*jac_blending_1_0;
                       const real_t tmp_qloop_32 = 1.0 / (tmp_qloop_31);
                       const real_t abs_det_jac_blending = tmp_qloop_31;
-                      const real_t tmp_qloop_86 = abs_det_jac_blending*tmp_moved_constant_20*tmp_qloop_83*(-tmp_qloop_10*tmp_qloop_58*tmp_qloop_66 - tmp_qloop_3*tmp_qloop_57*tmp_qloop_66)*0.50000000000000000*((tmp_qloop_84 <= 1.1799999561582399) ? (tmp_qloop_77*-0.0027777777777777778 + tmp_qloop_84*0.16666666666666667): ((tmp_qloop_84 <= 3.0159389978870399) ? (tmp_moved_constant_19*tmp_qloop_78*tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82*0.17969906536907199 + tmp_qloop_77*-0.00051942446859271248 + tmp_qloop_85*-0.0089393368193446242 - 0.0064954259688208404): ((tmp_qloop_84 <= 6.7434348119715999) ? (tmp_moved_constant_19*tmp_qloop_78*tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82*0.2146156710600175 + tmp_moved_constant_21*tmp_qloop_67*tmp_qloop_70*tmp_qloop_72*tmp_qloop_74*tmp_qloop_76*0.00076015027042957372 + tmp_qloop_85*-0.020516694887729999 - 0.041597543561209399): ((tmp_qloop_84 <= 9.7000000058627194) ? (tmp_qloop_77*0.0003890697253152925 + tmp_qloop_84*0.16399221771597999 + tmp_qloop_85*-0.01300962248982295 + 0.072194442299590406): (thermalConductivity*tmp_moved_constant_20*tmp_qloop_75*1.0 / (tmp_qloop_79)*1.0 / (tmp_qloop_80)*1.0 / (tmp_qloop_81)*-2.0 + 1.0)))))*_data_q_w[q];
+                      const real_t tmp_qloop_86 = abs_det_jac_blending*tmp_moved_constant_20*tmp_qloop_83*(-tmp_qloop_10*tmp_qloop_58*tmp_qloop_66 - tmp_qloop_3*tmp_qloop_57*tmp_qloop_66)*0.50000000000000000*((tmp_qloop_84 <= 1.1799999561582399) ? (tmp_qloop_77*-0.0027777777777777778 + tmp_qloop_84*0.16666666666666667): ((tmp_qloop_84 <= 3.0159389978870399) ? (tmp_moved_constant_19*tmp_qloop_78*tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82*0.17969906536907199 + tmp_qloop_77*-0.00051942446859271248 + tmp_qloop_85*-0.0089393368193446242 - 0.0064954259688208404): ((tmp_qloop_84 <= 6.7434348119715999) ? (tmp_moved_constant_19*tmp_qloop_78*tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82*0.2146156710600175 + tmp_moved_constant_21*tmp_qloop_67*tmp_qloop_70*tmp_qloop_72*tmp_qloop_74*tmp_qloop_76*0.00076015027042957372 + tmp_qloop_85*-0.020516694887729999 - 0.041597543561209399): ((tmp_qloop_84 <= 9.7000000058627194) ? (tmp_qloop_77*0.0003890697253152925 + tmp_qloop_84*0.16399221771597999 + tmp_qloop_85*-0.01300962248982295 + 0.072194442299590406): (thermal_conductivity*tmp_moved_constant_20*tmp_qloop_75*1.0 / (tmp_qloop_79)*1.0 / (tmp_qloop_80)*1.0 / (tmp_qloop_81)*-2.0 + 1.0)))))*_data_q_w[q];
                       const real_t jac_blending_inv_0_0 = jac_blending_1_1*tmp_qloop_32;
                       const real_t jac_blending_inv_0_1 = -jac_blending_0_1*tmp_qloop_32;
                       const real_t jac_blending_inv_1_0 = -jac_blending_1_0*tmp_qloop_32;
@@ -761,7 +761,7 @@ void P2ElementwiseSupgAdiabaticHeatingAnnulusMap::applyScaled_P2ElementwiseSupgA
                    const real_t tmp_qloop_82 = 1.0 / (tmp_qloop_75);
                    const real_t tmp_qloop_83 = tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82;
                    const real_t tmp_qloop_84 = tmp_qloop_60*tmp_qloop_78*tmp_qloop_83;
-                   const real_t tmp_qloop_85 = 1.0 / (thermalConductivity*thermalConductivity)*tmp_qloop_59*tmp_qloop_69*tmp_qloop_71*tmp_qloop_73*1.0 / (tmp_qloop_75*tmp_qloop_75);
+                   const real_t tmp_qloop_85 = 1.0 / (thermal_conductivity*thermal_conductivity)*tmp_qloop_59*tmp_qloop_69*tmp_qloop_71*tmp_qloop_73*1.0 / (tmp_qloop_75*tmp_qloop_75);
                    for (int64_t q = 0; q < 7; q += 1)
                    {
                       const real_t tmp_qloop_3 = p_affine_0_0 - tmp_qloop_0*_data_q_p_0[q] - tmp_qloop_2*_data_q_p_1[q];
@@ -816,7 +816,7 @@ void P2ElementwiseSupgAdiabaticHeatingAnnulusMap::applyScaled_P2ElementwiseSupgA
                       const real_t tmp_qloop_31 = jac_blending_0_0*jac_blending_1_1 - jac_blending_0_1*jac_blending_1_0;
                       const real_t tmp_qloop_32 = 1.0 / (tmp_qloop_31);
                       const real_t abs_det_jac_blending = tmp_qloop_31;
-                      const real_t tmp_qloop_86 = abs_det_jac_blending*tmp_qloop_61*tmp_qloop_83*(-tmp_qloop_10*tmp_qloop_58*tmp_qloop_66 - tmp_qloop_3*tmp_qloop_57*tmp_qloop_66)*0.50000000000000000*((tmp_qloop_84 <= 1.1799999561582399) ? (tmp_qloop_77*-0.0027777777777777778 + tmp_qloop_84*0.16666666666666667): ((tmp_qloop_84 <= 3.0159389978870399) ? (tmp_qloop_60*tmp_qloop_78*tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82*0.17969906536907199 + tmp_qloop_77*-0.00051942446859271248 + tmp_qloop_85*-0.0089393368193446242 - 0.0064954259688208404): ((tmp_qloop_84 <= 6.7434348119715999) ? (tmp_qloop_60*tmp_qloop_78*tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82*0.2146156710600175 + tmp_qloop_67*tmp_qloop_68*tmp_qloop_70*tmp_qloop_72*tmp_qloop_74*tmp_qloop_76*0.00076015027042957372 + tmp_qloop_85*-0.020516694887729999 - 0.041597543561209399): ((tmp_qloop_84 <= 9.7000000058627194) ? (tmp_qloop_77*0.0003890697253152925 + tmp_qloop_84*0.16399221771597999 + tmp_qloop_85*-0.01300962248982295 + 0.072194442299590406): (thermalConductivity*tmp_qloop_61*tmp_qloop_75*1.0 / (tmp_qloop_79)*1.0 / (tmp_qloop_80)*1.0 / (tmp_qloop_81)*-2.0 + 1.0)))))*_data_q_w[q];
+                      const real_t tmp_qloop_86 = abs_det_jac_blending*tmp_qloop_61*tmp_qloop_83*(-tmp_qloop_10*tmp_qloop_58*tmp_qloop_66 - tmp_qloop_3*tmp_qloop_57*tmp_qloop_66)*0.50000000000000000*((tmp_qloop_84 <= 1.1799999561582399) ? (tmp_qloop_77*-0.0027777777777777778 + tmp_qloop_84*0.16666666666666667): ((tmp_qloop_84 <= 3.0159389978870399) ? (tmp_qloop_60*tmp_qloop_78*tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82*0.17969906536907199 + tmp_qloop_77*-0.00051942446859271248 + tmp_qloop_85*-0.0089393368193446242 - 0.0064954259688208404): ((tmp_qloop_84 <= 6.7434348119715999) ? (tmp_qloop_60*tmp_qloop_78*tmp_qloop_79*tmp_qloop_80*tmp_qloop_81*tmp_qloop_82*0.2146156710600175 + tmp_qloop_67*tmp_qloop_68*tmp_qloop_70*tmp_qloop_72*tmp_qloop_74*tmp_qloop_76*0.00076015027042957372 + tmp_qloop_85*-0.020516694887729999 - 0.041597543561209399): ((tmp_qloop_84 <= 9.7000000058627194) ? (tmp_qloop_77*0.0003890697253152925 + tmp_qloop_84*0.16399221771597999 + tmp_qloop_85*-0.01300962248982295 + 0.072194442299590406): (thermal_conductivity*tmp_qloop_61*tmp_qloop_75*1.0 / (tmp_qloop_79)*1.0 / (tmp_qloop_80)*1.0 / (tmp_qloop_81)*-2.0 + 1.0)))))*_data_q_w[q];
                       const real_t jac_blending_inv_0_0 = jac_blending_1_1*tmp_qloop_32;
                       const real_t jac_blending_inv_0_1 = -jac_blending_0_1*tmp_qloop_32;
                       const real_t jac_blending_inv_1_0 = -jac_blending_1_0*tmp_qloop_32;

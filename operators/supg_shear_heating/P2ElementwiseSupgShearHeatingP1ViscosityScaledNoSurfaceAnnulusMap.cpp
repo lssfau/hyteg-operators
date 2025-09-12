@@ -57,8 +57,8 @@ P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap::
         const P2Function< real_t >&                _ux,
         const P2Function< real_t >&                _uy,
         real_t                                     cutoff_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap,
-        real_t radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap,
-        real_t thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap )
+        real_t radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap,
+        real_t thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap )
 : Operator( storage, minLevel, maxLevel )
 , eta( _eta )
 , rho( _rho )
@@ -66,10 +66,10 @@ P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap::
 , uy( _uy )
 , cutoff_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_(
       cutoff_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap )
-, radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_(
-      radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap )
-, thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_(
-      thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap )
+, radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_(
+      radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap )
+, thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_(
+      thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap )
 {}
 
 void P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap::applyScaled( const real_t&               operatorScaling,
@@ -199,12 +199,12 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap::applySca
              operatorScaling,
              radRayVertex,
              radRefVertex,
-             radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
+             radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
              rayVertex_0,
              rayVertex_1,
              refVertex_0,
              refVertex_1,
-             thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
+             thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
              thrVertex_0,
              thrVertex_1 );
 
@@ -342,12 +342,12 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap::toMatrix
              micro_edges_per_macro_edge_float,
              radRayVertex,
              radRefVertex,
-             radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
+             radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
              rayVertex_0,
              rayVertex_1,
              refVertex_0,
              refVertex_1,
-             thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
+             thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
              thrVertex_0,
              thrVertex_1,
              toMatrixScaling );
@@ -468,12 +468,12 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap::computeI
                 micro_edges_per_macro_edge_float,
                 radRayVertex,
                 radRefVertex,
-                radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
+                radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
                 rayVertex_0,
                 rayVertex_1,
                 refVertex_0,
                 refVertex_1,
-                thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
+                thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
                 thrVertex_0,
                 thrVertex_1 );
 

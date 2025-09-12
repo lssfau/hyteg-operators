@@ -82,13 +82,13 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
        size_t                                     minLevel,
        size_t                                     maxLevel,
        const P2Function< real_t >&                _T_extra,
-       real_t additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
-       real_t depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
-       real_t etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
-       real_t radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
-       real_t radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
-       real_t rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
-       real_t temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap );
+       real_t additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
+       real_t depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
+       real_t eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
+       real_t radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
+       real_t radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
+       real_t rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
+       real_t temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap );
 
    void applyScaled( const real_t&                     operatorScaling,
                      const P2VectorFunction< real_t >& src,
@@ -149,9 +149,9 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
        real_t* RESTRICT _data_src_vertex_0,
        real_t* RESTRICT _data_src_vertex_1,
        real_t* RESTRICT _data_src_vertex_2,
-       real_t           additiveOffSet,
-       real_t           depthDependency,
-       real_t           etaRef,
+       real_t           additive_offset,
+       real_t           depth_dependency,
+       real_t           eta_ref,
        real_t           forVertex_0,
        real_t           forVertex_1,
        real_t           forVertex_2,
@@ -172,16 +172,16 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
        real_t           operatorScaling,
        real_t           radRayVertex,
        real_t           radRefVertex,
-       real_t           radiusCMB,
-       real_t           radiusSurface,
+       real_t           radius_CMB,
+       real_t           radius_surface,
        real_t           rayVertex_0,
        real_t           rayVertex_1,
        real_t           rayVertex_2,
        real_t           refVertex_0,
        real_t           refVertex_1,
        real_t           refVertex_2,
-       real_t           rockChemicalCompositionParameter,
-       real_t           temperatureSurface,
+       real_t           rock_chemical_composition_parameter,
+       real_t           temperature_surface,
        real_t           thrVertex_0,
        real_t           thrVertex_1,
        real_t           thrVertex_2 ) const;
@@ -211,9 +211,9 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
        idx_t* RESTRICT                      _data_src_vertex_0,
        idx_t* RESTRICT                      _data_src_vertex_1,
        idx_t* RESTRICT                      _data_src_vertex_2,
-       real_t                               additiveOffSet,
-       real_t                               depthDependency,
-       real_t                               etaRef,
+       real_t                               additive_offset,
+       real_t                               depth_dependency,
+       real_t                               eta_ref,
        real_t                               forVertex_0,
        real_t                               forVertex_1,
        real_t                               forVertex_2,
@@ -234,16 +234,16 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
        real_t                               micro_edges_per_macro_edge_float,
        real_t                               radRayVertex,
        real_t                               radRefVertex,
-       real_t                               radiusCMB,
-       real_t                               radiusSurface,
+       real_t                               radius_CMB,
+       real_t                               radius_surface,
        real_t                               rayVertex_0,
        real_t                               rayVertex_1,
        real_t                               rayVertex_2,
        real_t                               refVertex_0,
        real_t                               refVertex_1,
        real_t                               refVertex_2,
-       real_t                               rockChemicalCompositionParameter,
-       real_t                               temperatureSurface,
+       real_t                               rock_chemical_composition_parameter,
+       real_t                               temperature_surface,
        real_t                               thrVertex_0,
        real_t                               thrVertex_1,
        real_t                               thrVertex_2,
@@ -269,10 +269,10 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
            real_t* RESTRICT _data_invDiag__vertex_0,
            real_t* RESTRICT _data_invDiag__vertex_1,
            real_t* RESTRICT _data_invDiag__vertex_2,
-           real_t           additiveOffSet,
-           real_t           depthDependency,
+           real_t           additive_offset,
+           real_t           depth_dependency,
            real_t           diagScaling,
-           real_t           etaRef,
+           real_t           eta_ref,
            real_t           forVertex_0,
            real_t           forVertex_1,
            real_t           forVertex_2,
@@ -292,29 +292,29 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
            real_t           micro_edges_per_macro_edge_float,
            real_t           radRayVertex,
            real_t           radRefVertex,
-           real_t           radiusCMB,
-           real_t           radiusSurface,
+           real_t           radius_CMB,
+           real_t           radius_surface,
            real_t           rayVertex_0,
            real_t           rayVertex_1,
            real_t           rayVertex_2,
            real_t           refVertex_0,
            real_t           refVertex_1,
            real_t           refVertex_2,
-           real_t           rockChemicalCompositionParameter,
-           real_t           temperatureSurface,
+           real_t           rock_chemical_composition_parameter,
+           real_t           temperature_surface,
            real_t           thrVertex_0,
            real_t           thrVertex_1,
            real_t           thrVertex_2 ) const;
 
    std::shared_ptr< P2VectorFunction< real_t > > invDiag_;
    P2Function< real_t >                          T_extra;
-   real_t additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
-   real_t depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
-   real_t etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
-   real_t radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
-   real_t radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
-   real_t rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
-   real_t temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
+   real_t additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
+   real_t depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
+   real_t eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
+   real_t radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
+   real_t radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
+   real_t rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
+   real_t temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
 };
 
 } // namespace operatorgeneration

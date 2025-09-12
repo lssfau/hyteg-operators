@@ -53,29 +53,29 @@ P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::
         size_t                                     minLevel,
         size_t                                     maxLevel,
         const P2Function< real_t >&                _T_extra,
-        real_t additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
-        real_t depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
-        real_t etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
-        real_t radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
-        real_t radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
-        real_t rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
-        real_t temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
+        real_t additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
+        real_t depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
+        real_t eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
+        real_t radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
+        real_t radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
+        real_t rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
+        real_t temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
 : Operator( storage, minLevel, maxLevel )
 , T_extra( _T_extra )
-, additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
-      additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
-, depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
-      depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
-, etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
-      etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
-, radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
-      radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
-, radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
-      radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
-, rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
-      rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
-, temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
-      temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
+, additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
+      additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
+, depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
+      depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
+, eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
+      eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
+, radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
+      radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
+, radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
+      radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
+, rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
+      rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
+, temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
+      temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
 {}
 
 void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::applyScaled( const real_t& operatorScaling,
@@ -194,9 +194,9 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::applySca
              _data_src_edge_1,
              _data_src_vertex_0,
              _data_src_vertex_1,
-             additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
-             depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
-             etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+             additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+             depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+             eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
              macro_vertex_coord_id_1comp0,
@@ -208,14 +208,14 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::applySca
              operatorScaling,
              radRayVertex,
              radRefVertex,
-             radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
-             radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+             radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+             radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
              rayVertex_0,
              rayVertex_1,
              refVertex_0,
              refVertex_1,
-             rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
-             temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+             rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+             temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
              thrVertex_0,
              thrVertex_1 );
 
@@ -337,9 +337,9 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::toMatrix
              _data_src_edge_1,
              _data_src_vertex_0,
              _data_src_vertex_1,
-             additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
-             depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
-             etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+             additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+             depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+             eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
              macro_vertex_coord_id_0comp0,
              macro_vertex_coord_id_0comp1,
              macro_vertex_coord_id_1comp0,
@@ -351,14 +351,14 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::toMatrix
              micro_edges_per_macro_edge_float,
              radRayVertex,
              radRefVertex,
-             radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
-             radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+             radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+             radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
              rayVertex_0,
              rayVertex_1,
              refVertex_0,
              refVertex_1,
-             rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
-             temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+             rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+             temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
              thrVertex_0,
              thrVertex_1,
              toMatrixScaling );
@@ -457,10 +457,10 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeI
                 _data_invDiag__edge_1,
                 _data_invDiag__vertex_0,
                 _data_invDiag__vertex_1,
-                additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
-                depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+                additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+                depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
                 diagScaling,
-                etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+                eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
                 macro_vertex_coord_id_0comp0,
                 macro_vertex_coord_id_0comp1,
                 macro_vertex_coord_id_1comp0,
@@ -471,14 +471,14 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeI
                 micro_edges_per_macro_edge_float,
                 radRayVertex,
                 radRefVertex,
-                radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
-                radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+                radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+                radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
                 rayVertex_0,
                 rayVertex_1,
                 refVertex_0,
                 refVertex_1,
-                rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
-                temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+                rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
+                temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_,
                 thrVertex_0,
                 thrVertex_1 );
 

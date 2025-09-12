@@ -57,15 +57,15 @@ P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap::
         const P2Function< real_t >&                _ux,
         const P2Function< real_t >&                _uy,
         const P2Function< real_t >&                _uz,
-        real_t thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap )
+        real_t thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap )
 : Operator( storage, minLevel, maxLevel )
 , eta( _eta )
 , rho( _rho )
 , ux( _ux )
 , uy( _uy )
 , uz( _uz )
-, thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap_(
-      thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap )
+, thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap_(
+      thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap )
 {}
 
 void P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap::applyScaled( const real_t&               operatorScaling,
@@ -226,7 +226,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap::applySca
              refVertex_0,
              refVertex_1,
              refVertex_2,
-             thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap_,
+             thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap_,
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
@@ -395,7 +395,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap::toMatrix
              refVertex_0,
              refVertex_1,
              refVertex_2,
-             thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap_,
+             thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap_,
              thrVertex_0,
              thrVertex_1,
              thrVertex_2,
@@ -550,7 +550,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap::computeI
                 refVertex_0,
                 refVertex_1,
                 refVertex_2,
-                thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap_,
+                thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap_,
                 thrVertex_0,
                 thrVertex_1,
                 thrVertex_2 );

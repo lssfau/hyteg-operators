@@ -53,29 +53,29 @@ P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap::
         size_t                                     minLevel,
         size_t                                     maxLevel,
         const P2Function< real_t >&                _T_extra,
-        real_t additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
-        real_t depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
-        real_t etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
-        real_t radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
-        real_t radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
-        real_t rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
-        real_t temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
+        real_t additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
+        real_t depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
+        real_t eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
+        real_t radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
+        real_t radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
+        real_t rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
+        real_t temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
 : Operator( storage, minLevel, maxLevel )
 , T_extra( _T_extra )
-, additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
-      additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
-, depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
-      depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
-, etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
-      etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
-, radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
-      radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
-, radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
-      radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
-, rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
-      rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
-, temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
-      temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
+, additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
+      additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
+, depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
+      depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
+, eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
+      eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
+, radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
+      radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
+, radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
+      radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
+, rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
+      rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
+, temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
+      temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
 {}
 
 void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap::applyScaled(
@@ -215,9 +215,9 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
              _data_src_vertex_0,
              _data_src_vertex_1,
              _data_src_vertex_2,
-             additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
-             depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
-             etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+             additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+             depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+             eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
              forVertex_0,
              forVertex_1,
              forVertex_2,
@@ -238,16 +238,16 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
              operatorScaling,
              radRayVertex,
              radRefVertex,
-             radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
-             radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+             radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+             radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
              rayVertex_0,
              rayVertex_1,
              rayVertex_2,
              refVertex_0,
              refVertex_1,
              refVertex_2,
-             rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
-             temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+             rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+             temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
@@ -404,9 +404,9 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
              _data_src_vertex_0,
              _data_src_vertex_1,
              _data_src_vertex_2,
-             additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
-             depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
-             etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+             additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+             depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+             eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
              forVertex_0,
              forVertex_1,
              forVertex_2,
@@ -427,16 +427,16 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
              micro_edges_per_macro_edge_float,
              radRayVertex,
              radRefVertex,
-             radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
-             radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+             radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+             radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
              rayVertex_0,
              rayVertex_1,
              rayVertex_2,
              refVertex_0,
              refVertex_1,
              refVertex_2,
-             rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
-             temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+             rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+             temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
              thrVertex_0,
              thrVertex_1,
              thrVertex_2,
@@ -552,10 +552,10 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
                 _data_invDiag__vertex_0,
                 _data_invDiag__vertex_1,
                 _data_invDiag__vertex_2,
-                additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
-                depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+                additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+                depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
                 diagScaling,
-                etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+                eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
                 forVertex_0,
                 forVertex_1,
                 forVertex_2,
@@ -575,16 +575,16 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
                 micro_edges_per_macro_edge_float,
                 radRayVertex,
                 radRefVertex,
-                radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
-                radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+                radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+                radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
                 rayVertex_0,
                 rayVertex_1,
                 rayVertex_2,
                 refVertex_0,
                 refVertex_1,
                 refVertex_2,
-                rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
-                temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+                rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
+                temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_,
                 thrVertex_0,
                 thrVertex_1,
                 thrVertex_2 );

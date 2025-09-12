@@ -58,8 +58,8 @@ P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap::
         const P2Function< real_t >&                _uy,
         const P2Function< real_t >&                _uz,
         real_t cutoff_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap,
-        real_t radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap,
-        real_t thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap )
+        real_t radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap,
+        real_t thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap )
 : Operator( storage, minLevel, maxLevel )
 , eta( _eta )
 , rho( _rho )
@@ -68,10 +68,10 @@ P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap::
 , uz( _uz )
 , cutoff_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_(
       cutoff_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap )
-, radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_(
-      radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap )
-, thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_(
-      thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap )
+, radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_(
+      radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap )
+, thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_(
+      thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap )
 {}
 
 void P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap::applyScaled( const real_t& operatorScaling,
@@ -227,14 +227,14 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap:
              operatorScaling,
              radRayVertex,
              radRefVertex,
-             radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_,
+             radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_,
              rayVertex_0,
              rayVertex_1,
              rayVertex_2,
              refVertex_0,
              refVertex_1,
              refVertex_2,
-             thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_,
+             thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_,
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
@@ -398,14 +398,14 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap:
              micro_edges_per_macro_edge_float,
              radRayVertex,
              radRefVertex,
-             radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_,
+             radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_,
              rayVertex_0,
              rayVertex_1,
              rayVertex_2,
              refVertex_0,
              refVertex_1,
              refVertex_2,
-             thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_,
+             thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_,
              thrVertex_0,
              thrVertex_1,
              thrVertex_2,
@@ -556,14 +556,14 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap:
                 micro_edges_per_macro_edge_float,
                 radRayVertex,
                 radRefVertex,
-                radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_,
+                radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_,
                 rayVertex_0,
                 rayVertex_1,
                 rayVertex_2,
                 refVertex_0,
                 refVertex_1,
                 refVertex_2,
-                thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_,
+                thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_,
                 thrVertex_0,
                 thrVertex_1,
                 thrVertex_2 );

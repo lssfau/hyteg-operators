@@ -55,14 +55,14 @@ P2ElementwiseSupgDiffusionIcosahedralShellMap::P2ElementwiseSupgDiffusionIcosahe
     const P2Function< real_t >&                _ux,
     const P2Function< real_t >&                _uy,
     const P2Function< real_t >&                _uz,
-    real_t                                     thermalConductivity_P2ElementwiseSupgDiffusionIcosahedralShellMap )
+    real_t                                     thermal_conductivity_P2ElementwiseSupgDiffusionIcosahedralShellMap )
 : Operator( storage, minLevel, maxLevel )
 , rho( _rho )
 , ux( _ux )
 , uy( _uy )
 , uz( _uz )
-, thermalConductivity_P2ElementwiseSupgDiffusionIcosahedralShellMap_(
-      thermalConductivity_P2ElementwiseSupgDiffusionIcosahedralShellMap )
+, thermal_conductivity_P2ElementwiseSupgDiffusionIcosahedralShellMap_(
+      thermal_conductivity_P2ElementwiseSupgDiffusionIcosahedralShellMap )
 {}
 
 void P2ElementwiseSupgDiffusionIcosahedralShellMap::applyScaled( const real_t&               operatorScaling,
@@ -218,7 +218,7 @@ void P2ElementwiseSupgDiffusionIcosahedralShellMap::applyScaled( const real_t&  
              refVertex_0,
              refVertex_1,
              refVertex_2,
-             thermalConductivity_P2ElementwiseSupgDiffusionIcosahedralShellMap_,
+             thermal_conductivity_P2ElementwiseSupgDiffusionIcosahedralShellMap_,
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
@@ -381,7 +381,7 @@ void P2ElementwiseSupgDiffusionIcosahedralShellMap::toMatrixScaled( const real_t
              refVertex_0,
              refVertex_1,
              refVertex_2,
-             thermalConductivity_P2ElementwiseSupgDiffusionIcosahedralShellMap_,
+             thermal_conductivity_P2ElementwiseSupgDiffusionIcosahedralShellMap_,
              thrVertex_0,
              thrVertex_1,
              thrVertex_2,
@@ -529,7 +529,7 @@ void P2ElementwiseSupgDiffusionIcosahedralShellMap::computeInverseDiagonalOperat
                 refVertex_0,
                 refVertex_1,
                 refVertex_2,
-                thermalConductivity_P2ElementwiseSupgDiffusionIcosahedralShellMap_,
+                thermal_conductivity_P2ElementwiseSupgDiffusionIcosahedralShellMap_,
                 thrVertex_0,
                 thrVertex_1,
                 thrVertex_2 );

@@ -58,7 +58,7 @@ P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap::
         const P2Function< real_t >&                _ux,
         const P2Function< real_t >&                _uy,
         real_t cutoff_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap,
-        real_t radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap )
+        real_t radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap )
 : Operator( storage, minLevel, maxLevel )
 , delta( _delta )
 , eta( _eta )
@@ -67,8 +67,8 @@ P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap::
 , uy( _uy )
 , cutoff_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap_(
       cutoff_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap )
-, radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap_(
-      radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap )
+, radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap_(
+      radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap )
 {}
 
 void P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap::applyScaled( const real_t& operatorScaling,
@@ -203,7 +203,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap
              operatorScaling,
              radRayVertex,
              radRefVertex,
-             radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap_,
+             radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap_,
              rayVertex_0,
              rayVertex_1,
              refVertex_0,
@@ -353,7 +353,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap
              micro_edges_per_macro_edge_float,
              radRayVertex,
              radRefVertex,
-             radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap_,
+             radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap_,
              rayVertex_0,
              rayVertex_1,
              refVertex_0,
@@ -487,7 +487,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap
                 micro_edges_per_macro_edge_float,
                 radRayVertex,
                 radRefVertex,
-                radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap_,
+                radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap_,
                 rayVertex_0,
                 rayVertex_1,
                 refVertex_0,

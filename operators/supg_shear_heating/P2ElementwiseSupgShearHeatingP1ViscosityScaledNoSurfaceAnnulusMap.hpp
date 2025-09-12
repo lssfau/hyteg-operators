@@ -105,8 +105,8 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap
        const P2Function< real_t >&                _ux,
        const P2Function< real_t >&                _uy,
        real_t                                     cutoff_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap,
-       real_t                                     radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap,
-       real_t thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap );
+       real_t radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap,
+       real_t thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap );
 
    void applyScaled( const real_t&               operatorScaling,
                      const P2Function< real_t >& src,
@@ -175,12 +175,12 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap
        real_t           operatorScaling,
        real_t           radRayVertex,
        real_t           radRefVertex,
-       real_t           radiusSurface,
+       real_t           radius_surface,
        real_t           rayVertex_0,
        real_t           rayVertex_1,
        real_t           refVertex_0,
        real_t           refVertex_1,
-       real_t           thermalConductivity,
+       real_t           thermal_conductivity,
        real_t           thrVertex_0,
        real_t           thrVertex_1 ) const;
 
@@ -217,12 +217,12 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap
        real_t                               micro_edges_per_macro_edge_float,
        real_t                               radRayVertex,
        real_t                               radRefVertex,
-       real_t                               radiusSurface,
+       real_t                               radius_surface,
        real_t                               rayVertex_0,
        real_t                               rayVertex_1,
        real_t                               refVertex_0,
        real_t                               refVertex_1,
-       real_t                               thermalConductivity,
+       real_t                               thermal_conductivity,
        real_t                               thrVertex_0,
        real_t                               thrVertex_1,
        real_t                               toMatrixScaling ) const;
@@ -258,12 +258,12 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap
        real_t           micro_edges_per_macro_edge_float,
        real_t           radRayVertex,
        real_t           radRefVertex,
-       real_t           radiusSurface,
+       real_t           radius_surface,
        real_t           rayVertex_0,
        real_t           rayVertex_1,
        real_t           refVertex_0,
        real_t           refVertex_1,
-       real_t           thermalConductivity,
+       real_t           thermal_conductivity,
        real_t           thrVertex_0,
        real_t           thrVertex_1 ) const;
 
@@ -273,8 +273,8 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap
    P2Function< real_t >                    ux;
    P2Function< real_t >                    uy;
    real_t                                  cutoff_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_;
-   real_t                                  radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_;
-   real_t                                  thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_;
+   real_t                                  radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_;
+   real_t thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_;
 };
 
 } // namespace operatorgeneration

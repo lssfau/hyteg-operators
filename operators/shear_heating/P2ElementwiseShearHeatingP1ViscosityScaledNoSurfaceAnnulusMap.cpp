@@ -56,7 +56,7 @@ P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap::P2ElementwiseShea
     const P2Function< real_t >&                _ux,
     const P2Function< real_t >&                _uy,
     real_t                                     cutoff_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap,
-    real_t                                     radiusSurface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap )
+    real_t                                     radius_surface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap )
 : Operator( storage, minLevel, maxLevel )
 , eta( _eta )
 , rho( _rho )
@@ -64,8 +64,8 @@ P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap::P2ElementwiseShea
 , uy( _uy )
 , cutoff_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_(
       cutoff_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap )
-, radiusSurface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_(
-      radiusSurface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap )
+, radius_surface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_(
+      radius_surface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap )
 {}
 
 void P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap::applyScaled( const real_t&               operatorScaling,
@@ -195,7 +195,7 @@ void P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap::applyScaled(
              operatorScaling,
              radRayVertex,
              radRefVertex,
-             radiusSurface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
+             radius_surface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
              rayVertex_0,
              rayVertex_1,
              refVertex_0,
@@ -337,7 +337,7 @@ void P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap::toMatrixScal
              micro_edges_per_macro_edge_float,
              radRayVertex,
              radRefVertex,
-             radiusSurface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
+             radius_surface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
              rayVertex_0,
              rayVertex_1,
              refVertex_0,
@@ -462,7 +462,7 @@ void P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap::computeInver
                 micro_edges_per_macro_edge_float,
                 radRayVertex,
                 radRefVertex,
-                radiusSurface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
+                radius_surface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceAnnulusMap_,
                 rayVertex_0,
                 rayVertex_1,
                 refVertex_0,

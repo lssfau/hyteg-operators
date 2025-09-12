@@ -54,13 +54,13 @@ P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap::P2ElementwiseSupgAdiabatic
     const P2Function< real_t >&                _ux,
     const P2Function< real_t >&                _uy,
     const P2Function< real_t >&                _uz,
-    real_t                                     thermalConductivity_P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap )
+    real_t                                     thermal_conductivity_P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap )
 : Operator( storage, minLevel, maxLevel )
 , ux( _ux )
 , uy( _uy )
 , uz( _uz )
-, thermalConductivity_P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap_(
-      thermalConductivity_P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap )
+, thermal_conductivity_P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap_(
+      thermal_conductivity_P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap )
 {}
 
 void P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap::applyScaled( const real_t&               operatorScaling,
@@ -211,7 +211,7 @@ void P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap::applyScaled( const re
              refVertex_0,
              refVertex_1,
              refVertex_2,
-             thermalConductivity_P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap_,
+             thermal_conductivity_P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap_,
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
@@ -369,7 +369,7 @@ void P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap::toMatrixScaled( const
              refVertex_0,
              refVertex_1,
              refVertex_2,
-             thermalConductivity_P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap_,
+             thermal_conductivity_P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap_,
              thrVertex_0,
              thrVertex_1,
              thrVertex_2,
@@ -511,7 +511,7 @@ void P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap::computeInverseDiagona
                 refVertex_0,
                 refVertex_1,
                 refVertex_2,
-                thermalConductivity_P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap_,
+                thermal_conductivity_P2ElementwiseSupgAdiabaticHeatingIcosahedralShellMap_,
                 thrVertex_0,
                 thrVertex_1,
                 thrVertex_2 );

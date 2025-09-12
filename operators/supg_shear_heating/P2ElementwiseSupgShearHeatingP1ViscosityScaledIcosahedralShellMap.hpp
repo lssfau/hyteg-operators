@@ -102,7 +102,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap
        const P2Function< real_t >&                _ux,
        const P2Function< real_t >&                _uy,
        const P2Function< real_t >&                _uz,
-       real_t thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap );
+       real_t thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap );
 
    void applyScaled( const real_t&               operatorScaling,
                      const P2Function< real_t >& src,
@@ -187,7 +187,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap
        real_t           refVertex_0,
        real_t           refVertex_1,
        real_t           refVertex_2,
-       real_t           thermalConductivity,
+       real_t           thermal_conductivity,
        real_t           thrVertex_0,
        real_t           thrVertex_1,
        real_t           thrVertex_2 ) const;
@@ -241,7 +241,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap
        real_t                               refVertex_0,
        real_t                               refVertex_1,
        real_t                               refVertex_2,
-       real_t                               thermalConductivity,
+       real_t                               thermal_conductivity,
        real_t                               thrVertex_0,
        real_t                               thrVertex_1,
        real_t                               thrVertex_2,
@@ -294,7 +294,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap
        real_t           refVertex_0,
        real_t           refVertex_1,
        real_t           refVertex_2,
-       real_t           thermalConductivity,
+       real_t           thermal_conductivity,
        real_t           thrVertex_0,
        real_t           thrVertex_1,
        real_t           thrVertex_2 ) const;
@@ -305,7 +305,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap
    P2Function< real_t >                    ux;
    P2Function< real_t >                    uy;
    P2Function< real_t >                    uz;
-   real_t                                  thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap_;
+   real_t thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledIcosahedralShellMap_;
 };
 
 } // namespace operatorgeneration

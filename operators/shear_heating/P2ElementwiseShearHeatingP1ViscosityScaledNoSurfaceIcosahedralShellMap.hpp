@@ -102,7 +102,7 @@ class P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap
        const P2Function< real_t >&                _uy,
        const P2Function< real_t >&                _uz,
        real_t                                     cutoff_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap,
-       real_t radiusSurface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap );
+       real_t radius_surface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap );
 
    void applyScaled( const real_t&               operatorScaling,
                      const P2Function< real_t >& src,
@@ -182,7 +182,7 @@ class P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap
        real_t           operatorScaling,
        real_t           radRayVertex,
        real_t           radRefVertex,
-       real_t           radiusSurface,
+       real_t           radius_surface,
        real_t           rayVertex_0,
        real_t           rayVertex_1,
        real_t           rayVertex_2,
@@ -237,7 +237,7 @@ class P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap
        real_t                               micro_edges_per_macro_edge_float,
        real_t                               radRayVertex,
        real_t                               radRefVertex,
-       real_t                               radiusSurface,
+       real_t                               radius_surface,
        real_t                               rayVertex_0,
        real_t                               rayVertex_1,
        real_t                               rayVertex_2,
@@ -292,7 +292,7 @@ class P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap
            real_t           micro_edges_per_macro_edge_float,
            real_t           radRayVertex,
            real_t           radRefVertex,
-           real_t           radiusSurface,
+           real_t           radius_surface,
            real_t           rayVertex_0,
            real_t           rayVertex_1,
            real_t           rayVertex_2,
@@ -310,7 +310,7 @@ class P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap
    P2Function< real_t >                    uy;
    P2Function< real_t >                    uz;
    real_t                                  cutoff_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_;
-   real_t                                  radiusSurface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_;
+   real_t                                  radius_surface_P2ElementwiseShearHeatingP1ViscosityScaledNoSurfaceIcosahedralShellMap_;
 };
 
 } // namespace operatorgeneration

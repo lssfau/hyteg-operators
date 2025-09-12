@@ -82,7 +82,7 @@ class P2ElementwiseSupgAdvectionAnnulusMap : public Operator< P2Function< real_t
                                          size_t                                     maxLevel,
                                          const P2Function< real_t >&                _ux,
                                          const P2Function< real_t >&                _uy,
-                                         real_t thermalConductivity_P2ElementwiseSupgAdvectionAnnulusMap );
+                                         real_t thermal_conductivity_P2ElementwiseSupgAdvectionAnnulusMap );
 
    void applyScaled( const real_t&               operatorScaling,
                      const P2Function< real_t >& src,
@@ -151,7 +151,7 @@ class P2ElementwiseSupgAdvectionAnnulusMap : public Operator< P2Function< real_t
                                                                    real_t           rayVertex_1,
                                                                    real_t           refVertex_0,
                                                                    real_t           refVertex_1,
-                                                                   real_t           thermalConductivity,
+                                                                   real_t           thermal_conductivity,
                                                                    real_t           thrVertex_0,
                                                                    real_t           thrVertex_1 ) const;
 
@@ -188,7 +188,7 @@ class P2ElementwiseSupgAdvectionAnnulusMap : public Operator< P2Function< real_t
                                                                       real_t  rayVertex_1,
                                                                       real_t  refVertex_0,
                                                                       real_t  refVertex_1,
-                                                                      real_t  thermalConductivity,
+                                                                      real_t  thermal_conductivity,
                                                                       real_t  thrVertex_0,
                                                                       real_t  thrVertex_1,
                                                                       real_t  toMatrixScaling ) const;
@@ -225,14 +225,14 @@ class P2ElementwiseSupgAdvectionAnnulusMap : public Operator< P2Function< real_t
        real_t           rayVertex_1,
        real_t           refVertex_0,
        real_t           refVertex_1,
-       real_t           thermalConductivity,
+       real_t           thermal_conductivity,
        real_t           thrVertex_0,
        real_t           thrVertex_1 ) const;
 
    std::shared_ptr< P2Function< real_t > > invDiag_;
    P2Function< real_t >                    ux;
    P2Function< real_t >                    uy;
-   real_t                                  thermalConductivity_P2ElementwiseSupgAdvectionAnnulusMap_;
+   real_t                                  thermal_conductivity_P2ElementwiseSupgAdvectionAnnulusMap_;
 };
 
 } // namespace operatorgeneration

@@ -54,13 +54,13 @@ P2ElementwiseSupgDiffusion::P2ElementwiseSupgDiffusion( const std::shared_ptr< P
                                                         const P2Function< real_t >&                _ux,
                                                         const P2Function< real_t >&                _uy,
                                                         const P2Function< real_t >&                _uz,
-                                                        real_t thermalConductivity_P2ElementwiseSupgDiffusion )
+                                                        real_t thermal_conductivity_P2ElementwiseSupgDiffusion )
 : Operator( storage, minLevel, maxLevel )
 , rho( _rho )
 , ux( _ux )
 , uy( _uy )
 , uz( _uz )
-, thermalConductivity_P2ElementwiseSupgDiffusion_( thermalConductivity_P2ElementwiseSupgDiffusion )
+, thermal_conductivity_P2ElementwiseSupgDiffusion_( thermal_conductivity_P2ElementwiseSupgDiffusion )
 {}
 
 void P2ElementwiseSupgDiffusion::applyScaled( const real_t&               operatorScaling,
@@ -192,7 +192,7 @@ void P2ElementwiseSupgDiffusion::applyScaled( const real_t&               operat
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
              operatorScaling,
-             thermalConductivity_P2ElementwiseSupgDiffusion_ );
+             thermal_conductivity_P2ElementwiseSupgDiffusion_ );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -287,7 +287,7 @@ void P2ElementwiseSupgDiffusion::applyScaled( const real_t&               operat
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
              operatorScaling,
-             thermalConductivity_P2ElementwiseSupgDiffusion_ );
+             thermal_conductivity_P2ElementwiseSupgDiffusion_ );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -411,7 +411,7 @@ void P2ElementwiseSupgDiffusion::toMatrixScaled( const real_t&                  
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
-             thermalConductivity_P2ElementwiseSupgDiffusion_,
+             thermal_conductivity_P2ElementwiseSupgDiffusion_,
              toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
@@ -475,7 +475,7 @@ void P2ElementwiseSupgDiffusion::toMatrixScaled( const real_t&                  
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
-             thermalConductivity_P2ElementwiseSupgDiffusion_,
+             thermal_conductivity_P2ElementwiseSupgDiffusion_,
              toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
@@ -581,7 +581,7 @@ void P2ElementwiseSupgDiffusion::computeInverseDiagonalOperatorValuesScaled( con
                 macro_vertex_coord_id_3comp2,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float,
-                thermalConductivity_P2ElementwiseSupgDiffusion_ );
+                thermal_conductivity_P2ElementwiseSupgDiffusion_ );
 
             this->timingTree_->stop( "kernel" );
          }
@@ -654,7 +654,7 @@ void P2ElementwiseSupgDiffusion::computeInverseDiagonalOperatorValuesScaled( con
                 macro_vertex_coord_id_2comp1,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float,
-                thermalConductivity_P2ElementwiseSupgDiffusion_ );
+                thermal_conductivity_P2ElementwiseSupgDiffusion_ );
 
             this->timingTree_->stop( "kernel" );
          }

@@ -52,11 +52,11 @@ P2ElementwiseSupgMassAnnulusMap::P2ElementwiseSupgMassAnnulusMap( const std::sha
                                                                   size_t                                     maxLevel,
                                                                   const P2Function< real_t >&                _ux,
                                                                   const P2Function< real_t >&                _uy,
-                                                                  real_t thermalConductivity_P2ElementwiseSupgMassAnnulusMap )
+                                                                  real_t thermal_conductivity_P2ElementwiseSupgMassAnnulusMap )
 : Operator( storage, minLevel, maxLevel )
 , ux( _ux )
 , uy( _uy )
-, thermalConductivity_P2ElementwiseSupgMassAnnulusMap_( thermalConductivity_P2ElementwiseSupgMassAnnulusMap )
+, thermal_conductivity_P2ElementwiseSupgMassAnnulusMap_( thermal_conductivity_P2ElementwiseSupgMassAnnulusMap )
 {}
 
 void P2ElementwiseSupgMassAnnulusMap::applyScaled( const real_t&               operatorScaling,
@@ -183,7 +183,7 @@ void P2ElementwiseSupgMassAnnulusMap::applyScaled( const real_t&               o
              rayVertex_1,
              refVertex_0,
              refVertex_1,
-             thermalConductivity_P2ElementwiseSupgMassAnnulusMap_,
+             thermal_conductivity_P2ElementwiseSupgMassAnnulusMap_,
              thrVertex_0,
              thrVertex_1 );
 
@@ -311,7 +311,7 @@ void P2ElementwiseSupgMassAnnulusMap::toMatrixScaled( const real_t&             
              rayVertex_1,
              refVertex_0,
              refVertex_1,
-             thermalConductivity_P2ElementwiseSupgMassAnnulusMap_,
+             thermal_conductivity_P2ElementwiseSupgMassAnnulusMap_,
              thrVertex_0,
              thrVertex_1,
              toMatrixScaling );
@@ -422,7 +422,7 @@ void P2ElementwiseSupgMassAnnulusMap::computeInverseDiagonalOperatorValuesScaled
                 rayVertex_1,
                 refVertex_0,
                 refVertex_1,
-                thermalConductivity_P2ElementwiseSupgMassAnnulusMap_,
+                thermal_conductivity_P2ElementwiseSupgMassAnnulusMap_,
                 thrVertex_0,
                 thrVertex_1 );
 

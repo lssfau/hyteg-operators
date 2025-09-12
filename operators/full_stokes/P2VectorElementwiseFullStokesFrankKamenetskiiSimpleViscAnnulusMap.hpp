@@ -82,13 +82,13 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
        size_t                                     minLevel,
        size_t                                     maxLevel,
        const P2Function< real_t >&                _T_extra,
-       real_t additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
-       real_t depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
-       real_t etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
-       real_t radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
-       real_t radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
-       real_t rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
-       real_t temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap );
+       real_t additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
+       real_t depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
+       real_t eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
+       real_t radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
+       real_t radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
+       real_t rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
+       real_t temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap );
 
    void applyScaled( const real_t&                     operatorScaling,
                      const P2VectorFunction< real_t >& src,
@@ -145,9 +145,9 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
        real_t* RESTRICT _data_src_edge_1,
        real_t* RESTRICT _data_src_vertex_0,
        real_t* RESTRICT _data_src_vertex_1,
-       real_t           additiveOffSet,
-       real_t           depthDependency,
-       real_t           etaRef,
+       real_t           additive_offset,
+       real_t           depth_dependency,
+       real_t           eta_ref,
        real_t           macro_vertex_coord_id_0comp0,
        real_t           macro_vertex_coord_id_0comp1,
        real_t           macro_vertex_coord_id_1comp0,
@@ -159,14 +159,14 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
        real_t           operatorScaling,
        real_t           radRayVertex,
        real_t           radRefVertex,
-       real_t           radiusCMB,
-       real_t           radiusSurface,
+       real_t           radius_CMB,
+       real_t           radius_surface,
        real_t           rayVertex_0,
        real_t           rayVertex_1,
        real_t           refVertex_0,
        real_t           refVertex_1,
-       real_t           rockChemicalCompositionParameter,
-       real_t           temperatureSurface,
+       real_t           rock_chemical_composition_parameter,
+       real_t           temperature_surface,
        real_t           thrVertex_0,
        real_t           thrVertex_1 ) const;
 
@@ -191,9 +191,9 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
        idx_t* RESTRICT                      _data_src_edge_1,
        idx_t* RESTRICT                      _data_src_vertex_0,
        idx_t* RESTRICT                      _data_src_vertex_1,
-       real_t                               additiveOffSet,
-       real_t                               depthDependency,
-       real_t                               etaRef,
+       real_t                               additive_offset,
+       real_t                               depth_dependency,
+       real_t                               eta_ref,
        real_t                               macro_vertex_coord_id_0comp0,
        real_t                               macro_vertex_coord_id_0comp1,
        real_t                               macro_vertex_coord_id_1comp0,
@@ -205,14 +205,14 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
        real_t                               micro_edges_per_macro_edge_float,
        real_t                               radRayVertex,
        real_t                               radRefVertex,
-       real_t                               radiusCMB,
-       real_t                               radiusSurface,
+       real_t                               radius_CMB,
+       real_t                               radius_surface,
        real_t                               rayVertex_0,
        real_t                               rayVertex_1,
        real_t                               refVertex_0,
        real_t                               refVertex_1,
-       real_t                               rockChemicalCompositionParameter,
-       real_t                               temperatureSurface,
+       real_t                               rock_chemical_composition_parameter,
+       real_t                               temperature_surface,
        real_t                               thrVertex_0,
        real_t                               thrVertex_1,
        real_t                               toMatrixScaling ) const;
@@ -234,10 +234,10 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
        real_t* RESTRICT _data_invDiag__edge_1,
        real_t* RESTRICT _data_invDiag__vertex_0,
        real_t* RESTRICT _data_invDiag__vertex_1,
-       real_t           additiveOffSet,
-       real_t           depthDependency,
+       real_t           additive_offset,
+       real_t           depth_dependency,
        real_t           diagScaling,
-       real_t           etaRef,
+       real_t           eta_ref,
        real_t           macro_vertex_coord_id_0comp0,
        real_t           macro_vertex_coord_id_0comp1,
        real_t           macro_vertex_coord_id_1comp0,
@@ -248,26 +248,26 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
        real_t           micro_edges_per_macro_edge_float,
        real_t           radRayVertex,
        real_t           radRefVertex,
-       real_t           radiusCMB,
-       real_t           radiusSurface,
+       real_t           radius_CMB,
+       real_t           radius_surface,
        real_t           rayVertex_0,
        real_t           rayVertex_1,
        real_t           refVertex_0,
        real_t           refVertex_1,
-       real_t           rockChemicalCompositionParameter,
-       real_t           temperatureSurface,
+       real_t           rock_chemical_composition_parameter,
+       real_t           temperature_surface,
        real_t           thrVertex_0,
        real_t           thrVertex_1 ) const;
 
    std::shared_ptr< P2VectorFunction< real_t > > invDiag_;
    P2Function< real_t >                          T_extra;
-   real_t additiveOffSet_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
-   real_t depthDependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
-   real_t etaRef_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
-   real_t radiusCMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
-   real_t radiusSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
-   real_t rockChemicalCompositionParameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
-   real_t temperatureSurface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
+   real_t additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
+   real_t depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
+   real_t eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
+   real_t radius_CMB_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
+   real_t radius_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
+   real_t rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
+   real_t temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
 };
 
 } // namespace operatorgeneration

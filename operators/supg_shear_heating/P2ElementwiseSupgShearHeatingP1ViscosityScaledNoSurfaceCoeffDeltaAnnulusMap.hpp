@@ -94,7 +94,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMa
        const P2Function< real_t >&                _ux,
        const P2Function< real_t >&                _uy,
        real_t cutoff_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap,
-       real_t radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap );
+       real_t radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap );
 
    void applyScaled( const real_t&               operatorScaling,
                      const P2Function< real_t >& src,
@@ -165,7 +165,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMa
        real_t           operatorScaling,
        real_t           radRayVertex,
        real_t           radRefVertex,
-       real_t           radiusSurface,
+       real_t           radius_surface,
        real_t           rayVertex_0,
        real_t           rayVertex_1,
        real_t           refVertex_0,
@@ -208,7 +208,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMa
        real_t                               micro_edges_per_macro_edge_float,
        real_t                               radRayVertex,
        real_t                               radRefVertex,
-       real_t                               radiusSurface,
+       real_t                               radius_surface,
        real_t                               rayVertex_0,
        real_t                               rayVertex_1,
        real_t                               refVertex_0,
@@ -251,7 +251,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMa
            real_t           micro_edges_per_macro_edge_float,
            real_t           radRayVertex,
            real_t           radRefVertex,
-           real_t           radiusSurface,
+           real_t           radius_surface,
            real_t           rayVertex_0,
            real_t           rayVertex_1,
            real_t           refVertex_0,
@@ -266,7 +266,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMa
    P2Function< real_t >                    ux;
    P2Function< real_t >                    uy;
    real_t                                  cutoff_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap_;
-   real_t radiusSurface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap_;
+   real_t radius_surface_P2ElementwiseSupgShearHeatingP1ViscosityScaledNoSurfaceCoeffDeltaAnnulusMap_;
 };
 
 } // namespace operatorgeneration

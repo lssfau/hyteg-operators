@@ -54,13 +54,13 @@ P2ElementwiseSupgAdvectionIcosahedralShellMap::P2ElementwiseSupgAdvectionIcosahe
     const P2Function< real_t >&                _ux,
     const P2Function< real_t >&                _uy,
     const P2Function< real_t >&                _uz,
-    real_t                                     thermalConductivity_P2ElementwiseSupgAdvectionIcosahedralShellMap )
+    real_t                                     thermal_conductivity_P2ElementwiseSupgAdvectionIcosahedralShellMap )
 : Operator( storage, minLevel, maxLevel )
 , ux( _ux )
 , uy( _uy )
 , uz( _uz )
-, thermalConductivity_P2ElementwiseSupgAdvectionIcosahedralShellMap_(
-      thermalConductivity_P2ElementwiseSupgAdvectionIcosahedralShellMap )
+, thermal_conductivity_P2ElementwiseSupgAdvectionIcosahedralShellMap_(
+      thermal_conductivity_P2ElementwiseSupgAdvectionIcosahedralShellMap )
 {}
 
 void P2ElementwiseSupgAdvectionIcosahedralShellMap::applyScaled( const real_t&               operatorScaling,
@@ -211,7 +211,7 @@ void P2ElementwiseSupgAdvectionIcosahedralShellMap::applyScaled( const real_t&  
              refVertex_0,
              refVertex_1,
              refVertex_2,
-             thermalConductivity_P2ElementwiseSupgAdvectionIcosahedralShellMap_,
+             thermal_conductivity_P2ElementwiseSupgAdvectionIcosahedralShellMap_,
              thrVertex_0,
              thrVertex_1,
              thrVertex_2 );
@@ -369,7 +369,7 @@ void P2ElementwiseSupgAdvectionIcosahedralShellMap::toMatrixScaled( const real_t
              refVertex_0,
              refVertex_1,
              refVertex_2,
-             thermalConductivity_P2ElementwiseSupgAdvectionIcosahedralShellMap_,
+             thermal_conductivity_P2ElementwiseSupgAdvectionIcosahedralShellMap_,
              thrVertex_0,
              thrVertex_1,
              thrVertex_2,
@@ -511,7 +511,7 @@ void P2ElementwiseSupgAdvectionIcosahedralShellMap::computeInverseDiagonalOperat
                 refVertex_0,
                 refVertex_1,
                 refVertex_2,
-                thermalConductivity_P2ElementwiseSupgAdvectionIcosahedralShellMap_,
+                thermal_conductivity_P2ElementwiseSupgAdvectionIcosahedralShellMap_,
                 thrVertex_0,
                 thrVertex_1,
                 thrVertex_2 );

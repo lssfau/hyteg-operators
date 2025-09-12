@@ -55,14 +55,14 @@ P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap::P2ElementwiseSupgShear
     const P1Function< real_t >&                _rho,
     const P2Function< real_t >&                _ux,
     const P2Function< real_t >&                _uy,
-    real_t                                     thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap )
+    real_t                                     thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap )
 : Operator( storage, minLevel, maxLevel )
 , eta( _eta )
 , rho( _rho )
 , ux( _ux )
 , uy( _uy )
-, thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap_(
-      thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap )
+, thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap_(
+      thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap )
 {}
 
 void P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap::applyScaled( const real_t&               operatorScaling,
@@ -195,7 +195,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap::applyScaled( cons
              rayVertex_1,
              refVertex_0,
              refVertex_1,
-             thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap_,
+             thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap_,
              thrVertex_0,
              thrVertex_1 );
 
@@ -335,7 +335,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap::toMatrixScaled( c
              rayVertex_1,
              refVertex_0,
              refVertex_1,
-             thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap_,
+             thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap_,
              thrVertex_0,
              thrVertex_1,
              toMatrixScaling );
@@ -459,7 +459,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap::computeInverseDia
                 rayVertex_1,
                 refVertex_0,
                 refVertex_1,
-                thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap_,
+                thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaledAnnulusMap_,
                 thrVertex_0,
                 thrVertex_1 );
 

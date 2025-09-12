@@ -53,11 +53,11 @@ P2ElementwiseSupgAdvectionAnnulusMap::P2ElementwiseSupgAdvectionAnnulusMap(
     size_t                                     maxLevel,
     const P2Function< real_t >&                _ux,
     const P2Function< real_t >&                _uy,
-    real_t                                     thermalConductivity_P2ElementwiseSupgAdvectionAnnulusMap )
+    real_t                                     thermal_conductivity_P2ElementwiseSupgAdvectionAnnulusMap )
 : Operator( storage, minLevel, maxLevel )
 , ux( _ux )
 , uy( _uy )
-, thermalConductivity_P2ElementwiseSupgAdvectionAnnulusMap_( thermalConductivity_P2ElementwiseSupgAdvectionAnnulusMap )
+, thermal_conductivity_P2ElementwiseSupgAdvectionAnnulusMap_( thermal_conductivity_P2ElementwiseSupgAdvectionAnnulusMap )
 {}
 
 void P2ElementwiseSupgAdvectionAnnulusMap::applyScaled( const real_t&               operatorScaling,
@@ -184,7 +184,7 @@ void P2ElementwiseSupgAdvectionAnnulusMap::applyScaled( const real_t&           
              rayVertex_1,
              refVertex_0,
              refVertex_1,
-             thermalConductivity_P2ElementwiseSupgAdvectionAnnulusMap_,
+             thermal_conductivity_P2ElementwiseSupgAdvectionAnnulusMap_,
              thrVertex_0,
              thrVertex_1 );
 
@@ -312,7 +312,7 @@ void P2ElementwiseSupgAdvectionAnnulusMap::toMatrixScaled( const real_t&        
              rayVertex_1,
              refVertex_0,
              refVertex_1,
-             thermalConductivity_P2ElementwiseSupgAdvectionAnnulusMap_,
+             thermal_conductivity_P2ElementwiseSupgAdvectionAnnulusMap_,
              thrVertex_0,
              thrVertex_1,
              toMatrixScaling );
@@ -423,7 +423,7 @@ void P2ElementwiseSupgAdvectionAnnulusMap::computeInverseDiagonalOperatorValuesS
                 rayVertex_1,
                 refVertex_0,
                 refVertex_1,
-                thermalConductivity_P2ElementwiseSupgAdvectionAnnulusMap_,
+                thermal_conductivity_P2ElementwiseSupgAdvectionAnnulusMap_,
                 thrVertex_0,
                 thrVertex_1 );
 

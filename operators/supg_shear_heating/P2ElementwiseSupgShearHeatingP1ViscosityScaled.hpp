@@ -99,7 +99,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaled : public Operator< P2Functi
                                                    const P2Function< real_t >&                _ux,
                                                    const P2Function< real_t >&                _uy,
                                                    const P2Function< real_t >&                _uz,
-                                                   real_t thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled );
+                                                   real_t thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled );
 
    void applyScaled( const real_t&               operatorScaling,
                      const P2Function< real_t >& src,
@@ -164,7 +164,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaled : public Operator< P2Functi
                                                                              int64_t          micro_edges_per_macro_edge,
                                                                              real_t           micro_edges_per_macro_edge_float,
                                                                              real_t           operatorScaling,
-                                                                             real_t           thermalConductivity ) const;
+                                                                             real_t           thermal_conductivity ) const;
 
    /// Integral: P2ElementwiseSupgShearHeatingP1ViscosityScaled
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
@@ -203,7 +203,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaled : public Operator< P2Functi
                                                                              int64_t          micro_edges_per_macro_edge,
                                                                              real_t           micro_edges_per_macro_edge_float,
                                                                              real_t           operatorScaling,
-                                                                             real_t           thermalConductivity ) const;
+                                                                             real_t           thermal_conductivity ) const;
 
    /// Integral: P2ElementwiseSupgShearHeatingP1ViscosityScaled
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
@@ -234,7 +234,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaled : public Operator< P2Functi
                                                                                 std::shared_ptr< SparseMatrixProxy > mat,
                                                                                 int64_t micro_edges_per_macro_edge,
                                                                                 real_t  micro_edges_per_macro_edge_float,
-                                                                                real_t  thermalConductivity,
+                                                                                real_t  thermal_conductivity,
                                                                                 real_t  toMatrixScaling ) const;
 
    /// Integral: P2ElementwiseSupgShearHeatingP1ViscosityScaled
@@ -274,7 +274,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaled : public Operator< P2Functi
                                                                                 std::shared_ptr< SparseMatrixProxy > mat,
                                                                                 int64_t micro_edges_per_macro_edge,
                                                                                 real_t  micro_edges_per_macro_edge_float,
-                                                                                real_t  thermalConductivity,
+                                                                                real_t  thermal_conductivity,
                                                                                 real_t  toMatrixScaling ) const;
 
    /// Integral: P2ElementwiseSupgShearHeatingP1ViscosityScaled
@@ -305,7 +305,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaled : public Operator< P2Functi
        real_t           macro_vertex_coord_id_2comp1,
        int64_t          micro_edges_per_macro_edge,
        real_t           micro_edges_per_macro_edge_float,
-       real_t           thermalConductivity ) const;
+       real_t           thermal_conductivity ) const;
 
    /// Integral: P2ElementwiseSupgShearHeatingP1ViscosityScaled
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
@@ -343,7 +343,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaled : public Operator< P2Functi
        real_t           macro_vertex_coord_id_3comp2,
        int64_t          micro_edges_per_macro_edge,
        real_t           micro_edges_per_macro_edge_float,
-       real_t           thermalConductivity ) const;
+       real_t           thermal_conductivity ) const;
 
    std::shared_ptr< P2Function< real_t > > invDiag_;
    P1Function< real_t >                    eta;
@@ -351,7 +351,7 @@ class P2ElementwiseSupgShearHeatingP1ViscosityScaled : public Operator< P2Functi
    P2Function< real_t >                    ux;
    P2Function< real_t >                    uy;
    P2Function< real_t >                    uz;
-   real_t                                  thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_;
+   real_t                                  thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_;
 };
 
 } // namespace operatorgeneration

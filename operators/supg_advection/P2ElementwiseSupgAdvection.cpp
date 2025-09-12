@@ -53,12 +53,12 @@ P2ElementwiseSupgAdvection::P2ElementwiseSupgAdvection( const std::shared_ptr< P
                                                         const P2Function< real_t >&                _ux,
                                                         const P2Function< real_t >&                _uy,
                                                         const P2Function< real_t >&                _uz,
-                                                        real_t thermalConductivity_P2ElementwiseSupgAdvection )
+                                                        real_t thermal_conductivity_P2ElementwiseSupgAdvection )
 : Operator( storage, minLevel, maxLevel )
 , ux( _ux )
 , uy( _uy )
 , uz( _uz )
-, thermalConductivity_P2ElementwiseSupgAdvection_( thermalConductivity_P2ElementwiseSupgAdvection )
+, thermal_conductivity_P2ElementwiseSupgAdvection_( thermal_conductivity_P2ElementwiseSupgAdvection )
 {}
 
 void P2ElementwiseSupgAdvection::applyScaled( const real_t&               operatorScaling,
@@ -184,7 +184,7 @@ void P2ElementwiseSupgAdvection::applyScaled( const real_t&               operat
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
              operatorScaling,
-             thermalConductivity_P2ElementwiseSupgAdvection_ );
+             thermal_conductivity_P2ElementwiseSupgAdvection_ );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -277,7 +277,7 @@ void P2ElementwiseSupgAdvection::applyScaled( const real_t&               operat
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
              operatorScaling,
-             thermalConductivity_P2ElementwiseSupgAdvection_ );
+             thermal_conductivity_P2ElementwiseSupgAdvection_ );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -396,7 +396,7 @@ void P2ElementwiseSupgAdvection::toMatrixScaled( const real_t&                  
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
-             thermalConductivity_P2ElementwiseSupgAdvection_,
+             thermal_conductivity_P2ElementwiseSupgAdvection_,
              toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
@@ -457,7 +457,7 @@ void P2ElementwiseSupgAdvection::toMatrixScaled( const real_t&                  
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
-             thermalConductivity_P2ElementwiseSupgAdvection_,
+             thermal_conductivity_P2ElementwiseSupgAdvection_,
              toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
@@ -558,7 +558,7 @@ void P2ElementwiseSupgAdvection::computeInverseDiagonalOperatorValuesScaled( con
                 macro_vertex_coord_id_3comp2,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float,
-                thermalConductivity_P2ElementwiseSupgAdvection_ );
+                thermal_conductivity_P2ElementwiseSupgAdvection_ );
 
             this->timingTree_->stop( "kernel" );
          }
@@ -628,7 +628,7 @@ void P2ElementwiseSupgAdvection::computeInverseDiagonalOperatorValuesScaled( con
                 macro_vertex_coord_id_2comp1,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float,
-                thermalConductivity_P2ElementwiseSupgAdvection_ );
+                thermal_conductivity_P2ElementwiseSupgAdvection_ );
 
             this->timingTree_->stop( "kernel" );
          }

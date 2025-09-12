@@ -53,12 +53,12 @@ P2ElementwiseSupgAdiabaticHeatingAnnulusMap::P2ElementwiseSupgAdiabaticHeatingAn
     size_t                                     maxLevel,
     const P2Function< real_t >&                _ux,
     const P2Function< real_t >&                _uy,
-    real_t                                     thermalConductivity_P2ElementwiseSupgAdiabaticHeatingAnnulusMap )
+    real_t                                     thermal_conductivity_P2ElementwiseSupgAdiabaticHeatingAnnulusMap )
 : Operator( storage, minLevel, maxLevel )
 , ux( _ux )
 , uy( _uy )
-, thermalConductivity_P2ElementwiseSupgAdiabaticHeatingAnnulusMap_(
-      thermalConductivity_P2ElementwiseSupgAdiabaticHeatingAnnulusMap )
+, thermal_conductivity_P2ElementwiseSupgAdiabaticHeatingAnnulusMap_(
+      thermal_conductivity_P2ElementwiseSupgAdiabaticHeatingAnnulusMap )
 {}
 
 void P2ElementwiseSupgAdiabaticHeatingAnnulusMap::applyScaled( const real_t&               operatorScaling,
@@ -185,7 +185,7 @@ void P2ElementwiseSupgAdiabaticHeatingAnnulusMap::applyScaled( const real_t&    
              rayVertex_1,
              refVertex_0,
              refVertex_1,
-             thermalConductivity_P2ElementwiseSupgAdiabaticHeatingAnnulusMap_,
+             thermal_conductivity_P2ElementwiseSupgAdiabaticHeatingAnnulusMap_,
              thrVertex_0,
              thrVertex_1 );
 
@@ -313,7 +313,7 @@ void P2ElementwiseSupgAdiabaticHeatingAnnulusMap::toMatrixScaled( const real_t& 
              rayVertex_1,
              refVertex_0,
              refVertex_1,
-             thermalConductivity_P2ElementwiseSupgAdiabaticHeatingAnnulusMap_,
+             thermal_conductivity_P2ElementwiseSupgAdiabaticHeatingAnnulusMap_,
              thrVertex_0,
              thrVertex_1,
              toMatrixScaling );
@@ -424,7 +424,7 @@ void P2ElementwiseSupgAdiabaticHeatingAnnulusMap::computeInverseDiagonalOperator
                 rayVertex_1,
                 refVertex_0,
                 refVertex_1,
-                thermalConductivity_P2ElementwiseSupgAdiabaticHeatingAnnulusMap_,
+                thermal_conductivity_P2ElementwiseSupgAdiabaticHeatingAnnulusMap_,
                 thrVertex_0,
                 thrVertex_1 );
 

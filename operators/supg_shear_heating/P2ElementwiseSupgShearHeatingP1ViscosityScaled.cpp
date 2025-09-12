@@ -56,15 +56,15 @@ P2ElementwiseSupgShearHeatingP1ViscosityScaled::P2ElementwiseSupgShearHeatingP1V
     const P2Function< real_t >&                _ux,
     const P2Function< real_t >&                _uy,
     const P2Function< real_t >&                _uz,
-    real_t                                     thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled )
+    real_t                                     thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled )
 : Operator( storage, minLevel, maxLevel )
 , eta( _eta )
 , rho( _rho )
 , ux( _ux )
 , uy( _uy )
 , uz( _uz )
-, thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_(
-      thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled )
+, thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_(
+      thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled )
 {}
 
 void P2ElementwiseSupgShearHeatingP1ViscosityScaled::applyScaled( const real_t&               operatorScaling,
@@ -202,7 +202,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaled::applyScaled( const real_t& 
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
              operatorScaling,
-             thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_ );
+             thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_ );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -299,7 +299,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaled::applyScaled( const real_t& 
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
              operatorScaling,
-             thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_ );
+             thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_ );
 
          this->timingTree_->stop( "kernel" );
       }
@@ -428,7 +428,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaled::toMatrixScaled( const real_
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
-             thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_,
+             thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_,
              toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
@@ -495,7 +495,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaled::toMatrixScaled( const real_
              mat,
              micro_edges_per_macro_edge,
              micro_edges_per_macro_edge_float,
-             thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_,
+             thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_,
              toMatrixScaling );
 
          this->timingTree_->stop( "kernel" );
@@ -606,7 +606,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaled::computeInverseDiagonalOpera
                 macro_vertex_coord_id_3comp2,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float,
-                thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_ );
+                thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_ );
 
             this->timingTree_->stop( "kernel" );
          }
@@ -682,7 +682,7 @@ void P2ElementwiseSupgShearHeatingP1ViscosityScaled::computeInverseDiagonalOpera
                 macro_vertex_coord_id_2comp1,
                 micro_edges_per_macro_edge,
                 micro_edges_per_macro_edge_float,
-                thermalConductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_ );
+                thermal_conductivity_P2ElementwiseSupgShearHeatingP1ViscosityScaled_ );
 
             this->timingTree_->stop( "kernel" );
          }
