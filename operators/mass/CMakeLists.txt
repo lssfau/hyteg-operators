@@ -2,6 +2,8 @@ add_library( opgen-mass
 
    P1ElementwiseMass.cpp
    P1ElementwiseMass.hpp
+   P1ElementwiseMassAnnulusMap.cpp
+   P1ElementwiseMassAnnulusMap.hpp
    P1ElementwiseMassBoundary.cpp
    P1ElementwiseMassBoundary.hpp
    P1ElementwiseMassBoundaryAnnulusMap.cpp
@@ -36,6 +38,8 @@ target_link_libraries( opgen-mass PRIVATE hyteg )
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-mass PRIVATE
 
+      avx/P1ElementwiseMassAnnulusMap_applyScaled_P1ElementwiseMassAnnulusMap_macro_2D.cpp
+      avx/P1ElementwiseMassAnnulusMap_computeInverseDiagonalOperatorValuesScaled_P1ElementwiseMassAnnulusMap_macro_2D.cpp
       avx/P1ElementwiseMassIcosahedralShellMap_applyScaled_P1ElementwiseMassIcosahedralShellMap_macro_3D.cpp
       avx/P1ElementwiseMassIcosahedralShellMap_computeInverseDiagonalOperatorValuesScaled_P1ElementwiseMassIcosahedralShellMap_macro_3D.cpp
       avx/P1ElementwiseMassParametricP1Map_applyScaled_P1ElementwiseMassParametricP1Map_macro_2D.cpp
@@ -62,6 +66,7 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P2PlusBubbleElementwiseMassAnnulusMap_computeInverseDiagonalOperatorValuesScaled_P2PlusBubbleElementwiseMassAnnulusMap_macro_2D.cpp
       avx/P2PlusBubbleElementwiseMass_applyScaled_P2PlusBubbleElementwiseMass_macro_2D.cpp
       avx/P2PlusBubbleElementwiseMass_computeInverseDiagonalOperatorValuesScaled_P2PlusBubbleElementwiseMass_macro_2D.cpp
+      noarch/P1ElementwiseMassAnnulusMap_toMatrixScaled_P1ElementwiseMassAnnulusMap_macro_2D.cpp
       noarch/P1ElementwiseMassBoundaryAnnulusMap_applyScaled_P1ElementwiseMassBoundaryAnnulusMap_facet_id_0_macro_2D.cpp
       noarch/P1ElementwiseMassBoundaryAnnulusMap_applyScaled_P1ElementwiseMassBoundaryAnnulusMap_facet_id_1_macro_2D.cpp
       noarch/P1ElementwiseMassBoundaryAnnulusMap_applyScaled_P1ElementwiseMassBoundaryAnnulusMap_facet_id_2_macro_2D.cpp
@@ -163,6 +168,8 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
 
    set_source_files_properties(
 
+      avx/P1ElementwiseMassAnnulusMap_applyScaled_P1ElementwiseMassAnnulusMap_macro_2D.cpp
+      avx/P1ElementwiseMassAnnulusMap_computeInverseDiagonalOperatorValuesScaled_P1ElementwiseMassAnnulusMap_macro_2D.cpp
       avx/P1ElementwiseMassIcosahedralShellMap_applyScaled_P1ElementwiseMassIcosahedralShellMap_macro_3D.cpp
       avx/P1ElementwiseMassIcosahedralShellMap_computeInverseDiagonalOperatorValuesScaled_P1ElementwiseMassIcosahedralShellMap_macro_3D.cpp
       avx/P1ElementwiseMassParametricP1Map_applyScaled_P1ElementwiseMassParametricP1Map_macro_2D.cpp
@@ -199,6 +206,9 @@ else()
 
    target_sources(opgen-mass PRIVATE
 
+      noarch/P1ElementwiseMassAnnulusMap_applyScaled_P1ElementwiseMassAnnulusMap_macro_2D.cpp
+      noarch/P1ElementwiseMassAnnulusMap_computeInverseDiagonalOperatorValuesScaled_P1ElementwiseMassAnnulusMap_macro_2D.cpp
+      noarch/P1ElementwiseMassAnnulusMap_toMatrixScaled_P1ElementwiseMassAnnulusMap_macro_2D.cpp
       noarch/P1ElementwiseMassBoundaryAnnulusMap_applyScaled_P1ElementwiseMassBoundaryAnnulusMap_facet_id_0_macro_2D.cpp
       noarch/P1ElementwiseMassBoundaryAnnulusMap_applyScaled_P1ElementwiseMassBoundaryAnnulusMap_facet_id_1_macro_2D.cpp
       noarch/P1ElementwiseMassBoundaryAnnulusMap_applyScaled_P1ElementwiseMassBoundaryAnnulusMap_facet_id_2_macro_2D.cpp

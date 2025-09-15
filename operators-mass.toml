@@ -18,6 +18,15 @@ blending      = "ParametricP1Map"
 [[mass]]
 trial-space   = "P1"
 test-space    = "P1"
+dimensions    = [2]
+quadrature    = 3
+loop-strategy = "sawtooth"
+optimizations = ["moveconstants", "vectorize", "quadloops"]
+blending      = "AnnulusMap"
+
+[[mass]]
+trial-space   = "P1"
+test-space    = "P1"
 dimensions    = [3]
 quadrature    = 3
 loop-strategy = "sawtooth"
