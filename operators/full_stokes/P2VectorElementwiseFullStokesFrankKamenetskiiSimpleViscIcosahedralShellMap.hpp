@@ -127,7 +127,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    /// Integral: P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     applyScaled
-   /// - loop strategy:   SAWTOOTH
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
@@ -189,7 +189,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    /// Integral: P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     toMatrixScaled
-   /// - loop strategy:   SAWTOOTH
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
@@ -252,7 +252,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    /// Integral: P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
-   /// - loop strategy:   SAWTOOTH
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:

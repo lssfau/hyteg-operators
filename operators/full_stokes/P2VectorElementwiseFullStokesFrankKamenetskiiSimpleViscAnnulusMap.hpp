@@ -127,7 +127,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// Integral: P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
    /// - kernel type:     applyScaled
-   /// - loop strategy:   SAWTOOTH
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    AnnulusMap
    /// - operations per element:
@@ -173,7 +173,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// Integral: P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
    /// - kernel type:     toMatrixScaled
-   /// - loop strategy:   SAWTOOTH
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    AnnulusMap
    /// - operations per element:
@@ -220,7 +220,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// Integral: P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
    /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
-   /// - loop strategy:   SAWTOOTH
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    AnnulusMap
    /// - operations per element:
