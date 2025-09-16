@@ -52,7 +52,7 @@ P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap::
         const std::shared_ptr< PrimitiveStorage >& storage,
         size_t                                     minLevel,
         size_t                                     maxLevel,
-        const P2Function< real_t >&                _T_extra,
+        const P2Function< real_t >&                _T,
         real_t additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
         real_t depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
         real_t eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
@@ -61,7 +61,7 @@ P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap::
         real_t rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
         real_t temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
 : Operator( storage, minLevel, maxLevel )
-, T_extra( _T_extra )
+, T( _T )
 , additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
       additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap )
 , depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_(
@@ -103,9 +103,9 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
       src[2].communicate< Face, Cell >( level );
       src[2].communicate< Edge, Cell >( level );
       src[2].communicate< Vertex, Cell >( level );
-      T_extra.communicate< Face, Cell >( level );
-      T_extra.communicate< Edge, Cell >( level );
-      T_extra.communicate< Vertex, Cell >( level );
+      T.communicate< Face, Cell >( level );
+      T.communicate< Edge, Cell >( level );
+      T.communicate< Vertex, Cell >( level );
    }
    else
    {
@@ -143,8 +143,8 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
          real_t* _data_dst_vertex_2 = cell.getData( dst[2].getVertexDoFFunction().getCellDataID() )->getPointer( level );
          real_t* _data_dst_edge_2   = cell.getData( dst[2].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
-         real_t* _data_T_extraVertex = cell.getData( T_extra.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_T_extraEdge   = cell.getData( T_extra.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_TVertex = cell.getData( T.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_TEdge   = cell.getData( T.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
          // Zero out dst halos only
          //
@@ -201,8 +201,8 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
 
          applyScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_macro_3D(
 
-             _data_T_extraEdge,
-             _data_T_extraVertex,
+             _data_TEdge,
+             _data_TVertex,
              _data_dst_edge_0,
              _data_dst_edge_1,
              _data_dst_edge_2,
@@ -326,9 +326,9 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
    if ( storage_->hasGlobalCells() )
    {
       this->timingTree_->start( "pre-communication" );
-      T_extra.communicate< Face, Cell >( level );
-      T_extra.communicate< Edge, Cell >( level );
-      T_extra.communicate< Vertex, Cell >( level );
+      T.communicate< Face, Cell >( level );
+      T.communicate< Edge, Cell >( level );
+      T.communicate< Vertex, Cell >( level );
       this->timingTree_->stop( "pre-communication" );
 
       for ( auto& it : storage_->getCells() )
@@ -350,8 +350,8 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
          idx_t* _data_dst_vertex_2 = cell.getData( dst[2].getVertexDoFFunction().getCellDataID() )->getPointer( level );
          idx_t* _data_dst_edge_2   = cell.getData( dst[2].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
-         real_t* _data_T_extraVertex = cell.getData( T_extra.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-         real_t* _data_T_extraEdge   = cell.getData( T_extra.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_TVertex = cell.getData( T.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+         real_t* _data_TEdge   = cell.getData( T.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
          const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
@@ -390,8 +390,8 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
 
          toMatrixScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_macro_3D(
 
-             _data_T_extraEdge,
-             _data_T_extraVertex,
+             _data_TEdge,
+             _data_TVertex,
              _data_dst_edge_0,
              _data_dst_edge_1,
              _data_dst_edge_2,
@@ -448,7 +448,7 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
    else
    {
       this->timingTree_->start( "pre-communication" );
-      communication::syncFunctionBetweenPrimitives( T_extra, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( T, level, communication::syncDirection_t::LOW2HIGH );
       this->timingTree_->stop( "pre-communication" );
 
       WALBERLA_ABORT( "Not implemented." );
@@ -481,9 +481,9 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
       if ( storage_->hasGlobalCells() )
       {
          this->timingTree_->start( "pre-communication" );
-         T_extra.communicate< Face, Cell >( level );
-         T_extra.communicate< Edge, Cell >( level );
-         T_extra.communicate< Vertex, Cell >( level );
+         T.communicate< Face, Cell >( level );
+         T.communicate< Edge, Cell >( level );
+         T.communicate< Vertex, Cell >( level );
          this->timingTree_->stop( "pre-communication" );
 
          for ( auto& it : storage_->getCells() )
@@ -504,8 +504,8 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
             real_t* _data_invDiag__edge_2 =
                 cell.getData( ( *invDiag_ )[2].getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
-            real_t* _data_T_extraVertex = cell.getData( T_extra.getVertexDoFFunction().getCellDataID() )->getPointer( level );
-            real_t* _data_T_extraEdge   = cell.getData( T_extra.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_TVertex = cell.getData( T.getVertexDoFFunction().getCellDataID() )->getPointer( level );
+            real_t* _data_TEdge   = cell.getData( T.getEdgeDoFFunction().getCellDataID() )->getPointer( level );
 
             const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
             const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
@@ -544,8 +544,8 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
 
             computeInverseDiagonalOperatorValuesScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_macro_3D(
 
-                _data_T_extraEdge,
-                _data_T_extraVertex,
+                _data_TEdge,
+                _data_TVertex,
                 _data_invDiag__edge_0,
                 _data_invDiag__edge_1,
                 _data_invDiag__edge_2,
@@ -620,7 +620,7 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap:
       else
       {
          this->timingTree_->start( "pre-communication" );
-         communication::syncFunctionBetweenPrimitives( T_extra, level, communication::syncDirection_t::LOW2HIGH );
+         communication::syncFunctionBetweenPrimitives( T, level, communication::syncDirection_t::LOW2HIGH );
          this->timingTree_->stop( "pre-communication" );
 
          WALBERLA_ABORT( "Not implemented." );

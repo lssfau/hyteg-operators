@@ -81,7 +81,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
        const std::shared_ptr< PrimitiveStorage >& storage,
        size_t                                     minLevel,
        size_t                                     maxLevel,
-       const P2Function< real_t >&                _T_extra,
+       const P2Function< real_t >&                _T,
        real_t additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
        real_t depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
        real_t eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap,
@@ -127,7 +127,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    /// Integral: P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     applyScaled
-   /// - loop strategy:   SAWTOOTH
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
@@ -135,8 +135,8 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///  35423   37720      91      44     55              0                 0              1
    void applyScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_macro_3D(
-       real_t* RESTRICT _data_T_extraEdge,
-       real_t* RESTRICT _data_T_extraVertex,
+       real_t* RESTRICT _data_TEdge,
+       real_t* RESTRICT _data_TVertex,
        real_t* RESTRICT _data_dst_edge_0,
        real_t* RESTRICT _data_dst_edge_1,
        real_t* RESTRICT _data_dst_edge_2,
@@ -189,7 +189,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    /// Integral: P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     toMatrixScaled
-   /// - loop strategy:   SAWTOOTH
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
@@ -197,8 +197,8 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///  34523   37255      91      44     55              0                 0              4
    void toMatrixScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_macro_3D(
-       real_t* RESTRICT                     _data_T_extraEdge,
-       real_t* RESTRICT                     _data_T_extraVertex,
+       real_t* RESTRICT                     _data_TEdge,
+       real_t* RESTRICT                     _data_TVertex,
        idx_t* RESTRICT                      _data_dst_edge_0,
        idx_t* RESTRICT                      _data_dst_edge_1,
        idx_t* RESTRICT                      _data_dst_edge_2,
@@ -252,7 +252,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    /// Integral: P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
-   /// - loop strategy:   SAWTOOTH
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Jaśkowiec-Sukumar 04 | points: 11, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
@@ -261,8 +261,8 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
    ///  12905   15502      91      44     55              0                 0              1
    void
        computeInverseDiagonalOperatorValuesScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_macro_3D(
-           real_t* RESTRICT _data_T_extraEdge,
-           real_t* RESTRICT _data_T_extraVertex,
+           real_t* RESTRICT _data_TEdge,
+           real_t* RESTRICT _data_TVertex,
            real_t* RESTRICT _data_invDiag__edge_0,
            real_t* RESTRICT _data_invDiag__edge_1,
            real_t* RESTRICT _data_invDiag__edge_2,
@@ -307,7 +307,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap
            real_t           thrVertex_2 ) const;
 
    std::shared_ptr< P2VectorFunction< real_t > > invDiag_;
-   P2Function< real_t >                          T_extra;
+   P2Function< real_t >                          T;
    real_t additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
    real_t depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;
    real_t eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscIcosahedralShellMap_;

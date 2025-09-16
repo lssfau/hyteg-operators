@@ -52,7 +52,7 @@ P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::
         const std::shared_ptr< PrimitiveStorage >& storage,
         size_t                                     minLevel,
         size_t                                     maxLevel,
-        const P2Function< real_t >&                _T_extra,
+        const P2Function< real_t >&                _T,
         real_t additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
         real_t depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
         real_t eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
@@ -61,7 +61,7 @@ P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::
         real_t rock_chemical_composition_parameter_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
         real_t temperature_surface_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
 : Operator( storage, minLevel, maxLevel )
-, T_extra( _T_extra )
+, T( _T )
 , additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
       additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap )
 , depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_(
@@ -96,7 +96,7 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::applySca
    else
    {
       communication::syncVectorFunctionBetweenPrimitives( src, level, communication::syncDirection_t::LOW2HIGH );
-      communication::syncFunctionBetweenPrimitives( T_extra, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( T, level, communication::syncDirection_t::LOW2HIGH );
    }
    this->timingTree_->stop( "pre-communication" );
 
@@ -130,8 +130,8 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::applySca
          real_t* _data_dst_vertex_1 = face.getData( dst[1].getVertexDoFFunction().getFaceDataID() )->getPointer( level );
          real_t* _data_dst_edge_1   = face.getData( dst[1].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
-         real_t* _data_T_extraVertex = face.getData( T_extra.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_T_extraEdge   = face.getData( T_extra.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_TVertex = face.getData( T.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_TEdge   = face.getData( T.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
          // Zero out dst halos only
          //
@@ -184,8 +184,8 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::applySca
 
          applyScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_macro_2D(
 
-             _data_T_extraEdge,
-             _data_T_extraVertex,
+             _data_TEdge,
+             _data_TVertex,
              _data_dst_edge_0,
              _data_dst_edge_1,
              _data_dst_vertex_0,
@@ -271,9 +271,9 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::toMatrix
    if ( storage_->hasGlobalCells() )
    {
       this->timingTree_->start( "pre-communication" );
-      T_extra.communicate< Face, Cell >( level );
-      T_extra.communicate< Edge, Cell >( level );
-      T_extra.communicate< Vertex, Cell >( level );
+      T.communicate< Face, Cell >( level );
+      T.communicate< Edge, Cell >( level );
+      T.communicate< Vertex, Cell >( level );
       this->timingTree_->stop( "pre-communication" );
 
       WALBERLA_ABORT( "Not implemented." );
@@ -281,7 +281,7 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::toMatrix
    else
    {
       this->timingTree_->start( "pre-communication" );
-      communication::syncFunctionBetweenPrimitives( T_extra, level, communication::syncDirection_t::LOW2HIGH );
+      communication::syncFunctionBetweenPrimitives( T, level, communication::syncDirection_t::LOW2HIGH );
       this->timingTree_->stop( "pre-communication" );
 
       for ( auto& it : storage_->getFaces() )
@@ -299,8 +299,8 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::toMatrix
          idx_t* _data_dst_vertex_1 = face.getData( dst[1].getVertexDoFFunction().getFaceDataID() )->getPointer( level );
          idx_t* _data_dst_edge_1   = face.getData( dst[1].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
-         real_t* _data_T_extraVertex = face.getData( T_extra.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-         real_t* _data_T_extraEdge   = face.getData( T_extra.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_TVertex = face.getData( T.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+         real_t* _data_TEdge   = face.getData( T.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
          const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
          const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
@@ -327,8 +327,8 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::toMatrix
 
          toMatrixScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_macro_2D(
 
-             _data_T_extraEdge,
-             _data_T_extraVertex,
+             _data_TEdge,
+             _data_TVertex,
              _data_dst_edge_0,
              _data_dst_edge_1,
              _data_dst_vertex_0,
@@ -393,9 +393,9 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeI
       if ( storage_->hasGlobalCells() )
       {
          this->timingTree_->start( "pre-communication" );
-         T_extra.communicate< Face, Cell >( level );
-         T_extra.communicate< Edge, Cell >( level );
-         T_extra.communicate< Vertex, Cell >( level );
+         T.communicate< Face, Cell >( level );
+         T.communicate< Edge, Cell >( level );
+         T.communicate< Vertex, Cell >( level );
          this->timingTree_->stop( "pre-communication" );
 
          WALBERLA_ABORT( "Not implemented." );
@@ -406,7 +406,7 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeI
       else
       {
          this->timingTree_->start( "pre-communication" );
-         communication::syncFunctionBetweenPrimitives( T_extra, level, communication::syncDirection_t::LOW2HIGH );
+         communication::syncFunctionBetweenPrimitives( T, level, communication::syncDirection_t::LOW2HIGH );
          this->timingTree_->stop( "pre-communication" );
 
          for ( auto& it : storage_->getFaces() )
@@ -423,8 +423,8 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeI
             real_t* _data_invDiag__edge_1 =
                 face.getData( ( *invDiag_ )[1].getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
-            real_t* _data_T_extraVertex = face.getData( T_extra.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
-            real_t* _data_T_extraEdge   = face.getData( T_extra.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_TVertex = face.getData( T.getVertexDoFFunction().getFaceDataID() )->getPointer( level );
+            real_t* _data_TEdge   = face.getData( T.getEdgeDoFFunction().getFaceDataID() )->getPointer( level );
 
             const auto   micro_edges_per_macro_edge       = (int64_t) levelinfo::num_microedges_per_edge( level );
             const auto   num_microfaces_per_face          = (int64_t) levelinfo::num_microfaces_per_face( level );
@@ -451,8 +451,8 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeI
 
             computeInverseDiagonalOperatorValuesScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_macro_2D(
 
-                _data_T_extraEdge,
-                _data_T_extraVertex,
+                _data_TEdge,
+                _data_TVertex,
                 _data_invDiag__edge_0,
                 _data_invDiag__edge_1,
                 _data_invDiag__vertex_0,

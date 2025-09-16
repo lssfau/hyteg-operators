@@ -81,7 +81,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
        const std::shared_ptr< PrimitiveStorage >& storage,
        size_t                                     minLevel,
        size_t                                     maxLevel,
-       const P2Function< real_t >&                _T_extra,
+       const P2Function< real_t >&                _T,
        real_t additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
        real_t depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
        real_t eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap,
@@ -127,7 +127,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// Integral: P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
    /// - kernel type:     applyScaled
-   /// - loop strategy:   SAWTOOTH
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    AnnulusMap
    /// - operations per element:
@@ -135,8 +135,8 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///   3674    4488      42      30     18              0                 0              1
    void applyScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_macro_2D(
-       real_t* RESTRICT _data_T_extraEdge,
-       real_t* RESTRICT _data_T_extraVertex,
+       real_t* RESTRICT _data_TEdge,
+       real_t* RESTRICT _data_TVertex,
        real_t* RESTRICT _data_dst_edge_0,
        real_t* RESTRICT _data_dst_edge_1,
        real_t* RESTRICT _data_dst_vertex_0,
@@ -173,7 +173,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// Integral: P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
    /// - kernel type:     toMatrixScaled
-   /// - loop strategy:   SAWTOOTH
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    AnnulusMap
    /// - operations per element:
@@ -181,8 +181,8 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///   3530    4410      42      30     18              0                 0              4
    void toMatrixScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_macro_2D(
-       real_t* RESTRICT                     _data_T_extraEdge,
-       real_t* RESTRICT                     _data_T_extraVertex,
+       real_t* RESTRICT                     _data_TEdge,
+       real_t* RESTRICT                     _data_TVertex,
        idx_t* RESTRICT                      _data_dst_edge_0,
        idx_t* RESTRICT                      _data_dst_edge_1,
        idx_t* RESTRICT                      _data_dst_vertex_0,
@@ -220,7 +220,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// Integral: P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// - volume element:  triangle, dim: 2, vertices: 3, spacedim: 2
    /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
-   /// - loop strategy:   SAWTOOTH
+   /// - loop strategy:   CUBES
    /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    AnnulusMap
    /// - operations per element:
@@ -228,8 +228,8 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
    ///   1958    2574      42      30     18              0                 0              1
    void computeInverseDiagonalOperatorValuesScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_macro_2D(
-       real_t* RESTRICT _data_T_extraEdge,
-       real_t* RESTRICT _data_T_extraVertex,
+       real_t* RESTRICT _data_TEdge,
+       real_t* RESTRICT _data_TVertex,
        real_t* RESTRICT _data_invDiag__edge_0,
        real_t* RESTRICT _data_invDiag__edge_1,
        real_t* RESTRICT _data_invDiag__vertex_0,
@@ -260,7 +260,7 @@ class P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap
        real_t           thrVertex_1 ) const;
 
    std::shared_ptr< P2VectorFunction< real_t > > invDiag_;
-   P2Function< real_t >                          T_extra;
+   P2Function< real_t >                          T;
    real_t additive_offset_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
    real_t depth_dependency_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;
    real_t eta_ref_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_;

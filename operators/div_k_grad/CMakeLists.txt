@@ -2,6 +2,8 @@ add_library( opgen-div_k_grad
 
    P1ElementwiseDivKGrad.cpp
    P1ElementwiseDivKGrad.hpp
+   P1ElementwiseDivKGradAnnulusMap.cpp
+   P1ElementwiseDivKGradAnnulusMap.hpp
    P1ElementwiseDivKGradIcosahedralShellMap.cpp
    P1ElementwiseDivKGradIcosahedralShellMap.hpp
    P2ElementwiseDivKGrad.cpp
@@ -24,6 +26,8 @@ target_link_libraries( opgen-div_k_grad PRIVATE hyteg )
 if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
    target_sources(opgen-div_k_grad PRIVATE
 
+      avx/P1ElementwiseDivKGradAnnulusMap_applyScaled_P1ElementwiseDivKGradAnnulusMap_macro_2D.cpp
+      avx/P1ElementwiseDivKGradAnnulusMap_computeInverseDiagonalOperatorValuesScaled_P1ElementwiseDivKGradAnnulusMap_macro_2D.cpp
       avx/P1ElementwiseDivKGradIcosahedralShellMap_applyScaled_P1ElementwiseDivKGradIcosahedralShellMap_macro_3D.cpp
       avx/P1ElementwiseDivKGradIcosahedralShellMap_computeInverseDiagonalOperatorValuesScaled_P1ElementwiseDivKGradIcosahedralShellMap_macro_3D.cpp
       avx/P1ElementwiseDivKGrad_applyScaled_P1ElementwiseDivKGrad_macro_2D.cpp
@@ -50,6 +54,7 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
       avx/P2ElementwiseDivKGrad_applyScaled_P2ElementwiseDivKGrad_macro_3D.cpp
       avx/P2ElementwiseDivKGrad_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseDivKGrad_macro_2D.cpp
       avx/P2ElementwiseDivKGrad_computeInverseDiagonalOperatorValuesScaled_P2ElementwiseDivKGrad_macro_3D.cpp
+      noarch/P1ElementwiseDivKGradAnnulusMap_toMatrixScaled_P1ElementwiseDivKGradAnnulusMap_macro_2D.cpp
       noarch/P1ElementwiseDivKGradIcosahedralShellMap_toMatrixScaled_P1ElementwiseDivKGradIcosahedralShellMap_macro_3D.cpp
       noarch/P1ElementwiseDivKGrad_toMatrixScaled_P1ElementwiseDivKGrad_macro_2D.cpp
       noarch/P1ElementwiseDivKGrad_toMatrixScaled_P1ElementwiseDivKGrad_macro_3D.cpp
@@ -67,6 +72,8 @@ if(HYTEG_BUILD_WITH_AVX AND WALBERLA_DOUBLE_ACCURACY)
 
    set_source_files_properties(
 
+      avx/P1ElementwiseDivKGradAnnulusMap_applyScaled_P1ElementwiseDivKGradAnnulusMap_macro_2D.cpp
+      avx/P1ElementwiseDivKGradAnnulusMap_computeInverseDiagonalOperatorValuesScaled_P1ElementwiseDivKGradAnnulusMap_macro_2D.cpp
       avx/P1ElementwiseDivKGradIcosahedralShellMap_applyScaled_P1ElementwiseDivKGradIcosahedralShellMap_macro_3D.cpp
       avx/P1ElementwiseDivKGradIcosahedralShellMap_computeInverseDiagonalOperatorValuesScaled_P1ElementwiseDivKGradIcosahedralShellMap_macro_3D.cpp
       avx/P1ElementwiseDivKGrad_applyScaled_P1ElementwiseDivKGrad_macro_2D.cpp
@@ -103,6 +110,9 @@ else()
 
    target_sources(opgen-div_k_grad PRIVATE
 
+      noarch/P1ElementwiseDivKGradAnnulusMap_applyScaled_P1ElementwiseDivKGradAnnulusMap_macro_2D.cpp
+      noarch/P1ElementwiseDivKGradAnnulusMap_computeInverseDiagonalOperatorValuesScaled_P1ElementwiseDivKGradAnnulusMap_macro_2D.cpp
+      noarch/P1ElementwiseDivKGradAnnulusMap_toMatrixScaled_P1ElementwiseDivKGradAnnulusMap_macro_2D.cpp
       noarch/P1ElementwiseDivKGradIcosahedralShellMap_applyScaled_P1ElementwiseDivKGradIcosahedralShellMap_macro_3D.cpp
       noarch/P1ElementwiseDivKGradIcosahedralShellMap_computeInverseDiagonalOperatorValuesScaled_P1ElementwiseDivKGradIcosahedralShellMap_macro_3D.cpp
       noarch/P1ElementwiseDivKGradIcosahedralShellMap_toMatrixScaled_P1ElementwiseDivKGradIcosahedralShellMap_macro_3D.cpp
