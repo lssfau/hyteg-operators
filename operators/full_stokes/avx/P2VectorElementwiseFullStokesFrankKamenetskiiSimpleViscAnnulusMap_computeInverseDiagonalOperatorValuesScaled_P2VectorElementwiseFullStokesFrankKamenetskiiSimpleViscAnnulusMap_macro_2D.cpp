@@ -64,7 +64,7 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeInverseDiagonalOperatorValuesScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_macro_2D( real_t * RESTRICT  _data_T_extraEdge, real_t * RESTRICT  _data_T_extraVertex, real_t * RESTRICT  _data_invDiag__edge_0, real_t * RESTRICT  _data_invDiag__edge_1, real_t * RESTRICT  _data_invDiag__vertex_0, real_t * RESTRICT  _data_invDiag__vertex_1, real_t additive_offset, real_t depth_dependency, real_t diagScaling, real_t eta_ref, real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge, real_t micro_edges_per_macro_edge_float, real_t radRayVertex, real_t radRefVertex, real_t radius_CMB, real_t radius_surface, real_t rayVertex_0, real_t rayVertex_1, real_t refVertex_0, real_t refVertex_1, real_t rock_chemical_composition_parameter, real_t temperature_surface, real_t thrVertex_0, real_t thrVertex_1 ) const
+void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeInverseDiagonalOperatorValuesScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_macro_2D( real_t * RESTRICT  _data_TEdge, real_t * RESTRICT  _data_TVertex, real_t * RESTRICT  _data_invDiag__edge_0, real_t * RESTRICT  _data_invDiag__edge_1, real_t * RESTRICT  _data_invDiag__vertex_0, real_t * RESTRICT  _data_invDiag__vertex_1, real_t additive_offset, real_t depth_dependency, real_t diagScaling, real_t eta_ref, real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1, int64_t micro_edges_per_macro_edge, real_t micro_edges_per_macro_edge_float, real_t radRayVertex, real_t radRefVertex, real_t radius_CMB, real_t radius_surface, real_t rayVertex_0, real_t rayVertex_1, real_t refVertex_0, real_t refVertex_1, real_t rock_chemical_composition_parameter, real_t temperature_surface, real_t thrVertex_0, real_t thrVertex_1 ) const
 {
     {
        const real_t _data_q_w [] = {0.11169079483900581, 0.054975871827660949, 0.11169079483900581, 0.054975871827660949, 0.11169079483900581, 0.054975871827660949};
@@ -145,12 +145,12 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeI
           {
              for (int64_t ctr_0 = 0; ctr_0 < (int64_t)((-ctr_1 + micro_edges_per_macro_edge - 1) / (4)) * (4); ctr_0 += 4)
              {
-                const __m256d T_extra_dof_0 = _mm256_loadu_pd(& _data_T_extraVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))]);
-                const __m256d T_extra_dof_1 = _mm256_loadu_pd(& _data_T_extraVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1]);
-                const __m256d T_extra_dof_2 = _mm256_loadu_pd(& _data_T_extraVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))]);
-                const __m256d T_extra_dof_3 = _mm256_loadu_pd(& _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))]);
-                const __m256d T_extra_dof_4 = _mm256_loadu_pd(& _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))]);
-                const __m256d T_extra_dof_5 = _mm256_loadu_pd(& _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))]);
+                const __m256d T_dof_0 = _mm256_loadu_pd(& _data_TVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))]);
+                const __m256d T_dof_1 = _mm256_loadu_pd(& _data_TVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1]);
+                const __m256d T_dof_2 = _mm256_loadu_pd(& _data_TVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))]);
+                const __m256d T_dof_3 = _mm256_loadu_pd(& _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))]);
+                const __m256d T_dof_4 = _mm256_loadu_pd(& _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))]);
+                const __m256d T_dof_5 = _mm256_loadu_pd(& _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))]);
                 {
                    {
                   
@@ -223,7 +223,7 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeI
                          const __m256d tmp_qloop_60 = _mm256_mul_pd(tmp_qloop_59,_mm256_set_pd(2.0,2.0,2.0,2.0));
                          const __m256d tmp_qloop_61 = _mm256_mul_pd(_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q]),_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q]));
                          const __m256d tmp_qloop_62 = _mm256_mul_pd(tmp_qloop_61,_mm256_set_pd(2.0,2.0,2.0,2.0));
-                         const __m256d tmp_qloop_63 = _mm256_mul_pd(_mm256_add_pd(_mm256_add_pd(_mm256_add_pd(_mm256_add_pd(_mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(T_extra_dof_1,_mm256_add_pd(_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q])),tmp_qloop_60)),_mm256_mul_pd(T_extra_dof_2,_mm256_add_pd(_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q])),tmp_qloop_62))),_mm256_mul_pd(T_extra_dof_5,_mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(tmp_qloop_59,_mm256_set_pd(-4.0,-4.0,-4.0,-4.0)),_mm256_mul_pd(_mm256_set_pd(4.0,4.0,4.0,4.0),_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q]))),_mm256_mul_pd(tmp_qloop_58,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0))))),_mm256_mul_pd(T_extra_dof_4,_mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(tmp_qloop_61,_mm256_set_pd(-4.0,-4.0,-4.0,-4.0)),_mm256_mul_pd(_mm256_set_pd(4.0,4.0,4.0,4.0),_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q]))),_mm256_mul_pd(tmp_qloop_58,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0))))),_mm256_mul_pd(T_extra_dof_0,_mm256_add_pd(_mm256_add_pd(_mm256_add_pd(_mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_set_pd(-3.0,-3.0,-3.0,-3.0),_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q])),_mm256_mul_pd(_mm256_set_pd(-3.0,-3.0,-3.0,-3.0),_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q]))),_mm256_set_pd(1.0,1.0,1.0,1.0)),tmp_qloop_58),tmp_qloop_60),tmp_qloop_62))),_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(temperature_surface,temperature_surface,temperature_surface,temperature_surface))),_mm256_mul_pd(T_extra_dof_3,tmp_qloop_58)),_mm256_set_pd(rock_chemical_composition_parameter,rock_chemical_composition_parameter,rock_chemical_composition_parameter,rock_chemical_composition_parameter));
+                         const __m256d tmp_qloop_63 = _mm256_mul_pd(_mm256_add_pd(_mm256_add_pd(_mm256_add_pd(_mm256_add_pd(_mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(T_dof_1,_mm256_add_pd(_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q])),tmp_qloop_60)),_mm256_mul_pd(T_dof_2,_mm256_add_pd(_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q])),tmp_qloop_62))),_mm256_mul_pd(T_dof_5,_mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(tmp_qloop_59,_mm256_set_pd(-4.0,-4.0,-4.0,-4.0)),_mm256_mul_pd(_mm256_set_pd(4.0,4.0,4.0,4.0),_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q]))),_mm256_mul_pd(tmp_qloop_58,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0))))),_mm256_mul_pd(T_dof_4,_mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(tmp_qloop_61,_mm256_set_pd(-4.0,-4.0,-4.0,-4.0)),_mm256_mul_pd(_mm256_set_pd(4.0,4.0,4.0,4.0),_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q]))),_mm256_mul_pd(tmp_qloop_58,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0))))),_mm256_mul_pd(T_dof_0,_mm256_add_pd(_mm256_add_pd(_mm256_add_pd(_mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(_mm256_set_pd(-3.0,-3.0,-3.0,-3.0),_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q])),_mm256_mul_pd(_mm256_set_pd(-3.0,-3.0,-3.0,-3.0),_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q]))),_mm256_set_pd(1.0,1.0,1.0,1.0)),tmp_qloop_58),tmp_qloop_60),tmp_qloop_62))),_mm256_mul_pd(_mm256_set_pd(-1.0,-1.0,-1.0,-1.0),_mm256_set_pd(temperature_surface,temperature_surface,temperature_surface,temperature_surface))),_mm256_mul_pd(T_dof_3,tmp_qloop_58)),_mm256_set_pd(rock_chemical_composition_parameter,rock_chemical_composition_parameter,rock_chemical_composition_parameter,rock_chemical_composition_parameter));
                          const __m256d tmp_qloop_64 = _mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(p_affine_0_0,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0)),_mm256_mul_pd(tmp_qloop_0,_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q]))),_mm256_mul_pd(tmp_qloop_1,_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q])));
                          const __m256d tmp_qloop_65 = _mm256_add_pd(_mm256_add_pd(_mm256_mul_pd(p_affine_0_1,_mm256_set_pd(-1.0,-1.0,-1.0,-1.0)),_mm256_mul_pd(tmp_qloop_6,_mm256_set_pd(_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q],_data_q_p_0[q]))),_mm256_mul_pd(tmp_qloop_7,_mm256_set_pd(_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q],_data_q_p_1[q])));
                          const __m256d tmp_qloop_66 = _mm256_mul_pd(_mm256_div_pd(_mm256_set_pd(1.0,1.0,1.0,1.0),_mm256_castsi256_pd(_mm256_and_si256(_mm256_set1_epi64x(0x7fffffffffffffff), _mm256_castpd_si256(_mm256_sqrt_pd(_mm256_add_pd(_mm256_mul_pd(tmp_qloop_64,tmp_qloop_64),_mm256_mul_pd(tmp_qloop_65,tmp_qloop_65))))))),_mm256_div_pd(_mm256_set_pd(1.0,1.0,1.0,1.0),_mm256_castsi256_pd(_mm256_and_si256(_mm256_set1_epi64x(0x7fffffffffffffff), _mm256_castpd_si256(_mm256_sqrt_pd(_mm256_add_pd(_mm256_mul_pd(tmp_qloop_64,tmp_qloop_64),_mm256_mul_pd(tmp_qloop_65,tmp_qloop_65))))))));
@@ -375,12 +375,12 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeI
                       _mm256_storeu_pd(&_data_invDiag__edge_1[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))],_mm256_add_pd(_mm256_mul_pd(elMatDiag_11,_mm256_set_pd(diagScaling,diagScaling,diagScaling,diagScaling)),_mm256_loadu_pd(& _data_invDiag__edge_1[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))])));
                    }
                 }
-                const __m256d tmp_moved_constant_0 = _mm256_loadu_pd(& _data_T_extraVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1]);
-                const __m256d tmp_moved_constant_1 = _mm256_loadu_pd(& _data_T_extraVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))]);
-                const __m256d tmp_moved_constant_2 = _mm256_loadu_pd(& _data_T_extraVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1]);
-                const __m256d tmp_moved_constant_3 = _mm256_loadu_pd(& _data_T_extraEdge[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))]);
-                const __m256d tmp_moved_constant_4 = _mm256_loadu_pd(& _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2)) + 1]);
-                const __m256d tmp_moved_constant_5 = _mm256_loadu_pd(& _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))]);
+                const __m256d tmp_moved_constant_0 = _mm256_loadu_pd(& _data_TVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1]);
+                const __m256d tmp_moved_constant_1 = _mm256_loadu_pd(& _data_TVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))]);
+                const __m256d tmp_moved_constant_2 = _mm256_loadu_pd(& _data_TVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1]);
+                const __m256d tmp_moved_constant_3 = _mm256_loadu_pd(& _data_TEdge[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))]);
+                const __m256d tmp_moved_constant_4 = _mm256_loadu_pd(& _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2)) + 1]);
+                const __m256d tmp_moved_constant_5 = _mm256_loadu_pd(& _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))]);
                 {
                    {
                   
@@ -608,12 +608,12 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeI
              }
              for (int64_t ctr_0 = (int64_t)((-ctr_1 + micro_edges_per_macro_edge - 1) / (4)) * (4); ctr_0 < -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
              {
-                const real_t T_extra_dof_0 = _data_T_extraVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
-                const real_t T_extra_dof_1 = _data_T_extraVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-                const real_t T_extra_dof_2 = _data_T_extraVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-                const real_t T_extra_dof_3 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
-                const real_t T_extra_dof_4 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
-                const real_t T_extra_dof_5 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))];
+                const real_t T_dof_0 = _data_TVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
+                const real_t T_dof_1 = _data_TVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+                const real_t T_dof_2 = _data_TVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+                const real_t T_dof_3 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
+                const real_t T_dof_4 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
+                const real_t T_dof_5 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))];
                 {
                    {
                   
@@ -686,7 +686,7 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeI
                          const real_t tmp_qloop_60 = tmp_qloop_59*2.0;
                          const real_t tmp_qloop_61 = (_data_q_p_1[q]*_data_q_p_1[q]);
                          const real_t tmp_qloop_62 = tmp_qloop_61*2.0;
-                         const real_t tmp_qloop_63 = rock_chemical_composition_parameter*(T_extra_dof_0*(tmp_qloop_58 + tmp_qloop_60 + tmp_qloop_62 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0) + T_extra_dof_1*(tmp_qloop_60 - _data_q_p_0[q]) + T_extra_dof_2*(tmp_qloop_62 - _data_q_p_1[q]) + T_extra_dof_3*tmp_qloop_58 + T_extra_dof_4*(-tmp_qloop_58 + tmp_qloop_61*-4.0 + 4.0*_data_q_p_1[q]) + T_extra_dof_5*(-tmp_qloop_58 + tmp_qloop_59*-4.0 + 4.0*_data_q_p_0[q]) - temperature_surface);
+                         const real_t tmp_qloop_63 = rock_chemical_composition_parameter*(T_dof_0*(tmp_qloop_58 + tmp_qloop_60 + tmp_qloop_62 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0) + T_dof_1*(tmp_qloop_60 - _data_q_p_0[q]) + T_dof_2*(tmp_qloop_62 - _data_q_p_1[q]) + T_dof_3*tmp_qloop_58 + T_dof_4*(-tmp_qloop_58 + tmp_qloop_61*-4.0 + 4.0*_data_q_p_1[q]) + T_dof_5*(-tmp_qloop_58 + tmp_qloop_59*-4.0 + 4.0*_data_q_p_0[q]) - temperature_surface);
                          const real_t tmp_qloop_64 = -p_affine_0_0 + tmp_qloop_0*_data_q_p_0[q] + tmp_qloop_1*_data_q_p_1[q];
                          const real_t tmp_qloop_65 = -p_affine_0_1 + tmp_qloop_6*_data_q_p_0[q] + tmp_qloop_7*_data_q_p_1[q];
                          const real_t tmp_qloop_66 = 1.0 / (abs(pow((tmp_qloop_64*tmp_qloop_64) + (tmp_qloop_65*tmp_qloop_65), 0.50000000000000000))*abs(pow((tmp_qloop_64*tmp_qloop_64) + (tmp_qloop_65*tmp_qloop_65), 0.50000000000000000)));
@@ -838,12 +838,12 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeI
                       _data_invDiag__edge_1[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))] = diagScaling*elMatDiag_11 + _data_invDiag__edge_1[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))];
                    }
                 }
-                const real_t tmp_moved_constant_0 = _data_T_extraVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-                const real_t tmp_moved_constant_1 = _data_T_extraVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-                const real_t tmp_moved_constant_2 = _data_T_extraVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
-                const real_t tmp_moved_constant_3 = _data_T_extraEdge[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-                const real_t tmp_moved_constant_4 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2)) + 1];
-                const real_t tmp_moved_constant_5 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
+                const real_t tmp_moved_constant_0 = _data_TVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+                const real_t tmp_moved_constant_1 = _data_TVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+                const real_t tmp_moved_constant_2 = _data_TVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
+                const real_t tmp_moved_constant_3 = _data_TEdge[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+                const real_t tmp_moved_constant_4 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2)) + 1];
+                const real_t tmp_moved_constant_5 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
                 {
                    {
                   
@@ -1073,12 +1073,12 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeI
           {
              for (int64_t ctr_0 = -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 < -ctr_1 + micro_edges_per_macro_edge; ctr_0 += 1)
              {
-                const real_t T_extra_dof_0 = _data_T_extraVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
-                const real_t T_extra_dof_1 = _data_T_extraVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-                const real_t T_extra_dof_2 = _data_T_extraVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-                const real_t T_extra_dof_3 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
-                const real_t T_extra_dof_4 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
-                const real_t T_extra_dof_5 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))];
+                const real_t T_dof_0 = _data_TVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
+                const real_t T_dof_1 = _data_TVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+                const real_t T_dof_2 = _data_TVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+                const real_t T_dof_3 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
+                const real_t T_dof_4 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
+                const real_t T_dof_5 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))];
                 {
                    {
                   
@@ -1151,7 +1151,7 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::computeI
                          const real_t tmp_qloop_60 = tmp_qloop_59*2.0;
                          const real_t tmp_qloop_61 = (_data_q_p_1[q]*_data_q_p_1[q]);
                          const real_t tmp_qloop_62 = tmp_qloop_61*2.0;
-                         const real_t tmp_qloop_63 = rock_chemical_composition_parameter*(T_extra_dof_0*(tmp_qloop_58 + tmp_qloop_60 + tmp_qloop_62 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0) + T_extra_dof_1*(tmp_qloop_60 - _data_q_p_0[q]) + T_extra_dof_2*(tmp_qloop_62 - _data_q_p_1[q]) + T_extra_dof_3*tmp_qloop_58 + T_extra_dof_4*(-tmp_qloop_58 + tmp_qloop_61*-4.0 + 4.0*_data_q_p_1[q]) + T_extra_dof_5*(-tmp_qloop_58 + tmp_qloop_59*-4.0 + 4.0*_data_q_p_0[q]) - temperature_surface);
+                         const real_t tmp_qloop_63 = rock_chemical_composition_parameter*(T_dof_0*(tmp_qloop_58 + tmp_qloop_60 + tmp_qloop_62 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0) + T_dof_1*(tmp_qloop_60 - _data_q_p_0[q]) + T_dof_2*(tmp_qloop_62 - _data_q_p_1[q]) + T_dof_3*tmp_qloop_58 + T_dof_4*(-tmp_qloop_58 + tmp_qloop_61*-4.0 + 4.0*_data_q_p_1[q]) + T_dof_5*(-tmp_qloop_58 + tmp_qloop_59*-4.0 + 4.0*_data_q_p_0[q]) - temperature_surface);
                          const real_t tmp_qloop_64 = -p_affine_0_0 + tmp_qloop_0*_data_q_p_0[q] + tmp_qloop_1*_data_q_p_1[q];
                          const real_t tmp_qloop_65 = -p_affine_0_1 + tmp_qloop_6*_data_q_p_0[q] + tmp_qloop_7*_data_q_p_1[q];
                          const real_t tmp_qloop_66 = 1.0 / (abs(pow((tmp_qloop_64*tmp_qloop_64) + (tmp_qloop_65*tmp_qloop_65), 0.50000000000000000))*abs(pow((tmp_qloop_64*tmp_qloop_64) + (tmp_qloop_65*tmp_qloop_65), 0.50000000000000000)));

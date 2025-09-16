@@ -64,7 +64,7 @@ namespace hyteg {
 
 namespace operatorgeneration {
 
-void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::toMatrixScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_macro_2D( real_t * RESTRICT  _data_T_extraEdge, real_t * RESTRICT  _data_T_extraVertex, idx_t * RESTRICT  _data_dst_edge_0, idx_t * RESTRICT  _data_dst_edge_1, idx_t * RESTRICT  _data_dst_vertex_0, idx_t * RESTRICT  _data_dst_vertex_1, idx_t * RESTRICT  _data_src_edge_0, idx_t * RESTRICT  _data_src_edge_1, idx_t * RESTRICT  _data_src_vertex_0, idx_t * RESTRICT  _data_src_vertex_1, real_t additive_offset, real_t depth_dependency, real_t eta_ref, real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1, std::shared_ptr< SparseMatrixProxy > mat, int64_t micro_edges_per_macro_edge, real_t micro_edges_per_macro_edge_float, real_t radRayVertex, real_t radRefVertex, real_t radius_CMB, real_t radius_surface, real_t rayVertex_0, real_t rayVertex_1, real_t refVertex_0, real_t refVertex_1, real_t rock_chemical_composition_parameter, real_t temperature_surface, real_t thrVertex_0, real_t thrVertex_1, real_t toMatrixScaling ) const
+void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::toMatrixScaled_P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap_macro_2D( real_t * RESTRICT  _data_TEdge, real_t * RESTRICT  _data_TVertex, idx_t * RESTRICT  _data_dst_edge_0, idx_t * RESTRICT  _data_dst_edge_1, idx_t * RESTRICT  _data_dst_vertex_0, idx_t * RESTRICT  _data_dst_vertex_1, idx_t * RESTRICT  _data_src_edge_0, idx_t * RESTRICT  _data_src_edge_1, idx_t * RESTRICT  _data_src_vertex_0, idx_t * RESTRICT  _data_src_vertex_1, real_t additive_offset, real_t depth_dependency, real_t eta_ref, real_t macro_vertex_coord_id_0comp0, real_t macro_vertex_coord_id_0comp1, real_t macro_vertex_coord_id_1comp0, real_t macro_vertex_coord_id_1comp1, real_t macro_vertex_coord_id_2comp0, real_t macro_vertex_coord_id_2comp1, std::shared_ptr< SparseMatrixProxy > mat, int64_t micro_edges_per_macro_edge, real_t micro_edges_per_macro_edge_float, real_t radRayVertex, real_t radRefVertex, real_t radius_CMB, real_t radius_surface, real_t rayVertex_0, real_t rayVertex_1, real_t refVertex_0, real_t refVertex_1, real_t rock_chemical_composition_parameter, real_t temperature_surface, real_t thrVertex_0, real_t thrVertex_1, real_t toMatrixScaling ) const
 {
     {
        const real_t _data_q_w [] = {0.11169079483900581, 0.054975871827660949, 0.11169079483900581, 0.054975871827660949, 0.11169079483900581, 0.054975871827660949};
@@ -144,12 +144,12 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::toMatrix
        {
           for (int64_t ctr_0 = 0; ctr_0 < -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 += 1)
           {
-             const real_t T_extra_dof_0 = _data_T_extraVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
-             const real_t T_extra_dof_1 = _data_T_extraVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-             const real_t T_extra_dof_2 = _data_T_extraVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-             const real_t T_extra_dof_3 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
-             const real_t T_extra_dof_4 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
-             const real_t T_extra_dof_5 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))];
+             const real_t T_dof_0 = _data_TVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
+             const real_t T_dof_1 = _data_TVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+             const real_t T_dof_2 = _data_TVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+             const real_t T_dof_3 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
+             const real_t T_dof_4 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
+             const real_t T_dof_5 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))];
              {
                 {
                
@@ -288,7 +288,7 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::toMatrix
                       const real_t tmp_qloop_64 = tmp_qloop_63*2.0;
                       const real_t tmp_qloop_65 = (_data_q_p_1[q]*_data_q_p_1[q]);
                       const real_t tmp_qloop_66 = tmp_qloop_65*2.0;
-                      const real_t tmp_qloop_67 = rock_chemical_composition_parameter*(T_extra_dof_0*(tmp_qloop_62 + tmp_qloop_64 + tmp_qloop_66 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0) + T_extra_dof_1*(tmp_qloop_64 - _data_q_p_0[q]) + T_extra_dof_2*(tmp_qloop_66 - _data_q_p_1[q]) + T_extra_dof_3*tmp_qloop_62 + T_extra_dof_4*(-tmp_qloop_62 + tmp_qloop_65*-4.0 + 4.0*_data_q_p_1[q]) + T_extra_dof_5*(-tmp_qloop_62 + tmp_qloop_63*-4.0 + 4.0*_data_q_p_0[q]) - temperature_surface);
+                      const real_t tmp_qloop_67 = rock_chemical_composition_parameter*(T_dof_0*(tmp_qloop_62 + tmp_qloop_64 + tmp_qloop_66 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0) + T_dof_1*(tmp_qloop_64 - _data_q_p_0[q]) + T_dof_2*(tmp_qloop_66 - _data_q_p_1[q]) + T_dof_3*tmp_qloop_62 + T_dof_4*(-tmp_qloop_62 + tmp_qloop_65*-4.0 + 4.0*_data_q_p_1[q]) + T_dof_5*(-tmp_qloop_62 + tmp_qloop_63*-4.0 + 4.0*_data_q_p_0[q]) - temperature_surface);
                       const real_t tmp_qloop_68 = -p_affine_0_0 + tmp_qloop_0*_data_q_p_0[q] + tmp_qloop_1*_data_q_p_1[q];
                       const real_t tmp_qloop_69 = -p_affine_0_1 + tmp_qloop_6*_data_q_p_0[q] + tmp_qloop_7*_data_q_p_1[q];
                       const real_t tmp_qloop_70 = 1.0 / (abs(pow((tmp_qloop_68*tmp_qloop_68) + (tmp_qloop_69*tmp_qloop_69), 0.50000000000000000))*abs(pow((tmp_qloop_68*tmp_qloop_68) + (tmp_qloop_69*tmp_qloop_69), 0.50000000000000000)));
@@ -1019,12 +1019,12 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::toMatrix
                    mat->addValues( _data_rowIdx, _data_colIdx, _data_mat );
                 }
              }
-             const real_t tmp_moved_constant_0 = _data_T_extraVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-             const real_t tmp_moved_constant_1 = _data_T_extraVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-             const real_t tmp_moved_constant_2 = _data_T_extraVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
-             const real_t tmp_moved_constant_3 = _data_T_extraEdge[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-             const real_t tmp_moved_constant_4 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2)) + 1];
-             const real_t tmp_moved_constant_5 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
+             const real_t tmp_moved_constant_0 = _data_TVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+             const real_t tmp_moved_constant_1 = _data_TVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+             const real_t tmp_moved_constant_2 = _data_TVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2)) + 1];
+             const real_t tmp_moved_constant_3 = _data_TEdge[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 1) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+             const real_t tmp_moved_constant_4 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2)) + 1];
+             const real_t tmp_moved_constant_5 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
              {
                 {
                
@@ -1897,12 +1897,12 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::toMatrix
           }
           for (int64_t ctr_0 = -ctr_1 + micro_edges_per_macro_edge - 1; ctr_0 < -ctr_1 + micro_edges_per_macro_edge; ctr_0 += 1)
           {
-             const real_t T_extra_dof_0 = _data_T_extraVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
-             const real_t T_extra_dof_1 = _data_T_extraVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
-             const real_t T_extra_dof_2 = _data_T_extraVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
-             const real_t T_extra_dof_3 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
-             const real_t T_extra_dof_4 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
-             const real_t T_extra_dof_5 = _data_T_extraEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))];
+             const real_t T_dof_0 = _data_TVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2))];
+             const real_t T_dof_1 = _data_TVertex[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 2) - ((ctr_1*(ctr_1 + 1)) / (2)) + 1];
+             const real_t T_dof_2 = _data_TVertex[ctr_0 + (ctr_1 + 1)*(micro_edges_per_macro_edge + 2) - (((ctr_1 + 1)*(ctr_1 + 2)) / (2))];
+             const real_t T_dof_3 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + ((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
+             const real_t T_dof_4 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2)) + 2*((micro_edges_per_macro_edge*(micro_edges_per_macro_edge + 1)) / (2))];
+             const real_t T_dof_5 = _data_TEdge[ctr_0 + ctr_1*(micro_edges_per_macro_edge + 1) - ((ctr_1*(ctr_1 + 1)) / (2))];
              {
                 {
                
@@ -2041,7 +2041,7 @@ void P2VectorElementwiseFullStokesFrankKamenetskiiSimpleViscAnnulusMap::toMatrix
                       const real_t tmp_qloop_64 = tmp_qloop_63*2.0;
                       const real_t tmp_qloop_65 = (_data_q_p_1[q]*_data_q_p_1[q]);
                       const real_t tmp_qloop_66 = tmp_qloop_65*2.0;
-                      const real_t tmp_qloop_67 = rock_chemical_composition_parameter*(T_extra_dof_0*(tmp_qloop_62 + tmp_qloop_64 + tmp_qloop_66 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0) + T_extra_dof_1*(tmp_qloop_64 - _data_q_p_0[q]) + T_extra_dof_2*(tmp_qloop_66 - _data_q_p_1[q]) + T_extra_dof_3*tmp_qloop_62 + T_extra_dof_4*(-tmp_qloop_62 + tmp_qloop_65*-4.0 + 4.0*_data_q_p_1[q]) + T_extra_dof_5*(-tmp_qloop_62 + tmp_qloop_63*-4.0 + 4.0*_data_q_p_0[q]) - temperature_surface);
+                      const real_t tmp_qloop_67 = rock_chemical_composition_parameter*(T_dof_0*(tmp_qloop_62 + tmp_qloop_64 + tmp_qloop_66 - 3.0*_data_q_p_0[q] - 3.0*_data_q_p_1[q] + 1.0) + T_dof_1*(tmp_qloop_64 - _data_q_p_0[q]) + T_dof_2*(tmp_qloop_66 - _data_q_p_1[q]) + T_dof_3*tmp_qloop_62 + T_dof_4*(-tmp_qloop_62 + tmp_qloop_65*-4.0 + 4.0*_data_q_p_1[q]) + T_dof_5*(-tmp_qloop_62 + tmp_qloop_63*-4.0 + 4.0*_data_q_p_0[q]) - temperature_surface);
                       const real_t tmp_qloop_68 = -p_affine_0_0 + tmp_qloop_0*_data_q_p_0[q] + tmp_qloop_1*_data_q_p_1[q];
                       const real_t tmp_qloop_69 = -p_affine_0_1 + tmp_qloop_6*_data_q_p_0[q] + tmp_qloop_7*_data_q_p_1[q];
                       const real_t tmp_qloop_70 = 1.0 / (abs(pow((tmp_qloop_68*tmp_qloop_68) + (tmp_qloop_69*tmp_qloop_69), 0.50000000000000000))*abs(pow((tmp_qloop_68*tmp_qloop_68) + (tmp_qloop_69*tmp_qloop_69), 0.50000000000000000)));
