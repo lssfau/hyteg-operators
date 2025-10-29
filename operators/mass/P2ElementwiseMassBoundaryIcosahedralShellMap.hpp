@@ -105,12 +105,12 @@ class P2ElementwiseMassBoundaryIcosahedralShellMap : public Operator< P2Function
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     applyScaled
    /// - loop strategy:   BOUNDARY
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    737     927      37       8      4              0                 0              0
+   ///   1025    1287      37      12      6              0                 0              0
    void applyScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_0_macro_3D( real_t* RESTRICT _data_dstEdge,
                                                                                       real_t* RESTRICT _data_dstVertex,
                                                                                       real_t* RESTRICT _data_srcEdge,
@@ -149,12 +149,12 @@ class P2ElementwiseMassBoundaryIcosahedralShellMap : public Operator< P2Function
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     applyScaled
    /// - loop strategy:   BOUNDARY
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    734     927      37       8      4              0                 0              0
+   ///   1022    1287      37      12      6              0                 0              0
    void applyScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_1_macro_3D( real_t* RESTRICT _data_dstEdge,
                                                                                       real_t* RESTRICT _data_dstVertex,
                                                                                       real_t* RESTRICT _data_srcEdge,
@@ -193,12 +193,12 @@ class P2ElementwiseMassBoundaryIcosahedralShellMap : public Operator< P2Function
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     applyScaled
    /// - loop strategy:   BOUNDARY
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    737     927      37       8      4              0                 0              0
+   ///   1025    1287      37      12      6              0                 0              0
    void applyScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_2_macro_3D( real_t* RESTRICT _data_dstEdge,
                                                                                       real_t* RESTRICT _data_dstVertex,
                                                                                       real_t* RESTRICT _data_srcEdge,
@@ -237,12 +237,12 @@ class P2ElementwiseMassBoundaryIcosahedralShellMap : public Operator< P2Function
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     applyScaled
    /// - loop strategy:   BOUNDARY
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    740     927      37       8      4              0                 0              0
+   ///   1028    1287      37      12      6              0                 0              0
    void applyScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_3_macro_3D( real_t* RESTRICT _data_dstEdge,
                                                                                       real_t* RESTRICT _data_dstVertex,
                                                                                       real_t* RESTRICT _data_srcEdge,
@@ -281,12 +281,12 @@ class P2ElementwiseMassBoundaryIcosahedralShellMap : public Operator< P2Function
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     toMatrixScaled
    /// - loop strategy:   BOUNDARY
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    637     872      37       8      4              0                 0              3
+   ///    925    1232      37      12      6              0                 0              3
    void toMatrixScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_0_macro_3D( idx_t* RESTRICT _data_dstEdge,
                                                                                          idx_t* RESTRICT _data_dstVertex,
                                                                                          idx_t* RESTRICT _data_srcEdge,
@@ -326,12 +326,12 @@ class P2ElementwiseMassBoundaryIcosahedralShellMap : public Operator< P2Function
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     toMatrixScaled
    /// - loop strategy:   BOUNDARY
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    634     872      37       8      4              0                 0              3
+   ///    922    1232      37      12      6              0                 0              3
    void toMatrixScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_1_macro_3D( idx_t* RESTRICT _data_dstEdge,
                                                                                          idx_t* RESTRICT _data_dstVertex,
                                                                                          idx_t* RESTRICT _data_srcEdge,
@@ -371,12 +371,12 @@ class P2ElementwiseMassBoundaryIcosahedralShellMap : public Operator< P2Function
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     toMatrixScaled
    /// - loop strategy:   BOUNDARY
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    637     872      37       8      4              0                 0              3
+   ///    925    1232      37      12      6              0                 0              3
    void toMatrixScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_2_macro_3D( idx_t* RESTRICT _data_dstEdge,
                                                                                          idx_t* RESTRICT _data_dstVertex,
                                                                                          idx_t* RESTRICT _data_srcEdge,
@@ -416,12 +416,12 @@ class P2ElementwiseMassBoundaryIcosahedralShellMap : public Operator< P2Function
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     toMatrixScaled
    /// - loop strategy:   BOUNDARY
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    640     872      37       8      4              0                 0              3
+   ///    928    1232      37      12      6              0                 0              3
    void toMatrixScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_3_macro_3D( idx_t* RESTRICT _data_dstEdge,
                                                                                          idx_t* RESTRICT _data_dstVertex,
                                                                                          idx_t* RESTRICT _data_srcEdge,
@@ -461,12 +461,12 @@ class P2ElementwiseMassBoundaryIcosahedralShellMap : public Operator< P2Function
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   BOUNDARY
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    451     585      37       8      4              0                 0              0
+   ///    619     825      37      12      6              0                 0              0
    void computeInverseDiagonalOperatorValuesScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_0_macro_3D(
        real_t* RESTRICT _data_invDiag_Edge,
        real_t* RESTRICT _data_invDiag_Vertex,
@@ -504,12 +504,12 @@ class P2ElementwiseMassBoundaryIcosahedralShellMap : public Operator< P2Function
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   BOUNDARY
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    448     585      37       8      4              0                 0              0
+   ///    616     825      37      12      6              0                 0              0
    void computeInverseDiagonalOperatorValuesScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_1_macro_3D(
        real_t* RESTRICT _data_invDiag_Edge,
        real_t* RESTRICT _data_invDiag_Vertex,
@@ -547,12 +547,12 @@ class P2ElementwiseMassBoundaryIcosahedralShellMap : public Operator< P2Function
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   BOUNDARY
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    451     585      37       8      4              0                 0              0
+   ///    619     825      37      12      6              0                 0              0
    void computeInverseDiagonalOperatorValuesScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_2_macro_3D(
        real_t* RESTRICT _data_invDiag_Edge,
        real_t* RESTRICT _data_invDiag_Vertex,
@@ -590,12 +590,12 @@ class P2ElementwiseMassBoundaryIcosahedralShellMap : public Operator< P2Function
    /// - volume element:  tetrahedron, dim: 3, vertices: 4, spacedim: 3
    /// - kernel type:     computeInverseDiagonalOperatorValuesScaled
    /// - loop strategy:   BOUNDARY
-   /// - quadrature rule: Dunavant 3 | points: 4, degree: 3
+   /// - quadrature rule: Dunavant 4 | points: 6, degree: 4
    /// - blending map:    IcosahedralShellMap
    /// - operations per element:
    ///   adds    muls    divs    pows    abs    assignments    function_calls    unknown_ops
    /// ------  ------  ------  ------  -----  -------------  ----------------  -------------
-   ///    454     585      37       8      4              0                 0              0
+   ///    622     825      37      12      6              0                 0              0
    void computeInverseDiagonalOperatorValuesScaled_P2ElementwiseMassBoundaryIcosahedralShellMap_facet_id_3_macro_3D(
        real_t* RESTRICT _data_invDiag_Edge,
        real_t* RESTRICT _data_invDiag_Vertex,
