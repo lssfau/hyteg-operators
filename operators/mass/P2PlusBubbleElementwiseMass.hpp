@@ -30,10 +30,10 @@
 
 #include "hyteg/LikwidWrapper.hpp"
 #include "hyteg/boundary/BoundaryConditions.hpp"
+#include "hyteg/ccrfunctionspace/P2PlusBubbleFunction.hpp"
 #include "hyteg/communication/Syncing.hpp"
 #include "hyteg/edgedofspace/EdgeDoFMacroCell.hpp"
 #include "hyteg/operators/Operator.hpp"
-#include "hyteg/p2functionspace/P2PlusBubbleFunction.hpp"
 #include "hyteg/primitivestorage/PrimitiveStorage.hpp"
 #include "hyteg/solvers/Smoothables.hpp"
 #include "hyteg/sparseassembly/SparseMatrixProxy.hpp"
