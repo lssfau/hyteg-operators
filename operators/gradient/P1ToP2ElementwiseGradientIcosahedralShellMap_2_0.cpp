@@ -191,16 +191,10 @@ void P1ToP2ElementwiseGradientIcosahedralShellMap_2_0::applyScaled( const real_t
       this->timingTree_->start( "post-communication" );
       // Note: We could avoid communication here by implementing the apply() also for the respective
       //       lower dimensional primitives!
-      dst.getVertexDoFFunction().communicateAdditively< Cell, Face >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst.getVertexDoFFunction().communicateAdditively< Cell, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst.getVertexDoFFunction().communicateAdditively< Cell, Vertex >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst.getEdgeDoFFunction().communicateAdditively< Cell, Face >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst.getEdgeDoFFunction().communicateAdditively< Cell, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst.communicateAdditively< Cell, Face >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst.communicateAdditively< Cell, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst.communicateAdditively< Cell, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+
       this->timingTree_->stop( "post-communication" );
    }
    else
@@ -215,9 +209,7 @@ void P1ToP2ElementwiseGradientIcosahedralShellMap_2_0::apply( const P1Function< 
                                                               uint_t                      level,
                                                               DoFType                     flag,
                                                               UpdateType                  updateType ) const
-{
-   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
-}
+{ return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType ); }
 void P1ToP2ElementwiseGradientIcosahedralShellMap_2_0::toMatrixScaled( const real_t& toMatrixScaling,
                                                                        const std::shared_ptr< SparseMatrixProxy >& mat,
                                                                        const P1Function< idx_t >&                  src,
@@ -337,9 +329,7 @@ void P1ToP2ElementwiseGradientIcosahedralShellMap_2_0::toMatrix( const std::shar
                                                                  const P2Function< idx_t >&                  dst,
                                                                  uint_t                                      level,
                                                                  DoFType                                     flag ) const
-{
-   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
-}
+{ return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag ); }
 
 } // namespace operatorgeneration
 

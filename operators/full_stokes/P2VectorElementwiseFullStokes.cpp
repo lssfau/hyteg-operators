@@ -199,36 +199,16 @@ void P2VectorElementwiseFullStokes::applyScaled( const real_t&                  
       this->timingTree_->start( "post-communication" );
       // Note: We could avoid communication here by implementing the apply() also for the respective
       //       lower dimensional primitives!
-      dst[0].getVertexDoFFunction().communicateAdditively< Cell, Face >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[0].getVertexDoFFunction().communicateAdditively< Cell, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[0].getVertexDoFFunction().communicateAdditively< Cell, Vertex >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[0].getEdgeDoFFunction().communicateAdditively< Cell, Face >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[0].getEdgeDoFFunction().communicateAdditively< Cell, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[1].getVertexDoFFunction().communicateAdditively< Cell, Face >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[1].getVertexDoFFunction().communicateAdditively< Cell, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[1].getVertexDoFFunction().communicateAdditively< Cell, Vertex >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[1].getEdgeDoFFunction().communicateAdditively< Cell, Face >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[1].getEdgeDoFFunction().communicateAdditively< Cell, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[2].getVertexDoFFunction().communicateAdditively< Cell, Face >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[2].getVertexDoFFunction().communicateAdditively< Cell, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[2].getVertexDoFFunction().communicateAdditively< Cell, Vertex >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[2].getEdgeDoFFunction().communicateAdditively< Cell, Face >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[2].getEdgeDoFFunction().communicateAdditively< Cell, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[0].communicateAdditively< Cell, Face >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[0].communicateAdditively< Cell, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[0].communicateAdditively< Cell, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[1].communicateAdditively< Cell, Face >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[1].communicateAdditively< Cell, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[1].communicateAdditively< Cell, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[2].communicateAdditively< Cell, Face >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[2].communicateAdditively< Cell, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[2].communicateAdditively< Cell, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+
       this->timingTree_->stop( "post-communication" );
    }
    else
@@ -319,18 +299,11 @@ void P2VectorElementwiseFullStokes::applyScaled( const real_t&                  
       this->timingTree_->start( "post-communication" );
       // Note: We could avoid communication here by implementing the apply() also for the respective
       //       lower dimensional primitives!
-      dst[0].getVertexDoFFunction().communicateAdditively< Face, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[0].getVertexDoFFunction().communicateAdditively< Face, Vertex >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[0].getEdgeDoFFunction().communicateAdditively< Face, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[1].getVertexDoFFunction().communicateAdditively< Face, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[1].getVertexDoFFunction().communicateAdditively< Face, Vertex >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[1].getEdgeDoFFunction().communicateAdditively< Face, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[0].communicateAdditively< Face, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[0].communicateAdditively< Face, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[1].communicateAdditively< Face, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[1].communicateAdditively< Face, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+
       this->timingTree_->stop( "post-communication" );
    }
 
@@ -341,9 +314,7 @@ void P2VectorElementwiseFullStokes::apply( const P2VectorFunction< real_t >& src
                                            uint_t                            level,
                                            DoFType                           flag,
                                            UpdateType                        updateType ) const
-{
-   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
-}
+{ return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType ); }
 void P2VectorElementwiseFullStokes::toMatrixScaled( const real_t&                               toMatrixScaling,
                                                     const std::shared_ptr< SparseMatrixProxy >& mat,
                                                     const P2VectorFunction< idx_t >&            src,
@@ -512,9 +483,7 @@ void P2VectorElementwiseFullStokes::toMatrix( const std::shared_ptr< SparseMatri
                                               const P2VectorFunction< idx_t >&            dst,
                                               uint_t                                      level,
                                               DoFType                                     flag ) const
-{
-   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
-}
+{ return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag ); }
 void P2VectorElementwiseFullStokes::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
 {
    this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
@@ -609,21 +578,16 @@ void P2VectorElementwiseFullStokes::computeInverseDiagonalOperatorValuesScaled( 
          this->timingTree_->start( "post-communication" );
          // Note: We could avoid communication here by implementing the apply() also for the respective
          //       lower dimensional primitives!
-         ( *invDiag_ )[0].getVertexDoFFunction().communicateAdditively< Cell, Face >( level );
-         ( *invDiag_ )[0].getVertexDoFFunction().communicateAdditively< Cell, Edge >( level );
-         ( *invDiag_ )[0].getVertexDoFFunction().communicateAdditively< Cell, Vertex >( level );
-         ( *invDiag_ )[0].getEdgeDoFFunction().communicateAdditively< Cell, Face >( level );
-         ( *invDiag_ )[0].getEdgeDoFFunction().communicateAdditively< Cell, Edge >( level );
-         ( *invDiag_ )[1].getVertexDoFFunction().communicateAdditively< Cell, Face >( level );
-         ( *invDiag_ )[1].getVertexDoFFunction().communicateAdditively< Cell, Edge >( level );
-         ( *invDiag_ )[1].getVertexDoFFunction().communicateAdditively< Cell, Vertex >( level );
-         ( *invDiag_ )[1].getEdgeDoFFunction().communicateAdditively< Cell, Face >( level );
-         ( *invDiag_ )[1].getEdgeDoFFunction().communicateAdditively< Cell, Edge >( level );
-         ( *invDiag_ )[2].getVertexDoFFunction().communicateAdditively< Cell, Face >( level );
-         ( *invDiag_ )[2].getVertexDoFFunction().communicateAdditively< Cell, Edge >( level );
-         ( *invDiag_ )[2].getVertexDoFFunction().communicateAdditively< Cell, Vertex >( level );
-         ( *invDiag_ )[2].getEdgeDoFFunction().communicateAdditively< Cell, Face >( level );
-         ( *invDiag_ )[2].getEdgeDoFFunction().communicateAdditively< Cell, Edge >( level );
+         ( *invDiag_ )[0].communicateAdditively< Cell, Face >( level );
+         ( *invDiag_ )[0].communicateAdditively< Cell, Edge >( level );
+         ( *invDiag_ )[0].communicateAdditively< Cell, Vertex >( level );
+         ( *invDiag_ )[1].communicateAdditively< Cell, Face >( level );
+         ( *invDiag_ )[1].communicateAdditively< Cell, Edge >( level );
+         ( *invDiag_ )[1].communicateAdditively< Cell, Vertex >( level );
+         ( *invDiag_ )[2].communicateAdditively< Cell, Face >( level );
+         ( *invDiag_ )[2].communicateAdditively< Cell, Edge >( level );
+         ( *invDiag_ )[2].communicateAdditively< Cell, Vertex >( level );
+
          this->timingTree_->stop( "post-communication" );
          ( *invDiag_ )[0].invertElementwise( level );
          ( *invDiag_ )[1].invertElementwise( level );
@@ -690,12 +654,11 @@ void P2VectorElementwiseFullStokes::computeInverseDiagonalOperatorValuesScaled( 
          this->timingTree_->start( "post-communication" );
          // Note: We could avoid communication here by implementing the apply() also for the respective
          //       lower dimensional primitives!
-         ( *invDiag_ )[0].getVertexDoFFunction().communicateAdditively< Face, Edge >( level );
-         ( *invDiag_ )[0].getVertexDoFFunction().communicateAdditively< Face, Vertex >( level );
-         ( *invDiag_ )[0].getEdgeDoFFunction().communicateAdditively< Face, Edge >( level );
-         ( *invDiag_ )[1].getVertexDoFFunction().communicateAdditively< Face, Edge >( level );
-         ( *invDiag_ )[1].getVertexDoFFunction().communicateAdditively< Face, Vertex >( level );
-         ( *invDiag_ )[1].getEdgeDoFFunction().communicateAdditively< Face, Edge >( level );
+         ( *invDiag_ )[0].communicateAdditively< Face, Edge >( level );
+         ( *invDiag_ )[0].communicateAdditively< Face, Vertex >( level );
+         ( *invDiag_ )[1].communicateAdditively< Face, Edge >( level );
+         ( *invDiag_ )[1].communicateAdditively< Face, Vertex >( level );
+
          this->timingTree_->stop( "post-communication" );
          ( *invDiag_ )[0].invertElementwise( level );
          ( *invDiag_ )[1].invertElementwise( level );
@@ -705,13 +668,9 @@ void P2VectorElementwiseFullStokes::computeInverseDiagonalOperatorValuesScaled( 
    this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
 }
 void P2VectorElementwiseFullStokes::computeInverseDiagonalOperatorValues()
-{
-   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
-}
+{ return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) ); }
 std::shared_ptr< P2VectorFunction< real_t > > P2VectorElementwiseFullStokes::getInverseDiagonalValues() const
-{
-   return invDiag_;
-}
+{ return invDiag_; }
 
 } // namespace operatorgeneration
 

@@ -200,16 +200,10 @@ void P2ElementwiseKMassP1CoefficientIcosahedralShellMap::applyScaled( const real
       this->timingTree_->start( "post-communication" );
       // Note: We could avoid communication here by implementing the apply() also for the respective
       //       lower dimensional primitives!
-      dst.getVertexDoFFunction().communicateAdditively< Cell, Face >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst.getVertexDoFFunction().communicateAdditively< Cell, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst.getVertexDoFFunction().communicateAdditively< Cell, Vertex >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst.getEdgeDoFFunction().communicateAdditively< Cell, Face >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst.getEdgeDoFFunction().communicateAdditively< Cell, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst.communicateAdditively< Cell, Face >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst.communicateAdditively< Cell, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst.communicateAdditively< Cell, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+
       this->timingTree_->stop( "post-communication" );
    }
    else
@@ -224,9 +218,7 @@ void P2ElementwiseKMassP1CoefficientIcosahedralShellMap::apply( const P2Function
                                                                 uint_t                      level,
                                                                 DoFType                     flag,
                                                                 UpdateType                  updateType ) const
-{
-   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
-}
+{ return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType ); }
 void P2ElementwiseKMassP1CoefficientIcosahedralShellMap::toMatrixScaled( const real_t& toMatrixScaling,
                                                                          const std::shared_ptr< SparseMatrixProxy >& mat,
                                                                          const P2Function< idx_t >&                  src,
@@ -352,9 +344,7 @@ void P2ElementwiseKMassP1CoefficientIcosahedralShellMap::toMatrix( const std::sh
                                                                    const P2Function< idx_t >&                  dst,
                                                                    uint_t                                      level,
                                                                    DoFType                                     flag ) const
-{
-   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
-}
+{ return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag ); }
 void P2ElementwiseKMassP1CoefficientIcosahedralShellMap::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
 {
    this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
@@ -464,11 +454,10 @@ void P2ElementwiseKMassP1CoefficientIcosahedralShellMap::computeInverseDiagonalO
          this->timingTree_->start( "post-communication" );
          // Note: We could avoid communication here by implementing the apply() also for the respective
          //       lower dimensional primitives!
-         ( *invDiag_ ).getVertexDoFFunction().communicateAdditively< Cell, Face >( level );
-         ( *invDiag_ ).getVertexDoFFunction().communicateAdditively< Cell, Edge >( level );
-         ( *invDiag_ ).getVertexDoFFunction().communicateAdditively< Cell, Vertex >( level );
-         ( *invDiag_ ).getEdgeDoFFunction().communicateAdditively< Cell, Face >( level );
-         ( *invDiag_ ).getEdgeDoFFunction().communicateAdditively< Cell, Edge >( level );
+         ( *invDiag_ ).communicateAdditively< Cell, Face >( level );
+         ( *invDiag_ ).communicateAdditively< Cell, Edge >( level );
+         ( *invDiag_ ).communicateAdditively< Cell, Vertex >( level );
+
          this->timingTree_->stop( "post-communication" );
          ( *invDiag_ ).invertElementwise( level );
       }
@@ -486,13 +475,9 @@ void P2ElementwiseKMassP1CoefficientIcosahedralShellMap::computeInverseDiagonalO
    this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
 }
 void P2ElementwiseKMassP1CoefficientIcosahedralShellMap::computeInverseDiagonalOperatorValues()
-{
-   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
-}
+{ return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) ); }
 std::shared_ptr< P2Function< real_t > > P2ElementwiseKMassP1CoefficientIcosahedralShellMap::getInverseDiagonalValues() const
-{
-   return invDiag_;
-}
+{ return invDiag_; }
 
 } // namespace operatorgeneration
 

@@ -200,18 +200,11 @@ void P1ToP2VectorElementwiseGradientRotationAnnulusMap::applyScaled( const real_
       this->timingTree_->start( "post-communication" );
       // Note: We could avoid communication here by implementing the apply() also for the respective
       //       lower dimensional primitives!
-      dst[0].getVertexDoFFunction().communicateAdditively< Face, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[0].getVertexDoFFunction().communicateAdditively< Face, Vertex >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[0].getEdgeDoFFunction().communicateAdditively< Face, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[1].getVertexDoFFunction().communicateAdditively< Face, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[1].getVertexDoFFunction().communicateAdditively< Face, Vertex >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst[1].getEdgeDoFFunction().communicateAdditively< Face, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[0].communicateAdditively< Face, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[0].communicateAdditively< Face, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[1].communicateAdditively< Face, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst[1].communicateAdditively< Face, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+
       this->timingTree_->stop( "post-communication" );
    }
 
@@ -222,9 +215,7 @@ void P1ToP2VectorElementwiseGradientRotationAnnulusMap::apply( const P1Function<
                                                                uint_t                            level,
                                                                DoFType                           flag,
                                                                UpdateType                        updateType ) const
-{
-   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
-}
+{ return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType ); }
 void P1ToP2VectorElementwiseGradientRotationAnnulusMap::toMatrixScaled( const real_t& toMatrixScaling,
                                                                         const std::shared_ptr< SparseMatrixProxy >& mat,
                                                                         const P1Function< idx_t >&                  src,
@@ -341,9 +332,7 @@ void P1ToP2VectorElementwiseGradientRotationAnnulusMap::toMatrix( const std::sha
                                                                   const P2VectorFunction< idx_t >&            dst,
                                                                   uint_t                                      level,
                                                                   DoFType                                     flag ) const
-{
-   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
-}
+{ return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag ); }
 
 } // namespace operatorgeneration
 

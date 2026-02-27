@@ -175,9 +175,7 @@ void P1ElementwiseMassAnnulusMap::apply( const P1Function< real_t >& src,
                                          uint_t                      level,
                                          DoFType                     flag,
                                          UpdateType                  updateType ) const
-{
-   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
-}
+{ return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType ); }
 void P1ElementwiseMassAnnulusMap::toMatrixScaled( const real_t&                               toMatrixScaling,
                                                   const std::shared_ptr< SparseMatrixProxy >& mat,
                                                   const P1Function< idx_t >&                  src,
@@ -271,9 +269,7 @@ void P1ElementwiseMassAnnulusMap::toMatrix( const std::shared_ptr< SparseMatrixP
                                             const P1Function< idx_t >&                  dst,
                                             uint_t                                      level,
                                             DoFType                                     flag ) const
-{
-   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
-}
+{ return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag ); }
 void P1ElementwiseMassAnnulusMap::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
 {
    this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
@@ -371,13 +367,9 @@ void P1ElementwiseMassAnnulusMap::computeInverseDiagonalOperatorValuesScaled( co
    this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
 }
 void P1ElementwiseMassAnnulusMap::computeInverseDiagonalOperatorValues()
-{
-   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
-}
+{ return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) ); }
 std::shared_ptr< P1Function< real_t > > P1ElementwiseMassAnnulusMap::getInverseDiagonalValues() const
-{
-   return invDiag_;
-}
+{ return invDiag_; }
 
 } // namespace operatorgeneration
 

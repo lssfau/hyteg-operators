@@ -184,12 +184,9 @@ void P2ElementwiseDivKGradP1CoefficientAnnulusMap::applyScaled( const real_t&   
       this->timingTree_->start( "post-communication" );
       // Note: We could avoid communication here by implementing the apply() also for the respective
       //       lower dimensional primitives!
-      dst.getVertexDoFFunction().communicateAdditively< Face, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst.getVertexDoFFunction().communicateAdditively< Face, Vertex >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
-      dst.getEdgeDoFFunction().communicateAdditively< Face, Edge >(
-          level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst.communicateAdditively< Face, Edge >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+      dst.communicateAdditively< Face, Vertex >( level, DoFType::All ^ flag, *storage_, updateType == Replace );
+
       this->timingTree_->stop( "post-communication" );
    }
 
@@ -200,9 +197,7 @@ void P2ElementwiseDivKGradP1CoefficientAnnulusMap::apply( const P2Function< real
                                                           uint_t                      level,
                                                           DoFType                     flag,
                                                           UpdateType                  updateType ) const
-{
-   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
-}
+{ return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType ); }
 void P2ElementwiseDivKGradP1CoefficientAnnulusMap::toMatrixScaled( const real_t&                               toMatrixScaling,
                                                                    const std::shared_ptr< SparseMatrixProxy >& mat,
                                                                    const P2Function< idx_t >&                  src,
@@ -304,9 +299,7 @@ void P2ElementwiseDivKGradP1CoefficientAnnulusMap::toMatrix( const std::shared_p
                                                              const P2Function< idx_t >&                  dst,
                                                              uint_t                                      level,
                                                              DoFType                                     flag ) const
-{
-   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
-}
+{ return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag ); }
 void P2ElementwiseDivKGradP1CoefficientAnnulusMap::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
 {
    this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
@@ -401,9 +394,9 @@ void P2ElementwiseDivKGradP1CoefficientAnnulusMap::computeInverseDiagonalOperato
          this->timingTree_->start( "post-communication" );
          // Note: We could avoid communication here by implementing the apply() also for the respective
          //       lower dimensional primitives!
-         ( *invDiag_ ).getVertexDoFFunction().communicateAdditively< Face, Edge >( level );
-         ( *invDiag_ ).getVertexDoFFunction().communicateAdditively< Face, Vertex >( level );
-         ( *invDiag_ ).getEdgeDoFFunction().communicateAdditively< Face, Edge >( level );
+         ( *invDiag_ ).communicateAdditively< Face, Edge >( level );
+         ( *invDiag_ ).communicateAdditively< Face, Vertex >( level );
+
          this->timingTree_->stop( "post-communication" );
          ( *invDiag_ ).invertElementwise( level );
       }
@@ -412,13 +405,9 @@ void P2ElementwiseDivKGradP1CoefficientAnnulusMap::computeInverseDiagonalOperato
    this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
 }
 void P2ElementwiseDivKGradP1CoefficientAnnulusMap::computeInverseDiagonalOperatorValues()
-{
-   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
-}
+{ return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) ); }
 std::shared_ptr< P2Function< real_t > > P2ElementwiseDivKGradP1CoefficientAnnulusMap::getInverseDiagonalValues() const
-{
-   return invDiag_;
-}
+{ return invDiag_; }
 
 } // namespace operatorgeneration
 
