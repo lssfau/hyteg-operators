@@ -204,9 +204,7 @@ void P1ElementwiseMassIcosahedralShellMap::apply( const P1Function< real_t >& sr
                                                   uint_t                      level,
                                                   DoFType                     flag,
                                                   UpdateType                  updateType ) const
-{
-   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
-}
+{ return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType ); }
 void P1ElementwiseMassIcosahedralShellMap::toMatrixScaled( const real_t&                               toMatrixScaling,
                                                            const std::shared_ptr< SparseMatrixProxy >& mat,
                                                            const P1Function< idx_t >&                  src,
@@ -324,9 +322,7 @@ void P1ElementwiseMassIcosahedralShellMap::toMatrix( const std::shared_ptr< Spar
                                                      const P1Function< idx_t >&                  dst,
                                                      uint_t                                      level,
                                                      DoFType                                     flag ) const
-{
-   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
-}
+{ return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag ); }
 void P1ElementwiseMassIcosahedralShellMap::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
 {
    this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
@@ -449,13 +445,9 @@ void P1ElementwiseMassIcosahedralShellMap::computeInverseDiagonalOperatorValuesS
    this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
 }
 void P1ElementwiseMassIcosahedralShellMap::computeInverseDiagonalOperatorValues()
-{
-   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
-}
+{ return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) ); }
 std::shared_ptr< P1Function< real_t > > P1ElementwiseMassIcosahedralShellMap::getInverseDiagonalValues() const
-{
-   return invDiag_;
-}
+{ return invDiag_; }
 
 } // namespace operatorgeneration
 

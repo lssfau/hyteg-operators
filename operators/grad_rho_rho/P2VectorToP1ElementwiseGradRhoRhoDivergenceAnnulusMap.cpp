@@ -188,9 +188,7 @@ void P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap::apply( const P2Vecto
                                                                    uint_t                            level,
                                                                    DoFType                           flag,
                                                                    UpdateType                        updateType ) const
-{
-   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
-}
+{ return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType ); }
 void P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap::toMatrixScaled( const real_t& toMatrixScaling,
                                                                             const std::shared_ptr< SparseMatrixProxy >& mat,
                                                                             const P2VectorFunction< idx_t >&            src,
@@ -295,9 +293,7 @@ void P2VectorToP1ElementwiseGradRhoRhoDivergenceAnnulusMap::toMatrix( const std:
                                                                       const P1Function< idx_t >&                  dst,
                                                                       uint_t                                      level,
                                                                       DoFType                                     flag ) const
-{
-   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
-}
+{ return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag ); }
 
 } // namespace operatorgeneration
 

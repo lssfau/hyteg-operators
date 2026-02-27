@@ -216,9 +216,7 @@ void P2ToP1ElementwiseKMassIcosahedralShellMap::apply( const P2Function< real_t 
                                                        uint_t                      level,
                                                        DoFType                     flag,
                                                        UpdateType                  updateType ) const
-{
-   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
-}
+{ return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType ); }
 void P2ToP1ElementwiseKMassIcosahedralShellMap::toMatrixScaled( const real_t&                               toMatrixScaling,
                                                                 const std::shared_ptr< SparseMatrixProxy >& mat,
                                                                 const P2Function< idx_t >&                  src,
@@ -344,9 +342,7 @@ void P2ToP1ElementwiseKMassIcosahedralShellMap::toMatrix( const std::shared_ptr<
                                                           const P1Function< idx_t >&                  dst,
                                                           uint_t                                      level,
                                                           DoFType                                     flag ) const
-{
-   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
-}
+{ return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag ); }
 
 } // namespace operatorgeneration
 

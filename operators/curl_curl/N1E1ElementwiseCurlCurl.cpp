@@ -164,9 +164,7 @@ void N1E1ElementwiseCurlCurl::apply( const n1e1::N1E1VectorFunction< real_t >& s
                                      uint_t                                    level,
                                      DoFType                                   flag,
                                      UpdateType                                updateType ) const
-{
-   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
-}
+{ return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType ); }
 void N1E1ElementwiseCurlCurl::toMatrixScaled( const real_t&                               toMatrixScaling,
                                               const std::shared_ptr< SparseMatrixProxy >& mat,
                                               const n1e1::N1E1VectorFunction< idx_t >&    src,
@@ -255,9 +253,7 @@ void N1E1ElementwiseCurlCurl::toMatrix( const std::shared_ptr< SparseMatrixProxy
                                         const n1e1::N1E1VectorFunction< idx_t >&    dst,
                                         uint_t                                      level,
                                         DoFType                                     flag ) const
-{
-   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
-}
+{ return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag ); }
 void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValuesScaled( const real_t& diagScaling )
 {
    this->startTiming( "computeInverseDiagonalOperatorValuesScaled" );
@@ -349,13 +345,9 @@ void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValuesScaled( const 
    this->stopTiming( "computeInverseDiagonalOperatorValuesScaled" );
 }
 void N1E1ElementwiseCurlCurl::computeInverseDiagonalOperatorValues()
-{
-   return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) );
-}
+{ return computeInverseDiagonalOperatorValuesScaled( static_cast< real_t >( 1 ) ); }
 std::shared_ptr< n1e1::N1E1VectorFunction< real_t > > N1E1ElementwiseCurlCurl::getInverseDiagonalValues() const
-{
-   return invDiag_;
-}
+{ return invDiag_; }
 
 } // namespace operatorgeneration
 

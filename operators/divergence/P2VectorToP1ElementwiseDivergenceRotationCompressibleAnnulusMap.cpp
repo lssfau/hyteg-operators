@@ -206,9 +206,7 @@ void P2VectorToP1ElementwiseDivergenceRotationCompressibleAnnulusMap::apply( con
                                                                              uint_t                            level,
                                                                              DoFType                           flag,
                                                                              UpdateType                        updateType ) const
-{
-   return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType );
-}
+{ return applyScaled( static_cast< real_t >( 1 ), src, dst, level, flag, updateType ); }
 void P2VectorToP1ElementwiseDivergenceRotationCompressibleAnnulusMap::toMatrixScaled(
     const real_t&                               toMatrixScaling,
     const std::shared_ptr< SparseMatrixProxy >& mat,
@@ -334,9 +332,7 @@ void P2VectorToP1ElementwiseDivergenceRotationCompressibleAnnulusMap::toMatrix( 
                                                                                 const P1Function< idx_t >&                  dst,
                                                                                 uint_t                                      level,
                                                                                 DoFType flag ) const
-{
-   return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag );
-}
+{ return toMatrixScaled( static_cast< real_t >( 1 ), mat, src, dst, level, flag ); }
 
 } // namespace operatorgeneration
 
